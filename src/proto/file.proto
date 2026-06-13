@@ -1,0 +1,43 @@
+syntax = "proto3";
+package messageSystem;
+import "comm.proto";
+
+option cc_generic_services = true;
+
+message GetFileReq 
+{
+    string request_id = 1;
+    optional string user_id = 2;
+    optional string session_id = 3;
+    repeated string file_id_list = 4;
+}
+
+message GetFileRsp 
+{
+    string request_id = 1;
+    bool success = 2;
+    string errmsg = 3; 
+    map<string, FileDownloadData> file_data = 4;
+}
+
+message PutFileReq 
+{
+    string request_id = 1;
+    optional string user_id = 2;
+    optional string session_id = 3;
+    repeated FileUploadData file_data = 4;
+}
+
+message PutFileRsp {
+    string request_id = 1;
+    bool success = 2;
+    string errmsg = 3; 
+    repeated FileMessageInfo file_info = 4;
+}
+
+service FileService {
+    rpc GetSingleFile(GetFileReq) returns (GetFileRsp);
+    rpc GetMultiFile(GetFileReq) returns (GetFileRsp);
+    rpc PutSingleFile(PutFileReq) returns (PutFileRsp);
+    rpc PutMultiFile(PutFileReq) returns (PutFileRsp);
+}
