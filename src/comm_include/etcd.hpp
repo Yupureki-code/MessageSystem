@@ -9,6 +9,7 @@
 
 namespace messageSystem
 {
+    using NotifyCallback = std::function<void(std::string, std::string)>;
     class Registrant
     {
     public:
@@ -55,7 +56,6 @@ namespace messageSystem
             }
         }
     public:
-        using NotifyCallback = std::function<void(std::string, std::string)>;
         Discovery(const std::string& host,const std::string& basedir,NotifyCallback put,NotifyCallback del)
         :_put_cb(put),_del_cb(del),_client(host),_watcher(host,basedir,std::bind(&Discovery::callBack,this,std::placeholders::_1),true)
         {

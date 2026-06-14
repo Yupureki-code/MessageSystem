@@ -1,4 +1,5 @@
 #pragma once
+#include "comm.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -18,32 +19,14 @@
 namespace fileUtil
 {
     // 响应结构体
-struct Response {
-    bool status;         // 0 表示成功，负值表示错误
-    std::string errmsg; // 错误信息
-    
-    Response() : status(true) {}
-    Response(int s, const std::string& msg = "") : status(s), errmsg(msg) {}
-};
-
+    using messageSystem::Response;
 // 高性能文件 I/O 类
 class FileSystem {
 public:
 // 生成唯一文件名：年月日时分秒-毫秒级时间戳 + 原子计数器
     static std::string generateUniqueFileName() 
     {
-        static std::atomic<uint64_t> counter{0};
-        auto now = std::chrono::system_clock::now();
-        auto time_t = std::chrono::system_clock::to_time_t(now);
-        auto us = std::chrono::duration_cast<std::chrono::microseconds>(
-            now.time_since_epoch()) % 1000000;
-        
-        std::tm tm = *std::localtime(&time_t);
-        std::ostringstream oss;
-        oss << std::put_time(&tm, "%Y%m%d%H%M%S") 
-            << "-" << std::setfill('0') << std::setw(6) << us.count()
-            << "-" << counter.fetch_add(1);
-        return oss.str();
+        return util::StringUtil::generateUniqueName();
     }
     // 读取文件内容
     Response read(const std::string& filePath, 
@@ -75,26 +58,32 @@ public:
     // 写入文件内容
     Response write(const std::string& filePath, 
                     const std::string& fileName,
-                   const std::string& content) 
+                   const std::string& content,
+                    bool is_append = false) 
     {
         try {
-            // 生成唯一文件名
             std::string fullPath = filePath + fileName;
             
-            // 确保目录存在
             if (!std::filesystem::exists(filePath)) {
                 std::filesystem::create_directories(filePath);
             }
             
-            // 根据内容大小选择写入策略
-            if (content.size() > 1024 * 1024) {  // 大于 1MB 使用 mmap
-                return writeWithMmap(fullPath, content);
-            } else {  // 小文件使用传统写入
-                return writeWithTraditional(fullPath, content);
+            if (content.size() > 1024 * 1024) {
+                return writeWithMmap(fullPath, content, is_append);
+            } else {
+                return writeWithTraditional(fullPath, content, is_append);
             }
         } catch (const std::exception& e) {
             return Response(false, std::string("写入文件异常: ") + e.what());
         }
+    }
+
+    // 追加写入文件内容
+    Response append(const std::string& filePath, 
+                    const std::string& fileName,
+                    const std::string& content)
+    {
+        return write(filePath, fileName, content, true);
     }
 
 private:
@@ -135,36 +124,41 @@ private:
     }
     
     // 使用 mmap 写入文件
-    Response writeWithMmap(const std::filesystem::path& path, const std::string& content) {
-        // 创建文件
-        int fd = open(path.c_str(), O_RDWR | O_CREAT | O_TRUNC, 0644);
+    Response writeWithMmap(const std::filesystem::path& path, const std::string& content, bool is_append) 
+    {
+        int flags = O_RDWR | O_CREAT;
+        if(is_append)
+            flags |= O_APPEND;
+        else
+            flags |= O_TRUNC;
+        int fd = open(path.c_str(), flags, 0644);
         if (fd == -1) {
             return Response(false, "创建文件失败: " + std::string(strerror(errno)));
         }
-        
-        // 设置文件大小
-        if (ftruncate(fd, content.size()) == -1) {
+
+        struct stat sb;
+        off_t old_size = 0;
+        if (is_append && fstat(fd, &sb) == 0) {
+            old_size = sb.st_size;
+        }
+
+        off_t new_size = old_size + content.size();
+        if (ftruncate(fd, new_size) == -1) {
             close(fd);
             return Response(false, "设置文件大小失败: " + std::string(strerror(errno)));
         }
-        
-        // 内存映射
-        void* addr = mmap(nullptr, content.size(), PROT_WRITE, MAP_SHARED, fd, 0);
+
+        void* addr = mmap(nullptr, new_size, PROT_WRITE, MAP_SHARED, fd, 0);
         if (addr == MAP_FAILED) {
             close(fd);
             return Response(false, "内存映射失败: " + std::string(strerror(errno)));
         }
-        
-        // 复制数据到映射区域
-        std::memcpy(addr, content.data(), content.size());
-        
-        // 同步到磁盘
-        msync(addr, content.size(), MS_SYNC);
-        
-        // 清理资源
-        munmap(addr, content.size());
+
+        std::memcpy(static_cast<char*>(addr) + old_size, content.data(), content.size());
+        msync(addr, new_size, MS_SYNC);
+        munmap(addr, new_size);
         close(fd);
-        
+
         return Response(true);
     }
     
@@ -191,8 +185,10 @@ private:
     }
     
     // 传统方式写入文件
-    Response writeWithTraditional(const std::filesystem::path& path, const std::string& content) {
-        std::ofstream file(path, std::ios::binary);
+    Response writeWithTraditional(const std::filesystem::path& path, const std::string& content, bool is_append = false) {
+        auto mode = std::ios::binary;
+        if (is_append) mode |= std::ios::app;
+        std::ofstream file(path, mode);
         if (!file) {
             return Response(false, "创建文件失败: " + path.string());
         }

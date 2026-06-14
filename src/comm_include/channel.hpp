@@ -9,6 +9,7 @@
 
 namespace messageSystem
 {
+    
     class ServiceChannel
     {
     public:
@@ -43,7 +44,7 @@ namespace messageSystem
             _channels.erase(channel);
             _cur = _channels.begin();
         }
-        bool chooseChannel(ChannelPtr& ptr)
+        bool chooseChannel(ChannelPtr* ptr)
         {
             std::lock_guard<std::mutex> lock(_mutex);
             if(_channels.empty())
@@ -54,7 +55,7 @@ namespace messageSystem
             _cur++;
             if(_cur == _channels.end())
                 _cur = _channels.begin();
-            ptr = _cur->second;
+            *ptr = _cur->second;
             return true;
         }
     private:
@@ -68,7 +69,7 @@ namespace messageSystem
     {
     public:
         using ServicePtr = std::shared_ptr<ServiceChannel>;
-        bool chooseService(const std::string& service_name,ServiceChannel::ChannelPtr& ptr)
+        bool chooseService(const std::string& service_name,ServiceChannel::ChannelPtr* ptr)
         {
             std::lock_guard<std::mutex> lock(_mutex);
             if(_active_services.find(service_name) == _active_services.end())

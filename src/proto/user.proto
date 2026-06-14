@@ -1,7 +1,14 @@
 syntax = "proto3";
-package bite_im;
-import "base.proto";
+package messageSystem;
+import "comm.proto";
 option cc_generic_services = true;
+
+message CommRsp
+{
+    string request_id = 1;
+    bool status = 2;
+    string errmsg = 3;
+}
 
 //----------------------------
 //用户名注册   
@@ -12,64 +19,56 @@ message UserRegisterReq {
     optional string verify_code_id = 4; //目前客户端实现了本地验证，该字段没用了
     optional string verify_code = 5;//目前客户端实现了本地验证，该字段没用了
 }
+
+
 message UserRegisterRsp {
-    string request_id = 1;
-    bool success = 2;
-    string errmsg = 3;
+    CommRsp response = 1;
 }
 //----------------------------
 //用户名登录 
 message UserLoginReq {
     string request_id = 1;
+    string uid = 6;
     string nickname = 2;
     string password = 3;
     optional string verify_code_id = 4;
     optional string verify_code = 5;
 }
+
 message UserLoginRsp {
-    string request_id = 1;
-    bool success = 2;
-    string errmsg = 3;
+    CommRsp response = 1;
     string login_session_id = 4;
 }
 //----------------------------
 //手机号验证码获取
-message PhoneVerifyCodeReq {
+message EmailVerifyCodeReq {
     string request_id = 1;
-    string phone_number = 2;
+    string email = 2;
 }
-message PhoneVerifyCodeRsp {
-    string request_id = 1;
-    bool success = 2;
-    string errmsg = 3;
-    string verify_code_id = 4;
+message EmailVerifyCodeRsp {
+    CommRsp response = 1;
+    string verify_code_id = 2;
 }
 //----------------------------
 //手机号注册
-message PhoneRegisterReq {
+message EmailRegisterReq {
     string request_id = 1;
-    string phone_number = 2;
-    string verify_code_id = 3;
-    string verify_code = 4;
+    string email = 2;
+    string verify_code = 3;
 }
-message PhoneRegisterRsp {
-    string request_id = 1;
-    bool success = 2;
-    string errmsg = 3;
+message EmailRegisterRsp {
+    CommRsp response = 1;
 }
 //----------------------------
 //手机号登录
-message PhoneLoginReq {
+message EmailLoginReq {
     string request_id = 1;
-    string phone_number = 2;
-    string verify_code_id = 3;
-    string verify_code = 4;
+    string email = 2;
+    string verify_code = 3;
 }
-message PhoneLoginRsp {
-    string request_id = 1;
-    bool success = 2;
-    string errmsg = 3; 
-    string login_session_id = 4;
+message EmailLoginRsp {
+    CommRsp response = 1;
+    string login_session_id = 2;
 }
 //个人信息获取-这个只用于获取当前登录用户的信息
 //  客户端传递的时候只需要填充session_id即可
@@ -80,10 +79,8 @@ message GetUserInfoReq {
     optional string session_id = 3; // 进行客户端身份识别的关键字段
 }
 message GetUserInfoRsp {
-    string request_id = 1;
-    bool success = 2;
-    string errmsg = 3; 
-    UserInfo user_info = 4;
+    CommRsp response = 1;
+    UserInfo user_info = 2;
 }
 //内部接口
 message GetMultiUserInfoReq {
@@ -91,10 +88,8 @@ message GetMultiUserInfoReq {
     repeated string users_id = 2;
 }
 message GetMultiUserInfoRsp {
-    string request_id = 1;
-    bool success = 2;
-    string errmsg = 3; 
-    map<string, UserInfo> users_info = 4;
+    CommRsp response = 1;
+    map<string, UserInfo> users_info = 2;
 }
 //----------------------------
 //用户头像修改 
@@ -105,9 +100,7 @@ message SetUserAvatarReq {
     bytes avatar = 4;
 }
 message SetUserAvatarRsp {
-    string request_id = 1;
-    bool success = 2;
-    string errmsg = 3; 
+    CommRsp response = 1; 
 }
 //----------------------------
 //用户昵称修改 
@@ -118,9 +111,7 @@ message SetUserNicknameReq {
     string nickname = 4;
 }
 message SetUserNicknameRsp {
-    string request_id = 1;
-    bool success = 2;
-    string errmsg = 3; 
+    CommRsp response = 1;
 }
 //----------------------------
 //用户签名修改 
@@ -131,36 +122,31 @@ message SetUserDescriptionReq {
     string description = 4;
 }
 message SetUserDescriptionRsp {
-    string request_id = 1;
-    bool success = 2;
-    string errmsg = 3; 
+    CommRsp response = 1;
 }
 //----------------------------
 //用户手机修改 
-message SetUserPhoneNumberReq {
+message SetUserEmailNumberReq {
     string request_id = 1;
     optional string user_id = 2;
     optional string session_id = 3;
-    string phone_number = 4;
-    string phone_verify_code_id = 5;
-    string phone_verify_code = 6;
+    string email = 4;
+    string email_verify_code = 5;
 }
-message SetUserPhoneNumberRsp {
-    string request_id = 1;
-    bool success = 2;
-    string errmsg = 3; 
+message SetUserEmailNumberRsp {
+    CommRsp response = 1;
 }
 
 service UserService {
     rpc UserRegister(UserRegisterReq) returns (UserRegisterRsp);
     rpc UserLogin(UserLoginReq) returns (UserLoginRsp);
-    rpc GetPhoneVerifyCode(PhoneVerifyCodeReq) returns (PhoneVerifyCodeRsp);
-    rpc PhoneRegister(PhoneRegisterReq) returns (PhoneRegisterRsp);
-    rpc PhoneLogin(PhoneLoginReq) returns (PhoneLoginRsp);
+    rpc GetEmailVerifyCode(EmailVerifyCodeReq) returns (EmailVerifyCodeRsp);
+    rpc EmailRegister(EmailRegisterReq) returns (EmailRegisterRsp);
+    rpc EmailLogin(EmailLoginReq) returns (EmailLoginRsp);
     rpc GetUserInfo(GetUserInfoReq) returns (GetUserInfoRsp);
     rpc GetMultiUserInfo(GetMultiUserInfoReq) returns (GetMultiUserInfoRsp);
     rpc SetUserAvatar(SetUserAvatarReq) returns (SetUserAvatarRsp);
     rpc SetUserNickname(SetUserNicknameReq) returns (SetUserNicknameRsp);
     rpc SetUserDescription(SetUserDescriptionReq) returns (SetUserDescriptionRsp);
-    rpc SetUserPhoneNumber(SetUserPhoneNumberReq) returns (SetUserPhoneNumberRsp);
+    rpc SetUserEmailNumber(SetUserEmailNumberReq) returns (SetUserEmailNumberRsp);
 }

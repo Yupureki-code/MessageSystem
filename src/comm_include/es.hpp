@@ -117,9 +117,10 @@ namespace messageSystem
         :_client(client)
         { }
         template<class T>
-        void add(const std::string& key,const T& value)
+        ESInsert& add(const std::string& key,const T& value)
         {
             _insert[key] = value;
+            return *this;
         }
         template<class T>
         ESInsert& operator+(const std::pair<std::string, T>& kv)
