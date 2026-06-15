@@ -2,6 +2,13 @@ syntax = "proto3";
 package messageSystem;
 option cc_generic_services = true;
 
+message CommRsp
+{
+    string request_id = 1;
+    bool status = 2;
+    string errmsg = 3;
+}
+
 //用户信息结构
 message UserInfo {
     string user_id = 1;//用户ID
@@ -15,8 +22,8 @@ message UserInfo {
 message ChatSessionInfo {
     //群聊会话不需要设置，单聊会话设置为对方用户ID
     optional string single_chat_friend_id = 1;
-    string chat_session_id = 2; //会话ID
-    string chat_session_name = 3;//会话名称git 
+    string conversation_id = 2; //会话ID
+    string conversation_name = 3;//会话名称git 
     //会话上一条消息，新建的会话没有最新消息
     optional MessageInfo prev_message = 4;
     //会话头像 --群聊会话不需要，直接由前端固定渲染，单聊就是对方的头像
@@ -64,7 +71,7 @@ message MessageContent {
 //消息结构
 message MessageInfo {
     string message_id = 1;//消息ID
-    string chat_session_id = 2;//消息所属聊天会话ID
+    string conversation_id = 2;//消息所属聊天会话ID
     int64 timestamp = 3;//消息产生时间
     UserInfo sender = 4;//消息发送者信息
     MessageContent message = 5;

@@ -1,5 +1,5 @@
 #pragma once
-#include "file.pb.h"
+#include "../../comm_include/proto_include/file.pb.h"
 #include "../../comm_include/filesystem.hpp"
 #include "../../comm_include/comm.hpp"
 #include "../../comm_include/comm.pb.h"

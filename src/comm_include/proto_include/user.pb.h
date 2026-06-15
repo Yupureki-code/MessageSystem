@@ -34,7 +34,7 @@
 #include <google/protobuf/map_field_inl.h>
 #include <google/protobuf/service.h>
 #include <google/protobuf/unknown_field_set.h>
-#include "../../comm_include/comm.pb.h"
+#include "../comm.pb.h"
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_user_2eproto
@@ -50,9 +50,6 @@ struct TableStruct_user_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_user_2eproto;
 namespace messageSystem {
-class CommRsp;
-struct CommRspDefaultTypeInternal;
-extern CommRspDefaultTypeInternal _CommRsp_default_instance_;
 class EmailLoginReq;
 struct EmailLoginReqDefaultTypeInternal;
 extern EmailLoginReqDefaultTypeInternal _EmailLoginReq_default_instance_;
@@ -124,7 +121,6 @@ struct UserRegisterRspDefaultTypeInternal;
 extern UserRegisterRspDefaultTypeInternal _UserRegisterRsp_default_instance_;
 }  // namespace messageSystem
 PROTOBUF_NAMESPACE_OPEN
-template<> ::messageSystem::CommRsp* Arena::CreateMaybeMessage<::messageSystem::CommRsp>(Arena*);
 template<> ::messageSystem::EmailLoginReq* Arena::CreateMaybeMessage<::messageSystem::EmailLoginReq>(Arena*);
 template<> ::messageSystem::EmailLoginRsp* Arena::CreateMaybeMessage<::messageSystem::EmailLoginRsp>(Arena*);
 template<> ::messageSystem::EmailRegisterReq* Arena::CreateMaybeMessage<::messageSystem::EmailRegisterReq>(Arena*);
@@ -152,186 +148,6 @@ PROTOBUF_NAMESPACE_CLOSE
 namespace messageSystem {
 
 // ===================================================================
-
-class CommRsp final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:messageSystem.CommRsp) */ {
- public:
-  inline CommRsp() : CommRsp(nullptr) {}
-  ~CommRsp() override;
-  explicit PROTOBUF_CONSTEXPR CommRsp(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  CommRsp(const CommRsp& from);
-  CommRsp(CommRsp&& from) noexcept
-    : CommRsp() {
-    *this = ::std::move(from);
-  }
-
-  inline CommRsp& operator=(const CommRsp& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline CommRsp& operator=(CommRsp&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const CommRsp& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const CommRsp* internal_default_instance() {
-    return reinterpret_cast<const CommRsp*>(
-               &_CommRsp_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    0;
-
-  friend void swap(CommRsp& a, CommRsp& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(CommRsp* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(CommRsp* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  CommRsp* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<CommRsp>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const CommRsp& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const CommRsp& from) {
-    CommRsp::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(CommRsp* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "messageSystem.CommRsp";
-  }
-  protected:
-  explicit CommRsp(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kRequestIdFieldNumber = 1,
-    kErrmsgFieldNumber = 3,
-    kStatusFieldNumber = 2,
-  };
-  // string request_id = 1;
-  void clear_request_id();
-  const std::string& request_id() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_request_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_request_id();
-  PROTOBUF_NODISCARD std::string* release_request_id();
-  void set_allocated_request_id(std::string* request_id);
-  private:
-  const std::string& _internal_request_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
-  std::string* _internal_mutable_request_id();
-  public:
-
-  // string errmsg = 3;
-  void clear_errmsg();
-  const std::string& errmsg() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_errmsg(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_errmsg();
-  PROTOBUF_NODISCARD std::string* release_errmsg();
-  void set_allocated_errmsg(std::string* errmsg);
-  private:
-  const std::string& _internal_errmsg() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_errmsg(const std::string& value);
-  std::string* _internal_mutable_errmsg();
-  public:
-
-  // bool status = 2;
-  void clear_status();
-  bool status() const;
-  void set_status(bool value);
-  private:
-  bool _internal_status() const;
-  void _internal_set_status(bool value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:messageSystem.CommRsp)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr errmsg_;
-    bool status_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_user_2eproto;
-};
-// -------------------------------------------------------------------
 
 class UserRegisterReq final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:messageSystem.UserRegisterReq) */ {
@@ -381,7 +197,7 @@ class UserRegisterReq final :
                &_UserRegisterReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    0;
 
   friend void swap(UserRegisterReq& a, UserRegisterReq& b) {
     a.Swap(&b);
@@ -607,7 +423,7 @@ class UserRegisterRsp final :
                &_UserRegisterRsp_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    1;
 
   friend void swap(UserRegisterRsp& a, UserRegisterRsp& b) {
     a.Swap(&b);
@@ -764,7 +580,7 @@ class UserLoginReq final :
                &_UserLoginReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    2;
 
   friend void swap(UserLoginReq& a, UserLoginReq& b) {
     a.Swap(&b);
@@ -1006,7 +822,7 @@ class UserLoginRsp final :
                &_UserLoginRsp_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    3;
 
   friend void swap(UserLoginRsp& a, UserLoginRsp& b) {
     a.Swap(&b);
@@ -1179,7 +995,7 @@ class EmailVerifyCodeReq final :
                &_EmailVerifyCodeReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    4;
 
   friend void swap(EmailVerifyCodeReq& a, EmailVerifyCodeReq& b) {
     a.Swap(&b);
@@ -1348,7 +1164,7 @@ class EmailVerifyCodeRsp final :
                &_EmailVerifyCodeRsp_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    5;
 
   friend void swap(EmailVerifyCodeRsp& a, EmailVerifyCodeRsp& b) {
     a.Swap(&b);
@@ -1521,7 +1337,7 @@ class EmailRegisterReq final :
                &_EmailRegisterReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    6;
 
   friend void swap(EmailRegisterReq& a, EmailRegisterReq& b) {
     a.Swap(&b);
@@ -1706,7 +1522,7 @@ class EmailRegisterRsp final :
                &_EmailRegisterRsp_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    7;
 
   friend void swap(EmailRegisterRsp& a, EmailRegisterRsp& b) {
     a.Swap(&b);
@@ -1863,7 +1679,7 @@ class EmailLoginReq final :
                &_EmailLoginReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    8;
 
   friend void swap(EmailLoginReq& a, EmailLoginReq& b) {
     a.Swap(&b);
@@ -2048,7 +1864,7 @@ class EmailLoginRsp final :
                &_EmailLoginRsp_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    9;
 
   friend void swap(EmailLoginRsp& a, EmailLoginRsp& b) {
     a.Swap(&b);
@@ -2221,7 +2037,7 @@ class GetUserInfoReq final :
                &_GetUserInfoReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    10;
 
   friend void swap(GetUserInfoReq& a, GetUserInfoReq& b) {
     a.Swap(&b);
@@ -2415,7 +2231,7 @@ class GetUserInfoRsp final :
                &_GetUserInfoRsp_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    11;
 
   friend void swap(GetUserInfoRsp& a, GetUserInfoRsp& b) {
     a.Swap(&b);
@@ -2592,7 +2408,7 @@ class GetMultiUserInfoReq final :
                &_GetMultiUserInfoReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    12;
 
   friend void swap(GetMultiUserInfoReq& a, GetMultiUserInfoReq& b) {
     a.Swap(&b);
@@ -2797,7 +2613,7 @@ class GetMultiUserInfoRsp final :
                &_GetMultiUserInfoRsp_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    15;
+    14;
 
   friend void swap(GetMultiUserInfoRsp& a, GetMultiUserInfoRsp& b) {
     a.Swap(&b);
@@ -2980,7 +2796,7 @@ class SetUserAvatarReq final :
                &_SetUserAvatarReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    16;
+    15;
 
   friend void swap(SetUserAvatarReq& a, SetUserAvatarReq& b) {
     a.Swap(&b);
@@ -3190,7 +3006,7 @@ class SetUserAvatarRsp final :
                &_SetUserAvatarRsp_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    17;
+    16;
 
   friend void swap(SetUserAvatarRsp& a, SetUserAvatarRsp& b) {
     a.Swap(&b);
@@ -3347,7 +3163,7 @@ class SetUserNicknameReq final :
                &_SetUserNicknameReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    18;
+    17;
 
   friend void swap(SetUserNicknameReq& a, SetUserNicknameReq& b) {
     a.Swap(&b);
@@ -3557,7 +3373,7 @@ class SetUserNicknameRsp final :
                &_SetUserNicknameRsp_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    19;
+    18;
 
   friend void swap(SetUserNicknameRsp& a, SetUserNicknameRsp& b) {
     a.Swap(&b);
@@ -3714,7 +3530,7 @@ class SetUserDescriptionReq final :
                &_SetUserDescriptionReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    20;
+    19;
 
   friend void swap(SetUserDescriptionReq& a, SetUserDescriptionReq& b) {
     a.Swap(&b);
@@ -3924,7 +3740,7 @@ class SetUserDescriptionRsp final :
                &_SetUserDescriptionRsp_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    21;
+    20;
 
   friend void swap(SetUserDescriptionRsp& a, SetUserDescriptionRsp& b) {
     a.Swap(&b);
@@ -4081,7 +3897,7 @@ class SetUserEmailNumberReq final :
                &_SetUserEmailNumberReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    22;
+    21;
 
   friend void swap(SetUserEmailNumberReq& a, SetUserEmailNumberReq& b) {
     a.Swap(&b);
@@ -4224,7 +4040,7 @@ class SetUserEmailNumberReq final :
   std::string* _internal_mutable_email();
   public:
 
-  // string Email_verify_code = 5;
+  // string email_verify_code = 5;
   void clear_email_verify_code();
   const std::string& email_verify_code() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -4307,7 +4123,7 @@ class SetUserEmailNumberRsp final :
                &_SetUserEmailNumberRsp_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    23;
+    22;
 
   friend void swap(SetUserEmailNumberRsp& a, SetUserEmailNumberRsp& b) {
     a.Swap(&b);
@@ -4562,130 +4378,6 @@ class UserService_Stub : public UserService {
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// CommRsp
-
-// string request_id = 1;
-inline void CommRsp::clear_request_id() {
-  _impl_.request_id_.ClearToEmpty();
-}
-inline const std::string& CommRsp::request_id() const {
-  // @@protoc_insertion_point(field_get:messageSystem.CommRsp.request_id)
-  return _internal_request_id();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void CommRsp::set_request_id(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.request_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:messageSystem.CommRsp.request_id)
-}
-inline std::string* CommRsp::mutable_request_id() {
-  std::string* _s = _internal_mutable_request_id();
-  // @@protoc_insertion_point(field_mutable:messageSystem.CommRsp.request_id)
-  return _s;
-}
-inline const std::string& CommRsp::_internal_request_id() const {
-  return _impl_.request_id_.Get();
-}
-inline void CommRsp::_internal_set_request_id(const std::string& value) {
-  
-  _impl_.request_id_.Set(value, GetArenaForAllocation());
-}
-inline std::string* CommRsp::_internal_mutable_request_id() {
-  
-  return _impl_.request_id_.Mutable(GetArenaForAllocation());
-}
-inline std::string* CommRsp::release_request_id() {
-  // @@protoc_insertion_point(field_release:messageSystem.CommRsp.request_id)
-  return _impl_.request_id_.Release();
-}
-inline void CommRsp::set_allocated_request_id(std::string* request_id) {
-  if (request_id != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.request_id_.SetAllocated(request_id, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.request_id_.IsDefault()) {
-    _impl_.request_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:messageSystem.CommRsp.request_id)
-}
-
-// bool status = 2;
-inline void CommRsp::clear_status() {
-  _impl_.status_ = false;
-}
-inline bool CommRsp::_internal_status() const {
-  return _impl_.status_;
-}
-inline bool CommRsp::status() const {
-  // @@protoc_insertion_point(field_get:messageSystem.CommRsp.status)
-  return _internal_status();
-}
-inline void CommRsp::_internal_set_status(bool value) {
-  
-  _impl_.status_ = value;
-}
-inline void CommRsp::set_status(bool value) {
-  _internal_set_status(value);
-  // @@protoc_insertion_point(field_set:messageSystem.CommRsp.status)
-}
-
-// string errmsg = 3;
-inline void CommRsp::clear_errmsg() {
-  _impl_.errmsg_.ClearToEmpty();
-}
-inline const std::string& CommRsp::errmsg() const {
-  // @@protoc_insertion_point(field_get:messageSystem.CommRsp.errmsg)
-  return _internal_errmsg();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void CommRsp::set_errmsg(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.errmsg_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:messageSystem.CommRsp.errmsg)
-}
-inline std::string* CommRsp::mutable_errmsg() {
-  std::string* _s = _internal_mutable_errmsg();
-  // @@protoc_insertion_point(field_mutable:messageSystem.CommRsp.errmsg)
-  return _s;
-}
-inline const std::string& CommRsp::_internal_errmsg() const {
-  return _impl_.errmsg_.Get();
-}
-inline void CommRsp::_internal_set_errmsg(const std::string& value) {
-  
-  _impl_.errmsg_.Set(value, GetArenaForAllocation());
-}
-inline std::string* CommRsp::_internal_mutable_errmsg() {
-  
-  return _impl_.errmsg_.Mutable(GetArenaForAllocation());
-}
-inline std::string* CommRsp::release_errmsg() {
-  // @@protoc_insertion_point(field_release:messageSystem.CommRsp.errmsg)
-  return _impl_.errmsg_.Release();
-}
-inline void CommRsp::set_allocated_errmsg(std::string* errmsg) {
-  if (errmsg != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.errmsg_.SetAllocated(errmsg, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.errmsg_.IsDefault()) {
-    _impl_.errmsg_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:messageSystem.CommRsp.errmsg)
-}
-
-// -------------------------------------------------------------------
-
 // UserRegisterReq
 
 // string request_id = 1;
@@ -4985,12 +4677,6 @@ inline bool UserRegisterRsp::_internal_has_response() const {
 inline bool UserRegisterRsp::has_response() const {
   return _internal_has_response();
 }
-inline void UserRegisterRsp::clear_response() {
-  if (GetArenaForAllocation() == nullptr && _impl_.response_ != nullptr) {
-    delete _impl_.response_;
-  }
-  _impl_.response_ = nullptr;
-}
 inline const ::messageSystem::CommRsp& UserRegisterRsp::_internal_response() const {
   const ::messageSystem::CommRsp* p = _impl_.response_;
   return p != nullptr ? *p : reinterpret_cast<const ::messageSystem::CommRsp&>(
@@ -5051,11 +4737,12 @@ inline ::messageSystem::CommRsp* UserRegisterRsp::mutable_response() {
 inline void UserRegisterRsp::set_allocated_response(::messageSystem::CommRsp* response) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
-    delete _impl_.response_;
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.response_);
   }
   if (response) {
     ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(response);
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(response));
     if (message_arena != submessage_arena) {
       response = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
           message_arena, response, submessage_arena);
@@ -5419,12 +5106,6 @@ inline bool UserLoginRsp::_internal_has_response() const {
 inline bool UserLoginRsp::has_response() const {
   return _internal_has_response();
 }
-inline void UserLoginRsp::clear_response() {
-  if (GetArenaForAllocation() == nullptr && _impl_.response_ != nullptr) {
-    delete _impl_.response_;
-  }
-  _impl_.response_ = nullptr;
-}
 inline const ::messageSystem::CommRsp& UserLoginRsp::_internal_response() const {
   const ::messageSystem::CommRsp* p = _impl_.response_;
   return p != nullptr ? *p : reinterpret_cast<const ::messageSystem::CommRsp&>(
@@ -5485,11 +5166,12 @@ inline ::messageSystem::CommRsp* UserLoginRsp::mutable_response() {
 inline void UserLoginRsp::set_allocated_response(::messageSystem::CommRsp* response) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
-    delete _impl_.response_;
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.response_);
   }
   if (response) {
     ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(response);
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(response));
     if (message_arena != submessage_arena) {
       response = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
           message_arena, response, submessage_arena);
@@ -5667,12 +5349,6 @@ inline bool EmailVerifyCodeRsp::_internal_has_response() const {
 inline bool EmailVerifyCodeRsp::has_response() const {
   return _internal_has_response();
 }
-inline void EmailVerifyCodeRsp::clear_response() {
-  if (GetArenaForAllocation() == nullptr && _impl_.response_ != nullptr) {
-    delete _impl_.response_;
-  }
-  _impl_.response_ = nullptr;
-}
 inline const ::messageSystem::CommRsp& EmailVerifyCodeRsp::_internal_response() const {
   const ::messageSystem::CommRsp* p = _impl_.response_;
   return p != nullptr ? *p : reinterpret_cast<const ::messageSystem::CommRsp&>(
@@ -5733,11 +5409,12 @@ inline ::messageSystem::CommRsp* EmailVerifyCodeRsp::mutable_response() {
 inline void EmailVerifyCodeRsp::set_allocated_response(::messageSystem::CommRsp* response) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
-    delete _impl_.response_;
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.response_);
   }
   if (response) {
     ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(response);
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(response));
     if (message_arena != submessage_arena) {
       response = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
           message_arena, response, submessage_arena);
@@ -5965,12 +5642,6 @@ inline bool EmailRegisterRsp::_internal_has_response() const {
 inline bool EmailRegisterRsp::has_response() const {
   return _internal_has_response();
 }
-inline void EmailRegisterRsp::clear_response() {
-  if (GetArenaForAllocation() == nullptr && _impl_.response_ != nullptr) {
-    delete _impl_.response_;
-  }
-  _impl_.response_ = nullptr;
-}
 inline const ::messageSystem::CommRsp& EmailRegisterRsp::_internal_response() const {
   const ::messageSystem::CommRsp* p = _impl_.response_;
   return p != nullptr ? *p : reinterpret_cast<const ::messageSystem::CommRsp&>(
@@ -6031,11 +5702,12 @@ inline ::messageSystem::CommRsp* EmailRegisterRsp::mutable_response() {
 inline void EmailRegisterRsp::set_allocated_response(::messageSystem::CommRsp* response) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
-    delete _impl_.response_;
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.response_);
   }
   if (response) {
     ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(response);
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(response));
     if (message_arena != submessage_arena) {
       response = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
           message_arena, response, submessage_arena);
@@ -6213,12 +5885,6 @@ inline bool EmailLoginRsp::_internal_has_response() const {
 inline bool EmailLoginRsp::has_response() const {
   return _internal_has_response();
 }
-inline void EmailLoginRsp::clear_response() {
-  if (GetArenaForAllocation() == nullptr && _impl_.response_ != nullptr) {
-    delete _impl_.response_;
-  }
-  _impl_.response_ = nullptr;
-}
 inline const ::messageSystem::CommRsp& EmailLoginRsp::_internal_response() const {
   const ::messageSystem::CommRsp* p = _impl_.response_;
   return p != nullptr ? *p : reinterpret_cast<const ::messageSystem::CommRsp&>(
@@ -6279,11 +5945,12 @@ inline ::messageSystem::CommRsp* EmailLoginRsp::mutable_response() {
 inline void EmailLoginRsp::set_allocated_response(::messageSystem::CommRsp* response) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
-    delete _impl_.response_;
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.response_);
   }
   if (response) {
     ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(response);
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(response));
     if (message_arena != submessage_arena) {
       response = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
           message_arena, response, submessage_arena);
@@ -6547,12 +6214,6 @@ inline bool GetUserInfoRsp::_internal_has_response() const {
 inline bool GetUserInfoRsp::has_response() const {
   return _internal_has_response();
 }
-inline void GetUserInfoRsp::clear_response() {
-  if (GetArenaForAllocation() == nullptr && _impl_.response_ != nullptr) {
-    delete _impl_.response_;
-  }
-  _impl_.response_ = nullptr;
-}
 inline const ::messageSystem::CommRsp& GetUserInfoRsp::_internal_response() const {
   const ::messageSystem::CommRsp* p = _impl_.response_;
   return p != nullptr ? *p : reinterpret_cast<const ::messageSystem::CommRsp&>(
@@ -6613,11 +6274,12 @@ inline ::messageSystem::CommRsp* GetUserInfoRsp::mutable_response() {
 inline void GetUserInfoRsp::set_allocated_response(::messageSystem::CommRsp* response) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
-    delete _impl_.response_;
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.response_);
   }
   if (response) {
     ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(response);
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(response));
     if (message_arena != submessage_arena) {
       response = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
           message_arena, response, submessage_arena);
@@ -6857,12 +6519,6 @@ inline bool GetMultiUserInfoRsp::_internal_has_response() const {
 inline bool GetMultiUserInfoRsp::has_response() const {
   return _internal_has_response();
 }
-inline void GetMultiUserInfoRsp::clear_response() {
-  if (GetArenaForAllocation() == nullptr && _impl_.response_ != nullptr) {
-    delete _impl_.response_;
-  }
-  _impl_.response_ = nullptr;
-}
 inline const ::messageSystem::CommRsp& GetMultiUserInfoRsp::_internal_response() const {
   const ::messageSystem::CommRsp* p = _impl_.response_;
   return p != nullptr ? *p : reinterpret_cast<const ::messageSystem::CommRsp&>(
@@ -6923,11 +6579,12 @@ inline ::messageSystem::CommRsp* GetMultiUserInfoRsp::mutable_response() {
 inline void GetMultiUserInfoRsp::set_allocated_response(::messageSystem::CommRsp* response) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
-    delete _impl_.response_;
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.response_);
   }
   if (response) {
     ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(response);
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(response));
     if (message_arena != submessage_arena) {
       response = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
           message_arena, response, submessage_arena);
@@ -7217,12 +6874,6 @@ inline bool SetUserAvatarRsp::_internal_has_response() const {
 inline bool SetUserAvatarRsp::has_response() const {
   return _internal_has_response();
 }
-inline void SetUserAvatarRsp::clear_response() {
-  if (GetArenaForAllocation() == nullptr && _impl_.response_ != nullptr) {
-    delete _impl_.response_;
-  }
-  _impl_.response_ = nullptr;
-}
 inline const ::messageSystem::CommRsp& SetUserAvatarRsp::_internal_response() const {
   const ::messageSystem::CommRsp* p = _impl_.response_;
   return p != nullptr ? *p : reinterpret_cast<const ::messageSystem::CommRsp&>(
@@ -7283,11 +6934,12 @@ inline ::messageSystem::CommRsp* SetUserAvatarRsp::mutable_response() {
 inline void SetUserAvatarRsp::set_allocated_response(::messageSystem::CommRsp* response) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
-    delete _impl_.response_;
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.response_);
   }
   if (response) {
     ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(response);
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(response));
     if (message_arena != submessage_arena) {
       response = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
           message_arena, response, submessage_arena);
@@ -7551,12 +7203,6 @@ inline bool SetUserNicknameRsp::_internal_has_response() const {
 inline bool SetUserNicknameRsp::has_response() const {
   return _internal_has_response();
 }
-inline void SetUserNicknameRsp::clear_response() {
-  if (GetArenaForAllocation() == nullptr && _impl_.response_ != nullptr) {
-    delete _impl_.response_;
-  }
-  _impl_.response_ = nullptr;
-}
 inline const ::messageSystem::CommRsp& SetUserNicknameRsp::_internal_response() const {
   const ::messageSystem::CommRsp* p = _impl_.response_;
   return p != nullptr ? *p : reinterpret_cast<const ::messageSystem::CommRsp&>(
@@ -7617,11 +7263,12 @@ inline ::messageSystem::CommRsp* SetUserNicknameRsp::mutable_response() {
 inline void SetUserNicknameRsp::set_allocated_response(::messageSystem::CommRsp* response) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
-    delete _impl_.response_;
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.response_);
   }
   if (response) {
     ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(response);
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(response));
     if (message_arena != submessage_arena) {
       response = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
           message_arena, response, submessage_arena);
@@ -7885,12 +7532,6 @@ inline bool SetUserDescriptionRsp::_internal_has_response() const {
 inline bool SetUserDescriptionRsp::has_response() const {
   return _internal_has_response();
 }
-inline void SetUserDescriptionRsp::clear_response() {
-  if (GetArenaForAllocation() == nullptr && _impl_.response_ != nullptr) {
-    delete _impl_.response_;
-  }
-  _impl_.response_ = nullptr;
-}
 inline const ::messageSystem::CommRsp& SetUserDescriptionRsp::_internal_response() const {
   const ::messageSystem::CommRsp* p = _impl_.response_;
   return p != nullptr ? *p : reinterpret_cast<const ::messageSystem::CommRsp&>(
@@ -7951,11 +7592,12 @@ inline ::messageSystem::CommRsp* SetUserDescriptionRsp::mutable_response() {
 inline void SetUserDescriptionRsp::set_allocated_response(::messageSystem::CommRsp* response) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
-    delete _impl_.response_;
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.response_);
   }
   if (response) {
     ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(response);
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(response));
     if (message_arena != submessage_arena) {
       response = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
           message_arena, response, submessage_arena);
@@ -8208,12 +7850,12 @@ inline void SetUserEmailNumberReq::set_allocated_email(std::string* email) {
   // @@protoc_insertion_point(field_set_allocated:messageSystem.SetUserEmailNumberReq.email)
 }
 
-// string Email_verify_code = 5;
+// string email_verify_code = 5;
 inline void SetUserEmailNumberReq::clear_email_verify_code() {
   _impl_.email_verify_code_.ClearToEmpty();
 }
 inline const std::string& SetUserEmailNumberReq::email_verify_code() const {
-  // @@protoc_insertion_point(field_get:messageSystem.SetUserEmailNumberReq.Email_verify_code)
+  // @@protoc_insertion_point(field_get:messageSystem.SetUserEmailNumberReq.email_verify_code)
   return _internal_email_verify_code();
 }
 template <typename ArgT0, typename... ArgT>
@@ -8221,11 +7863,11 @@ inline PROTOBUF_ALWAYS_INLINE
 void SetUserEmailNumberReq::set_email_verify_code(ArgT0&& arg0, ArgT... args) {
  
  _impl_.email_verify_code_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:messageSystem.SetUserEmailNumberReq.Email_verify_code)
+  // @@protoc_insertion_point(field_set:messageSystem.SetUserEmailNumberReq.email_verify_code)
 }
 inline std::string* SetUserEmailNumberReq::mutable_email_verify_code() {
   std::string* _s = _internal_mutable_email_verify_code();
-  // @@protoc_insertion_point(field_mutable:messageSystem.SetUserEmailNumberReq.Email_verify_code)
+  // @@protoc_insertion_point(field_mutable:messageSystem.SetUserEmailNumberReq.email_verify_code)
   return _s;
 }
 inline const std::string& SetUserEmailNumberReq::_internal_email_verify_code() const {
@@ -8240,7 +7882,7 @@ inline std::string* SetUserEmailNumberReq::_internal_mutable_email_verify_code()
   return _impl_.email_verify_code_.Mutable(GetArenaForAllocation());
 }
 inline std::string* SetUserEmailNumberReq::release_email_verify_code() {
-  // @@protoc_insertion_point(field_release:messageSystem.SetUserEmailNumberReq.Email_verify_code)
+  // @@protoc_insertion_point(field_release:messageSystem.SetUserEmailNumberReq.email_verify_code)
   return _impl_.email_verify_code_.Release();
 }
 inline void SetUserEmailNumberReq::set_allocated_email_verify_code(std::string* email_verify_code) {
@@ -8255,7 +7897,7 @@ inline void SetUserEmailNumberReq::set_allocated_email_verify_code(std::string* 
     _impl_.email_verify_code_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:messageSystem.SetUserEmailNumberReq.Email_verify_code)
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.SetUserEmailNumberReq.email_verify_code)
 }
 
 // -------------------------------------------------------------------
@@ -8268,12 +7910,6 @@ inline bool SetUserEmailNumberRsp::_internal_has_response() const {
 }
 inline bool SetUserEmailNumberRsp::has_response() const {
   return _internal_has_response();
-}
-inline void SetUserEmailNumberRsp::clear_response() {
-  if (GetArenaForAllocation() == nullptr && _impl_.response_ != nullptr) {
-    delete _impl_.response_;
-  }
-  _impl_.response_ = nullptr;
 }
 inline const ::messageSystem::CommRsp& SetUserEmailNumberRsp::_internal_response() const {
   const ::messageSystem::CommRsp* p = _impl_.response_;
@@ -8335,11 +7971,12 @@ inline ::messageSystem::CommRsp* SetUserEmailNumberRsp::mutable_response() {
 inline void SetUserEmailNumberRsp::set_allocated_response(::messageSystem::CommRsp* response) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
-    delete _impl_.response_;
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.response_);
   }
   if (response) {
     ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(response);
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(response));
     if (message_arena != submessage_arena) {
       response = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
           message_arena, response, submessage_arena);
@@ -8355,8 +7992,6 @@ inline void SetUserEmailNumberRsp::set_allocated_response(::messageSystem::CommR
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

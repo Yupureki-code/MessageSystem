@@ -10,18 +10,17 @@
 #include <odb/result.hxx>
 #include <odb/mysql/database.hxx>
 #include "../../comm_include/odb/user/odb_user.hpp"
-#include "user.pb.h"
+#include "../../comm_include/proto_include/user.pb.h"
 #include <brpc/server.h>
 #include "../../comm_include/es.hpp"
 #include "../../comm_include/redis.hpp"
 #include "../../comm_include/mail.hpp"
 #include "../../comm_include/channel.hpp"
-#include "../file/file.pb.h"
+#include "../../comm_include/proto_include/file.pb.h"
 #include "../../comm_include/etcd.hpp"
 
 namespace messageSystem
 {
-    const std::string FILE_SERVICE = "file_service";
     class UserServiceImpl : public UserService
     {
     public:

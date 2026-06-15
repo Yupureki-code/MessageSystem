@@ -219,6 +219,11 @@ namespace messageSystem
             }
             _filter.append(terms);
         }
+        void addFilterTimeRange(const std::string& key,const std::string& start,const std::string& end)
+        {
+            _filter["range"][key]["gte"] = start;
+            _filter["range"][key]["lte"] = end;
+        }
         bool query(const std::string& name,const std::string& type,Json::Value* value)
         {
             Json::Value body;

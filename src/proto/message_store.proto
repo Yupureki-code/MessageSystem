@@ -1,0 +1,58 @@
+syntax = "proto3";
+package messageSystem;
+import "comm.proto";
+
+option cc_generic_services = true;
+
+message MessageQuery
+{
+    string conversation_id = 1;
+    optional string sender_id = 2;
+    optional string text = 3;
+    optional int64 start_time = 4;
+    optional int64 end_time = 5;
+}
+
+message GetHistoryMsgReq {
+    string request_id = 1;
+    string conversation_id = 2;
+    int64 start_time = 3;
+    int64 over_time = 4;
+    optional string user_id = 5;
+    optional string session_id = 6;
+}
+message GetHistoryMsgRsp {
+    CommRsp response = 1;
+    repeated MessageInfo msg_list = 2;
+}
+
+message GetRecentMsgReq {
+    string request_id = 1;
+    string conversation_id = 2;
+    int64 msg_count = 3;
+    optional int64 cur_time = 4;//用于扩展获取指定时间前的n条消息
+    optional string user_id = 5;
+    optional string session_id = 6;
+}
+message GetRecentMsgRsp {
+    CommRsp response = 1; 
+    repeated MessageInfo msg_list = 2;
+}
+
+message MsgSearchReq {
+    string request_id = 1;
+    optional string user_id = 2;
+    optional string session_id = 3;
+    MessageQuery query = 4;
+}
+
+message MsgSearchRsp {
+    CommRsp response = 1;
+    repeated MessageInfo msg_list = 2;
+}
+
+service MsgStorageService {
+    rpc GetHistoryMsg(GetHistoryMsgReq) returns (GetHistoryMsgRsp);
+    rpc GetRecentMsg(GetRecentMsgReq) returns (GetRecentMsgRsp);
+    rpc MsgSearch(MsgSearchReq) returns (MsgSearchRsp);
+}

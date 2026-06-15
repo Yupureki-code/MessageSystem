@@ -6,6 +6,8 @@
 
 namespace messageSystem
 {
+    const std::string FILE_SERVICE = "file_service";
+    const std::string USER_SERVICE = "user_service";
     struct Response 
     {
         bool status;         // 0 表示成功，负值表示错误

@@ -34,7 +34,7 @@
 #include <google/protobuf/map_field_inl.h>
 #include <google/protobuf/service.h>
 #include <google/protobuf/unknown_field_set.h>
-#include "../../comm_include/comm.pb.h"
+#include "../comm.pb.h"
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_file_2eproto

@@ -3,13 +3,6 @@ package messageSystem;
 import "comm.proto";
 option cc_generic_services = true;
 
-message CommRsp
-{
-    string request_id = 1;
-    bool status = 2;
-    string errmsg = 3;
-}
-
 //----------------------------
 //用户名注册   
 message UserRegisterReq {
