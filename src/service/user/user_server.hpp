@@ -354,7 +354,7 @@ namespace messageSystem
             }
             messageSystem::FileService_Stub stub(channel.get());
             messageSystem::PutFileReq req;
-            messageSystem::PutFileRsp rsp;
+            messageSystem::CommRsp rsp;
             req.set_request_id(request->request_id());
             auto data = req.add_file_data();
             data->set_file_name(avatar_id);
@@ -362,13 +362,13 @@ namespace messageSystem
             data->set_file_content(request->avatar());
             brpc::Controller cntl;
             stub.PutSingleFile(&cntl, &req, &rsp, nullptr);
-            if (cntl.Failed() || !rsp.success())
+            if (cntl.Failed() || !rsp.status())
             {
                 LOG_INFO("{} - 文件管理服务异常！", request->request_id());
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                 return;
             }
-            user->avatar = rsp.file_info(0).file_id();
+            user->avatar = avatar_id;
             if (!_odb->update(user))
             {
                 LOG_INFO("{} - 更新MySQL用户头像失败(uid):{}！", rid, uid);

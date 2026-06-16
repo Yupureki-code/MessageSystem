@@ -4,7 +4,7 @@
 
 #include <odb/pre.hxx>
 
-#include "message-odb.hxx"
+#include "message_outbox-odb.hxx"
 
 #include <cassert>
 #include <cstring>  // std::memcpy
@@ -24,10 +24,10 @@
 
 namespace odb
 {
-  // Message
+  // MessageOutbox
   //
 
-  struct access::object_traits_impl< ::Message, id_mysql >::extra_statement_cache_type
+  struct access::object_traits_impl< ::MessageOutbox, id_mysql >::extra_statement_cache_type
   {
     extra_statement_cache_type (
       mysql::connection&,
@@ -39,8 +39,8 @@ namespace odb
     }
   };
 
-  access::object_traits_impl< ::Message, id_mysql >::id_type
-  access::object_traits_impl< ::Message, id_mysql >::
+  access::object_traits_impl< ::MessageOutbox, id_mysql >::id_type
+  access::object_traits_impl< ::MessageOutbox, id_mysql >::
   id (const id_image_type& i)
   {
     mysql::database* db (0);
@@ -49,7 +49,7 @@ namespace odb
     id_type id;
     {
       mysql::value_traits<
-          long unsigned int,
+          long long unsigned int,
           mysql::id_ulonglong >::set_value (
         id,
         i.id_value,
@@ -59,8 +59,8 @@ namespace odb
     return id;
   }
 
-  access::object_traits_impl< ::Message, id_mysql >::id_type
-  access::object_traits_impl< ::Message, id_mysql >::
+  access::object_traits_impl< ::MessageOutbox, id_mysql >::id_type
+  access::object_traits_impl< ::MessageOutbox, id_mysql >::
   id (const image_type& i)
   {
     mysql::database* db (0);
@@ -69,7 +69,7 @@ namespace odb
     id_type id;
     {
       mysql::value_traits<
-          long unsigned int,
+          long long unsigned int,
           mysql::id_ulonglong >::set_value (
         id,
         i.id_value,
@@ -79,7 +79,7 @@ namespace odb
     return id;
   }
 
-  bool access::object_traits_impl< ::Message, id_mysql >::
+  bool access::object_traits_impl< ::MessageOutbox, id_mysql >::
   grow (image_type& i,
         my_bool* t)
   {
@@ -92,11 +92,11 @@ namespace odb
     //
     t[0UL] = 0;
 
-    // message_id
+    // task_type
     //
     if (t[1UL])
     {
-      i.message_id_value.capacity (i.message_id_size);
+      i.task_type_value.capacity (i.task_type_size);
       grew = true;
     }
 
@@ -108,54 +108,54 @@ namespace odb
       grew = true;
     }
 
-    // sender_id
+    // msg_id
     //
-    if (t[3UL])
+    t[3UL] = 0;
+
+    // payload
+    //
+    if (t[4UL])
     {
-      i.sender_id_value.capacity (i.sender_id_size);
+      i.payload_value.capacity (i.payload_size);
       grew = true;
     }
 
-    // message_type
-    //
-    t[4UL] = 0;
-
-    // create_time
+    // status
     //
     t[5UL] = 0;
 
-    // text
+    // retry_count
     //
-    if (t[6UL])
-    {
-      i.text_value.capacity (i.text_size);
-      grew = true;
-    }
+    t[6UL] = 0;
 
-    // file_id
+    // max_retries
     //
-    if (t[7UL])
-    {
-      i.file_id_value.capacity (i.file_id_size);
-      grew = true;
-    }
+    t[7UL] = 0;
 
-    // file_name
+    // next_retry_at
     //
-    if (t[8UL])
-    {
-      i.file_name_value.capacity (i.file_name_size);
-      grew = true;
-    }
+    t[8UL] = 0;
 
-    // file_size
+    // created_at
     //
     t[9UL] = 0;
+
+    // updated_at
+    //
+    t[10UL] = 0;
+
+    // last_error
+    //
+    if (t[11UL])
+    {
+      i.last_error_value.capacity (i.last_error_size);
+      grew = true;
+    }
 
     return grew;
   }
 
-  void access::object_traits_impl< ::Message, id_mysql >::
+  void access::object_traits_impl< ::MessageOutbox, id_mysql >::
   bind (MYSQL_BIND* b,
         image_type& i,
         mysql::statement_kind sk)
@@ -177,14 +177,14 @@ namespace odb
       n++;
     }
 
-    // message_id
+    // task_type
     //
     b[n].buffer_type = MYSQL_TYPE_STRING;
-    b[n].buffer = i.message_id_value.data ();
+    b[n].buffer = i.task_type_value.data ();
     b[n].buffer_length = static_cast<unsigned long> (
-      i.message_id_value.capacity ());
-    b[n].length = &i.message_id_size;
-    b[n].is_null = &i.message_id_null;
+      i.task_type_value.capacity ());
+    b[n].length = &i.task_type_size;
+    b[n].is_null = &i.task_type_null;
     n++;
 
     // conversation_id
@@ -197,72 +197,84 @@ namespace odb
     b[n].is_null = &i.conversation_id_null;
     n++;
 
-    // sender_id
-    //
-    b[n].buffer_type = MYSQL_TYPE_STRING;
-    b[n].buffer = i.sender_id_value.data ();
-    b[n].buffer_length = static_cast<unsigned long> (
-      i.sender_id_value.capacity ());
-    b[n].length = &i.sender_id_size;
-    b[n].is_null = &i.sender_id_null;
-    n++;
-
-    // message_type
-    //
-    b[n].buffer_type = MYSQL_TYPE_LONG;
-    b[n].is_unsigned = 0;
-    b[n].buffer = &i.message_type_value;
-    b[n].is_null = &i.message_type_null;
-    n++;
-
-    // create_time
+    // msg_id
     //
     b[n].buffer_type = MYSQL_TYPE_LONGLONG;
     b[n].is_unsigned = 1;
-    b[n].buffer = &i.create_time_value;
-    b[n].is_null = &i.create_time_null;
+    b[n].buffer = &i.msg_id_value;
+    b[n].is_null = &i.msg_id_null;
     n++;
 
-    // text
+    // payload
     //
     b[n].buffer_type = MYSQL_TYPE_STRING;
-    b[n].buffer = i.text_value.data ();
+    b[n].buffer = i.payload_value.data ();
     b[n].buffer_length = static_cast<unsigned long> (
-      i.text_value.capacity ());
-    b[n].length = &i.text_size;
-    b[n].is_null = &i.text_null;
+      i.payload_value.capacity ());
+    b[n].length = &i.payload_size;
+    b[n].is_null = &i.payload_null;
     n++;
 
-    // file_id
-    //
-    b[n].buffer_type = MYSQL_TYPE_STRING;
-    b[n].buffer = i.file_id_value.data ();
-    b[n].buffer_length = static_cast<unsigned long> (
-      i.file_id_value.capacity ());
-    b[n].length = &i.file_id_size;
-    b[n].is_null = &i.file_id_null;
-    n++;
-
-    // file_name
-    //
-    b[n].buffer_type = MYSQL_TYPE_STRING;
-    b[n].buffer = i.file_name_value.data ();
-    b[n].buffer_length = static_cast<unsigned long> (
-      i.file_name_value.capacity ());
-    b[n].length = &i.file_name_size;
-    b[n].is_null = &i.file_name_null;
-    n++;
-
-    // file_size
+    // status
     //
     b[n].buffer_type = MYSQL_TYPE_LONG;
+    b[n].is_unsigned = 0;
+    b[n].buffer = &i.status_value;
+    b[n].is_null = &i.status_null;
+    n++;
+
+    // retry_count
+    //
+    b[n].buffer_type = MYSQL_TYPE_LONG;
+    b[n].is_unsigned = 0;
+    b[n].buffer = &i.retry_count_value;
+    b[n].is_null = &i.retry_count_null;
+    n++;
+
+    // max_retries
+    //
+    b[n].buffer_type = MYSQL_TYPE_LONG;
+    b[n].is_unsigned = 0;
+    b[n].buffer = &i.max_retries_value;
+    b[n].is_null = &i.max_retries_null;
+    n++;
+
+    // next_retry_at
+    //
+    b[n].buffer_type = MYSQL_TYPE_LONGLONG;
     b[n].is_unsigned = 1;
-    b[n].buffer = &i.file_size_value;
-    b[n].is_null = &i.file_size_null;
+    b[n].buffer = &i.next_retry_at_value;
+    b[n].is_null = &i.next_retry_at_null;
+    n++;
+
+    // created_at
+    //
+    b[n].buffer_type = MYSQL_TYPE_LONGLONG;
+    b[n].is_unsigned = 1;
+    b[n].buffer = &i.created_at_value;
+    b[n].is_null = &i.created_at_null;
+    n++;
+
+    // updated_at
+    //
+    b[n].buffer_type = MYSQL_TYPE_LONGLONG;
+    b[n].is_unsigned = 1;
+    b[n].buffer = &i.updated_at_value;
+    b[n].is_null = &i.updated_at_null;
+    n++;
+
+    // last_error
+    //
+    b[n].buffer_type = MYSQL_TYPE_STRING;
+    b[n].buffer = i.last_error_value.data ();
+    b[n].buffer_length = static_cast<unsigned long> (
+      i.last_error_value.capacity ());
+    b[n].length = &i.last_error_size;
+    b[n].is_null = &i.last_error_null;
     n++;
   }
 
-  void access::object_traits_impl< ::Message, id_mysql >::
+  void access::object_traits_impl< ::MessageOutbox, id_mysql >::
   bind (MYSQL_BIND* b, id_image_type& i)
   {
     std::size_t n (0);
@@ -272,7 +284,7 @@ namespace odb
     b[n].is_null = &i.id_null;
   }
 
-  bool access::object_traits_impl< ::Message, id_mysql >::
+  bool access::object_traits_impl< ::MessageOutbox, id_mysql >::
   init (image_type& i,
         const object_type& o,
         mysql::statement_kind sk)
@@ -289,36 +301,36 @@ namespace odb
     //
     if (sk == statement_insert)
     {
-      long unsigned int const& v =
+      long long unsigned int const& v =
         o.id;
 
       bool is_null (false);
       mysql::value_traits<
-          long unsigned int,
+          long long unsigned int,
           mysql::id_ulonglong >::set_image (
         i.id_value, is_null, v);
       i.id_null = is_null;
     }
 
-    // message_id
+    // task_type
     //
     {
       ::std::string const& v =
-        o.message_id;
+        o.task_type;
 
       bool is_null (false);
       std::size_t size (0);
-      std::size_t cap (i.message_id_value.capacity ());
+      std::size_t cap (i.task_type_value.capacity ());
       mysql::value_traits<
           ::std::string,
           mysql::id_string >::set_image (
-        i.message_id_value,
+        i.task_type_value,
         size,
         is_null,
         v);
-      i.message_id_null = is_null;
-      i.message_id_size = static_cast<unsigned long> (size);
-      grew = grew || (cap != i.message_id_value.capacity ());
+      i.task_type_null = is_null;
+      i.task_type_size = static_cast<unsigned long> (size);
+      grew = grew || (cap != i.task_type_value.capacity ());
     }
 
     // conversation_id
@@ -342,136 +354,150 @@ namespace odb
       grew = grew || (cap != i.conversation_id_value.capacity ());
     }
 
-    // sender_id
-    //
-    {
-      ::std::string const& v =
-        o.sender_id;
-
-      bool is_null (false);
-      std::size_t size (0);
-      std::size_t cap (i.sender_id_value.capacity ());
-      mysql::value_traits<
-          ::std::string,
-          mysql::id_string >::set_image (
-        i.sender_id_value,
-        size,
-        is_null,
-        v);
-      i.sender_id_null = is_null;
-      i.sender_id_size = static_cast<unsigned long> (size);
-      grew = grew || (cap != i.sender_id_value.capacity ());
-    }
-
-    // message_type
-    //
-    {
-      int const& v =
-        o.message_type;
-
-      bool is_null (false);
-      mysql::value_traits<
-          int,
-          mysql::id_long >::set_image (
-        i.message_type_value, is_null, v);
-      i.message_type_null = is_null;
-    }
-
-    // create_time
+    // msg_id
     //
     {
       long long unsigned int const& v =
-        o.create_time;
+        o.msg_id;
 
       bool is_null (false);
       mysql::value_traits<
           long long unsigned int,
           mysql::id_ulonglong >::set_image (
-        i.create_time_value, is_null, v);
-      i.create_time_null = is_null;
+        i.msg_id_value, is_null, v);
+      i.msg_id_null = is_null;
     }
 
-    // text
+    // payload
     //
     {
-      ::odb::nullable< ::std::basic_string< char > > const& v =
-        o.text;
+      ::std::string const& v =
+        o.payload;
 
-      bool is_null (true);
+      bool is_null (false);
       std::size_t size (0);
-      std::size_t cap (i.text_value.capacity ());
+      std::size_t cap (i.payload_value.capacity ());
       mysql::value_traits<
-          ::odb::nullable< ::std::basic_string< char > >,
+          ::std::string,
           mysql::id_string >::set_image (
-        i.text_value,
+        i.payload_value,
         size,
         is_null,
         v);
-      i.text_null = is_null;
-      i.text_size = static_cast<unsigned long> (size);
-      grew = grew || (cap != i.text_value.capacity ());
+      i.payload_null = is_null;
+      i.payload_size = static_cast<unsigned long> (size);
+      grew = grew || (cap != i.payload_value.capacity ());
     }
 
-    // file_id
+    // status
+    //
+    {
+      int const& v =
+        o.status;
+
+      bool is_null (false);
+      mysql::value_traits<
+          int,
+          mysql::id_long >::set_image (
+        i.status_value, is_null, v);
+      i.status_null = is_null;
+    }
+
+    // retry_count
+    //
+    {
+      int const& v =
+        o.retry_count;
+
+      bool is_null (false);
+      mysql::value_traits<
+          int,
+          mysql::id_long >::set_image (
+        i.retry_count_value, is_null, v);
+      i.retry_count_null = is_null;
+    }
+
+    // max_retries
+    //
+    {
+      int const& v =
+        o.max_retries;
+
+      bool is_null (false);
+      mysql::value_traits<
+          int,
+          mysql::id_long >::set_image (
+        i.max_retries_value, is_null, v);
+      i.max_retries_null = is_null;
+    }
+
+    // next_retry_at
+    //
+    {
+      long long unsigned int const& v =
+        o.next_retry_at;
+
+      bool is_null (false);
+      mysql::value_traits<
+          long long unsigned int,
+          mysql::id_ulonglong >::set_image (
+        i.next_retry_at_value, is_null, v);
+      i.next_retry_at_null = is_null;
+    }
+
+    // created_at
+    //
+    {
+      long long unsigned int const& v =
+        o.created_at;
+
+      bool is_null (false);
+      mysql::value_traits<
+          long long unsigned int,
+          mysql::id_ulonglong >::set_image (
+        i.created_at_value, is_null, v);
+      i.created_at_null = is_null;
+    }
+
+    // updated_at
+    //
+    {
+      long long unsigned int const& v =
+        o.updated_at;
+
+      bool is_null (false);
+      mysql::value_traits<
+          long long unsigned int,
+          mysql::id_ulonglong >::set_image (
+        i.updated_at_value, is_null, v);
+      i.updated_at_null = is_null;
+    }
+
+    // last_error
     //
     {
       ::odb::nullable< ::std::basic_string< char > > const& v =
-        o.file_id;
+        o.last_error;
 
       bool is_null (true);
       std::size_t size (0);
-      std::size_t cap (i.file_id_value.capacity ());
+      std::size_t cap (i.last_error_value.capacity ());
       mysql::value_traits<
           ::odb::nullable< ::std::basic_string< char > >,
           mysql::id_string >::set_image (
-        i.file_id_value,
+        i.last_error_value,
         size,
         is_null,
         v);
-      i.file_id_null = is_null;
-      i.file_id_size = static_cast<unsigned long> (size);
-      grew = grew || (cap != i.file_id_value.capacity ());
-    }
-
-    // file_name
-    //
-    {
-      ::odb::nullable< ::std::basic_string< char > > const& v =
-        o.file_name;
-
-      bool is_null (true);
-      std::size_t size (0);
-      std::size_t cap (i.file_name_value.capacity ());
-      mysql::value_traits<
-          ::odb::nullable< ::std::basic_string< char > >,
-          mysql::id_string >::set_image (
-        i.file_name_value,
-        size,
-        is_null,
-        v);
-      i.file_name_null = is_null;
-      i.file_name_size = static_cast<unsigned long> (size);
-      grew = grew || (cap != i.file_name_value.capacity ());
-    }
-
-    // file_size
-    //
-    {
-      ::odb::nullable< unsigned int > const& v =
-        o.file_size;
-
-      bool is_null (true);
-      mysql::value_traits<
-          ::odb::nullable< unsigned int >,
-          mysql::id_ulong >::set_image (
-        i.file_size_value, is_null, v);
-      i.file_size_null = is_null;
+      i.last_error_null = is_null;
+      i.last_error_size = static_cast<unsigned long> (size);
+      grew = grew || (cap != i.last_error_value.capacity ());
     }
 
     return grew;
   }
 
-  void access::object_traits_impl< ::Message, id_mysql >::
+  void access::object_traits_impl< ::MessageOutbox, id_mysql >::
   init (object_type& o,
         const image_type& i,
         database* db)
@@ -483,30 +509,30 @@ namespace odb
     // id
     //
     {
-      long unsigned int& v =
+      long long unsigned int& v =
         o.id;
 
       mysql::value_traits<
-          long unsigned int,
+          long long unsigned int,
           mysql::id_ulonglong >::set_value (
         v,
         i.id_value,
         i.id_null);
     }
 
-    // message_id
+    // task_type
     //
     {
       ::std::string& v =
-        o.message_id;
+        o.task_type;
 
       mysql::value_traits<
           ::std::string,
           mysql::id_string >::set_value (
         v,
-        i.message_id_value,
-        i.message_id_size,
-        i.message_id_null);
+        i.task_type_value,
+        i.task_type_size,
+        i.task_type_null);
     }
 
     // conversation_id
@@ -524,191 +550,225 @@ namespace odb
         i.conversation_id_null);
     }
 
-    // sender_id
-    //
-    {
-      ::std::string& v =
-        o.sender_id;
-
-      mysql::value_traits<
-          ::std::string,
-          mysql::id_string >::set_value (
-        v,
-        i.sender_id_value,
-        i.sender_id_size,
-        i.sender_id_null);
-    }
-
-    // message_type
-    //
-    {
-      int& v =
-        o.message_type;
-
-      mysql::value_traits<
-          int,
-          mysql::id_long >::set_value (
-        v,
-        i.message_type_value,
-        i.message_type_null);
-    }
-
-    // create_time
+    // msg_id
     //
     {
       long long unsigned int& v =
-        o.create_time;
+        o.msg_id;
 
       mysql::value_traits<
           long long unsigned int,
           mysql::id_ulonglong >::set_value (
         v,
-        i.create_time_value,
-        i.create_time_null);
+        i.msg_id_value,
+        i.msg_id_null);
     }
 
-    // text
+    // payload
+    //
+    {
+      ::std::string& v =
+        o.payload;
+
+      mysql::value_traits<
+          ::std::string,
+          mysql::id_string >::set_value (
+        v,
+        i.payload_value,
+        i.payload_size,
+        i.payload_null);
+    }
+
+    // status
+    //
+    {
+      int& v =
+        o.status;
+
+      mysql::value_traits<
+          int,
+          mysql::id_long >::set_value (
+        v,
+        i.status_value,
+        i.status_null);
+    }
+
+    // retry_count
+    //
+    {
+      int& v =
+        o.retry_count;
+
+      mysql::value_traits<
+          int,
+          mysql::id_long >::set_value (
+        v,
+        i.retry_count_value,
+        i.retry_count_null);
+    }
+
+    // max_retries
+    //
+    {
+      int& v =
+        o.max_retries;
+
+      mysql::value_traits<
+          int,
+          mysql::id_long >::set_value (
+        v,
+        i.max_retries_value,
+        i.max_retries_null);
+    }
+
+    // next_retry_at
+    //
+    {
+      long long unsigned int& v =
+        o.next_retry_at;
+
+      mysql::value_traits<
+          long long unsigned int,
+          mysql::id_ulonglong >::set_value (
+        v,
+        i.next_retry_at_value,
+        i.next_retry_at_null);
+    }
+
+    // created_at
+    //
+    {
+      long long unsigned int& v =
+        o.created_at;
+
+      mysql::value_traits<
+          long long unsigned int,
+          mysql::id_ulonglong >::set_value (
+        v,
+        i.created_at_value,
+        i.created_at_null);
+    }
+
+    // updated_at
+    //
+    {
+      long long unsigned int& v =
+        o.updated_at;
+
+      mysql::value_traits<
+          long long unsigned int,
+          mysql::id_ulonglong >::set_value (
+        v,
+        i.updated_at_value,
+        i.updated_at_null);
+    }
+
+    // last_error
     //
     {
       ::odb::nullable< ::std::basic_string< char > >& v =
-        o.text;
+        o.last_error;
 
       mysql::value_traits<
           ::odb::nullable< ::std::basic_string< char > >,
           mysql::id_string >::set_value (
         v,
-        i.text_value,
-        i.text_size,
-        i.text_null);
-    }
-
-    // file_id
-    //
-    {
-      ::odb::nullable< ::std::basic_string< char > >& v =
-        o.file_id;
-
-      mysql::value_traits<
-          ::odb::nullable< ::std::basic_string< char > >,
-          mysql::id_string >::set_value (
-        v,
-        i.file_id_value,
-        i.file_id_size,
-        i.file_id_null);
-    }
-
-    // file_name
-    //
-    {
-      ::odb::nullable< ::std::basic_string< char > >& v =
-        o.file_name;
-
-      mysql::value_traits<
-          ::odb::nullable< ::std::basic_string< char > >,
-          mysql::id_string >::set_value (
-        v,
-        i.file_name_value,
-        i.file_name_size,
-        i.file_name_null);
-    }
-
-    // file_size
-    //
-    {
-      ::odb::nullable< unsigned int >& v =
-        o.file_size;
-
-      mysql::value_traits<
-          ::odb::nullable< unsigned int >,
-          mysql::id_ulong >::set_value (
-        v,
-        i.file_size_value,
-        i.file_size_null);
+        i.last_error_value,
+        i.last_error_size,
+        i.last_error_null);
     }
   }
 
-  void access::object_traits_impl< ::Message, id_mysql >::
+  void access::object_traits_impl< ::MessageOutbox, id_mysql >::
   init (id_image_type& i, const id_type& id)
   {
     {
       bool is_null (false);
       mysql::value_traits<
-          long unsigned int,
+          long long unsigned int,
           mysql::id_ulonglong >::set_image (
         i.id_value, is_null, id);
       i.id_null = is_null;
     }
   }
 
-  const char access::object_traits_impl< ::Message, id_mysql >::persist_statement[] =
-  "INSERT INTO `message` "
+  const char access::object_traits_impl< ::MessageOutbox, id_mysql >::persist_statement[] =
+  "INSERT INTO `message_outbox` "
   "(`id`, "
-  "`message_id`, "
+  "`task_type`, "
   "`conversation_id`, "
-  "`sender_id`, "
-  "`message_type`, "
-  "`create_time`, "
-  "`text`, "
-  "`file_id`, "
-  "`file_name`, "
-  "`file_size`) "
+  "`msg_id`, "
+  "`payload`, "
+  "`status`, "
+  "`retry_count`, "
+  "`max_retries`, "
+  "`next_retry_at`, "
+  "`created_at`, "
+  "`updated_at`, "
+  "`last_error`) "
   "VALUES "
-  "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-  const char access::object_traits_impl< ::Message, id_mysql >::find_statement[] =
+  const char access::object_traits_impl< ::MessageOutbox, id_mysql >::find_statement[] =
   "SELECT "
-  "`message`.`id`, "
-  "`message`.`message_id`, "
-  "`message`.`conversation_id`, "
-  "`message`.`sender_id`, "
-  "`message`.`message_type`, "
-  "`message`.`create_time`, "
-  "`message`.`text`, "
-  "`message`.`file_id`, "
-  "`message`.`file_name`, "
-  "`message`.`file_size` "
-  "FROM `message` "
-  "WHERE `message`.`id`=?";
+  "`message_outbox`.`id`, "
+  "`message_outbox`.`task_type`, "
+  "`message_outbox`.`conversation_id`, "
+  "`message_outbox`.`msg_id`, "
+  "`message_outbox`.`payload`, "
+  "`message_outbox`.`status`, "
+  "`message_outbox`.`retry_count`, "
+  "`message_outbox`.`max_retries`, "
+  "`message_outbox`.`next_retry_at`, "
+  "`message_outbox`.`created_at`, "
+  "`message_outbox`.`updated_at`, "
+  "`message_outbox`.`last_error` "
+  "FROM `message_outbox` "
+  "WHERE `message_outbox`.`id`=?";
 
-  const char access::object_traits_impl< ::Message, id_mysql >::update_statement[] =
-  "UPDATE `message` "
+  const char access::object_traits_impl< ::MessageOutbox, id_mysql >::update_statement[] =
+  "UPDATE `message_outbox` "
   "SET "
-  "`message_id`=?, "
+  "`task_type`=?, "
   "`conversation_id`=?, "
-  "`sender_id`=?, "
-  "`message_type`=?, "
-  "`create_time`=?, "
-  "`text`=?, "
-  "`file_id`=?, "
-  "`file_name`=?, "
-  "`file_size`=? "
+  "`msg_id`=?, "
+  "`payload`=?, "
+  "`status`=?, "
+  "`retry_count`=?, "
+  "`max_retries`=?, "
+  "`next_retry_at`=?, "
+  "`created_at`=?, "
+  "`updated_at`=?, "
+  "`last_error`=? "
   "WHERE `id`=?";
 
-  const char access::object_traits_impl< ::Message, id_mysql >::erase_statement[] =
-  "DELETE FROM `message` "
+  const char access::object_traits_impl< ::MessageOutbox, id_mysql >::erase_statement[] =
+  "DELETE FROM `message_outbox` "
   "WHERE `id`=?";
 
-  const char access::object_traits_impl< ::Message, id_mysql >::query_statement[] =
+  const char access::object_traits_impl< ::MessageOutbox, id_mysql >::query_statement[] =
   "SELECT "
-  "`message`.`id`, "
-  "`message`.`message_id`, "
-  "`message`.`conversation_id`, "
-  "`message`.`sender_id`, "
-  "`message`.`message_type`, "
-  "`message`.`create_time`, "
-  "`message`.`text`, "
-  "`message`.`file_id`, "
-  "`message`.`file_name`, "
-  "`message`.`file_size` "
-  "FROM `message`";
+  "`message_outbox`.`id`, "
+  "`message_outbox`.`task_type`, "
+  "`message_outbox`.`conversation_id`, "
+  "`message_outbox`.`msg_id`, "
+  "`message_outbox`.`payload`, "
+  "`message_outbox`.`status`, "
+  "`message_outbox`.`retry_count`, "
+  "`message_outbox`.`max_retries`, "
+  "`message_outbox`.`next_retry_at`, "
+  "`message_outbox`.`created_at`, "
+  "`message_outbox`.`updated_at`, "
+  "`message_outbox`.`last_error` "
+  "FROM `message_outbox`";
 
-  const char access::object_traits_impl< ::Message, id_mysql >::erase_query_statement[] =
-  "DELETE FROM `message`";
+  const char access::object_traits_impl< ::MessageOutbox, id_mysql >::erase_query_statement[] =
+  "DELETE FROM `message_outbox`";
 
-  const char access::object_traits_impl< ::Message, id_mysql >::table_name[] =
-  "`message`";
+  const char access::object_traits_impl< ::MessageOutbox, id_mysql >::table_name[] =
+  "`message_outbox`";
 
-  void access::object_traits_impl< ::Message, id_mysql >::
+  void access::object_traits_impl< ::MessageOutbox, id_mysql >::
   persist (database& db, object_type& obj)
   {
     ODB_POTENTIALLY_UNUSED (db);
@@ -762,7 +822,7 @@ namespace odb
               callback_event::post_persist);
   }
 
-  void access::object_traits_impl< ::Message, id_mysql >::
+  void access::object_traits_impl< ::MessageOutbox, id_mysql >::
   update (database& db, const object_type& obj)
   {
     ODB_POTENTIALLY_UNUSED (db);
@@ -823,7 +883,7 @@ namespace odb
     pointer_cache_traits::update (db, obj);
   }
 
-  void access::object_traits_impl< ::Message, id_mysql >::
+  void access::object_traits_impl< ::MessageOutbox, id_mysql >::
   erase (database& db, const id_type& id)
   {
     using namespace mysql;
@@ -852,8 +912,8 @@ namespace odb
     pointer_cache_traits::erase (db, id);
   }
 
-  access::object_traits_impl< ::Message, id_mysql >::pointer_type
-  access::object_traits_impl< ::Message, id_mysql >::
+  access::object_traits_impl< ::MessageOutbox, id_mysql >::pointer_type
+  access::object_traits_impl< ::MessageOutbox, id_mysql >::
   find (database& db, const id_type& id)
   {
     using namespace mysql;
@@ -908,7 +968,7 @@ namespace odb
     return p;
   }
 
-  bool access::object_traits_impl< ::Message, id_mysql >::
+  bool access::object_traits_impl< ::MessageOutbox, id_mysql >::
   find (database& db, const id_type& id, object_type& obj)
   {
     using namespace mysql;
@@ -941,7 +1001,7 @@ namespace odb
     return true;
   }
 
-  bool access::object_traits_impl< ::Message, id_mysql >::
+  bool access::object_traits_impl< ::MessageOutbox, id_mysql >::
   reload (database& db, object_type& obj)
   {
     using namespace mysql;
@@ -971,7 +1031,7 @@ namespace odb
     return true;
   }
 
-  bool access::object_traits_impl< ::Message, id_mysql >::
+  bool access::object_traits_impl< ::MessageOutbox, id_mysql >::
   find_ (statements_type& sts,
          const id_type* id)
   {
@@ -1022,8 +1082,8 @@ namespace odb
     return r != select_statement::no_data;
   }
 
-  result< access::object_traits_impl< ::Message, id_mysql >::object_type >
-  access::object_traits_impl< ::Message, id_mysql >::
+  result< access::object_traits_impl< ::MessageOutbox, id_mysql >::object_type >
+  access::object_traits_impl< ::MessageOutbox, id_mysql >::
   query (database&, const query_base_type& q)
   {
     using namespace mysql;
@@ -1073,7 +1133,7 @@ namespace odb
     return result<object_type> (r);
   }
 
-  unsigned long long access::object_traits_impl< ::Message, id_mysql >::
+  unsigned long long access::object_traits_impl< ::MessageOutbox, id_mysql >::
   erase_query (database&, const query_base_type& q)
   {
     using namespace mysql;

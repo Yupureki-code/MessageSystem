@@ -68,12 +68,13 @@ message MessageContent {
         ImageMessageInfo image_message = 5;//图片消息
     };
 }
+
 //消息结构
 message MessageInfo {
     string message_id = 1;//消息ID
     string conversation_id = 2;//消息所属聊天会话ID
     int64 timestamp = 3;//消息产生时间
-    UserInfo sender = 4;//消息发送者信息
+    string sender_id = 4;//消息发送者ID
     MessageContent message = 5;
 }
 

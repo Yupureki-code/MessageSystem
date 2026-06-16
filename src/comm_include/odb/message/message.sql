@@ -10,8 +10,8 @@ CREATE TABLE `message` (
   `conversation_id` varchar(64) NOT NULL,
   `sender_id` varchar(64) NOT NULL,
   `message_type` INT NOT NULL,
-  `create_time` TIMESTAMP NULL,
-  `content` TEXT NULL,
+  `create_time` BIGINT UNSIGNED NOT NULL,
+  `text` TEXT NULL,
   `file_id` varchar(64) NULL,
   `file_name` varchar(128) NULL,
   `file_size` INT UNSIGNED NULL)

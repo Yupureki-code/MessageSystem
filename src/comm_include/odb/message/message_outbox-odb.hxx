@@ -2,8 +2,8 @@
 // compiler for C++.
 //
 
-#ifndef MESSAGE_ODB_HXX
-#define MESSAGE_ODB_HXX
+#ifndef MESSAGE_OUTBOX_ODB_HXX
+#define MESSAGE_OUTBOX_ODB_HXX
 
 #include <odb/version.hxx>
 
@@ -13,10 +13,11 @@
 
 #include <odb/pre.hxx>
 
-#include "message.hxx"
+#include "message_outbox.hxx"
 
 #include <memory>
 #include <cstddef>
+#include <utility>
 
 #include <odb/core.hxx>
 #include <odb/traits.hxx>
@@ -33,25 +34,25 @@
 
 namespace odb
 {
-  // Message
+  // MessageOutbox
   //
   template <>
-  struct class_traits< ::Message >
+  struct class_traits< ::MessageOutbox >
   {
     static const class_kind kind = class_object;
   };
 
   template <>
-  class access::object_traits< ::Message >
+  class access::object_traits< ::MessageOutbox >
   {
     public:
-    typedef ::Message object_type;
-    typedef ::Message* pointer_type;
+    typedef ::MessageOutbox object_type;
+    typedef ::MessageOutbox* pointer_type;
     typedef odb::pointer_traits<pointer_type> pointer_traits;
 
     static const bool polymorphic = false;
 
-    typedef long unsigned int id_type;
+    typedef long long unsigned int id_type;
 
     static const bool auto_id = true;
 
@@ -86,24 +87,24 @@ namespace odb
 
 namespace odb
 {
-  // Message
+  // MessageOutbox
   //
   template <typename A>
-  struct query_columns< ::Message, id_mysql, A >
+  struct query_columns< ::MessageOutbox, id_mysql, A >
   {
     // id
     //
     typedef
     mysql::query_column<
       mysql::value_traits<
-        long unsigned int,
+        long long unsigned int,
         mysql::id_ulonglong >::query_type,
       mysql::id_ulonglong >
     id_type_;
 
     static const id_type_ id;
 
-    // message_id
+    // task_type
     //
     typedef
     mysql::query_column<
@@ -111,9 +112,9 @@ namespace odb
         ::std::string,
         mysql::id_string >::query_type,
       mysql::id_string >
-    message_id_type_;
+    task_type_type_;
 
-    static const message_id_type_ message_id;
+    static const task_type_type_ task_type;
 
     // conversation_id
     //
@@ -127,31 +128,7 @@ namespace odb
 
     static const conversation_id_type_ conversation_id;
 
-    // sender_id
-    //
-    typedef
-    mysql::query_column<
-      mysql::value_traits<
-        ::std::string,
-        mysql::id_string >::query_type,
-      mysql::id_string >
-    sender_id_type_;
-
-    static const sender_id_type_ sender_id;
-
-    // message_type
-    //
-    typedef
-    mysql::query_column<
-      mysql::value_traits<
-        int,
-        mysql::id_long >::query_type,
-      mysql::id_long >
-    message_type_type_;
-
-    static const message_type_type_ message_type;
-
-    // create_time
+    // msg_id
     //
     typedef
     mysql::query_column<
@@ -159,11 +136,95 @@ namespace odb
         long long unsigned int,
         mysql::id_ulonglong >::query_type,
       mysql::id_ulonglong >
-    create_time_type_;
+    msg_id_type_;
 
-    static const create_time_type_ create_time;
+    static const msg_id_type_ msg_id;
 
-    // text
+    // payload
+    //
+    typedef
+    mysql::query_column<
+      mysql::value_traits<
+        ::std::string,
+        mysql::id_string >::query_type,
+      mysql::id_string >
+    payload_type_;
+
+    static const payload_type_ payload;
+
+    // status
+    //
+    typedef
+    mysql::query_column<
+      mysql::value_traits<
+        int,
+        mysql::id_long >::query_type,
+      mysql::id_long >
+    status_type_;
+
+    static const status_type_ status;
+
+    // retry_count
+    //
+    typedef
+    mysql::query_column<
+      mysql::value_traits<
+        int,
+        mysql::id_long >::query_type,
+      mysql::id_long >
+    retry_count_type_;
+
+    static const retry_count_type_ retry_count;
+
+    // max_retries
+    //
+    typedef
+    mysql::query_column<
+      mysql::value_traits<
+        int,
+        mysql::id_long >::query_type,
+      mysql::id_long >
+    max_retries_type_;
+
+    static const max_retries_type_ max_retries;
+
+    // next_retry_at
+    //
+    typedef
+    mysql::query_column<
+      mysql::value_traits<
+        long long unsigned int,
+        mysql::id_ulonglong >::query_type,
+      mysql::id_ulonglong >
+    next_retry_at_type_;
+
+    static const next_retry_at_type_ next_retry_at;
+
+    // created_at
+    //
+    typedef
+    mysql::query_column<
+      mysql::value_traits<
+        long long unsigned int,
+        mysql::id_ulonglong >::query_type,
+      mysql::id_ulonglong >
+    created_at_type_;
+
+    static const created_at_type_ created_at;
+
+    // updated_at
+    //
+    typedef
+    mysql::query_column<
+      mysql::value_traits<
+        long long unsigned int,
+        mysql::id_ulonglong >::query_type,
+      mysql::id_ulonglong >
+    updated_at_type_;
+
+    static const updated_at_type_ updated_at;
+
+    // last_error
     //
     typedef
     mysql::query_column<
@@ -171,106 +232,80 @@ namespace odb
         ::std::basic_string< char >,
         mysql::id_string >::query_type,
       mysql::id_string >
-    text_type_;
+    last_error_type_;
 
-    static const text_type_ text;
-
-    // file_id
-    //
-    typedef
-    mysql::query_column<
-      mysql::value_traits<
-        ::std::basic_string< char >,
-        mysql::id_string >::query_type,
-      mysql::id_string >
-    file_id_type_;
-
-    static const file_id_type_ file_id;
-
-    // file_name
-    //
-    typedef
-    mysql::query_column<
-      mysql::value_traits<
-        ::std::basic_string< char >,
-        mysql::id_string >::query_type,
-      mysql::id_string >
-    file_name_type_;
-
-    static const file_name_type_ file_name;
-
-    // file_size
-    //
-    typedef
-    mysql::query_column<
-      mysql::value_traits<
-        unsigned int,
-        mysql::id_ulong >::query_type,
-      mysql::id_ulong >
-    file_size_type_;
-
-    static const file_size_type_ file_size;
+    static const last_error_type_ last_error;
   };
 
   template <typename A>
-  const typename query_columns< ::Message, id_mysql, A >::id_type_
-  query_columns< ::Message, id_mysql, A >::
+  const typename query_columns< ::MessageOutbox, id_mysql, A >::id_type_
+  query_columns< ::MessageOutbox, id_mysql, A >::
   id (A::table_name, "`id`", 0);
 
   template <typename A>
-  const typename query_columns< ::Message, id_mysql, A >::message_id_type_
-  query_columns< ::Message, id_mysql, A >::
-  message_id (A::table_name, "`message_id`", 0);
+  const typename query_columns< ::MessageOutbox, id_mysql, A >::task_type_type_
+  query_columns< ::MessageOutbox, id_mysql, A >::
+  task_type (A::table_name, "`task_type`", 0);
 
   template <typename A>
-  const typename query_columns< ::Message, id_mysql, A >::conversation_id_type_
-  query_columns< ::Message, id_mysql, A >::
+  const typename query_columns< ::MessageOutbox, id_mysql, A >::conversation_id_type_
+  query_columns< ::MessageOutbox, id_mysql, A >::
   conversation_id (A::table_name, "`conversation_id`", 0);
 
   template <typename A>
-  const typename query_columns< ::Message, id_mysql, A >::sender_id_type_
-  query_columns< ::Message, id_mysql, A >::
-  sender_id (A::table_name, "`sender_id`", 0);
+  const typename query_columns< ::MessageOutbox, id_mysql, A >::msg_id_type_
+  query_columns< ::MessageOutbox, id_mysql, A >::
+  msg_id (A::table_name, "`msg_id`", 0);
 
   template <typename A>
-  const typename query_columns< ::Message, id_mysql, A >::message_type_type_
-  query_columns< ::Message, id_mysql, A >::
-  message_type (A::table_name, "`message_type`", 0);
+  const typename query_columns< ::MessageOutbox, id_mysql, A >::payload_type_
+  query_columns< ::MessageOutbox, id_mysql, A >::
+  payload (A::table_name, "`payload`", 0);
 
   template <typename A>
-  const typename query_columns< ::Message, id_mysql, A >::create_time_type_
-  query_columns< ::Message, id_mysql, A >::
-  create_time (A::table_name, "`create_time`", 0);
+  const typename query_columns< ::MessageOutbox, id_mysql, A >::status_type_
+  query_columns< ::MessageOutbox, id_mysql, A >::
+  status (A::table_name, "`status`", 0);
 
   template <typename A>
-  const typename query_columns< ::Message, id_mysql, A >::text_type_
-  query_columns< ::Message, id_mysql, A >::
-  text (A::table_name, "`text`", 0);
+  const typename query_columns< ::MessageOutbox, id_mysql, A >::retry_count_type_
+  query_columns< ::MessageOutbox, id_mysql, A >::
+  retry_count (A::table_name, "`retry_count`", 0);
 
   template <typename A>
-  const typename query_columns< ::Message, id_mysql, A >::file_id_type_
-  query_columns< ::Message, id_mysql, A >::
-  file_id (A::table_name, "`file_id`", 0);
+  const typename query_columns< ::MessageOutbox, id_mysql, A >::max_retries_type_
+  query_columns< ::MessageOutbox, id_mysql, A >::
+  max_retries (A::table_name, "`max_retries`", 0);
 
   template <typename A>
-  const typename query_columns< ::Message, id_mysql, A >::file_name_type_
-  query_columns< ::Message, id_mysql, A >::
-  file_name (A::table_name, "`file_name`", 0);
+  const typename query_columns< ::MessageOutbox, id_mysql, A >::next_retry_at_type_
+  query_columns< ::MessageOutbox, id_mysql, A >::
+  next_retry_at (A::table_name, "`next_retry_at`", 0);
 
   template <typename A>
-  const typename query_columns< ::Message, id_mysql, A >::file_size_type_
-  query_columns< ::Message, id_mysql, A >::
-  file_size (A::table_name, "`file_size`", 0);
+  const typename query_columns< ::MessageOutbox, id_mysql, A >::created_at_type_
+  query_columns< ::MessageOutbox, id_mysql, A >::
+  created_at (A::table_name, "`created_at`", 0);
 
   template <typename A>
-  struct pointer_query_columns< ::Message, id_mysql, A >:
-    query_columns< ::Message, id_mysql, A >
+  const typename query_columns< ::MessageOutbox, id_mysql, A >::updated_at_type_
+  query_columns< ::MessageOutbox, id_mysql, A >::
+  updated_at (A::table_name, "`updated_at`", 0);
+
+  template <typename A>
+  const typename query_columns< ::MessageOutbox, id_mysql, A >::last_error_type_
+  query_columns< ::MessageOutbox, id_mysql, A >::
+  last_error (A::table_name, "`last_error`", 0);
+
+  template <typename A>
+  struct pointer_query_columns< ::MessageOutbox, id_mysql, A >:
+    query_columns< ::MessageOutbox, id_mysql, A >
   {
   };
 
   template <>
-  class access::object_traits_impl< ::Message, id_mysql >:
-    public access::object_traits< ::Message >
+  class access::object_traits_impl< ::MessageOutbox, id_mysql >:
+    public access::object_traits< ::MessageOutbox >
   {
     public:
     struct id_image_type
@@ -288,11 +323,11 @@ namespace odb
       unsigned long long id_value;
       my_bool id_null;
 
-      // message_id
+      // task_type
       //
-      details::buffer message_id_value;
-      unsigned long message_id_size;
-      my_bool message_id_null;
+      details::buffer task_type_value;
+      unsigned long task_type_size;
+      my_bool task_type_null;
 
       // conversation_id
       //
@@ -300,44 +335,52 @@ namespace odb
       unsigned long conversation_id_size;
       my_bool conversation_id_null;
 
-      // sender_id
+      // msg_id
       //
-      details::buffer sender_id_value;
-      unsigned long sender_id_size;
-      my_bool sender_id_null;
+      unsigned long long msg_id_value;
+      my_bool msg_id_null;
 
-      // message_type
+      // payload
       //
-      int message_type_value;
-      my_bool message_type_null;
+      details::buffer payload_value;
+      unsigned long payload_size;
+      my_bool payload_null;
 
-      // create_time
+      // status
       //
-      unsigned long long create_time_value;
-      my_bool create_time_null;
+      int status_value;
+      my_bool status_null;
 
-      // text
+      // retry_count
       //
-      details::buffer text_value;
-      unsigned long text_size;
-      my_bool text_null;
+      int retry_count_value;
+      my_bool retry_count_null;
 
-      // file_id
+      // max_retries
       //
-      details::buffer file_id_value;
-      unsigned long file_id_size;
-      my_bool file_id_null;
+      int max_retries_value;
+      my_bool max_retries_null;
 
-      // file_name
+      // next_retry_at
       //
-      details::buffer file_name_value;
-      unsigned long file_name_size;
-      my_bool file_name_null;
+      unsigned long long next_retry_at_value;
+      my_bool next_retry_at_null;
 
-      // file_size
+      // created_at
       //
-      unsigned int file_size_value;
-      my_bool file_size_null;
+      unsigned long long created_at_value;
+      my_bool created_at_null;
+
+      // updated_at
+      //
+      unsigned long long updated_at_value;
+      my_bool updated_at_null;
+
+      // last_error
+      //
+      details::buffer last_error_value;
+      unsigned long last_error_size;
+      my_bool last_error_null;
 
       std::size_t version;
     };
@@ -381,7 +424,7 @@ namespace odb
 
     typedef mysql::query_base query_base_type;
 
-    static const std::size_t column_count = 10UL;
+    static const std::size_t column_count = 12UL;
     static const std::size_t id_column_count = 1UL;
     static const std::size_t inverse_column_count = 0UL;
     static const std::size_t readonly_column_count = 0UL;
@@ -440,17 +483,17 @@ namespace odb
   };
 
   template <>
-  class access::object_traits_impl< ::Message, id_common >:
-    public access::object_traits_impl< ::Message, id_mysql >
+  class access::object_traits_impl< ::MessageOutbox, id_common >:
+    public access::object_traits_impl< ::MessageOutbox, id_mysql >
   {
   };
 
-  // Message
+  // MessageOutbox
   //
 }
 
-#include "message-odb.ixx"
+#include "message_outbox-odb.ixx"
 
 #include <odb/post.hxx>
 
-#endif // MESSAGE_ODB_HXX
+#endif // MESSAGE_OUTBOX_ODB_HXX

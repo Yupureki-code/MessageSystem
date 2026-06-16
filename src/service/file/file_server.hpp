@@ -6,6 +6,7 @@
 #include "../../comm_include/etcd.hpp"
 #include "../../comm_include/channel.hpp"
 #include <brpc/server.h>
+#include <cerrno>
 
 namespace messageSystem
 {
@@ -18,11 +19,12 @@ namespace messageSystem
             response->set_errmsg(rep.errmsg);
             LOG_ERROR("{} {}!", request->request_id(),rep.errmsg);
         }
-        void HandlerError(const ::messageSystem::PutFileReq* request,::messageSystem::PutFileRsp* response,const fileUtil::Response& rep)
+        void HandlerError(CommRsp* response, const std::string& request_id, const std::string& errmsg)
         {
-            response->set_success(false);
-            response->set_errmsg(rep.errmsg);
-            LOG_ERROR("{} {}!", request->request_id(),rep.errmsg);
+            response->set_status(false);
+            response->set_errmsg(errmsg);
+            response->set_request_id(request_id);
+            LOG_ERROR("{} {}!", request_id, errmsg);
         }
     public:
         FileServiceImpl(const std::string &storage_path):
@@ -83,7 +85,7 @@ namespace messageSystem
         }
         void PutSingleFile(google::protobuf::RpcController* controller,
                     const ::messageSystem::PutFileReq* request,
-                    ::messageSystem::PutFileRsp* response,
+                    ::messageSystem::CommRsp* response,
                     ::google::protobuf::Closure* done) 
         {
             brpc::ClosureGuard rpc_guard(done);
@@ -95,19 +97,15 @@ namespace messageSystem
             auto ret = _file.write(_storage_path, fid,request->file_data(0).file_content());
             if (ret.status == false) 
             {
-                HandlerError(request, response, ret);
+                HandlerError(response, request->request_id(), ret.errmsg);
                 return;
             }
             //3. 组织响应
-            response->set_success(true);
-            auto *info = response->add_file_info();
-            info->set_file_id(fid);
-            info->set_file_size(request->file_data(0).file_size());
-            info->set_file_name(request->file_data(0).file_name());
+            response->set_status(true);
         }
         void PutMultiFile(google::protobuf::RpcController* controller,
                     const ::messageSystem::PutFileReq* request,
-                    ::messageSystem::PutFileRsp* response,
+                    ::messageSystem::CommRsp* response,
                     ::google::protobuf::Closure* done) 
         {
             brpc::ClosureGuard rpc_guard(done);
@@ -119,15 +117,41 @@ namespace messageSystem
                 auto ret = _file.write(_storage_path, fid, request->file_data(i).file_content());
                 if (ret.status == false) 
                 {
-                    HandlerError(request, response, ret);
+                    HandlerError(response, request->request_id(), ret.errmsg);
                     return;
                 }
-                messageSystem::FileMessageInfo *info  = response->add_file_info();
-                info->set_file_id(fid);
-                info->set_file_size(request->file_data(i).file_size());
-                info->set_file_name(request->file_data(i).file_name());
             }
-            response->set_success(true);
+            response->set_status(true);
+        }
+        void DeleteMultiFile(google::protobuf::RpcController* controller,
+                    const ::messageSystem::DeleteFileReq* request,
+                    ::messageSystem::CommRsp* response,
+                    ::google::protobuf::Closure* done) 
+        {
+            brpc::ClosureGuard rpc_guard(done);
+            response->set_request_id(request->request_id());
+            //延迟删除：将文件移动到延迟删除目录，24小时后由定时任务清理
+            std::string delay_path = _storage_path + "delay_delete/";
+            umask(0);
+            mkdir(delay_path.c_str(), 0775);
+            
+            for (int i = 0; i < request->file_id_list_size(); i++) 
+            {
+                std::string fid = request->file_id_list(i);
+                std::string src_path = _storage_path + fid;
+                std::string dst_path = delay_path + fid;
+                //使用rename进行原子操作，如果文件不存在则跳过
+                if (rename(src_path.c_str(), dst_path.c_str()) != 0) 
+                {
+                    if (errno != ENOENT) 
+                    {
+                        LOG_ERROR("移动文件到延迟删除目录失败:{}!", fid);
+                        HandlerError(response, request->request_id(), "删除文件失败");
+                        return;
+                    }
+                }
+            }
+            response->set_status(true);
         }
     private:
         fileUtil::FileSystem _file;

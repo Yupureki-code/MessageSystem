@@ -8,6 +8,10 @@ namespace messageSystem
 {
     const std::string FILE_SERVICE = "file_service";
     const std::string USER_SERVICE = "user_service";
+    const std::string AMQP_MESSAGE_EXCHANGE = "amqp_message_exchange";
+    const std::string AMQP_MESSAGE_POST_QUEUE = "amqp_messages_post_queue";
+    const std::string AMQP_MESSAGE_DELETE_QUEUE = "amqp_messages_delete_queue";
+    const std::string AMQP_MESSAGE_POST_ROUTING_KEY = "amqp_messages_post_routing_key";
     struct Response 
     {
         bool status;         // 0 表示成功，负值表示错误

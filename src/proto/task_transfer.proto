@@ -1,0 +1,23 @@
+syntax = "proto3";
+package messageSystem;
+// ---- MQ 中传递的任务消息 ----
+// 生产者和消费者之间的契约
+// 为什么不用 JSON?
+// → 体积小 (50 bytes vs 200 bytes)
+// → 序列化快 (纳秒级 vs 微秒级)
+// → 类型安全 (protobuf schema)
+message TaskPayload {
+    // 任务路由
+    string routing_key     = 1;   // "msg.storage.store"
+    
+    // 具体请求体 (原始 protobuf bytes)
+    // 生产者: req.SerializeAsString() → payload_bytes
+    // 消费者: req.ParseFromString(payload_bytes)
+    bytes  payload_bytes   = 2;
+    
+    // 任务元数据
+    string task_id         = 3;
+    string trace_id        = 4;
+    int64  created_ts      = 5;
+    int32  retry_count     = 6;
+}

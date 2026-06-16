@@ -6,6 +6,7 @@
 #include <json/writer.h>
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 #include "comm.hpp"
@@ -150,6 +151,23 @@ namespace messageSystem
             }
             return true;
         }
+        bool batchInsert(const std::string& str)
+        {
+            try 
+            {
+                auto rsp = _client->performRequest(elasticlient::Client::HTTPMethod::POST,"_bulk", str);
+                if (rsp.status_code < 200 || rsp.status_code >= 300) 
+                {
+                    LOG_ERROR("ES批量插入 {} 失败，响应状态码异常: {}", str, rsp.status_code);
+                    return false;
+                }
+            } catch(std::exception &e) 
+            {
+                LOG_ERROR("ES批量插入 {} 失败: {}", str, e.what());
+                return false;
+            }
+            return true;
+        }
     private:
         std::shared_ptr<elasticlient::Client> _client;
         Json::Value _insert;
@@ -219,7 +237,7 @@ namespace messageSystem
             }
             _filter.append(terms);
         }
-        void addFilterTimeRange(const std::string& key,const std::string& start,const std::string& end)
+        void addFilterTimeRange(const std::string& key,uint64_t start,uint64_t  end)
         {
             _filter["range"][key]["gte"] = start;
             _filter["range"][key]["lte"] = end;

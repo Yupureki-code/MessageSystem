@@ -1,6 +1,8 @@
+#include "../../comm_include/comm.pb.h"
 #include "../../comm_include/proto_include/message_store.pb.h"
 #include "../../comm_include/messageDB.hpp"
 #include "../../comm_include/es.hpp"
+#include <brpc/server.h>
 #include <json/value.h>
 #include <memory>
 #include <unordered_map>
@@ -25,14 +27,14 @@ namespace messageSystem
             MessageInfo message;
             message.set_message_id(messages[i].message_id);
             message.set_conversation_id(messages[i].conversation_id);
-            message.set_timestamp(boost::posix_time::to_time_t(messages[i].create_time));
-            *message.mutable_sender() = users[i];
+            message.set_timestamp(messages[i].create_time);
+            message.set_sender_id(messages[i].sender_id);
             auto content = message.mutable_message();
             switch(messages[i].message_type)
             {
                 case MessageType::STRING:
                     content->set_message_type(STRING);
-                    content->mutable_string_message()->set_content(messages[i].content.get());
+                    content->mutable_string_message()->set_content(messages[i].text.get());
                     break;
                 case MessageType::IMAGE:
                     content->set_message_type(MessageType::IMAGE);
@@ -54,33 +56,6 @@ namespace messageSystem
             }
             return message;
         }
-        enum class TimestampPrecision 
-        {
-            Seconds,
-            Milliseconds,
-            Microseconds,
-            Nanoseconds
-        };
-        std::string timestampToString(uint64_t timestamp, 
-                                    TimestampPrecision precision = TimestampPrecision::Seconds) 
-        {
-            time_t time;
-            switch (precision) {
-                case TimestampPrecision::Seconds:
-                    time = static_cast<time_t>(timestamp);
-                    break;
-                case TimestampPrecision::Milliseconds:
-                    time = static_cast<time_t>(timestamp / 1000);
-                    break;
-                case TimestampPrecision::Microseconds:
-                    time = static_cast<time_t>(timestamp / 1000000);
-                    break;
-                case TimestampPrecision::Nanoseconds:
-                    time = static_cast<time_t>(timestamp / 1000000000);
-                    break;
-            }
-            // ... 后续转换逻辑
-        }
     public:
         virtual void GetHistoryMsg(::google::protobuf::RpcController* controller,
             const ::messageSystem::GetHistoryMsgReq* request,
@@ -92,8 +67,8 @@ namespace messageSystem
             CommRsp* rep = response->mutable_response();
             std::string rid = request->request_id();
             std::string cid = request->conversation_id();
-            boost::posix_time::ptime stime = boost::posix_time::from_time_t(request->start_time());
-            boost::posix_time::ptime etime = boost::posix_time::from_time_t(request->over_time());
+            unsigned long long stime = request->start_time();
+            unsigned long long etime = request->over_time();
             //2. 从数据库中进行消息查询
             std::vector<Message> messages;
             if(!_db->getHistoryMessages(cid, stime, etime, &messages))
@@ -110,36 +85,30 @@ namespace messageSystem
             }
             //3. 统计所有文件类型消息的文件ID，并从文件子服务进行批量文件下载
             std::vector<std::string> file_names;
-            std::vector<std::string> uids;
             for(auto & it : messages)
             {
                 if(it.message_type != 0)
                 {
                     file_names.emplace_back(it.file_name.get());
                 }
-                uids.emplace_back(it.sender_id);
             }
             std::unordered_map<std::string, FileDownloadData> files;
-            if(_db->getMessageFiles(rid, file_names, &files))
+            if(!file_names.empty())
             {
-                LOG_ERROR("{} - 获取历史文件失败(cid):{}！", rid, cid);
-                HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
-                return;
+                if(!_db->getMessageFiles(rid, file_names, &files))
+                {
+                    LOG_ERROR("{} - 获取历史文件失败(cid):{}！", rid, cid);
+                    HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
+                    return;
+                }
             }
-            std::vector<UserInfo> users;
-            if(!_db->getMessageUserInfo(rid, uids, &users))
-            {
-                LOG_ERROR("{} - 获取发送者信息失败(cid):{}！", rid, cid);
-                HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
-                return;
-            }
-            //5. 组织响应
+            //4. 组织响应
             rep->set_status(true);
             rep->set_request_id(rid);
             for(int i = 0;i<messages.size();i++)
             {
                 response->mutable_msg_list()->Add();
-                *response->mutable_msg_list()->Mutable(i) = HandlerMessages(i, files, users, messages);
+                *response->mutable_msg_list()->Mutable(i) = HandlerMessages(i, files, {}, messages);
             }
             return;
         }
@@ -170,36 +139,30 @@ namespace messageSystem
             }
             //3. 统计所有文件类型消息的文件ID，并从文件子服务进行批量文件下载
             std::vector<std::string> file_names;
-            std::vector<std::string> uids;
             for(auto & it : messages)
             {
                 if(it.message_type != 0)
                 {
                     file_names.emplace_back(it.file_name.get());
                 }
-                uids.emplace_back(it.sender_id);
             }
             std::unordered_map<std::string, FileDownloadData> files;
-            if(_db->getMessageFiles(rid, file_names, &files))
+            if(!file_names.empty())
             {
-                LOG_ERROR("{} - 获取历史文件失败(cid):{}！", rid, cid);
-                HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
-                return;
+                if(!_db->getMessageFiles(rid, file_names, &files))
+                {
+                    LOG_ERROR("{} - 获取历史文件失败(cid):{}！", rid, cid);
+                    HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
+                    return;
+                }
             }
-            std::vector<UserInfo> users;
-            if(!_db->getMessageUserInfo(rid, uids, &users))
-            {
-                LOG_ERROR("{} - 获取发送者信息失败(cid):{}！", rid, cid);
-                HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
-                return;
-            }
-            //5. 组织响应
+            //4. 组织响应
             rep->set_status(true);
             rep->set_request_id(rid);
             for(int i = 0;i<messages.size();i++)
             {
                 response->mutable_msg_list()->Add();
-                *response->mutable_msg_list()->Mutable(i) = HandlerMessages(i, files, users, messages);
+                *response->mutable_msg_list()->Mutable(i) = HandlerMessages(i, files, {}, messages);
             }
             return;
         }
@@ -224,10 +187,10 @@ namespace messageSystem
             if(conds.has_sender_id())
             {
                 query.addFilter("sender_id", {conds.sender_id()});
-            {
+            }
             if(conds.has_start_time() && conds.has_end_time())
             {
-                query.addFilterTimeRange("timestamp", timestampToString(conds.start_time()), timestampToString(conds.end_time()));
+                query.addFilterTimeRange("timestamp", conds.start_time(), conds.end_time());
             }
             Json::Value value;
             if (!query.query("messageSystem", "_doc", &value)) 
@@ -236,6 +199,175 @@ namespace messageSystem
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                 return;
             }
+            
+            if(value.isMember("hits") && value["hits"].isMember("hits") && value["hits"]["hits"].isArray())
+            {
+                auto array = value["hits"]["hits"];
+                for(Json::Value::ArrayIndex i = 0;i<array.size();i++)
+                {
+                    MessageInfo message;
+                    message.set_message_id(array[i]["message_id"].asString());
+                    message.set_conversation_id(array[i]["conversation_id"].asString());
+                    message.mutable_message()->set_message_type(MessageType::STRING);
+                    message.mutable_message()->mutable_string_message()->set_content(array[i]["text"].asString());
+                    response->mutable_msg_list()->Add();
+                    *response->mutable_msg_list()->Mutable(i) = message;  
+                }
+            }
+            else
+            {
+                LOG_ERROR("{} - 查询ES失败(cid):{}!", rid, cid);
+                HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
+                return;
+            }
+            rep->set_status(true);
+            rep->set_request_id(rid);
+        }
+        virtual void PostMessages(::google::protobuf::RpcController* controller,
+            const ::messageSystem::PostMessagesReq* request,
+            ::messageSystem::CommRsp* response,
+            ::google::protobuf::Closure* done)
+        {
+            brpc::ClosureGuard rpc_guard(done);
+            CommRsp* rep = response;
+            std::string rid = request->request_id();
+            
+            //1. 分离文本消息和文件消息
+            std::vector<Message> text_messages;
+            std::vector<Message> file_messages;
+            
+            for(int i = 0; i < request->msg_list_size(); i++)
+            {
+                const auto& msg_info = request->msg_list(i);
+                Message msg;
+                msg.message_id = msg_info.message_id();
+                msg.conversation_id = msg_info.conversation_id();
+                msg.sender_id = msg_info.sender_id();
+                msg.message_type = msg_info.message().message_type();
+                msg.create_time = msg_info.timestamp();
+                
+                if(msg_info.message().message_type() == MessageType::STRING)
+                {
+                    msg.text = msg_info.message().string_message().content();
+                    text_messages.push_back(msg);
+                }
+                else
+                {
+                    if(msg_info.message().has_file_message())
+                    {
+                        msg.file_id = msg_info.message().file_message().file_id();
+                        msg.file_name = msg_info.message().file_message().file_name();
+                        msg.file_size = msg_info.message().file_message().file_size();
+                    }
+                    else if(msg_info.message().has_image_message())
+                    {
+                        msg.file_id = msg_info.message().image_message().file_id();
+                    }
+                    else if(msg_info.message().has_speech_message())
+                    {
+                        msg.file_id = msg_info.message().speech_message().file_id();
+                    }
+                    file_messages.push_back(msg);
+                }
+            }
+            
+            //2. 处理文本消息
+            if(!text_messages.empty())
+            {
+                if(!_db->PostTextMessages(text_messages))
+                {
+                    LOG_ERROR("{} - 发布文本消息失败!", rid);
+                    HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
+                    return;
+                }
+            }
+            
+            //3. 处理文件消息
+            if(!file_messages.empty())
+            {
+                if(!_db->PostFileMessages(rid, file_messages))
+                {
+                    LOG_ERROR("{} - 发布文件消息失败!", rid);
+                    HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
+                    return;
+                }
+            }
+            
+            rep->set_status(true);
+            rep->set_request_id(rid);
+        }
+        virtual void DeleteMessages(::google::protobuf::RpcController* controller,
+            const ::messageSystem::DeleteMessagesReq* request,
+            ::messageSystem::CommRsp* response,
+            ::google::protobuf::Closure* done)
+        {
+            brpc::ClosureGuard rpc_guard(done);
+            CommRsp* rep = response;
+            std::string rid = request->request_id();
+            
+            //1. 分离文本消息和文件消息
+            std::vector<Message> text_messages;
+            std::vector<Message> file_messages;
+            
+            for(int i = 0; i < request->msg_list_size(); i++)
+            {
+                const auto& msg_info = request->msg_list(i);
+                Message msg;
+                msg.message_id = msg_info.message_id();
+                msg.conversation_id = msg_info.conversation_id();
+                msg.sender_id = msg_info.sender_id();
+                msg.message_type = msg_info.message().message_type();
+                msg.create_time = msg_info.timestamp();
+                
+                if(msg_info.message().message_type() == MessageType::STRING)
+                {
+                    msg.text = msg_info.message().string_message().content();
+                    text_messages.push_back(msg);
+                }
+                else
+                {
+                    if(msg_info.message().has_file_message())
+                    {
+                        msg.file_id = msg_info.message().file_message().file_id();
+                        msg.file_name = msg_info.message().file_message().file_name();
+                        msg.file_size = msg_info.message().file_message().file_size();
+                    }
+                    else if(msg_info.message().has_image_message())
+                    {
+                        msg.file_id = msg_info.message().image_message().file_id();
+                    }
+                    else if(msg_info.message().has_speech_message())
+                    {
+                        msg.file_id = msg_info.message().speech_message().file_id();
+                    }
+                    file_messages.push_back(msg);
+                }
+            }
+            
+            //2. 处理文本消息删除
+            if(!text_messages.empty())
+            {
+                if(!_db->DeleteTextMessages(text_messages))
+                {
+                    LOG_ERROR("{} - 删除文本消息失败!", rid);
+                    HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
+                    return;
+                }
+            }
+            
+            //3. 处理文件消息删除
+            if(!file_messages.empty())
+            {
+                if(!_db->DeleteFileMessages(rid, file_messages))
+                {
+                    LOG_ERROR("{} - 删除文件消息失败!", rid);
+                    HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
+                    return;
+                }
+            }
+            
+            rep->set_status(true);
+            rep->set_request_id(rid);
         }
     private:
         std::shared_ptr<MessageDB> _db;

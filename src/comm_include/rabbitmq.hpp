@@ -24,9 +24,10 @@ namespace messageSystem
             ev_break(loop, EVBREAK_ALL);
         }
     public:
-        using MessageCallback = std::function<void(const char*, size_t)>;
+        using MessageCallback = std::function<void(const char*, uint64_t)>;
         RabbitMQ(const std::string& user,const std::string& password
-            ,const std::string& host)
+            ,const std::string& host
+            ,bool is_block)
         {
             _loop = ev_default_loop(0);
             _handler = std::make_unique<AMQP::LibEvHandler>(_loop);
@@ -34,9 +35,12 @@ namespace messageSystem
             AMQP::Address addr(url.c_str());
             _connection = std::make_unique<AMQP::TcpConnection>(_handler.get(),addr);
             _channel = std::make_unique<AMQP::TcpChannel>(_connection.get());
-            _loop_thread = std::thread([this](){
+            if(!is_block)
+            {
+                _loop_thread = std::thread([this](){
                 ev_run(_loop,0);
             });
+            }
         }
         ~RabbitMQ()
         {
@@ -48,6 +52,10 @@ namespace messageSystem
             _channel.reset();
             _connection.reset();
             _handler.reset();
+        }
+        void blockRun()
+        {
+            ev_run(_loop,0);
         }
         void addExchange(const std::string& name,AMQP::ExchangeType type = AMQP::direct,int flags = 0)
         {
@@ -128,13 +136,21 @@ namespace messageSystem
             .onReceived([this, cb](const AMQP::Message &message, 
                 uint64_t deliveryTag, 
                 bool redelivered) {
-                cb(message.body(), message.bodySize());
-                _channel->ack(deliveryTag);
+                    bool is_acceptcd = true;
+                cb(message.body(), deliveryTag);
             })
             .onError([queue](const char *message){
                 LOG_ERROR("订阅 {} 队列消息失败: {}", queue, message);
             });
             return true;
+        }
+        void ack(uint64_t deliveryTag)
+        {
+            _channel->ack(deliveryTag);
+        }
+        void reject(uint64_t deliveryTag,int flags)
+        {
+            _channel->reject(deliveryTag,flags);
         }
     private:
         struct ev_loop *_loop;

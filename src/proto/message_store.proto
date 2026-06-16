@@ -51,8 +51,22 @@ message MsgSearchRsp {
     repeated MessageInfo msg_list = 2;
 }
 
+message PostMessagesReq
+{
+    string request_id = 1;
+    repeated MessageInfo msg_list = 2;
+}
+
+message DeleteMessagesReq
+{
+    string request_id = 1;
+    repeated MessageInfo msg_list = 2;
+}
+
 service MsgStorageService {
     rpc GetHistoryMsg(GetHistoryMsgReq) returns (GetHistoryMsgRsp);
     rpc GetRecentMsg(GetRecentMsgReq) returns (GetRecentMsgRsp);
     rpc MsgSearch(MsgSearchReq) returns (MsgSearchRsp);
+    rpc PostMessages(PostMessagesReq) returns (CommRsp);
+    rpc DeleteMessages(DeleteMessagesReq) returns (CommRsp);
 }

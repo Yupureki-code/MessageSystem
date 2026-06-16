@@ -1,13 +1,12 @@
+#pragma once
 #include "message-odb.hxx"
 #include "../../comm.hpp"
 #include "../../latecymonitor.hpp"
 #include "message.hxx"
-// ODB 核心头文件
-#include <odb/database.hxx>      // database 基类
-#include <odb/transaction.hxx>   // 事务管理
-#include <odb/query.hxx>         // 类型安全查询
-#include <odb/result.hxx>        // 查询结果集
-// MySQL 数据库驱动
+#include <odb/database.hxx>
+#include <odb/transaction.hxx>
+#include <odb/query.hxx>
+#include <odb/result.hxx>
 #include <odb/mysql/database.hxx>
 #include <sstream>
 #include <string>
@@ -16,10 +15,13 @@ namespace odbMessage
 {
     using namespace messageSystem;
     using namespace latecyMonitor;
+    
+    /// @brief 消息数据库操作类
     class OdbMessage
     {
     public:
         typedef odb::query<Message> query;  
+        
         OdbMessage(const std::string& user
             ,const std::string& password
             ,const std::string& db
@@ -27,10 +29,12 @@ namespace odbMessage
             ,int port)
         :_db(new odb::mysql::database(user,password,db,host,port))
         {
-            _monitor.setOutputFile(LOG_PATH, "odb_user.log");
+            _monitor.setOutputFile(LOG_PATH, "odb_message.log");
             _monitor.start();
         }
-        bool insertMessage(const Message& message)
+        
+        /// @brief 插入单条消息
+        bool insertMessage(Message& message)
         {
             Timer t(_monitor,"insert message(id):" + std::to_string(message.id));
             try
@@ -46,6 +50,88 @@ namespace odbMessage
             }
             return true;
         }
+        
+        /// @brief 批量插入文本消息
+        bool insertTextMessages(const std::vector<Message>& messages)
+        {
+            Timer t(_monitor,"insert text messages(size):" + std::to_string(messages.size()));
+            try
+            {
+                odb::transaction t(_db->begin());
+                std::stringstream ss;
+                ss<<"INSERT INTO message(message_id,conversation_id,sender_id,message_type,create_time,text) VALUES ";
+                for(size_t i = 0; i < messages.size(); i++)
+                {
+                    if(i > 0) ss << ",";
+                    ss << "('" << messages[i].message_id << "','" 
+                       << messages[i].conversation_id << "','" 
+                       << messages[i].sender_id << "'," 
+                       << messages[i].message_type << "," 
+                       << messages[i].create_time << ",'" 
+                       << messages[i].text.get() << "')";
+                }
+                _db->execute(ss.str());
+                t.commit();
+            }
+            catch(const odb::exception& e)
+            {
+                LOG_ERROR("插入一批文本消息失败:{}!",e.what());
+                return false;
+            }
+            return true;
+        }
+        
+        /// @brief 批量插入文件消息
+        bool insertFileMessages(const std::vector<Message>& messages)
+        {
+            Timer t(_monitor,"insert file messages(size):" + std::to_string(messages.size()));
+            try
+            {
+                odb::transaction t(_db->begin());
+                std::stringstream ss;
+                ss<<"INSERT INTO message(message_id,conversation_id,sender_id,message_type,create_time,file_id,file_name,file_size) VALUES ";
+                for(size_t i = 0; i < messages.size(); i++)
+                {
+                    if(i > 0) ss << ",";
+                    ss << "('" << messages[i].message_id << "','" 
+                       << messages[i].conversation_id << "','" 
+                       << messages[i].sender_id << "'," 
+                       << messages[i].message_type << "," 
+                       << messages[i].create_time << ",'" 
+                       << messages[i].file_id.get() << "','" 
+                       << messages[i].file_name.get() << "'," 
+                       << messages[i].file_size.get() << ")";
+                }
+                _db->execute(ss.str());
+                t.commit();
+            }
+            catch(const odb::exception& e)
+            {
+                LOG_ERROR("插入一批文件消息失败:{}!",e.what());
+                return false;
+            }
+            return true;
+        }
+        
+        /// @brief 删除消息
+        bool deleteMessage(const std::string& message_id)
+        {
+            Timer t(_monitor,"delete message(mid):" + message_id);
+            try
+            {
+                odb::transaction t(_db->begin());
+                _db->erase_query<Message>(query::message_id == message_id);
+                t.commit();
+            }
+            catch(const odb::exception& e)
+            {
+                LOG_ERROR("删除消息{}失败:{}!",message_id,e.what());
+                return false;
+            }
+            return true;
+        }
+        
+        /// @brief 删除会话所有消息
         bool removeConversation(const std::string& id)
         {
             Timer t(_monitor,"remove conversation(cid):" + id);
@@ -62,14 +148,16 @@ namespace odbMessage
             }
             return true;
         }
-        bool getRecentMessages(const std::string& id,int count,std::vector<Message>* messages)
+        
+        /// @brief 获取最近消息
+        bool getRecentMessages(const std::string& id, int count, std::vector<Message>* messages)
         {
-            Timer t(_monitor,"get current messages(cid,count):" + id + ":" + std::to_string(count));
+            Timer t(_monitor,"get recent messages(cid,count):" + id + ":" + std::to_string(count));
             try
             {
                 odb::transaction t(_db->begin());
                 std::stringstream cond;
-                cond << "session_id='" << id << "' ";
+                cond << "conversation_id='" << id << "' ";
                 cond << "order by create_time desc limit " << count;
                 auto ret = _db->query<Message>(cond.str());
                 for(auto & it : ret)
@@ -85,14 +173,19 @@ namespace odbMessage
             }
             return true;
         }
-        bool getHistoryMessages(const std::string& id,boost::posix_time::ptime &start,boost::posix_time::ptime &end,std::vector<Message>* messages)
+        
+        /// @brief 获取历史消息
+        bool getHistoryMessages(const std::string& id, unsigned long long start, unsigned long long end, std::vector<Message>* messages)
         {
-            Timer t(_monitor,"get range messages(cid,start,end):" + id + " " + 
-                boost::posix_time::to_simple_string(start) + "-" + boost::posix_time::to_simple_string(end));
+            Timer t(_monitor,"get history messages(cid,start,end):" + id + " " + 
+                std::to_string(start) + "-" + std::to_string(end));
             try
             {
                 odb::transaction t(_db->begin());
-                auto ret = _db->query<Message>(query::conversation_id == id && query::create_time >= start && query::create_time <= end);
+                auto ret = _db->query<Message>(
+                    query::conversation_id == id && 
+                    query::create_time >= start && 
+                    query::create_time <= end);
                 for(auto & it : ret)
                 {
                     messages->emplace_back(it);
@@ -101,15 +194,14 @@ namespace odbMessage
             }
             catch(const odb::exception& e)
             {
-                LOG_ERROR("获取历史会话{}消息{}-{}失败:{}!",id, 
-                    boost::posix_time::to_simple_string(start), 
-                    boost::posix_time::to_simple_string(end),e.what());
+                LOG_ERROR("获取历史会话{}消息{}-{}失败:{}!",id, start, end, e.what());
                 return false;
             }
             return true;
         }
+
     private:
         std::unique_ptr<odb::database> _db;
         latecyMonitor::LatencyMonitor _monitor;
     };
-};
+}
