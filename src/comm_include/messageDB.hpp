@@ -262,7 +262,7 @@ namespace messageSystem
             std::vector<std::string> file_ids;
             for(const auto& msg : messages)
             {
-                if(msg.file_id.get() != nullptr)
+                if(!msg.file_id.null())
                 {
                     file_ids.push_back(msg.file_id.get());
                 }

@@ -6,19 +6,19 @@
 
 namespace odb
 {
-  // Message
+  // Friendships
   //
 
   inline
-  access::object_traits< ::Message >::id_type
-  access::object_traits< ::Message >::
+  access::object_traits< ::Friendships >::id_type
+  access::object_traits< ::Friendships >::
   id (const object_type& o)
   {
     return o.id;
   }
 
   inline
-  void access::object_traits< ::Message >::
+  void access::object_traits< ::Friendships >::
   callback (database& db, object_type& x, callback_event e)
   {
     ODB_POTENTIALLY_UNUSED (db);
@@ -27,8 +27,20 @@ namespace odb
   }
 
   inline
-  void access::object_traits< ::Message >::
+  void access::object_traits< ::Friendships >::
   callback (database& db, const object_type& x, callback_event e)
+  {
+    ODB_POTENTIALLY_UNUSED (db);
+    ODB_POTENTIALLY_UNUSED (x);
+    ODB_POTENTIALLY_UNUSED (e);
+  }
+
+  // FindFriend
+  //
+
+  inline
+  void access::view_traits< ::FindFriend >::
+  callback (database& db, view_type& x, callback_event e)
   {
     ODB_POTENTIALLY_UNUSED (db);
     ODB_POTENTIALLY_UNUSED (x);
@@ -38,11 +50,11 @@ namespace odb
 
 namespace odb
 {
-  // Message
+  // Friendships
   //
 
   inline
-  void access::object_traits_impl< ::Message, id_mysql >::
+  void access::object_traits_impl< ::Friendships, id_mysql >::
   erase (database& db, const object_type& obj)
   {
     callback (db, obj, callback_event::pre_erase);
@@ -51,7 +63,7 @@ namespace odb
   }
 
   inline
-  void access::object_traits_impl< ::Message, id_mysql >::
+  void access::object_traits_impl< ::Friendships, id_mysql >::
   load_ (statements_type& sts,
          object_type& obj,
          bool)
@@ -59,5 +71,8 @@ namespace odb
     ODB_POTENTIALLY_UNUSED (sts);
     ODB_POTENTIALLY_UNUSED (obj);
   }
+
+  // FindFriend
+  //
 }
 

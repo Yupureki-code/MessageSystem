@@ -86,4 +86,36 @@ namespace util
         }
 
     };
+    class TimeUtil
+    {
+    public:
+        // 获取当前时间戳（秒级，int64_t）
+        static int64_t getCurrentTimestampSeconds() {
+            // 明确类型：std::chrono::time_point<std::chrono::system_clock>
+            std::chrono::time_point<std::chrono::system_clock> now_point = 
+                std::chrono::system_clock::now();
+            
+            // 转换为自纪元以来的秒数
+            std::chrono::seconds seconds_since_epoch = 
+                std::chrono::duration_cast<std::chrono::seconds>(
+                    now_point.time_since_epoch()
+                );
+            
+            // 返回int64_t类型的秒数
+            return seconds_since_epoch.count();
+        }
+        
+        // 计算存储的时间戳与当前时间的秒级时间差
+        static int getSecondsSinceTimestamp(int64_t stored_timestamp) {
+            // 获取当前时间戳
+            int64_t current_timestamp = getCurrentTimestampSeconds();
+            
+            // 计算时间差（确保在int范围内）
+            int64_t diff_seconds = current_timestamp - stored_timestamp;
+            
+            // 转换为int（假设时间差在int范围内）
+            return static_cast<int>(diff_seconds);
+        }
+        
+    };
 }

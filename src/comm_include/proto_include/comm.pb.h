@@ -430,6 +430,8 @@ class UserInfo final :
     kDescriptionFieldNumber = 3,
     kEmailFieldNumber = 4,
     kAvatarFieldNumber = 5,
+    kSexFieldNumber = 6,
+    kAgeFieldNumber = 7,
   };
   // string user_id = 1;
   void clear_user_id();
@@ -501,6 +503,24 @@ class UserInfo final :
   std::string* _internal_mutable_avatar();
   public:
 
+  // int32 sex = 6;
+  void clear_sex();
+  int32_t sex() const;
+  void set_sex(int32_t value);
+  private:
+  int32_t _internal_sex() const;
+  void _internal_set_sex(int32_t value);
+  public:
+
+  // int32 age = 7;
+  void clear_age();
+  int32_t age() const;
+  void set_age(int32_t value);
+  private:
+  int32_t _internal_age() const;
+  void _internal_set_age(int32_t value);
+  public:
+
   // @@protoc_insertion_point(class_scope:messageSystem.UserInfo)
  private:
   class _Internal;
@@ -514,6 +534,8 @@ class UserInfo final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr description_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr email_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr avatar_;
+    int32_t sex_;
+    int32_t age_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2670,6 +2692,46 @@ inline void UserInfo::set_allocated_avatar(std::string* avatar) {
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:messageSystem.UserInfo.avatar)
+}
+
+// int32 sex = 6;
+inline void UserInfo::clear_sex() {
+  _impl_.sex_ = 0;
+}
+inline int32_t UserInfo::_internal_sex() const {
+  return _impl_.sex_;
+}
+inline int32_t UserInfo::sex() const {
+  // @@protoc_insertion_point(field_get:messageSystem.UserInfo.sex)
+  return _internal_sex();
+}
+inline void UserInfo::_internal_set_sex(int32_t value) {
+  
+  _impl_.sex_ = value;
+}
+inline void UserInfo::set_sex(int32_t value) {
+  _internal_set_sex(value);
+  // @@protoc_insertion_point(field_set:messageSystem.UserInfo.sex)
+}
+
+// int32 age = 7;
+inline void UserInfo::clear_age() {
+  _impl_.age_ = 0;
+}
+inline int32_t UserInfo::_internal_age() const {
+  return _impl_.age_;
+}
+inline int32_t UserInfo::age() const {
+  // @@protoc_insertion_point(field_get:messageSystem.UserInfo.age)
+  return _internal_age();
+}
+inline void UserInfo::_internal_set_age(int32_t value) {
+  
+  _impl_.age_ = value;
+}
+inline void UserInfo::set_age(int32_t value) {
+  _internal_set_age(value);
+  // @@protoc_insertion_point(field_set:messageSystem.UserInfo.age)
 }
 
 // -------------------------------------------------------------------

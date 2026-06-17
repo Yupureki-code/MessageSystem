@@ -16,7 +16,6 @@
 #include <memory>
 #include <mutex>
 #include <queue>
-#include <regex>
 #include <thread>
 #include <unordered_map>
 #include <utility>
@@ -49,9 +48,10 @@ namespace messageSystem
         size_t nums = 0;
         bool in_flush_queue = false;
         int retry_count = 0;
-        int next_retry_time = 1;
+        int retry_interval = 1;
+        uint64_t last_retry_timestamp;
         std::queue<uint64_t> _deliveryTags;
-        void clear(std::shared_ptr<RabbitMQ> mq)
+        void clear(std::shared_ptr<RabbitMQ> mq,int _retry_interval,bool ack)
         {
             nums = 0;
             retry_count = 0;
@@ -59,10 +59,19 @@ namespace messageSystem
             in_flush_queue = false;
             while(_deliveryTags.size())
             {
-                mq->ack(_deliveryTags.front());
+                if(ack)
+                    mq->ack(_deliveryTags.front());
                 _deliveryTags.pop();
             }
-            next_retry_time = 1;
+            retry_interval = _retry_interval;
+        }
+        void updateRetryTime() 
+        {
+            last_retry_timestamp = util::TimeUtil::getCurrentTimestampSeconds();
+        }
+        bool canRetry()
+        {
+            return util::TimeUtil::getSecondsSinceTimestamp(last_retry_timestamp) >= retry_interval;
         }
     };
     class TaskTransferServer
@@ -71,7 +80,6 @@ namespace messageSystem
         void asyncCallback(brpc::Controller* cntl, CommRsp* response, RoutingInfo* routing_info)
         {
             {
-                auto it = std::chrono::steady_clock::now();
                 std::lock_guard<std::mutex> lock(*_mutex);
                 auto& routing = routing_info->routing;
                 if (cntl->Failed())
@@ -80,16 +88,16 @@ namespace messageSystem
                     if(this_thread::get_id() == _retry_queue.getThreadId())
                     {
                         routing_info->retry_count++;
+                        routing_info->retry_interval *=2;
                     }
-                    else
-                    {
-                        _retry_queue.pushRetryRouting(*routing_info);
-                    }
+                    _retry_queue.pushRetryRouting(*routing_info);
+                    if(this_thread::get_id() != _retry_queue.getThreadId())
+                        _routings[routing].clear(_mq,_config._retry_interval.count(),false);
                 }
                 else
                 {
                     LOG_DEBUG("BRPC调用成功:routing={}", routing);
-                    routing_info->clear(_mq);
+                    routing_info->clear(_mq,_config._retry_interval.count(),true);
                 }
             }
             delete cntl;
@@ -121,6 +129,7 @@ namespace messageSystem
         }
         void HandlerTransfer(RoutingInfo& routing_info)
         {
+            routing_info.updateRetryTime();
             std::string routing = routing_info.routing;
             ServiceChannel::ChannelPtr channel;
             if(!_services->chooseService(routing, &channel))
@@ -234,7 +243,6 @@ namespace messageSystem
                 ,std::bind(&TaskTransferServer::Put,this,std::placeholders::_1,std::placeholders::_2)
                 ,std::bind(&TaskTransferServer::Del,this,std::placeholders::_1,std::placeholders::_2));
         }
-        TaskRelayConfig* getConfigPtr(){return &_config;}
         /// @brief 测试接口：直接注入任务到内部队列
         void start()
         {
@@ -247,6 +255,7 @@ namespace messageSystem
             LOG_INFO("任务中转服务已经启动!");
             _mq->blockRun();
         }
+        TaskRelayConfig& getConfig(){return _config;}
     private:
         void Put(const std::string& key,const std::string& value)
         {
@@ -270,31 +279,43 @@ namespace messageSystem
                 {
                     std::unique_lock<std::mutex> lock(*_server->_mutex);
                     _server->_cv->wait_for(lock, _server->_config._flush_interval, [this]
-                            {
-                            if(_active_retry_queue_ptr->empty())
-                            {
-                                swap(_active_retry_queue_ptr,_inactive_retry_queue_ptr);
-                                return false;
-                            }
-                            return true;
+                    {
+                        if(_active_retry_queue_ptr->empty())
+                        {
+                            swap(_active_retry_queue_ptr,_inactive_retry_queue_ptr);
+                            return false;
+                        }
+                        return true;
                     });
                     while(_active_retry_queue_ptr->size())
                     {
                         auto routing = _active_retry_queue_ptr->front();
                         _active_retry_queue_ptr->pop();
+                        if(routing.canRetry())
+                            _server->HandlerTransfer(routing);
+                        else
+                            _inactive_retry_queue_ptr->push(routing);
                     }
+                    swap(_active_retry_queue_ptr,_inactive_retry_queue_ptr);
                 }
             }
         public:
             RetryQueue(TaskTransferServer* server)
-            :_server(server)
+            :_server(server),_retry_thread(std::bind(&RetryQueue::retryThreadWork,this))
             {
+                _active_retry_queue_ptr = &_retry_queue1;
+                _inactive_retry_queue_ptr = &_retry_queue2;
             }
             void pushRetryRouting(const RoutingInfo& routing)
             {
-                _active_retry_queue_ptr->push(routing);
+                _inactive_retry_queue_ptr->push(routing);
             }
             thread::id getThreadId()const{return _retry_thread.get_id();}
+            ~RetryQueue()
+            {
+                if(_retry_thread.joinable())
+                    _retry_thread.join();
+            }
         private:
             TaskTransferServer* _server;
             std::thread _retry_thread;

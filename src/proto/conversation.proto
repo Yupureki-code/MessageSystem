@@ -1,0 +1,73 @@
+syntax = "proto3";
+package messageSystem;
+import "comm.proto";
+
+option cc_generic_services = true;
+
+message CreateConverstaionReq
+{
+    string request_id = 1;
+    bool is_group = 2;
+    repeated string comm_uid = 3;
+    optional string owner_uid = 4;
+    optional string group_converstaion_name = 5;
+}
+
+message CreateConverstaionRsp
+{
+    CommRsp response = 1;
+    string converstaion_id = 2;
+}
+
+message RemoveConversationReq
+{
+    string request_id = 1;
+    string conversaion_id = 2;
+    string owner_uid = 3;
+}
+
+message AddMemberReq
+{
+    string request_id = 1;
+    string conversaion_id = 2;
+    string uid = 3;
+}
+
+message ExitConverstaionReq
+{
+    string request_id = 1;
+    string conversaion_id = 2;
+    string uid = 3;
+    optional string owner_uid = 4;
+
+}
+
+message ChangeMemberPowerReq
+{
+    string request_id = 1;
+    string conversaion_id = 2;
+    string owner_uid = 3;
+    string uid = 4;
+    int32 power = 5;
+}
+
+message GetConverstaionMemberListReq
+{
+    string request_id = 1;
+    string conversaion_id = 2;
+}
+
+message GetConverstaionMemberListRsp
+{
+    CommRsp response = 1;
+    repeated UserInfo user_infos = 2;
+}
+
+service ConverstaionServer {
+    rpc CreateConverstaion(CreateConverstaionReq) returns (CreateConverstaionRsp);
+    rpc RemoveConversation(RemoveConversationReq) returns (CommRsp);
+    rpc AddMember(AddMemberReq) returns (CommRsp);
+    rpc ExitConverstaion(ExitConverstaionReq) returns (CommRsp);
+    rpc ChangeMemberPower(ChangeMemberPowerReq) returns (CommRsp);
+    rpc GetConverstaionMemberList(GetConverstaionMemberListReq) returns (GetConverstaionMemberListRsp);
+}

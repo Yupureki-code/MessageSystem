@@ -24,7 +24,8 @@ int main(int argc,char* argv[])
 {
     google::ParseCommandLineFlags(&argc, &argv, true);
     messageSystem::initLogger("task_transfer_logger", FLAGS_log_file, spdlog::level::debug);
-    messageSystem::TaskTransferServer server(FLAGS_mq_user,FLAGS_mq_password,FLAGS_mq_host);
+    messageSystem::TaskTransferServer server;
+    server.InitRabbitMQ(FLAGS_mq_user,FLAGS_mq_password,FLAGS_mq_host);
     server.Register(FLAGS_registry_host,FLAGS_base_service + FLAGS_instance_name , FLAGS_access_host);
     server.Discover(FLAGS_registry_host, FLAGS_access_host);
     server.start();

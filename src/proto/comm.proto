@@ -16,6 +16,8 @@ message UserInfo {
     string description = 3;//个人签名/描述
     string Email = 4; //绑定手机号
     string avatar = 5;//头像照片名称
+    int32 sex = 6;
+    int32 age = 7;
 }
 
 //聊天会话信息

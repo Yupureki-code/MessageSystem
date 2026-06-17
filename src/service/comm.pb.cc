@@ -43,6 +43,8 @@ PROTOBUF_CONSTEXPR UserInfo::UserInfo(
   , /*decltype(_impl_.description_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.email_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.avatar_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.sex_)*/0
+  , /*decltype(_impl_.age_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct UserInfoDefaultTypeInternal {
   PROTOBUF_CONSTEXPR UserInfoDefaultTypeInternal()
@@ -218,6 +220,8 @@ const uint32_t TableStruct_comm_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   PROTOBUF_FIELD_OFFSET(::messageSystem::UserInfo, _impl_.description_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::UserInfo, _impl_.email_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::UserInfo, _impl_.avatar_),
+  PROTOBUF_FIELD_OFFSET(::messageSystem::UserInfo, _impl_.sex_),
+  PROTOBUF_FIELD_OFFSET(::messageSystem::UserInfo, _impl_.age_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::ChatSessionInfo, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::ChatSessionInfo, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -319,15 +323,15 @@ const uint32_t TableStruct_comm_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::messageSystem::CommRsp)},
   { 9, -1, -1, sizeof(::messageSystem::UserInfo)},
-  { 20, 31, -1, sizeof(::messageSystem::ChatSessionInfo)},
-  { 36, -1, -1, sizeof(::messageSystem::StringMessageInfo)},
-  { 43, 51, -1, sizeof(::messageSystem::ImageMessageInfo)},
-  { 53, 63, -1, sizeof(::messageSystem::FileMessageInfo)},
-  { 67, 75, -1, sizeof(::messageSystem::SpeechMessageInfo)},
-  { 77, -1, -1, sizeof(::messageSystem::MessageContent)},
-  { 89, -1, -1, sizeof(::messageSystem::MessageInfo)},
-  { 100, -1, -1, sizeof(::messageSystem::FileDownloadData)},
-  { 108, -1, -1, sizeof(::messageSystem::FileUploadData)},
+  { 22, 33, -1, sizeof(::messageSystem::ChatSessionInfo)},
+  { 38, -1, -1, sizeof(::messageSystem::StringMessageInfo)},
+  { 45, 53, -1, sizeof(::messageSystem::ImageMessageInfo)},
+  { 55, 65, -1, sizeof(::messageSystem::FileMessageInfo)},
+  { 69, 77, -1, sizeof(::messageSystem::SpeechMessageInfo)},
+  { 79, -1, -1, sizeof(::messageSystem::MessageContent)},
+  { 91, -1, -1, sizeof(::messageSystem::MessageInfo)},
+  { 102, -1, -1, sizeof(::messageSystem::FileDownloadData)},
+  { 110, -1, -1, sizeof(::messageSystem::FileUploadData)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -347,46 +351,47 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_comm_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\ncomm.proto\022\rmessageSystem\"=\n\007CommRsp\022\022"
   "\n\nrequest_id\030\001 \001(\t\022\016\n\006status\030\002 \001(\010\022\016\n\006er"
-  "rmsg\030\003 \001(\t\"a\n\010UserInfo\022\017\n\007user_id\030\001 \001(\t\022"
+  "rmsg\030\003 \001(\t\"{\n\010UserInfo\022\017\n\007user_id\030\001 \001(\t\022"
   "\020\n\010nickname\030\002 \001(\t\022\023\n\013description\030\003 \001(\t\022\r"
-  "\n\005Email\030\004 \001(\t\022\016\n\006avatar\030\005 \001(\t\"\353\001\n\017ChatSe"
-  "ssionInfo\022\"\n\025single_chat_friend_id\030\001 \001(\t"
-  "H\000\210\001\001\022\027\n\017conversation_id\030\002 \001(\t\022\031\n\021conver"
-  "sation_name\030\003 \001(\t\0225\n\014prev_message\030\004 \001(\0132"
-  "\032.messageSystem.MessageInfoH\001\210\001\001\022\023\n\006avat"
-  "ar\030\005 \001(\014H\002\210\001\001B\030\n\026_single_chat_friend_idB"
-  "\017\n\r_prev_messageB\t\n\007_avatar\"$\n\021StringMes"
-  "sageInfo\022\017\n\007content\030\001 \001(\t\"b\n\020ImageMessag"
-  "eInfo\022\024\n\007file_id\030\001 \001(\tH\000\210\001\001\022\032\n\rimage_con"
-  "tent\030\002 \001(\014H\001\210\001\001B\n\n\010_file_idB\020\n\016_image_co"
-  "ntent\"\255\001\n\017FileMessageInfo\022\024\n\007file_id\030\001 \001"
-  "(\tH\000\210\001\001\022\026\n\tfile_size\030\002 \001(\003H\001\210\001\001\022\026\n\tfile_"
-  "name\030\003 \001(\tH\002\210\001\001\022\032\n\rfile_contents\030\004 \001(\014H\003"
-  "\210\001\001B\n\n\010_file_idB\014\n\n_file_sizeB\014\n\n_file_n"
-  "ameB\020\n\016_file_contents\"c\n\021SpeechMessageIn"
-  "fo\022\024\n\007file_id\030\001 \001(\tH\000\210\001\001\022\032\n\rfile_content"
-  "s\030\002 \001(\014H\001\210\001\001B\n\n\010_file_idB\020\n\016_file_conten"
-  "ts\"\273\002\n\016MessageContent\0220\n\014message_type\030\001 "
-  "\001(\0162\032.messageSystem.MessageType\022:\n\016strin"
-  "g_message\030\002 \001(\0132 .messageSystem.StringMe"
-  "ssageInfoH\000\0226\n\014file_message\030\003 \001(\0132\036.mess"
-  "ageSystem.FileMessageInfoH\000\022:\n\016speech_me"
-  "ssage\030\004 \001(\0132 .messageSystem.SpeechMessag"
-  "eInfoH\000\0228\n\rimage_message\030\005 \001(\0132\037.message"
-  "System.ImageMessageInfoH\000B\r\n\013msg_content"
-  "\"\220\001\n\013MessageInfo\022\022\n\nmessage_id\030\001 \001(\t\022\027\n\017"
-  "conversation_id\030\002 \001(\t\022\021\n\ttimestamp\030\003 \001(\003"
-  "\022\021\n\tsender_id\030\004 \001(\t\022.\n\007message\030\005 \001(\0132\035.m"
-  "essageSystem.MessageContent\"9\n\020FileDownl"
-  "oadData\022\017\n\007file_id\030\001 \001(\t\022\024\n\014file_content"
-  "\030\002 \001(\014\"L\n\016FileUploadData\022\021\n\tfile_name\030\001 "
-  "\001(\t\022\021\n\tfile_size\030\002 \001(\003\022\024\n\014file_content\030\003"
-  " \001(\014*:\n\013MessageType\022\n\n\006STRING\020\000\022\t\n\005IMAGE"
-  "\020\001\022\010\n\004FILE\020\002\022\n\n\006SPEECH\020\003B\003\200\001\001b\006proto3"
+  "\n\005Email\030\004 \001(\t\022\016\n\006avatar\030\005 \001(\t\022\013\n\003sex\030\006 \001"
+  "(\005\022\013\n\003age\030\007 \001(\005\"\353\001\n\017ChatSessionInfo\022\"\n\025s"
+  "ingle_chat_friend_id\030\001 \001(\tH\000\210\001\001\022\027\n\017conve"
+  "rsation_id\030\002 \001(\t\022\031\n\021conversation_name\030\003 "
+  "\001(\t\0225\n\014prev_message\030\004 \001(\0132\032.messageSyste"
+  "m.MessageInfoH\001\210\001\001\022\023\n\006avatar\030\005 \001(\014H\002\210\001\001B"
+  "\030\n\026_single_chat_friend_idB\017\n\r_prev_messa"
+  "geB\t\n\007_avatar\"$\n\021StringMessageInfo\022\017\n\007co"
+  "ntent\030\001 \001(\t\"b\n\020ImageMessageInfo\022\024\n\007file_"
+  "id\030\001 \001(\tH\000\210\001\001\022\032\n\rimage_content\030\002 \001(\014H\001\210\001"
+  "\001B\n\n\010_file_idB\020\n\016_image_content\"\255\001\n\017File"
+  "MessageInfo\022\024\n\007file_id\030\001 \001(\tH\000\210\001\001\022\026\n\tfil"
+  "e_size\030\002 \001(\003H\001\210\001\001\022\026\n\tfile_name\030\003 \001(\tH\002\210\001"
+  "\001\022\032\n\rfile_contents\030\004 \001(\014H\003\210\001\001B\n\n\010_file_i"
+  "dB\014\n\n_file_sizeB\014\n\n_file_nameB\020\n\016_file_c"
+  "ontents\"c\n\021SpeechMessageInfo\022\024\n\007file_id\030"
+  "\001 \001(\tH\000\210\001\001\022\032\n\rfile_contents\030\002 \001(\014H\001\210\001\001B\n"
+  "\n\010_file_idB\020\n\016_file_contents\"\273\002\n\016Message"
+  "Content\0220\n\014message_type\030\001 \001(\0162\032.messageS"
+  "ystem.MessageType\022:\n\016string_message\030\002 \001("
+  "\0132 .messageSystem.StringMessageInfoH\000\0226\n"
+  "\014file_message\030\003 \001(\0132\036.messageSystem.File"
+  "MessageInfoH\000\022:\n\016speech_message\030\004 \001(\0132 ."
+  "messageSystem.SpeechMessageInfoH\000\0228\n\rima"
+  "ge_message\030\005 \001(\0132\037.messageSystem.ImageMe"
+  "ssageInfoH\000B\r\n\013msg_content\"\220\001\n\013MessageIn"
+  "fo\022\022\n\nmessage_id\030\001 \001(\t\022\027\n\017conversation_i"
+  "d\030\002 \001(\t\022\021\n\ttimestamp\030\003 \001(\003\022\021\n\tsender_id\030"
+  "\004 \001(\t\022.\n\007message\030\005 \001(\0132\035.messageSystem.M"
+  "essageContent\"9\n\020FileDownloadData\022\017\n\007fil"
+  "e_id\030\001 \001(\t\022\024\n\014file_content\030\002 \001(\014\"L\n\016File"
+  "UploadData\022\021\n\tfile_name\030\001 \001(\t\022\021\n\tfile_si"
+  "ze\030\002 \001(\003\022\024\n\014file_content\030\003 \001(\014*:\n\013Messag"
+  "eType\022\n\n\006STRING\020\000\022\t\n\005IMAGE\020\001\022\010\n\004FILE\020\002\022\n"
+  "\n\006SPEECH\020\003B\003\200\001\001b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_comm_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_comm_2eproto = {
-    false, false, 1517, descriptor_table_protodef_comm_2eproto,
+    false, false, 1543, descriptor_table_protodef_comm_2eproto,
     "comm.proto",
     &descriptor_table_comm_2eproto_once, nullptr, 0, 11,
     schemas, file_default_instances, TableStruct_comm_2eproto::offsets,
@@ -718,6 +723,8 @@ UserInfo::UserInfo(const UserInfo& from)
     , decltype(_impl_.description_){}
     , decltype(_impl_.email_){}
     , decltype(_impl_.avatar_){}
+    , decltype(_impl_.sex_){}
+    , decltype(_impl_.age_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -761,6 +768,9 @@ UserInfo::UserInfo(const UserInfo& from)
     _this->_impl_.avatar_.Set(from._internal_avatar(), 
       _this->GetArenaForAllocation());
   }
+  ::memcpy(&_impl_.sex_, &from._impl_.sex_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.age_) -
+    reinterpret_cast<char*>(&_impl_.sex_)) + sizeof(_impl_.age_));
   // @@protoc_insertion_point(copy_constructor:messageSystem.UserInfo)
 }
 
@@ -774,6 +784,8 @@ inline void UserInfo::SharedCtor(
     , decltype(_impl_.description_){}
     , decltype(_impl_.email_){}
     , decltype(_impl_.avatar_){}
+    , decltype(_impl_.sex_){0}
+    , decltype(_impl_.age_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.user_id_.InitDefault();
@@ -831,6 +843,9 @@ void UserInfo::Clear() {
   _impl_.description_.ClearToEmpty();
   _impl_.email_.ClearToEmpty();
   _impl_.avatar_.ClearToEmpty();
+  ::memset(&_impl_.sex_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.age_) -
+      reinterpret_cast<char*>(&_impl_.sex_)) + sizeof(_impl_.age_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -887,6 +902,22 @@ const char* UserInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx)
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
           CHK_(::_pbi::VerifyUTF8(str, "messageSystem.UserInfo.avatar"));
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 sex = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
+          _impl_.sex_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 age = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
+          _impl_.age_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -969,6 +1000,18 @@ uint8_t* UserInfo::_InternalSerialize(
         5, this->_internal_avatar(), target);
   }
 
+  // int32 sex = 6;
+  if (this->_internal_sex() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(6, this->_internal_sex(), target);
+  }
+
+  // int32 age = 7;
+  if (this->_internal_age() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(7, this->_internal_age(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1020,6 +1063,16 @@ size_t UserInfo::ByteSizeLong() const {
         this->_internal_avatar());
   }
 
+  // int32 sex = 6;
+  if (this->_internal_sex() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_sex());
+  }
+
+  // int32 age = 7;
+  if (this->_internal_age() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_age());
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -1052,6 +1105,12 @@ void UserInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTO
   }
   if (!from._internal_avatar().empty()) {
     _this->_internal_set_avatar(from._internal_avatar());
+  }
+  if (from._internal_sex() != 0) {
+    _this->_internal_set_sex(from._internal_sex());
+  }
+  if (from._internal_age() != 0) {
+    _this->_internal_set_age(from._internal_age());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -1092,6 +1151,12 @@ void UserInfo::InternalSwap(UserInfo* other) {
       &_impl_.avatar_, lhs_arena,
       &other->_impl_.avatar_, rhs_arena
   );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(UserInfo, _impl_.age_)
+      + sizeof(UserInfo::_impl_.age_)
+      - PROTOBUF_FIELD_OFFSET(UserInfo, _impl_.sex_)>(
+          reinterpret_cast<char*>(&_impl_.sex_),
+          reinterpret_cast<char*>(&other->_impl_.sex_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata UserInfo::GetMetadata() const {

@@ -49,6 +49,7 @@ namespace odbUser
                 return false;
             }
             return true;
+           
         }
         bool selectById(const std::string& id,std::shared_ptr<User>* user)
         {

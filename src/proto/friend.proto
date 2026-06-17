@@ -1,0 +1,61 @@
+syntax = "proto3";
+package messageSystem;
+import "comm.proto";
+option cc_generic_services = true;
+
+message FriendRequestReq
+{
+    string request_id = 4;
+    string uid = 1;
+    string friend_uid = 2;
+    string remark = 3;
+}
+
+message FriendRequestStatusReq
+{
+    string request_id = 4;
+    string uid = 1;
+    string friend_uid = 2;
+    bool is_accepcted = 3;
+}
+
+message FriendRemarkReq
+{   
+    string request_id = 4;
+    string uid = 1;
+    string friend_uid = 2;
+    string remark = 3;
+}
+
+message FindFriendByUIDReq
+{
+    string request_id = 4;
+    string uid = 1;
+    string friend_uid = 2;
+}
+
+message FindFriendByUIDRsp
+{
+    CommRsp response = 1;
+    UserInfo friend = 2;
+}
+
+message FindFriendByNameReq
+{
+    string request_id = 4;
+    string uid = 1;
+    string name = 2;
+}
+
+message FindFriendByNameRsp
+{
+    CommRsp response = 1;
+    repeated UserInfo friends = 2;
+}
+
+service FriendServer {
+    rpc FriendRequest(FriendRequestReq) returns (CommRsp);
+    rpc FriendRemark(FriendRemarkReq) returns (CommRsp);
+    rpc FindFriendByUID(FindFriendByUIDReq) returns (FindFriendByUIDRsp);
+    rpc FindFriendByName(FindFriendByNameReq) returns (FindFriendByNameRsp);
+}

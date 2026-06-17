@@ -21,8 +21,8 @@ struct User
     #pragma db type("varchar(40)") not_null
     std::string password;
     Sex sex;
-    #pragma db type("bit(8)")
-    size_t age;
+    #pragma db type("INT")
+    int age;
     #pragma db type("varchar(30)") unique not_null
     std::string email;
     std::string desc;

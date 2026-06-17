@@ -9,7 +9,7 @@ CREATE TABLE `user` (
   `name` varchar(20) NOT NULL,
   `password` varchar(40) NOT NULL,
   `sex` ENUM('male', 'female', 'unknown') NOT NULL,
-  `age` bit(8) NOT NULL,
+  `age` INT NOT NULL,
   `email` varchar(30) NOT NULL,
   `desc` TEXT NOT NULL,
   `avatar` TEXT NOT NULL)

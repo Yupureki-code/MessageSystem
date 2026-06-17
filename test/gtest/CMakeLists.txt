@@ -23,11 +23,18 @@ set(PROTO_SOURCES
     ${PROTO_INCLUDE_DIR}/message_store.pb.cc
     ${PROTO_INCLUDE_DIR}/user.pb.cc
     ${PROTO_INCLUDE_DIR}/task_transfer.pb.cc
-    ${SERVICE_DIR}/comm.pb.cc
+    ${PROTO_INCLUDE_DIR}/friend.pb.cc
+    ${PROTO_INCLUDE_DIR}/comm.pb.cc
 )
 set(MESSAGE_ODB_SOURCES 
     ${COMM_INCLUDE_DIR}/odb/message/message-odb.cxx
     ${COMM_INCLUDE_DIR}/odb/message/message_outbox-odb.cxx
+)
+set(USER_ODB_SOURCES
+    ${COMM_INCLUDE_DIR}/odb/user/user-odb.cxx
+)
+set(FRIEND_ODB_SOURCES
+    ${COMM_INCLUDE_DIR}/odb/friend/friend-odb.cxx
 )
 
 # 公共链接库
@@ -72,7 +79,17 @@ add_executable(test_task_transfer
 )
 target_link_libraries(test_task_transfer ${GTEST_BOTH_LIBRARIES} ${COMMON_LIBS})
 
+# 创建好友服务测试
+add_executable(test_friend 
+    test_friend.cpp
+    ${PROTO_SOURCES}
+    ${USER_ODB_SOURCES}
+    ${FRIEND_ODB_SOURCES}
+)
+target_link_libraries(test_friend ${GTEST_BOTH_LIBRARIES} ${COMMON_LIBS})
+
 # 添加测试
 add_test(NAME MessageStoreTest COMMAND test_message_store)
 add_test(NAME DatabaseTest COMMAND test_database)
 add_test(NAME TaskTransferTest COMMAND test_task_transfer)
+add_test(NAME FriendTest COMMAND test_friend)
