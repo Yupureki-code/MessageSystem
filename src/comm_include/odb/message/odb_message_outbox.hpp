@@ -9,9 +9,13 @@
 #include <odb/mysql/database.hxx>
 #include "message_outbox.hxx"
 #include "message_outbox-odb.hxx"
+#include "../../comm.hpp"
+#include "../../logger.hpp"
 
 namespace odbMessage 
 {
+    using namespace messageSystem;
+    
     /// @brief 消息事务表操作类
     class OdbMessageOutbox 
     {
@@ -27,29 +31,29 @@ namespace odbMessage
         }
         
         /// @brief 插入事务记录
-        /// @param outbox 事务记录
-        /// @return 成功返回true
-        bool insert(MessageOutbox& outbox)
+        Response insert(MessageOutbox& outbox)
         {
+            Response rep;
             try 
             {
                 odb::transaction t(_db->begin());
                 _db->persist(outbox);
                 t.commit();
-                return true;
+                rep.status = true;
             }
             catch (const std::exception& e)
             {
                 LOG_ERROR("插入事务记录失败:{}!", e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
+            return rep;
         }
         
         /// @brief 批量插入事务记录
-        /// @param outboxes 事务记录列表
-        /// @return 成功返回true
-        bool batchInsert(std::vector<MessageOutbox>& outboxes)
+        Response batchInsert(std::vector<MessageOutbox>& outboxes)
         {
+            Response rep;
             try 
             {
                 odb::transaction t(_db->begin());
@@ -58,76 +62,79 @@ namespace odbMessage
                     _db->persist(outbox);
                 }
                 t.commit();
-                return true;
+                rep.status = true;
             }
             catch (const std::exception& e)
             {
                 LOG_ERROR("批量插入事务记录失败:{}!", e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
+            return rep;
         }
         
         /// @brief 更新事务记录
-        /// @param outbox 事务记录
-        /// @return 成功返回true
-        bool update(const MessageOutbox& outbox)
+        Response update(const MessageOutbox& outbox)
         {
+            Response rep;
             try 
             {
                 odb::transaction t(_db->begin());
                 _db->update(outbox);
                 t.commit();
-                return true;
+                rep.status = true;
             }
             catch (const std::exception& e)
             {
                 LOG_ERROR("更新事务记录失败:{}!", e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
+            return rep;
         }
         
         /// @brief 删除事务记录
-        /// @param id 事务ID
-        /// @return 成功返回true
-        bool erase(unsigned long long id)
+        Response erase(unsigned long long id)
         {
+            Response rep;
             try 
             {
                 odb::transaction t(_db->begin());
                 _db->erase<MessageOutbox>(id);
                 t.commit();
-                return true;
+                rep.status = true;
             }
             catch (const std::exception& e)
             {
                 LOG_ERROR("删除事务记录失败:{}!", e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
+            return rep;
         }
         
         /// @brief 根据消息ID删除事务记录
-        /// @param msg_id 消息ID
-        /// @return 成功返回true
-        bool eraseByMsgId(unsigned long long msg_id)
+        Response eraseByMsgId(unsigned long long msg_id)
         {
+            Response rep;
             try 
             {
                 odb::transaction t(_db->begin());
                 odb::query<MessageOutbox> q(odb::query<MessageOutbox>::msg_id == msg_id);
                 _db->erase_query<MessageOutbox>(q);
                 t.commit();
-                return true;
+                rep.status = true;
             }
             catch (const std::exception& e)
             {
                 LOG_ERROR("删除事务记录失败:{}!", e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
+            return rep;
         }
         
         /// @brief 获取待处理的事务记录
-        /// @param limit 限制数量
-        /// @return 事务记录列表
         std::vector<MessageOutbox> getPendingTasks(int limit = 100)
         {
             try 
@@ -161,10 +168,9 @@ namespace odbMessage
         }
         
         /// @brief 更新事务状态为处理中
-        /// @param id 事务ID
-        /// @return 成功返回true
-        bool markProcessing(unsigned long long id)
+        Response markProcessing(unsigned long long id)
         {
+            Response rep;
             try 
             {
                 odb::transaction t(_db->begin());
@@ -175,53 +181,55 @@ namespace odbMessage
                    << ", updated_at=" << now << " WHERE id=" << id << " AND status=" << static_cast<int>(OutboxStatus::PENDING);
                 _db->execute(ss.str());
                 t.commit();
-                return true;
+                rep.status = true;
             }
             catch (const std::exception& e)
             {
                 LOG_ERROR("更新事务状态失败:{}!", e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
+            return rep;
         }
         
         /// @brief 更新事务状态为完成
-        /// @param id 事务ID
-        /// @return 成功返回true
-        bool markCompleted(unsigned long long id)
+        Response markCompleted(unsigned long long id)
         {
+            Response rep;
             try 
             {
                 odb::transaction t(_db->begin());
                 _db->erase<MessageOutbox>(id);
                 t.commit();
-                return true;
+                rep.status = true;
             }
             catch (const std::exception& e)
             {
                 LOG_ERROR("删除已完成事务记录失败:{}!", e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
+            return rep;
         }
         
         /// @brief 更新事务状态为失败
-        /// @param id 事务ID
-        /// @param error 错误信息
-        /// @return 成功返回true
-        bool markFailed(unsigned long long id, const std::string& error)
+        Response markFailed(unsigned long long id, const std::string& error)
         {
+            Response rep;
             try 
             {
                 odb::transaction t(_db->begin());
                 unsigned long long now = std::chrono::duration_cast<std::chrono::milliseconds>(
                     std::chrono::system_clock::now().time_since_epoch()).count();
                 
-                //先获取当前记录信息
                 odb::query<MessageOutbox> q(odb::query<MessageOutbox>::id == id);
                 odb::result<MessageOutbox> r(_db->query<MessageOutbox>(q));
                 auto it = r.begin();
                 if (it == r.end())
                 {
-                    return false;
+                    rep.status = false;
+                    rep.errmsg = "事务记录不存在";
+                    return rep;
                 }
                 MessageOutbox outbox(*it);
                 outbox.retry_count++;
@@ -234,7 +242,6 @@ namespace odbMessage
                 }
                 else
                 {
-                    //指数退避：下次重试时间 = 当前时间 + 2^retry_count * 1000ms
                     unsigned long long delay = (1ULL << outbox.retry_count) * 1000;
                     outbox.next_retry_at = outbox.updated_at + delay;
                     outbox.status = static_cast<int>(OutboxStatus::PENDING);
@@ -242,13 +249,15 @@ namespace odbMessage
                 
                 _db->update(outbox);
                 t.commit();
-                return true;
+                rep.status = true;
             }
             catch (const std::exception& e)
             {
                 LOG_ERROR("更新事务状态失败:{}!", e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
+            return rep;
         }
 
     private:

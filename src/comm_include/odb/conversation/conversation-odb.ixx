@@ -6,19 +6,19 @@
 
 namespace odb
 {
-  // Converstaion
+  // Conversation
   //
 
   inline
-  access::object_traits< ::Converstaion >::id_type
-  access::object_traits< ::Converstaion >::
+  access::object_traits< ::Conversation >::id_type
+  access::object_traits< ::Conversation >::
   id (const object_type& o)
   {
     return o.conversation_id;
   }
 
   inline
-  void access::object_traits< ::Converstaion >::
+  void access::object_traits< ::Conversation >::
   callback (database& db, object_type& x, callback_event e)
   {
     ODB_POTENTIALLY_UNUSED (db);
@@ -27,7 +27,7 @@ namespace odb
   }
 
   inline
-  void access::object_traits< ::Converstaion >::
+  void access::object_traits< ::Conversation >::
   callback (database& db, const object_type& x, callback_event e)
   {
     ODB_POTENTIALLY_UNUSED (db);
@@ -35,19 +35,19 @@ namespace odb
     ODB_POTENTIALLY_UNUSED (e);
   }
 
-  // ConverstaionMember
+  // ConversationMember
   //
 
   inline
-  access::object_traits< ::ConverstaionMember >::id_type
-  access::object_traits< ::ConverstaionMember >::
+  access::object_traits< ::ConversationMember >::id_type
+  access::object_traits< ::ConversationMember >::
   id (const object_type& o)
   {
-    return o.conversation_id;
+    return o.id;
   }
 
   inline
-  void access::object_traits< ::ConverstaionMember >::
+  void access::object_traits< ::ConversationMember >::
   callback (database& db, object_type& x, callback_event e)
   {
     ODB_POTENTIALLY_UNUSED (db);
@@ -56,7 +56,7 @@ namespace odb
   }
 
   inline
-  void access::object_traits< ::ConverstaionMember >::
+  void access::object_traits< ::ConversationMember >::
   callback (database& db, const object_type& x, callback_event e)
   {
     ODB_POTENTIALLY_UNUSED (db);
@@ -75,15 +75,27 @@ namespace odb
     ODB_POTENTIALLY_UNUSED (x);
     ODB_POTENTIALLY_UNUSED (e);
   }
+
+  // GroupConversation
+  //
+
+  inline
+  void access::view_traits< ::GroupConversation >::
+  callback (database& db, view_type& x, callback_event e)
+  {
+    ODB_POTENTIALLY_UNUSED (db);
+    ODB_POTENTIALLY_UNUSED (x);
+    ODB_POTENTIALLY_UNUSED (e);
+  }
 }
 
 namespace odb
 {
-  // Converstaion
+  // Conversation
   //
 
   inline
-  void access::object_traits_impl< ::Converstaion, id_mysql >::
+  void access::object_traits_impl< ::Conversation, id_mysql >::
   erase (database& db, const object_type& obj)
   {
     callback (db, obj, callback_event::pre_erase);
@@ -92,7 +104,7 @@ namespace odb
   }
 
   inline
-  void access::object_traits_impl< ::Converstaion, id_mysql >::
+  void access::object_traits_impl< ::Conversation, id_mysql >::
   load_ (statements_type& sts,
          object_type& obj,
          bool)
@@ -101,11 +113,11 @@ namespace odb
     ODB_POTENTIALLY_UNUSED (obj);
   }
 
-  // ConverstaionMember
+  // ConversationMember
   //
 
   inline
-  void access::object_traits_impl< ::ConverstaionMember, id_mysql >::
+  void access::object_traits_impl< ::ConversationMember, id_mysql >::
   erase (database& db, const object_type& obj)
   {
     callback (db, obj, callback_event::pre_erase);
@@ -114,7 +126,7 @@ namespace odb
   }
 
   inline
-  void access::object_traits_impl< ::ConverstaionMember, id_mysql >::
+  void access::object_traits_impl< ::ConversationMember, id_mysql >::
   load_ (statements_type& sts,
          object_type& obj,
          bool)
@@ -124,6 +136,9 @@ namespace odb
   }
 
   // PrivateConversation
+  //
+
+  // GroupConversation
   //
 }
 

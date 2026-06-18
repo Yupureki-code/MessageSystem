@@ -1,3 +1,4 @@
+#pragma once
 #include "user-odb.hxx"
 #include "user.hxx"
 #include <memory>
@@ -5,12 +6,10 @@
 #include <odb/forward.hxx>
 #include <vector>
 #include "../../logger.hpp"
-// ODB 核心头文件
-#include <odb/database.hxx>      // database 基类
-#include <odb/transaction.hxx>   // 事务管理
-#include <odb/query.hxx>         // 类型安全查询
-#include <odb/result.hxx>        // 查询结果集
-// MySQL 数据库驱动
+#include <odb/database.hxx>
+#include <odb/transaction.hxx>
+#include <odb/query.hxx>
+#include <odb/result.hxx>
 #include <odb/mysql/database.hxx>
 #include <sstream>
 #include "../../latecymonitor.hpp"
@@ -34,25 +33,28 @@ namespace odbUser
             _monitor.setOutputFile(LOG_PATH, "odb_user.log");
             _monitor.start();
         }
-        bool insert(User& user)
+        Response insert(User& user)
         {
+            Response rep;
             Timer t(_monitor,"insert user(id):" + std::to_string(user.uid));
             try
             {
                 odb::transaction t(_db->begin());
                 _db->persist<User>(user);
                 t.commit();
+                rep.status = true;
             }
             catch(const odb::exception& e)
             {
                 LOG_ERROR("插入{}失败:{}!",user.uid,e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
-            return true;
-           
+            return rep;
         }
-        bool selectById(const std::string& id,std::shared_ptr<User>* user)
+        Response selectById(const std::string& id,std::shared_ptr<User>* user)
         {
+            Response rep;
             Timer t(_monitor,"select user(id):" +  id);
             try
             {   
@@ -60,16 +62,19 @@ namespace odbUser
                 auto ret = _db->query_one<User>(query::uid == stoi(id));
                 user->reset(ret);
                 t.commit();
+                rep.status = true;
             }
             catch(const odb::exception& e)
             {
                 LOG_ERROR("查找{}失败:{}!",id,e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
-            return true;
+            return rep;
         }
-        bool selectByName(const std::string name,std::shared_ptr<User>* user)
+        Response selectByName(const std::string name,std::shared_ptr<User>* user)
         {
+            Response rep;
             Timer t(_monitor,"select user(name):" + name);
             try
             {   
@@ -77,16 +82,19 @@ namespace odbUser
                 auto ret = _db->query_one<User>(query::name == name);
                 user->reset(ret);
                 t.commit();
+                rep.status = true;
             }
             catch(const odb::exception& e)
             {
                 LOG_ERROR("查找用户{}失败:{}!",name,e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
-            return true;
+            return rep;
         }
-        bool selectByEmail(const std::string email,std::shared_ptr<User>* user)
+        Response selectByEmail(const std::string email,std::shared_ptr<User>* user)
         {
+            Response rep;
             Timer t(_monitor,"select user(email):" + email);
             try
             {   
@@ -94,29 +102,34 @@ namespace odbUser
                 auto ret = _db->query_one<User>(query::name == email);
                 user->reset(ret);
                 t.commit();
+                rep.status = true;
             }
             catch(const odb::exception& e)
             {
                 LOG_ERROR("查找用户{}失败:{}!",email,e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
-            return true;
+            return rep;
         }
-        bool update(const std::shared_ptr<User>& user)
+        Response update(const std::shared_ptr<User>& user)
         {
+            Response rep;
             Timer t(_monitor,"update user(id):" + std::to_string(user->uid));
             try
             {
                 odb::transaction t(_db->begin());
                 _db->update<User>(*user);
                 t.commit();
+                rep.status = true;
             }
             catch(const odb::exception& e)
             {
                 LOG_ERROR("修改用户{}失败:{}!",user->uid,e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
-            return true;
+            return rep;
         }
         std::vector<User> selectMultiById(const std::vector<std::string>& list)
         {
@@ -145,7 +158,6 @@ namespace odbUser
             catch (std::exception &e) 
             {
                 LOG_ERROR("批量用户ID查询失败:{}!", e.what());
-                return res;
             }
             return res;
         }
@@ -153,4 +165,4 @@ namespace odbUser
         std::unique_ptr<odb::database> _db;
         latecyMonitor::LatencyMonitor _monitor;
     };
-};
+}

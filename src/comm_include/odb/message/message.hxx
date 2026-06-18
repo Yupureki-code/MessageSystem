@@ -33,4 +33,4 @@ struct Message
     odb::nullable<std::string> file_name;  //文件消息的文件名称 -- 只针对文件消息有效
     odb::nullable<unsigned int> file_size; //文件消息的文件大小 -- 只针对文件消息有效
 };
-//odb -d mysql --std c++17 --generate-query --generate-schema message.hxx
+//odb -d mysql --generate-query --generate-schema -std c++11 message.hxx

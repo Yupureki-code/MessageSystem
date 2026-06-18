@@ -1,3 +1,4 @@
+#pragma once
 #include "friend-odb.hxx"
 #include "friend.hxx"
 #include <memory>
@@ -5,12 +6,10 @@
 #include <odb/forward.hxx>
 #include <vector>
 #include "../../logger.hpp"
-// ODB 核心头文件
-#include <odb/database.hxx>      // database 基类
-#include <odb/transaction.hxx>   // 事务管理
-#include <odb/query.hxx>         // 类型安全查询
-#include <odb/result.hxx>        // 查询结果集
-// MySQL 数据库驱动
+#include <odb/database.hxx>
+#include <odb/transaction.hxx>
+#include <odb/query.hxx>
+#include <odb/result.hxx>
 #include <odb/mysql/database.hxx>
 #include <sstream>
 #include "../../latecymonitor.hpp"
@@ -34,40 +33,47 @@ namespace odbFriend
             _monitor.setOutputFile(LOG_PATH, "odb_user.log");
             _monitor.start();
         }
-        bool insert(Friendships& table)
+        Response insert(Friendships& table)
         {
+            Response rep;
             Timer t(_monitor,"insert friendships(id):" + std::to_string(table.id));
             try
             {
                 odb::transaction t(_db->begin());
                 _db->persist<Friendships>(table);
                 t.commit();
+                rep.status = true;
             }
             catch(const odb::exception& e)
             {
                 LOG_ERROR("插入好友关系表{}失败:{}!",table.id,e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
-            return true;
+            return rep;
         }
-        bool remove(const Friendships& table)
+        Response remove(const Friendships& table)
         {
+            Response rep;
             Timer t(_monitor,"remove friendships(id):" + std::to_string(table.id));
             try
             {
                 odb::transaction t(_db->begin());
                 _db->erase(table);
                 t.commit();
+                rep.status = true;
             }
             catch(const odb::exception& e)
             {
                 LOG_ERROR("删除好友关系表{}失败:{}!",table.id,e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
-            return true;
+            return rep;
         }
-        bool selectById(size_t id,std::shared_ptr<Friendships>* table)
+        Response selectById(size_t id,std::shared_ptr<Friendships>* table)
         {
+            Response rep;
             Timer t(_monitor,"select friendships(id):" + std::to_string(id));
             try
             {
@@ -75,16 +81,19 @@ namespace odbFriend
                 auto ret = _db->query_one<Friendships>(query::id == id && query::status == FriendShipStatus::APPROVAL);
                 table->reset(ret);
                 t.commit();
+                rep.status = true;
             }
             catch(const odb::exception& e)
             {
                 LOG_ERROR("查找好友关系表{}失败:{}!",id,e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
-            return true;
+            return rep;
         }
-        bool selectByUid(size_t uid,size_t friend_uid,std::shared_ptr<Friendships>* table)
+        Response selectByUid(size_t uid,size_t friend_uid,std::shared_ptr<Friendships>* table)
         {
+            Response rep;
             Timer t(_monitor,"select friendships(uid,friend_uid):" + std::to_string(uid) + "," + std::to_string(friend_uid));
             try
             {
@@ -92,39 +101,44 @@ namespace odbFriend
                 auto ret = _db->query_one<Friendships>(query::uid == uid && query::friend_uid == friend_uid && query::status == FriendShipStatus::APPROVAL);
                 table->reset(ret);
                 t.commit();
+                rep.status = true;
             }
             catch(const odb::exception& e)
             {
                 LOG_ERROR("查找好友关系表{}:{}失败:{}!",uid,friend_uid,e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
-            return true;
+            return rep;
         }
-        bool update(const Friendships& table)
+        Response update(const Friendships& table)
         {
+            Response rep;
             Timer t(_monitor,"update friendships(id):" + std::to_string(table.id));
             try
             {
                 odb::transaction t(_db->begin());
                 _db->update(table);
                 t.commit();
+                rep.status = true;
             }
             catch(const odb::exception& e)
             {
-                LOG_ERROR("查找好友关系表{}失败:{}!",table.id,e.what());
-                return false;
+                LOG_ERROR("更新好友关系表{}失败:{}!",table.id,e.what());
+                rep.status = false;
+                rep.errmsg = e.what();
             }
-            return true;
+            return rep;
         }
         odb::database* getDB() const { return _db.get(); }
         /// @brief 通过好友名称模糊搜索好友（使用FindFriend视图）
-        bool selectFriendsByName(size_t uid, const std::string& name, std::vector<FindFriend>* result)
+        Response selectFriendsByName(size_t uid, const std::string& name, std::vector<FindFriend>* result)
         {
+            Response rep;
             Timer t(_monitor,"select friends by name(uid,name):" + std::to_string(uid) + "," + name);
             try
             {
                 odb::transaction t(_db->begin());
-                // 使用原生SQL查询FindFriend视图
                 std::string sql = "SELECT * FROM friendships "
                     "INNER JOIN user ON user.uid = friendships.friend_uid "
                     "WHERE friendships.uid = " + std::to_string(uid) +
@@ -139,13 +153,15 @@ namespace odbFriend
                     result->push_back(*it);
                 }
                 t.commit();
+                rep.status = true;
             }
             catch(const odb::exception& e)
             {
                 LOG_ERROR("搜索好友失败(uid,name):{}:{}:{}!",uid,name,e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
-            return true;
+            return rep;
         }
     private:
         std::unique_ptr<odb::database> _db;

@@ -29,6 +29,7 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
+#include <google/protobuf/service.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "comm.pb.h"
 // @@protoc_insertion_point(includes)
@@ -46,35 +47,43 @@ struct TableStruct_message_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_message_2eproto;
 namespace messageSystem {
-class SendMessage;
-struct SendMessageDefaultTypeInternal;
-extern SendMessageDefaultTypeInternal _SendMessage_default_instance_;
+class MarkAsReadReq;
+struct MarkAsReadReqDefaultTypeInternal;
+extern MarkAsReadReqDefaultTypeInternal _MarkAsReadReq_default_instance_;
+class RecallMessageReq;
+struct RecallMessageReqDefaultTypeInternal;
+extern RecallMessageReqDefaultTypeInternal _RecallMessageReq_default_instance_;
+class SendMessageReq;
+struct SendMessageReqDefaultTypeInternal;
+extern SendMessageReqDefaultTypeInternal _SendMessageReq_default_instance_;
 }  // namespace messageSystem
 PROTOBUF_NAMESPACE_OPEN
-template<> ::messageSystem::SendMessage* Arena::CreateMaybeMessage<::messageSystem::SendMessage>(Arena*);
+template<> ::messageSystem::MarkAsReadReq* Arena::CreateMaybeMessage<::messageSystem::MarkAsReadReq>(Arena*);
+template<> ::messageSystem::RecallMessageReq* Arena::CreateMaybeMessage<::messageSystem::RecallMessageReq>(Arena*);
+template<> ::messageSystem::SendMessageReq* Arena::CreateMaybeMessage<::messageSystem::SendMessageReq>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace messageSystem {
 
 // ===================================================================
 
-class SendMessage final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:messageSystem.SendMessage) */ {
+class SendMessageReq final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:messageSystem.SendMessageReq) */ {
  public:
-  inline SendMessage() : SendMessage(nullptr) {}
-  ~SendMessage() override;
-  explicit PROTOBUF_CONSTEXPR SendMessage(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline SendMessageReq() : SendMessageReq(nullptr) {}
+  ~SendMessageReq() override;
+  explicit PROTOBUF_CONSTEXPR SendMessageReq(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  SendMessage(const SendMessage& from);
-  SendMessage(SendMessage&& from) noexcept
-    : SendMessage() {
+  SendMessageReq(const SendMessageReq& from);
+  SendMessageReq(SendMessageReq&& from) noexcept
+    : SendMessageReq() {
     *this = ::std::move(from);
   }
 
-  inline SendMessage& operator=(const SendMessage& from) {
+  inline SendMessageReq& operator=(const SendMessageReq& from) {
     CopyFrom(from);
     return *this;
   }
-  inline SendMessage& operator=(SendMessage&& from) noexcept {
+  inline SendMessageReq& operator=(SendMessageReq&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -97,20 +106,20 @@ class SendMessage final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const SendMessage& default_instance() {
+  static const SendMessageReq& default_instance() {
     return *internal_default_instance();
   }
-  static inline const SendMessage* internal_default_instance() {
-    return reinterpret_cast<const SendMessage*>(
-               &_SendMessage_default_instance_);
+  static inline const SendMessageReq* internal_default_instance() {
+    return reinterpret_cast<const SendMessageReq*>(
+               &_SendMessageReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  friend void swap(SendMessage& a, SendMessage& b) {
+  friend void swap(SendMessageReq& a, SendMessageReq& b) {
     a.Swap(&b);
   }
-  inline void Swap(SendMessage* other) {
+  inline void Swap(SendMessageReq* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -123,7 +132,7 @@ class SendMessage final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(SendMessage* other) {
+  void UnsafeArenaSwap(SendMessageReq* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -131,14 +140,14 @@ class SendMessage final :
 
   // implements Message ----------------------------------------------
 
-  SendMessage* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<SendMessage>(arena);
+  SendMessageReq* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SendMessageReq>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const SendMessage& from);
+  void CopyFrom(const SendMessageReq& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const SendMessage& from) {
-    SendMessage::MergeImpl(*this, from);
+  void MergeFrom( const SendMessageReq& from) {
+    SendMessageReq::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -156,15 +165,15 @@ class SendMessage final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(SendMessage* other);
+  void InternalSwap(SendMessageReq* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "messageSystem.SendMessage";
+    return "messageSystem.SendMessageReq";
   }
   protected:
-  explicit SendMessage(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit SendMessageReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -179,6 +188,7 @@ class SendMessage final :
 
   enum : int {
     kRequestIdFieldNumber = 1,
+    kMessageFieldNumber = 2,
   };
   // string request_id = 1;
   void clear_request_id();
@@ -194,7 +204,25 @@ class SendMessage final :
   std::string* _internal_mutable_request_id();
   public:
 
-  // @@protoc_insertion_point(class_scope:messageSystem.SendMessage)
+  // .messageSystem.MessageInfo message = 2;
+  bool has_message() const;
+  private:
+  bool _internal_has_message() const;
+  public:
+  void clear_message();
+  const ::messageSystem::MessageInfo& message() const;
+  PROTOBUF_NODISCARD ::messageSystem::MessageInfo* release_message();
+  ::messageSystem::MessageInfo* mutable_message();
+  void set_allocated_message(::messageSystem::MessageInfo* message);
+  private:
+  const ::messageSystem::MessageInfo& _internal_message() const;
+  ::messageSystem::MessageInfo* _internal_mutable_message();
+  public:
+  void unsafe_arena_set_allocated_message(
+      ::messageSystem::MessageInfo* message);
+  ::messageSystem::MessageInfo* unsafe_arena_release_message();
+
+  // @@protoc_insertion_point(class_scope:messageSystem.SendMessageReq)
  private:
   class _Internal;
 
@@ -203,11 +231,429 @@ class SendMessage final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
+    ::messageSystem::MessageInfo* message_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_message_2eproto;
 };
+// -------------------------------------------------------------------
+
+class RecallMessageReq final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:messageSystem.RecallMessageReq) */ {
+ public:
+  inline RecallMessageReq() : RecallMessageReq(nullptr) {}
+  ~RecallMessageReq() override;
+  explicit PROTOBUF_CONSTEXPR RecallMessageReq(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  RecallMessageReq(const RecallMessageReq& from);
+  RecallMessageReq(RecallMessageReq&& from) noexcept
+    : RecallMessageReq() {
+    *this = ::std::move(from);
+  }
+
+  inline RecallMessageReq& operator=(const RecallMessageReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline RecallMessageReq& operator=(RecallMessageReq&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const RecallMessageReq& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const RecallMessageReq* internal_default_instance() {
+    return reinterpret_cast<const RecallMessageReq*>(
+               &_RecallMessageReq_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(RecallMessageReq& a, RecallMessageReq& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(RecallMessageReq* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(RecallMessageReq* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  RecallMessageReq* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<RecallMessageReq>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const RecallMessageReq& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const RecallMessageReq& from) {
+    RecallMessageReq::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(RecallMessageReq* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "messageSystem.RecallMessageReq";
+  }
+  protected:
+  explicit RecallMessageReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRequestIdFieldNumber = 1,
+    kMessageFieldNumber = 2,
+  };
+  // string request_id = 1;
+  void clear_request_id();
+  const std::string& request_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_request_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_request_id();
+  PROTOBUF_NODISCARD std::string* release_request_id();
+  void set_allocated_request_id(std::string* request_id);
+  private:
+  const std::string& _internal_request_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
+  std::string* _internal_mutable_request_id();
+  public:
+
+  // .messageSystem.MessageInfo message = 2;
+  bool has_message() const;
+  private:
+  bool _internal_has_message() const;
+  public:
+  void clear_message();
+  const ::messageSystem::MessageInfo& message() const;
+  PROTOBUF_NODISCARD ::messageSystem::MessageInfo* release_message();
+  ::messageSystem::MessageInfo* mutable_message();
+  void set_allocated_message(::messageSystem::MessageInfo* message);
+  private:
+  const ::messageSystem::MessageInfo& _internal_message() const;
+  ::messageSystem::MessageInfo* _internal_mutable_message();
+  public:
+  void unsafe_arena_set_allocated_message(
+      ::messageSystem::MessageInfo* message);
+  ::messageSystem::MessageInfo* unsafe_arena_release_message();
+
+  // @@protoc_insertion_point(class_scope:messageSystem.RecallMessageReq)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
+    ::messageSystem::MessageInfo* message_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
+class MarkAsReadReq final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:messageSystem.MarkAsReadReq) */ {
+ public:
+  inline MarkAsReadReq() : MarkAsReadReq(nullptr) {}
+  ~MarkAsReadReq() override;
+  explicit PROTOBUF_CONSTEXPR MarkAsReadReq(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  MarkAsReadReq(const MarkAsReadReq& from);
+  MarkAsReadReq(MarkAsReadReq&& from) noexcept
+    : MarkAsReadReq() {
+    *this = ::std::move(from);
+  }
+
+  inline MarkAsReadReq& operator=(const MarkAsReadReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline MarkAsReadReq& operator=(MarkAsReadReq&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const MarkAsReadReq& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const MarkAsReadReq* internal_default_instance() {
+    return reinterpret_cast<const MarkAsReadReq*>(
+               &_MarkAsReadReq_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(MarkAsReadReq& a, MarkAsReadReq& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(MarkAsReadReq* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(MarkAsReadReq* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  MarkAsReadReq* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<MarkAsReadReq>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const MarkAsReadReq& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const MarkAsReadReq& from) {
+    MarkAsReadReq::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(MarkAsReadReq* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "messageSystem.MarkAsReadReq";
+  }
+  protected:
+  explicit MarkAsReadReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRequestIdFieldNumber = 1,
+    kCoversationIdFieldNumber = 2,
+  };
+  // string request_id = 1;
+  void clear_request_id();
+  const std::string& request_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_request_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_request_id();
+  PROTOBUF_NODISCARD std::string* release_request_id();
+  void set_allocated_request_id(std::string* request_id);
+  private:
+  const std::string& _internal_request_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
+  std::string* _internal_mutable_request_id();
+  public:
+
+  // string coversation_id = 2;
+  void clear_coversation_id();
+  const std::string& coversation_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_coversation_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_coversation_id();
+  PROTOBUF_NODISCARD std::string* release_coversation_id();
+  void set_allocated_coversation_id(std::string* coversation_id);
+  private:
+  const std::string& _internal_coversation_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_coversation_id(const std::string& value);
+  std::string* _internal_mutable_coversation_id();
+  public:
+
+  // @@protoc_insertion_point(class_scope:messageSystem.MarkAsReadReq)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr coversation_id_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_message_2eproto;
+};
+// ===================================================================
+
+class MessageServer_Stub;
+
+class MessageServer : public ::PROTOBUF_NAMESPACE_ID::Service {
+ protected:
+  // This class should be treated as an abstract interface.
+  inline MessageServer() {};
+ public:
+  virtual ~MessageServer();
+
+  typedef MessageServer_Stub Stub;
+
+  static const ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor* descriptor();
+
+  virtual void SendMessage(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::SendMessageReq* request,
+                       ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+  virtual void RecallMessage(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::RecallMessageReq* request,
+                       ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+  virtual void MarkAsRead(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::MarkAsReadReq* request,
+                       ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+
+  // implements Service ----------------------------------------------
+
+  const ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor* GetDescriptor();
+  void CallMethod(const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor* method,
+                  ::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                  const ::PROTOBUF_NAMESPACE_ID::Message* request,
+                  ::PROTOBUF_NAMESPACE_ID::Message* response,
+                  ::google::protobuf::Closure* done);
+  const ::PROTOBUF_NAMESPACE_ID::Message& GetRequestPrototype(
+    const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor* method) const;
+  const ::PROTOBUF_NAMESPACE_ID::Message& GetResponsePrototype(
+    const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor* method) const;
+
+ private:
+  GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(MessageServer);
+};
+
+class MessageServer_Stub : public MessageServer {
+ public:
+  MessageServer_Stub(::PROTOBUF_NAMESPACE_ID::RpcChannel* channel);
+  MessageServer_Stub(::PROTOBUF_NAMESPACE_ID::RpcChannel* channel,
+                   ::PROTOBUF_NAMESPACE_ID::Service::ChannelOwnership ownership);
+  ~MessageServer_Stub();
+
+  inline ::PROTOBUF_NAMESPACE_ID::RpcChannel* channel() { return channel_; }
+
+  // implements MessageServer ------------------------------------------
+
+  void SendMessage(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::SendMessageReq* request,
+                       ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+  void RecallMessage(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::RecallMessageReq* request,
+                       ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+  void MarkAsRead(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::MarkAsReadReq* request,
+                       ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+ private:
+  ::PROTOBUF_NAMESPACE_ID::RpcChannel* channel_;
+  bool owns_channel_;
+  GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(MessageServer_Stub);
+};
+
+
 // ===================================================================
 
 
@@ -217,44 +663,44 @@ class SendMessage final :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// SendMessage
+// SendMessageReq
 
 // string request_id = 1;
-inline void SendMessage::clear_request_id() {
+inline void SendMessageReq::clear_request_id() {
   _impl_.request_id_.ClearToEmpty();
 }
-inline const std::string& SendMessage::request_id() const {
-  // @@protoc_insertion_point(field_get:messageSystem.SendMessage.request_id)
+inline const std::string& SendMessageReq::request_id() const {
+  // @@protoc_insertion_point(field_get:messageSystem.SendMessageReq.request_id)
   return _internal_request_id();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void SendMessage::set_request_id(ArgT0&& arg0, ArgT... args) {
+void SendMessageReq::set_request_id(ArgT0&& arg0, ArgT... args) {
  
  _impl_.request_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:messageSystem.SendMessage.request_id)
+  // @@protoc_insertion_point(field_set:messageSystem.SendMessageReq.request_id)
 }
-inline std::string* SendMessage::mutable_request_id() {
+inline std::string* SendMessageReq::mutable_request_id() {
   std::string* _s = _internal_mutable_request_id();
-  // @@protoc_insertion_point(field_mutable:messageSystem.SendMessage.request_id)
+  // @@protoc_insertion_point(field_mutable:messageSystem.SendMessageReq.request_id)
   return _s;
 }
-inline const std::string& SendMessage::_internal_request_id() const {
+inline const std::string& SendMessageReq::_internal_request_id() const {
   return _impl_.request_id_.Get();
 }
-inline void SendMessage::_internal_set_request_id(const std::string& value) {
+inline void SendMessageReq::_internal_set_request_id(const std::string& value) {
   
   _impl_.request_id_.Set(value, GetArenaForAllocation());
 }
-inline std::string* SendMessage::_internal_mutable_request_id() {
+inline std::string* SendMessageReq::_internal_mutable_request_id() {
   
   return _impl_.request_id_.Mutable(GetArenaForAllocation());
 }
-inline std::string* SendMessage::release_request_id() {
-  // @@protoc_insertion_point(field_release:messageSystem.SendMessage.request_id)
+inline std::string* SendMessageReq::release_request_id() {
+  // @@protoc_insertion_point(field_release:messageSystem.SendMessageReq.request_id)
   return _impl_.request_id_.Release();
 }
-inline void SendMessage::set_allocated_request_id(std::string* request_id) {
+inline void SendMessageReq::set_allocated_request_id(std::string* request_id) {
   if (request_id != nullptr) {
     
   } else {
@@ -266,12 +712,344 @@ inline void SendMessage::set_allocated_request_id(std::string* request_id) {
     _impl_.request_id_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:messageSystem.SendMessage.request_id)
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.SendMessageReq.request_id)
+}
+
+// .messageSystem.MessageInfo message = 2;
+inline bool SendMessageReq::_internal_has_message() const {
+  return this != internal_default_instance() && _impl_.message_ != nullptr;
+}
+inline bool SendMessageReq::has_message() const {
+  return _internal_has_message();
+}
+inline const ::messageSystem::MessageInfo& SendMessageReq::_internal_message() const {
+  const ::messageSystem::MessageInfo* p = _impl_.message_;
+  return p != nullptr ? *p : reinterpret_cast<const ::messageSystem::MessageInfo&>(
+      ::messageSystem::_MessageInfo_default_instance_);
+}
+inline const ::messageSystem::MessageInfo& SendMessageReq::message() const {
+  // @@protoc_insertion_point(field_get:messageSystem.SendMessageReq.message)
+  return _internal_message();
+}
+inline void SendMessageReq::unsafe_arena_set_allocated_message(
+    ::messageSystem::MessageInfo* message) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.message_);
+  }
+  _impl_.message_ = message;
+  if (message) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:messageSystem.SendMessageReq.message)
+}
+inline ::messageSystem::MessageInfo* SendMessageReq::release_message() {
+  
+  ::messageSystem::MessageInfo* temp = _impl_.message_;
+  _impl_.message_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::messageSystem::MessageInfo* SendMessageReq::unsafe_arena_release_message() {
+  // @@protoc_insertion_point(field_release:messageSystem.SendMessageReq.message)
+  
+  ::messageSystem::MessageInfo* temp = _impl_.message_;
+  _impl_.message_ = nullptr;
+  return temp;
+}
+inline ::messageSystem::MessageInfo* SendMessageReq::_internal_mutable_message() {
+  
+  if (_impl_.message_ == nullptr) {
+    auto* p = CreateMaybeMessage<::messageSystem::MessageInfo>(GetArenaForAllocation());
+    _impl_.message_ = p;
+  }
+  return _impl_.message_;
+}
+inline ::messageSystem::MessageInfo* SendMessageReq::mutable_message() {
+  ::messageSystem::MessageInfo* _msg = _internal_mutable_message();
+  // @@protoc_insertion_point(field_mutable:messageSystem.SendMessageReq.message)
+  return _msg;
+}
+inline void SendMessageReq::set_allocated_message(::messageSystem::MessageInfo* message) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.message_);
+  }
+  if (message) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(message));
+    if (message_arena != submessage_arena) {
+      message = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, message, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.message_ = message;
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.SendMessageReq.message)
+}
+
+// -------------------------------------------------------------------
+
+// RecallMessageReq
+
+// string request_id = 1;
+inline void RecallMessageReq::clear_request_id() {
+  _impl_.request_id_.ClearToEmpty();
+}
+inline const std::string& RecallMessageReq::request_id() const {
+  // @@protoc_insertion_point(field_get:messageSystem.RecallMessageReq.request_id)
+  return _internal_request_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void RecallMessageReq::set_request_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.request_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.RecallMessageReq.request_id)
+}
+inline std::string* RecallMessageReq::mutable_request_id() {
+  std::string* _s = _internal_mutable_request_id();
+  // @@protoc_insertion_point(field_mutable:messageSystem.RecallMessageReq.request_id)
+  return _s;
+}
+inline const std::string& RecallMessageReq::_internal_request_id() const {
+  return _impl_.request_id_.Get();
+}
+inline void RecallMessageReq::_internal_set_request_id(const std::string& value) {
+  
+  _impl_.request_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* RecallMessageReq::_internal_mutable_request_id() {
+  
+  return _impl_.request_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* RecallMessageReq::release_request_id() {
+  // @@protoc_insertion_point(field_release:messageSystem.RecallMessageReq.request_id)
+  return _impl_.request_id_.Release();
+}
+inline void RecallMessageReq::set_allocated_request_id(std::string* request_id) {
+  if (request_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.request_id_.SetAllocated(request_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.request_id_.IsDefault()) {
+    _impl_.request_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.RecallMessageReq.request_id)
+}
+
+// .messageSystem.MessageInfo message = 2;
+inline bool RecallMessageReq::_internal_has_message() const {
+  return this != internal_default_instance() && _impl_.message_ != nullptr;
+}
+inline bool RecallMessageReq::has_message() const {
+  return _internal_has_message();
+}
+inline const ::messageSystem::MessageInfo& RecallMessageReq::_internal_message() const {
+  const ::messageSystem::MessageInfo* p = _impl_.message_;
+  return p != nullptr ? *p : reinterpret_cast<const ::messageSystem::MessageInfo&>(
+      ::messageSystem::_MessageInfo_default_instance_);
+}
+inline const ::messageSystem::MessageInfo& RecallMessageReq::message() const {
+  // @@protoc_insertion_point(field_get:messageSystem.RecallMessageReq.message)
+  return _internal_message();
+}
+inline void RecallMessageReq::unsafe_arena_set_allocated_message(
+    ::messageSystem::MessageInfo* message) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.message_);
+  }
+  _impl_.message_ = message;
+  if (message) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:messageSystem.RecallMessageReq.message)
+}
+inline ::messageSystem::MessageInfo* RecallMessageReq::release_message() {
+  
+  ::messageSystem::MessageInfo* temp = _impl_.message_;
+  _impl_.message_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::messageSystem::MessageInfo* RecallMessageReq::unsafe_arena_release_message() {
+  // @@protoc_insertion_point(field_release:messageSystem.RecallMessageReq.message)
+  
+  ::messageSystem::MessageInfo* temp = _impl_.message_;
+  _impl_.message_ = nullptr;
+  return temp;
+}
+inline ::messageSystem::MessageInfo* RecallMessageReq::_internal_mutable_message() {
+  
+  if (_impl_.message_ == nullptr) {
+    auto* p = CreateMaybeMessage<::messageSystem::MessageInfo>(GetArenaForAllocation());
+    _impl_.message_ = p;
+  }
+  return _impl_.message_;
+}
+inline ::messageSystem::MessageInfo* RecallMessageReq::mutable_message() {
+  ::messageSystem::MessageInfo* _msg = _internal_mutable_message();
+  // @@protoc_insertion_point(field_mutable:messageSystem.RecallMessageReq.message)
+  return _msg;
+}
+inline void RecallMessageReq::set_allocated_message(::messageSystem::MessageInfo* message) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.message_);
+  }
+  if (message) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(message));
+    if (message_arena != submessage_arena) {
+      message = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, message, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.message_ = message;
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.RecallMessageReq.message)
+}
+
+// -------------------------------------------------------------------
+
+// MarkAsReadReq
+
+// string request_id = 1;
+inline void MarkAsReadReq::clear_request_id() {
+  _impl_.request_id_.ClearToEmpty();
+}
+inline const std::string& MarkAsReadReq::request_id() const {
+  // @@protoc_insertion_point(field_get:messageSystem.MarkAsReadReq.request_id)
+  return _internal_request_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void MarkAsReadReq::set_request_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.request_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.MarkAsReadReq.request_id)
+}
+inline std::string* MarkAsReadReq::mutable_request_id() {
+  std::string* _s = _internal_mutable_request_id();
+  // @@protoc_insertion_point(field_mutable:messageSystem.MarkAsReadReq.request_id)
+  return _s;
+}
+inline const std::string& MarkAsReadReq::_internal_request_id() const {
+  return _impl_.request_id_.Get();
+}
+inline void MarkAsReadReq::_internal_set_request_id(const std::string& value) {
+  
+  _impl_.request_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* MarkAsReadReq::_internal_mutable_request_id() {
+  
+  return _impl_.request_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* MarkAsReadReq::release_request_id() {
+  // @@protoc_insertion_point(field_release:messageSystem.MarkAsReadReq.request_id)
+  return _impl_.request_id_.Release();
+}
+inline void MarkAsReadReq::set_allocated_request_id(std::string* request_id) {
+  if (request_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.request_id_.SetAllocated(request_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.request_id_.IsDefault()) {
+    _impl_.request_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.MarkAsReadReq.request_id)
+}
+
+// string coversation_id = 2;
+inline void MarkAsReadReq::clear_coversation_id() {
+  _impl_.coversation_id_.ClearToEmpty();
+}
+inline const std::string& MarkAsReadReq::coversation_id() const {
+  // @@protoc_insertion_point(field_get:messageSystem.MarkAsReadReq.coversation_id)
+  return _internal_coversation_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void MarkAsReadReq::set_coversation_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.coversation_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.MarkAsReadReq.coversation_id)
+}
+inline std::string* MarkAsReadReq::mutable_coversation_id() {
+  std::string* _s = _internal_mutable_coversation_id();
+  // @@protoc_insertion_point(field_mutable:messageSystem.MarkAsReadReq.coversation_id)
+  return _s;
+}
+inline const std::string& MarkAsReadReq::_internal_coversation_id() const {
+  return _impl_.coversation_id_.Get();
+}
+inline void MarkAsReadReq::_internal_set_coversation_id(const std::string& value) {
+  
+  _impl_.coversation_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* MarkAsReadReq::_internal_mutable_coversation_id() {
+  
+  return _impl_.coversation_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* MarkAsReadReq::release_coversation_id() {
+  // @@protoc_insertion_point(field_release:messageSystem.MarkAsReadReq.coversation_id)
+  return _impl_.coversation_id_.Release();
+}
+inline void MarkAsReadReq::set_allocated_coversation_id(std::string* coversation_id) {
+  if (coversation_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.coversation_id_.SetAllocated(coversation_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.coversation_id_.IsDefault()) {
+    _impl_.coversation_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.MarkAsReadReq.coversation_id)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 

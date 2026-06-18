@@ -71,9 +71,10 @@ namespace messageSystem
             unsigned long long etime = request->over_time();
             //2. 从数据库中进行消息查询
             std::vector<Message> messages;
-            if(!_db->getHistoryMessages(cid, stime, etime, &messages))
+            auto hist_rep = _db->getHistoryMessages(cid, stime, etime, &messages);
+            if(!hist_rep.status)
             {
-                LOG_ERROR("{} - 获取历史消息失败(cid):{}！", rid, cid);
+                LOG_ERROR("{} - 获取历史消息失败(cid):{}:{}", rid, cid, hist_rep.errmsg);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                 return;
             }
@@ -95,9 +96,10 @@ namespace messageSystem
             std::unordered_map<std::string, FileDownloadData> files;
             if(!file_names.empty())
             {
-                if(!_db->getMessageFiles(rid, file_names, &files))
+                auto file_rep = _db->getMessageFiles(rid, file_names, &files);
+                if(!file_rep.status)
                 {
-                    LOG_ERROR("{} - 获取历史文件失败(cid):{}！", rid, cid);
+                    LOG_ERROR("{} - 获取历史文件失败(cid):{}:{}", rid, cid, file_rep.errmsg);
                     HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                     return;
                 }
@@ -125,9 +127,10 @@ namespace messageSystem
             std::string cid = request->conversation_id();
             //2. 从数据库，获取最近的消息元信息
             std::vector<Message> messages;
-            if (!_db->getRecentMessages(cid, count, &messages)) 
+            auto recent_rep = _db->getRecentMessages(cid, count, &messages);
+            if (!recent_rep.status) 
             {
-                LOG_ERROR("{} - 获取最近消息失败(cid):{}！", rid, cid);
+                LOG_ERROR("{} - 获取最近消息失败(cid):{}:{}", rid, cid, recent_rep.errmsg);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                 return;
             }
@@ -149,9 +152,10 @@ namespace messageSystem
             std::unordered_map<std::string, FileDownloadData> files;
             if(!file_names.empty())
             {
-                if(!_db->getMessageFiles(rid, file_names, &files))
+                auto file_rep = _db->getMessageFiles(rid, file_names, &files);
+                if(!file_rep.status)
                 {
-                    LOG_ERROR("{} - 获取历史文件失败(cid):{}！", rid, cid);
+                    LOG_ERROR("{} - 获取历史文件失败(cid):{}:{}", rid, cid, file_rep.errmsg);
                     HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                     return;
                 }
@@ -274,9 +278,10 @@ namespace messageSystem
             //2. 处理文本消息
             if(!text_messages.empty())
             {
-                if(!_db->PostTextMessages(text_messages))
+                auto text_rep = _db->PostTextMessages(text_messages);
+                if(!text_rep.status)
                 {
-                    LOG_ERROR("{} - 发布文本消息失败!", rid);
+                    LOG_ERROR("{} - 发布文本消息失败:{}!", rid, text_rep.errmsg);
                     HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                     return;
                 }
@@ -285,9 +290,10 @@ namespace messageSystem
             //3. 处理文件消息
             if(!file_messages.empty())
             {
-                if(!_db->PostFileMessages(rid, file_messages))
+                auto file_rep = _db->PostFileMessages(rid, file_messages);
+                if(!file_rep.status)
                 {
-                    LOG_ERROR("{} - 发布文件消息失败!", rid);
+                    LOG_ERROR("{} - 发布文件消息失败:{}!", rid, file_rep.errmsg);
                     HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                     return;
                 }
@@ -347,9 +353,10 @@ namespace messageSystem
             //2. 处理文本消息删除
             if(!text_messages.empty())
             {
-                if(!_db->DeleteTextMessages(text_messages))
+                auto del_text_rep = _db->DeleteTextMessages(text_messages);
+                if(!del_text_rep.status)
                 {
-                    LOG_ERROR("{} - 删除文本消息失败!", rid);
+                    LOG_ERROR("{} - 删除文本消息失败:{}!", rid, del_text_rep.errmsg);
                     HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                     return;
                 }
@@ -358,9 +365,10 @@ namespace messageSystem
             //3. 处理文件消息删除
             if(!file_messages.empty())
             {
-                if(!_db->DeleteFileMessages(rid, file_messages))
+                auto del_file_rep = _db->DeleteFileMessages(rid, file_messages);
+                if(!del_file_rep.status)
                 {
-                    LOG_ERROR("{} - 删除文件消息失败!", rid);
+                    LOG_ERROR("{} - 删除文件消息失败:{}!", rid, del_file_rep.errmsg);
                     HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                     return;
                 }

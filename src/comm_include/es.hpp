@@ -75,8 +75,9 @@ namespace messageSystem
                 _properties[name]["analyzer"] = analyzer;
             }
         }
-        bool create(const std::string& name)
+        Response create(const std::string& name)
         {
+            Response rep;
             if(!_properties.isNull())
             {
                 _mappings["properties"] = _properties;
@@ -87,7 +88,9 @@ namespace messageSystem
             std::string out;
             if(!Serialize(json_out,&out))
             {
-                return false;
+                rep.status = false;
+                rep.errmsg = "Json序列化失败";
+                return rep;
             }
             try 
             {
@@ -95,14 +98,19 @@ namespace messageSystem
                 if (rsp.status_code < 200 || rsp.status_code >= 300) 
                 {
                     LOG_ERROR("创建ES索引 {} 失败，响应状态码异常: {}", name, rsp.status_code);
-                    return false;
+                    rep.status = false;
+                    rep.errmsg = "响应状态码异常: " + std::to_string(rsp.status_code);
+                    return rep;
                 }
             } catch(std::exception &e) 
             {
                 LOG_ERROR("创建ES索引 {} 失败: {}", name, e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
+                return rep;
             }
-            return true;
+            rep.status = true;
+            return rep;
         }
     private:
         std::shared_ptr<elasticlient::Client> _client;
@@ -129,12 +137,15 @@ namespace messageSystem
             _insert[kv.first] = kv.second;
             return *this;
         }
-        bool insert(const std::string& name,const std::string& type,const std::string& id)
+        Response insert(const std::string& name,const std::string& type,const std::string& id)
         {
+            Response rep;
             std::string out;
             if(!Serialize(_insert,&out))
             {
-                return false;
+                rep.status = false;
+                rep.errmsg = "Json序列化失败";
+                return rep;
             }
             try 
             {
@@ -142,31 +153,42 @@ namespace messageSystem
                 if (rsp.status_code < 200 || rsp.status_code >= 300) 
                 {
                     LOG_ERROR("ES插入 {} 失败，响应状态码异常: {}", out, rsp.status_code);
-                    return false;
+                    rep.status = false;
+                    rep.errmsg = "响应状态码异常: " + std::to_string(rsp.status_code);
+                    return rep;
                 }
             } catch(std::exception &e) 
             {
                 LOG_ERROR("ES插入 {} 失败: {}", out, e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
+                return rep;
             }
-            return true;
+            rep.status = true;
+            return rep;
         }
-        bool batchInsert(const std::string& str)
+        Response batchInsert(const std::string& str)
         {
+            Response rep;
             try 
             {
                 auto rsp = _client->performRequest(elasticlient::Client::HTTPMethod::POST,"_bulk", str);
                 if (rsp.status_code < 200 || rsp.status_code >= 300) 
                 {
                     LOG_ERROR("ES批量插入 {} 失败，响应状态码异常: {}", str, rsp.status_code);
-                    return false;
+                    rep.status = false;
+                    rep.errmsg = "响应状态码异常: " + std::to_string(rsp.status_code);
+                    return rep;
                 }
             } catch(std::exception &e) 
             {
                 LOG_ERROR("ES批量插入 {} 失败: {}", str, e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
+                return rep;
             }
-            return true;
+            rep.status = true;
+            return rep;
         }
     private:
         std::shared_ptr<elasticlient::Client> _client;
@@ -179,23 +201,29 @@ namespace messageSystem
         ESRemove(std::shared_ptr<elasticlient::Client> client = es_client)
         :_client(client)
         { }
-        bool remove(const std::string& name,const std::string& type,const std::string& id)
+        Response remove(const std::string& name,const std::string& type,const std::string& id)
         {
+            Response rep;
             try 
             {
                 auto rsp = _client->remove(name, type, id);
                 if (rsp.status_code < 200 || rsp.status_code >= 300) 
                 {
                     LOG_ERROR("删除数据 {} 失败，响应状态码异常: {}", id, rsp.status_code);
-                    return false;
+                    rep.status = false;
+                    rep.errmsg = "响应状态码异常: " + std::to_string(rsp.status_code);
+                    return rep;
                 }
             } 
             catch(std::exception &e) 
             {
                 LOG_ERROR("删除数据 {} 失败: {}", id, e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
+                return rep;
             }
-            return true;
+            rep.status = true;
+            return rep;
         }
     private:
         std::shared_ptr<elasticlient::Client> _client;
@@ -242,8 +270,9 @@ namespace messageSystem
             _filter["range"][key]["gte"] = start;
             _filter["range"][key]["lte"] = end;
         }
-        bool query(const std::string& name,const std::string& type,Json::Value* value)
+        Response query(const std::string& name,const std::string& type,Json::Value* value)
         {
+            Response rep;
             Json::Value body;
             if(!_must.empty()) body["must"] = _must;
             if(!_must_not.empty()) body["must_not"] = _must_not;
@@ -254,7 +283,9 @@ namespace messageSystem
             std::string out;
             if(!Serialize(json_out,&out))
             {
-                return false;
+                rep.status = false;
+                rep.errmsg = "Json序列化失败";
+                return rep;
             }
             std::string in;
             try 
@@ -263,20 +294,27 @@ namespace messageSystem
                 if (rsp.status_code < 200 || rsp.status_code >= 300) 
                 {
                     LOG_ERROR("检索数据 {} 失败，响应状态码异常: {}", out, rsp.status_code);
-                    return false;
+                    rep.status = false;
+                    rep.errmsg = "响应状态码异常: " + std::to_string(rsp.status_code);
+                    return rep;
                 }
                 in = rsp.text;
             } 
             catch(std::exception &e) 
             {
                 LOG_ERROR("检索数据 {} 失败: {}", out, e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
+                return rep;
             }
             if(!UnSerialize(in,value))
             {
-                return false;
+                rep.status = false;
+                rep.errmsg = "Json反序列化失败";
+                return rep;
             }
-            return true;
+            rep.status = true;
+            return rep;
         }
     private:
         std::shared_ptr<elasticlient::Client> _client;

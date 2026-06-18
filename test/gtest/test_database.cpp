@@ -86,7 +86,8 @@ std::string DatabaseTest::_test_conversation_id;
 TEST_F(DatabaseTest, InsertSingleTextMessage) 
 {
     Message msg = CreateTextMessage("数据库测试消息");
-    EXPECT_TRUE(_odb->insertMessage(msg));
+    auto rep = _odb->insertMessage(msg);
+    EXPECT_TRUE(rep.status) << rep.errmsg;
 }
 
 /// @brief 测试批量插入文本消息
@@ -97,7 +98,8 @@ TEST_F(DatabaseTest, InsertBatchTextMessages)
     {
         messages.push_back(CreateTextMessage("批量消息_" + std::to_string(i)));
     }
-    EXPECT_TRUE(_odb->insertTextMessages(messages));
+    auto rep = _odb->insertTextMessages(messages);
+    EXPECT_TRUE(rep.status) << rep.errmsg;
 }
 
 /// @brief 测试获取最近消息
@@ -111,7 +113,8 @@ TEST_F(DatabaseTest, GetRecentMessages)
     
     //获取最近消息
     std::vector<Message> result;
-    EXPECT_TRUE(_odb->getRecentMessages(_test_conversation_id, 10, &result));
+    auto rep = _odb->getRecentMessages(_test_conversation_id, 10, &result);
+    EXPECT_TRUE(rep.status) << rep.errmsg;
     EXPECT_GE(result.size(), 2);
 }
 
@@ -123,7 +126,8 @@ TEST_F(DatabaseTest, GetHistoryMessages)
         std::chrono::system_clock::now().time_since_epoch()).count();
     
     std::vector<Message> result;
-    EXPECT_TRUE(_odb->getHistoryMessages(_test_conversation_id, start, end, &result));
+    auto rep = _odb->getHistoryMessages(_test_conversation_id, start, end, &result);
+    EXPECT_TRUE(rep.status) << rep.errmsg;
 }
 
 /// @brief 测试删除消息
@@ -134,7 +138,8 @@ TEST_F(DatabaseTest, DeleteMessage)
     _odb->insertMessage(msg);
     
     //删除消息
-    EXPECT_TRUE(_odb->deleteMessage(msg.message_id));
+    auto rep = _odb->deleteMessage(msg.message_id);
+    EXPECT_TRUE(rep.status) << rep.errmsg;
 }
 
 /// @brief 测试删除会话所有消息
@@ -157,7 +162,8 @@ TEST_F(DatabaseTest, RemoveConversation)
     _odb->insertMessage(msg);
     
     //删除整个会话
-    EXPECT_TRUE(_odb->removeConversation(conv_id));
+    auto rep = _odb->removeConversation(conv_id);
+    EXPECT_TRUE(rep.status) << rep.errmsg;
 }
 
 /// @brief 测试事务表插入
@@ -176,7 +182,8 @@ TEST_F(DatabaseTest, OutboxInsert)
     outbox.created_at = outbox.next_retry_at;
     outbox.updated_at = outbox.next_retry_at;
     
-    EXPECT_TRUE(_outbox->insert(outbox));
+    auto rep = _outbox->insert(outbox);
+    EXPECT_TRUE(rep.status) << rep.errmsg;
     EXPECT_GT(outbox.id, 0);
 }
 
@@ -203,7 +210,8 @@ TEST_F(DatabaseTest, OutboxBatchInsert)
         outboxes.push_back(outbox);
     }
     
-    EXPECT_TRUE(_outbox->batchInsert(outboxes));
+    auto rep = _outbox->batchInsert(outboxes);
+    EXPECT_TRUE(rep.status) << rep.errmsg;
 }
 
 /// @brief 测试获取待处理任务
@@ -248,7 +256,8 @@ TEST_F(DatabaseTest, MarkCompleted)
     _outbox->insert(outbox);
     
     //标记完成
-    EXPECT_TRUE(_outbox->markCompleted(outbox.id));
+    auto rep = _outbox->markCompleted(outbox.id);
+    EXPECT_TRUE(rep.status) << rep.errmsg;
 }
 
 /// @brief 测试标记任务失败
@@ -270,7 +279,8 @@ TEST_F(DatabaseTest, MarkFailed)
     _outbox->insert(outbox);
     
     //标记失败
-    EXPECT_TRUE(_outbox->markFailed(outbox.id, "测试错误"));
+    auto rep = _outbox->markFailed(outbox.id, "测试错误");
+    EXPECT_TRUE(rep.status) << rep.errmsg;
 }
 
 int main(int argc, char** argv) 

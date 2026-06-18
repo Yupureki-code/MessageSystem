@@ -12,7 +12,7 @@
 #include "comm_include/odb/user/odb_user.hpp"
 #include "comm_include/proto_include/friend.pb.h"
 #include "comm_include/proto_include/user.pb.h"
-#include "comm_include/comm.pb.h"
+#include "comm_include/proto_include/comm.pb.h"
 #include "comm_include/logger.hpp"
 
 using namespace messageSystem;
@@ -77,9 +77,11 @@ protected:
     {
         // 清理好友关系
         std::shared_ptr<Friendships> fs;
-        if (_friend_db->selectByUid(_user1->uid, _user2->uid, &fs) && fs)
+        auto rep1 = _friend_db->selectByUid(_user1->uid, _user2->uid, &fs);
+        if (rep1.status && fs)
             _friend_db->remove(*fs);
-        if (_friend_db->selectByUid(_user2->uid, _user1->uid, &fs) && fs)
+        auto rep2 = _friend_db->selectByUid(_user2->uid, _user1->uid, &fs);
+        if (rep2.status && fs)
             _friend_db->remove(*fs);
     }
 
@@ -104,12 +106,14 @@ TEST_F(FriendServiceTest, InsertFriendship)
         std::chrono::system_clock::now().time_since_epoch()).count();
     fs.updated_time = fs.created_time;
 
-    EXPECT_TRUE(_friend_db->insert(fs));
+    auto rep = _friend_db->insert(fs);
+    EXPECT_TRUE(rep.status) << rep.errmsg;
     EXPECT_GT(fs.id, 0);
 
     // 验证查询
     std::shared_ptr<Friendships> found;
-    EXPECT_TRUE(_friend_db->selectByUid(_user1->uid, _user2->uid, &found));
+    auto select_rep = _friend_db->selectByUid(_user1->uid, _user2->uid, &found);
+    EXPECT_TRUE(select_rep.status) << select_rep.errmsg;
     EXPECT_TRUE(found != nullptr);
     EXPECT_EQ(found->uid, _user1->uid);
     EXPECT_EQ(found->friend_uid, _user2->uid);
@@ -130,7 +134,8 @@ TEST_F(FriendServiceTest, BidirectionalFriendship)
     fs1.remark = "user1对user2的备注";
     fs1.created_time = now;
     fs1.updated_time = now;
-    EXPECT_TRUE(_friend_db->insert(fs1));
+    auto rep1 = _friend_db->insert(fs1);
+    EXPECT_TRUE(rep1.status) << rep1.errmsg;
 
     Friendships fs2;
     fs2.uid = _user2->uid;
@@ -139,12 +144,15 @@ TEST_F(FriendServiceTest, BidirectionalFriendship)
     fs2.remark = "user2对user1的备注";
     fs2.created_time = now;
     fs2.updated_time = now;
-    EXPECT_TRUE(_friend_db->insert(fs2));
+    auto rep2 = _friend_db->insert(fs2);
+    EXPECT_TRUE(rep2.status) << rep2.errmsg;
 
     // 验证两个方向都能查到
     std::shared_ptr<Friendships> found1, found2;
-    EXPECT_TRUE(_friend_db->selectByUid(_user1->uid, _user2->uid, &found1));
-    EXPECT_TRUE(_friend_db->selectByUid(_user2->uid, _user1->uid, &found2));
+    auto select_rep1 = _friend_db->selectByUid(_user1->uid, _user2->uid, &found1);
+    auto select_rep2 = _friend_db->selectByUid(_user2->uid, _user1->uid, &found2);
+    EXPECT_TRUE(select_rep1.status) << select_rep1.errmsg;
+    EXPECT_TRUE(select_rep2.status) << select_rep2.errmsg;
     EXPECT_TRUE(found1 != nullptr);
     EXPECT_TRUE(found2 != nullptr);
     EXPECT_EQ(found1->remark, "user1对user2的备注");
@@ -163,20 +171,24 @@ TEST_F(FriendServiceTest, UpdateRemark)
     fs.created_time = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
     fs.updated_time = fs.created_time;
-    EXPECT_TRUE(_friend_db->insert(fs));
+    auto insert_rep = _friend_db->insert(fs);
+    EXPECT_TRUE(insert_rep.status) << insert_rep.errmsg;
 
     // 更新备注
     std::shared_ptr<Friendships> found;
-    EXPECT_TRUE(_friend_db->selectByUid(_user1->uid, _user2->uid, &found));
+    auto select_rep = _friend_db->selectByUid(_user1->uid, _user2->uid, &found);
+    EXPECT_TRUE(select_rep.status) << select_rep.errmsg;
     EXPECT_TRUE(found != nullptr);
     found->remark = "新备注";
     found->updated_time = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
-    EXPECT_TRUE(_friend_db->update(*found));
+    auto update_rep = _friend_db->update(*found);
+    EXPECT_TRUE(update_rep.status) << update_rep.errmsg;
 
     // 验证更新
     std::shared_ptr<Friendships> updated;
-    EXPECT_TRUE(_friend_db->selectByUid(_user1->uid, _user2->uid, &updated));
+    auto select_rep2 = _friend_db->selectByUid(_user1->uid, _user2->uid, &updated);
+    EXPECT_TRUE(select_rep2.status) << select_rep2.errmsg;
     EXPECT_TRUE(updated != nullptr);
     EXPECT_EQ(updated->remark, "新备注");
 }
@@ -193,17 +205,21 @@ TEST_F(FriendServiceTest, RemoveFriendship)
     fs.created_time = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
     fs.updated_time = fs.created_time;
-    EXPECT_TRUE(_friend_db->insert(fs));
+    auto insert_rep = _friend_db->insert(fs);
+    EXPECT_TRUE(insert_rep.status) << insert_rep.errmsg;
 
     // 删除
     std::shared_ptr<Friendships> found;
-    EXPECT_TRUE(_friend_db->selectByUid(_user1->uid, _user2->uid, &found));
+    auto select_rep = _friend_db->selectByUid(_user1->uid, _user2->uid, &found);
+    EXPECT_TRUE(select_rep.status) << select_rep.errmsg;
     EXPECT_TRUE(found != nullptr);
-    EXPECT_TRUE(_friend_db->remove(*found));
+    auto remove_rep = _friend_db->remove(*found);
+    EXPECT_TRUE(remove_rep.status) << remove_rep.errmsg;
 
     // 验证删除
     std::shared_ptr<Friendships> deleted;
-    EXPECT_TRUE(_friend_db->selectByUid(_user1->uid, _user2->uid, &deleted));
+    auto select_rep2 = _friend_db->selectByUid(_user1->uid, _user2->uid, &deleted);
+    EXPECT_TRUE(select_rep2.status) << select_rep2.errmsg;
     EXPECT_TRUE(deleted == nullptr);
 }
 
@@ -211,7 +227,8 @@ TEST_F(FriendServiceTest, RemoveFriendship)
 TEST_F(FriendServiceTest, SelectUserById)
 {
     std::shared_ptr<User> found;
-    EXPECT_TRUE(_user_db->selectById(std::to_string(_user1->uid), &found));
+    auto rep = _user_db->selectById(std::to_string(_user1->uid), &found);
+    EXPECT_TRUE(rep.status) << rep.errmsg;
     EXPECT_TRUE(found != nullptr);
     EXPECT_EQ(found->name, _user1->name);
     EXPECT_EQ(found->email, _user1->email);
@@ -221,7 +238,8 @@ TEST_F(FriendServiceTest, SelectUserById)
 TEST_F(FriendServiceTest, SelectUserByName)
 {
     std::shared_ptr<User> found;
-    EXPECT_TRUE(_user_db->selectByName(_user1->name, &found));
+    auto rep = _user_db->selectByName(_user1->name, &found);
+    EXPECT_TRUE(rep.status) << rep.errmsg;
     EXPECT_TRUE(found != nullptr);
     EXPECT_EQ(found->uid, _user1->uid);
 }

@@ -42,56 +42,62 @@ namespace messageSystem
         }
         
         /// @brief 获取最近消息
-        bool getRecentMessages(const std::string& id, int count, std::vector<Message>* messages)
+        Response getRecentMessages(const std::string& id, int count, std::vector<Message>* messages)
         {
             return _odb->getRecentMessages(id, count, messages);
         }
         
         /// @brief 获取历史消息
-        bool getHistoryMessages(const std::string& id, unsigned long long start, unsigned long long end, std::vector<Message>* messages)
+        Response getHistoryMessages(const std::string& id, unsigned long long start, unsigned long long end, std::vector<Message>* messages)
         {
             return _odb->getHistoryMessages(id, start, end, messages);
         }
         
         /// @brief 获取消息文件
-        bool getMessageFiles(const std::string& rid, const std::vector<std::string>& file_ids, std::unordered_map<std::string, FileDownloadData>* files)
+        Response getMessageFiles(const std::string& rid, const std::vector<std::string>& file_ids, std::unordered_map<std::string, FileDownloadData>* files)
         {
+            Response rep;
             ServiceChannel::ChannelPtr channel;
             if(!_services->chooseService(FILE_SERVICE, &channel))
             {
                 LOG_INFO("文件管理服务异常");
-                return false;
+                rep.status = false;
+                rep.errmsg = "文件管理服务异常";
+                return rep;
             }
             messageSystem::FileService_Stub stub(channel.get());
             messageSystem::GetFileReq req;
-            messageSystem::GetFileRsp rep;
+            messageSystem::GetFileRsp file_rep;
             req.mutable_file_id_list()->Add(file_ids.begin(), file_ids.end());
             req.set_request_id(rid);
             brpc::Controller cntl;
-            stub.GetMultiFile(&cntl, &req, &rep, nullptr);
-            if(cntl.Failed() || !rep.success())
+            stub.GetMultiFile(&cntl, &req, &file_rep, nullptr);
+            if(cntl.Failed() || !file_rep.success())
             {
                 LOG_INFO("获取文件失败!");
-                return false;
+                rep.status = false;
+                rep.errmsg = cntl.Failed() ? cntl.ErrorText() : "获取文件失败";
+                return rep;
             }
-            auto get_files = *rep.mutable_file_data();
+            auto get_files = *file_rep.mutable_file_data();
             for(auto & it : get_files)
             {
                 files->insert(it);
             }
-            return true;
+            rep.status = true;
+            return rep;
         }
         
         /// @brief 发布文本消息
-        /// @param messages 消息列表
-        /// @return 成功返回true
-        bool PostTextMessages(const std::vector<Message>& messages)
+        Response PostTextMessages(const std::vector<Message>& messages)
         {
+            Response rep;
             //1. 写入MySQL
-            if(!_odb->insertTextMessages(messages))
+            auto odb_rep = _odb->insertTextMessages(messages);
+            if(!odb_rep.status)
             {
-                LOG_ERROR("写入MySQL文本消息失败!");
-                return false;
+                LOG_ERROR("写入MySQL文本消息失败:{}!", odb_rep.errmsg);
+                return odb_rep;
             }
             
             //2. 创建事务记录
@@ -115,44 +121,46 @@ namespace messageSystem
                 outboxes.push_back(outbox);
             }
             
-            if(!_outbox->batchInsert(outboxes))
+            auto outbox_rep = _outbox->batchInsert(outboxes);
+            if(!outbox_rep.status)
             {
-                LOG_ERROR("创建事务记录失败!");
+                LOG_ERROR("创建事务记录失败:{}!", outbox_rep.errmsg);
                 //回滚MySQL
                 for(const auto& msg : messages)
                 {
                     _odb->deleteMessage(msg.message_id);
                 }
-                return false;
+                return outbox_rep;
             }
             
             //3. 尝试写入ES
             for(size_t i = 0; i < outboxes.size(); i++)
             {
-                if(insertESDoc(outboxes[i].payload))
+                auto es_rep = insertESDoc(outboxes[i].payload);
+                if(es_rep.status)
                 {
                     _outbox->markCompleted(outboxes[i].id);
                 }
                 else
                 {
-                    _outbox->markFailed(outboxes[i].id, "ES写入失败");
+                    _outbox->markFailed(outboxes[i].id, es_rep.errmsg);
                 }
             }
             
-            return true;
+            rep.status = true;
+            return rep;
         }
         
         /// @brief 发布文件消息
-        /// @param rid 请求ID
-        /// @param messages 消息列表
-        /// @return 成功返回true
-        bool PostFileMessages(const std::string& rid, const std::vector<Message>& messages)
+        Response PostFileMessages(const std::string& rid, const std::vector<Message>& messages)
         {
+            Response rep;
             //1. 写入MySQL
-            if(!_odb->insertFileMessages(messages))
+            auto odb_rep = _odb->insertFileMessages(messages);
+            if(!odb_rep.status)
             {
-                LOG_ERROR("写入MySQL文件消息失败!");
-                return false;
+                LOG_ERROR("写入MySQL文件消息失败:{}!", odb_rep.errmsg);
+                return odb_rep;
             }
             
             //2. 创建事务记录
@@ -176,84 +184,89 @@ namespace messageSystem
                 outboxes.push_back(outbox);
             }
             
-            if(!_outbox->batchInsert(outboxes))
+            auto outbox_rep = _outbox->batchInsert(outboxes);
+            if(!outbox_rep.status)
             {
-                LOG_ERROR("创建事务记录失败!");
+                LOG_ERROR("创建事务记录失败:{}!", outbox_rep.errmsg);
                 //回滚MySQL
                 for(const auto& msg : messages)
                 {
                     _odb->deleteMessage(msg.message_id);
                 }
-                return false;
+                return outbox_rep;
             }
             
             //3. 尝试写入ES
             for(size_t i = 0; i < outboxes.size(); i++)
             {
-                if(insertESDoc(outboxes[i].payload))
+                auto es_rep = insertESDoc(outboxes[i].payload);
+                if(es_rep.status)
                 {
                     _outbox->markCompleted(outboxes[i].id);
                 }
                 else
                 {
-                    _outbox->markFailed(outboxes[i].id, "ES写入失败");
+                    _outbox->markFailed(outboxes[i].id, es_rep.errmsg);
                 }
             }
             
-            return true;
+            rep.status = true;
+            return rep;
         }
         
         /// @brief 删除文本消息
-        /// @param messages 消息列表
-        /// @return 成功返回true
-        bool DeleteTextMessages(const std::vector<Message>& messages)
+        Response DeleteTextMessages(const std::vector<Message>& messages)
         {
+            Response rep;
             //1. 从MySQL删除
             for(const auto& msg : messages)
             {
-                if(!_odb->deleteMessage(msg.message_id))
+                auto odb_rep = _odb->deleteMessage(msg.message_id);
+                if(!odb_rep.status)
                 {
-                    LOG_ERROR("从MySQL删除文本消息失败:{}!", msg.message_id);
-                    return false;
+                    LOG_ERROR("从MySQL删除文本消息失败:{}!", odb_rep.errmsg);
+                    return odb_rep;
                 }
             }
             
             //2. 从ES删除
             for(const auto& msg : messages)
             {
-                if(!deleteESDoc(msg.message_id))
+                auto es_rep = deleteESDoc(msg.message_id);
+                if(!es_rep.status)
                 {
-                    LOG_ERROR("从ES删除文本消息失败:{}!", msg.message_id);
+                    LOG_ERROR("从ES删除文本消息失败:{}!", es_rep.errmsg);
                     //创建重试任务
                     createDeleteESTask(msg);
                 }
             }
             
-            return true;
+            rep.status = true;
+            return rep;
         }
         
         /// @brief 删除文件消息
-        /// @param rid 请求ID
-        /// @param messages 消息列表
-        /// @return 成功返回true
-        bool DeleteFileMessages(const std::string& rid, const std::vector<Message>& messages)
+        Response DeleteFileMessages(const std::string& rid, const std::vector<Message>& messages)
         {
+            Response rep;
             //1. 从MySQL删除
             for(const auto& msg : messages)
             {
-                if(!_odb->deleteMessage(msg.message_id))
+                auto odb_rep = _odb->deleteMessage(msg.message_id);
+                if(!odb_rep.status)
                 {
-                    LOG_ERROR("从MySQL删除文件消息失败:{}!", msg.message_id);
-                    return false;
+                    LOG_ERROR("从MySQL删除文件消息失败:{}!", odb_rep.errmsg);
+                    return odb_rep;
                 }
             }
             
             //2. 从ES删除
             for(const auto& msg : messages)
             {
-                if(!deleteESDoc(msg.message_id))
+                auto es_rep = deleteESDoc(msg.message_id);
+                if(!es_rep.status)
                 {
-                    LOG_ERROR("从ES删除文件消息失败:{}!", msg.message_id);
+                    LOG_ERROR("从ES删除文件消息失败:{}!", es_rep.errmsg);
                     createDeleteESTask(msg);
                 }
             }
@@ -270,9 +283,10 @@ namespace messageSystem
             
             if(!file_ids.empty())
             {
-                if(!deleteFiles(rid, file_ids))
+                auto file_rep = deleteFiles(rid, file_ids);
+                if(!file_rep.status)
                 {
-                    LOG_ERROR("从文件服务删除文件失败!");
+                    LOG_ERROR("从文件服务删除文件失败:{}!", file_rep.errmsg);
                     //创建重试任务
                     for(const auto& file_id : file_ids)
                     {
@@ -281,7 +295,8 @@ namespace messageSystem
                 }
             }
             
-            return true;
+            rep.status = true;
+            return rep;
         }
         
         /// @brief 处理待处理的事务任务
@@ -292,10 +307,10 @@ namespace messageSystem
             {
                 _outbox->markProcessing(task.id);
                 
-                bool success = false;
+                Response task_rep;
                 if(task.task_type == "INDEX_ES")
                 {
-                    success = insertESDoc(task.payload);
+                    task_rep = insertESDoc(task.payload);
                 }
                 else if(task.task_type == "DELETE_ES")
                 {
@@ -303,7 +318,12 @@ namespace messageSystem
                     Json::Reader reader;
                     if(reader.parse(task.payload, value))
                     {
-                        success = deleteESDoc(value["message_id"].asString());
+                        task_rep = deleteESDoc(value["message_id"].asString());
+                    }
+                    else
+                    {
+                        task_rep.status = false;
+                        task_rep.errmsg = "JSON解析失败";
                     }
                 }
                 else if(task.task_type == "DELETE_FILE")
@@ -313,17 +333,22 @@ namespace messageSystem
                     if(reader.parse(task.payload, value))
                     {
                         std::vector<std::string> file_ids = {value["file_id"].asString()};
-                        success = deleteFiles(task.conversation_id, file_ids);
+                        task_rep = deleteFiles(task.conversation_id, file_ids);
+                    }
+                    else
+                    {
+                        task_rep.status = false;
+                        task_rep.errmsg = "JSON解析失败";
                     }
                 }
                 
-                if(success)
+                if(task_rep.status)
                 {
                     _outbox->markCompleted(task.id);
                 }
                 else
                 {
-                    _outbox->markFailed(task.id, "任务执行失败");
+                    _outbox->markFailed(task.id, task_rep.errmsg);
                 }
             }
         }
@@ -358,8 +383,9 @@ namespace messageSystem
         }
         
         /// @brief 插入ES文档
-        bool insertESDoc(const std::string& doc)
+        Response insertESDoc(const std::string& doc)
         {
+            Response rep;
             try
             {
                 ESInsert es;
@@ -372,13 +398,16 @@ namespace messageSystem
             catch(const std::exception& e)
             {
                 LOG_ERROR("插入ES文档失败:{}!", e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
+            return rep;
         }
         
         /// @brief 删除ES文档
-        bool deleteESDoc(const std::string& message_id)
+        Response deleteESDoc(const std::string& message_id)
         {
+            Response rep;
             try
             {
                 ESInsert es;
@@ -392,32 +421,40 @@ namespace messageSystem
             catch(const std::exception& e)
             {
                 LOG_ERROR("删除ES文档失败:{}!", e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
+            return rep;
         }
         
         /// @brief 删除文件
-        bool deleteFiles(const std::string& rid, const std::vector<std::string>& file_ids)
+        Response deleteFiles(const std::string& rid, const std::vector<std::string>& file_ids)
         {
+            Response rep;
             ServiceChannel::ChannelPtr channel;
             if(!_services->chooseService(FILE_SERVICE, &channel))
             {
                 LOG_INFO("文件管理服务异常");
-                return false;
+                rep.status = false;
+                rep.errmsg = "文件管理服务异常";
+                return rep;
             }
             messageSystem::FileService_Stub stub(channel.get());
             messageSystem::DeleteFileReq req;
-            messageSystem::CommRsp rep;
+            messageSystem::CommRsp file_rep;
             req.mutable_file_id_list()->Add(file_ids.begin(), file_ids.end());
             req.set_request_id(rid);
             brpc::Controller cntl;
-            stub.DeleteMultiFile(&cntl, &req, &rep, nullptr);
-            if(cntl.Failed() || !rep.status())
+            stub.DeleteMultiFile(&cntl, &req, &file_rep, nullptr);
+            if(cntl.Failed() || !file_rep.status())
             {
                 LOG_INFO("删除文件失败!");
-                return false;
+                rep.status = false;
+                rep.errmsg = cntl.Failed() ? cntl.ErrorText() : "删除文件失败";
+                return rep;
             }
-            return true;
+            rep.status = true;
+            return rep;
         }
         
         /// @brief 创建删除ES任务

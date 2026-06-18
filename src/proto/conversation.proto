@@ -4,19 +4,19 @@ import "comm.proto";
 
 option cc_generic_services = true;
 
-message CreateConverstaionReq
+message CreateConversationReq
 {
     string request_id = 1;
     bool is_group = 2;
     repeated string comm_uid = 3;
     optional string owner_uid = 4;
-    optional string group_converstaion_name = 5;
+    optional string group_conversation_name = 5;
 }
 
-message CreateConverstaionRsp
+message CreateConversationRsp
 {
     CommRsp response = 1;
-    string converstaion_id = 2;
+    string conversation_id = 2;
 }
 
 message RemoveConversationReq
@@ -33,13 +33,11 @@ message AddMemberReq
     string uid = 3;
 }
 
-message ExitConverstaionReq
+message ExitConversationReq
 {
     string request_id = 1;
     string conversaion_id = 2;
     string uid = 3;
-    optional string owner_uid = 4;
-
 }
 
 message ChangeMemberPowerReq
@@ -51,23 +49,36 @@ message ChangeMemberPowerReq
     int32 power = 5;
 }
 
-message GetConverstaionMemberListReq
+message GetConversationMemberListReq
 {
     string request_id = 1;
     string conversaion_id = 2;
 }
 
-message GetConverstaionMemberListRsp
+message GetConversationMemberListRsp
 {
     CommRsp response = 1;
     repeated UserInfo user_infos = 2;
 }
 
-service ConverstaionServer {
-    rpc CreateConverstaion(CreateConverstaionReq) returns (CreateConverstaionRsp);
+message SearchConversationReq
+{
+    string request_id = 1;
+    optional string conversaion_id = 2;
+    optional string conversaion_name = 3;
+}
+
+message SearchConversationRsp
+{
+    CommRsp response = 1;
+    repeated ConversationInfo conversations = 2;
+}
+
+service ConversationServer {
+    rpc CreateConversation(CreateConversationReq) returns (CreateConversationRsp);
     rpc RemoveConversation(RemoveConversationReq) returns (CommRsp);
     rpc AddMember(AddMemberReq) returns (CommRsp);
-    rpc ExitConverstaion(ExitConverstaionReq) returns (CommRsp);
+    rpc ExitConversation(ExitConversationReq) returns (CommRsp);
     rpc ChangeMemberPower(ChangeMemberPowerReq) returns (CommRsp);
-    rpc GetConverstaionMemberList(GetConverstaionMemberListReq) returns (GetConverstaionMemberListRsp);
+    rpc GetConversationMemberList(GetConversationMemberListReq) returns (GetConversationMemberListRsp);
 }

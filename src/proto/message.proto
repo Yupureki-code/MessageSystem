@@ -1,9 +1,30 @@
 syntax = "proto3";
 package messageSystem;
 import "comm.proto";
+option cc_generic_services = true;
 
-message SendMessage
-{
+message SendMessageReq{
     string request_id = 1;
-    
+    MessageInfo message = 2;
+}
+
+message SendMessageRsq
+{
+    CommRsp response = 1;
+}
+
+message RecallMessageReq{
+    string request_id = 1;
+    MessageInfo message = 2;
+}
+
+message MarkAsReadReq{
+    string request_id = 1;
+    string coversation_id = 2;
+}
+
+service MessageServer{
+    rpc SendMessage(SendMessageReq) returns (CommRsp);
+    rpc RecallMessage(RecallMessageReq) returns (CommRsp);
+    rpc MarkAsRead(MarkAsReadReq) returns (CommRsp);
 }

@@ -46,12 +46,12 @@ struct TableStruct_comm_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_comm_2eproto;
 namespace messageSystem {
-class ChatSessionInfo;
-struct ChatSessionInfoDefaultTypeInternal;
-extern ChatSessionInfoDefaultTypeInternal _ChatSessionInfo_default_instance_;
 class CommRsp;
 struct CommRspDefaultTypeInternal;
 extern CommRspDefaultTypeInternal _CommRsp_default_instance_;
+class ConversationInfo;
+struct ConversationInfoDefaultTypeInternal;
+extern ConversationInfoDefaultTypeInternal _ConversationInfo_default_instance_;
 class FileDownloadData;
 struct FileDownloadDataDefaultTypeInternal;
 extern FileDownloadDataDefaultTypeInternal _FileDownloadData_default_instance_;
@@ -81,8 +81,8 @@ struct UserInfoDefaultTypeInternal;
 extern UserInfoDefaultTypeInternal _UserInfo_default_instance_;
 }  // namespace messageSystem
 PROTOBUF_NAMESPACE_OPEN
-template<> ::messageSystem::ChatSessionInfo* Arena::CreateMaybeMessage<::messageSystem::ChatSessionInfo>(Arena*);
 template<> ::messageSystem::CommRsp* Arena::CreateMaybeMessage<::messageSystem::CommRsp>(Arena*);
+template<> ::messageSystem::ConversationInfo* Arena::CreateMaybeMessage<::messageSystem::ConversationInfo>(Arena*);
 template<> ::messageSystem::FileDownloadData* Arena::CreateMaybeMessage<::messageSystem::FileDownloadData>(Arena*);
 template<> ::messageSystem::FileMessageInfo* Arena::CreateMaybeMessage<::messageSystem::FileMessageInfo>(Arena*);
 template<> ::messageSystem::FileUploadData* Arena::CreateMaybeMessage<::messageSystem::FileUploadData>(Arena*);
@@ -543,24 +543,24 @@ class UserInfo final :
 };
 // -------------------------------------------------------------------
 
-class ChatSessionInfo final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:messageSystem.ChatSessionInfo) */ {
+class ConversationInfo final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:messageSystem.ConversationInfo) */ {
  public:
-  inline ChatSessionInfo() : ChatSessionInfo(nullptr) {}
-  ~ChatSessionInfo() override;
-  explicit PROTOBUF_CONSTEXPR ChatSessionInfo(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline ConversationInfo() : ConversationInfo(nullptr) {}
+  ~ConversationInfo() override;
+  explicit PROTOBUF_CONSTEXPR ConversationInfo(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  ChatSessionInfo(const ChatSessionInfo& from);
-  ChatSessionInfo(ChatSessionInfo&& from) noexcept
-    : ChatSessionInfo() {
+  ConversationInfo(const ConversationInfo& from);
+  ConversationInfo(ConversationInfo&& from) noexcept
+    : ConversationInfo() {
     *this = ::std::move(from);
   }
 
-  inline ChatSessionInfo& operator=(const ChatSessionInfo& from) {
+  inline ConversationInfo& operator=(const ConversationInfo& from) {
     CopyFrom(from);
     return *this;
   }
-  inline ChatSessionInfo& operator=(ChatSessionInfo&& from) noexcept {
+  inline ConversationInfo& operator=(ConversationInfo&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -583,20 +583,20 @@ class ChatSessionInfo final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const ChatSessionInfo& default_instance() {
+  static const ConversationInfo& default_instance() {
     return *internal_default_instance();
   }
-  static inline const ChatSessionInfo* internal_default_instance() {
-    return reinterpret_cast<const ChatSessionInfo*>(
-               &_ChatSessionInfo_default_instance_);
+  static inline const ConversationInfo* internal_default_instance() {
+    return reinterpret_cast<const ConversationInfo*>(
+               &_ConversationInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     2;
 
-  friend void swap(ChatSessionInfo& a, ChatSessionInfo& b) {
+  friend void swap(ConversationInfo& a, ConversationInfo& b) {
     a.Swap(&b);
   }
-  inline void Swap(ChatSessionInfo* other) {
+  inline void Swap(ConversationInfo* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -609,7 +609,7 @@ class ChatSessionInfo final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(ChatSessionInfo* other) {
+  void UnsafeArenaSwap(ConversationInfo* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -617,14 +617,14 @@ class ChatSessionInfo final :
 
   // implements Message ----------------------------------------------
 
-  ChatSessionInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<ChatSessionInfo>(arena);
+  ConversationInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<ConversationInfo>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const ChatSessionInfo& from);
+  void CopyFrom(const ConversationInfo& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const ChatSessionInfo& from) {
-    ChatSessionInfo::MergeImpl(*this, from);
+  void MergeFrom( const ConversationInfo& from) {
+    ConversationInfo::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -642,15 +642,15 @@ class ChatSessionInfo final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(ChatSessionInfo* other);
+  void InternalSwap(ConversationInfo* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "messageSystem.ChatSessionInfo";
+    return "messageSystem.ConversationInfo";
   }
   protected:
-  explicit ChatSessionInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit ConversationInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -664,31 +664,16 @@ class ChatSessionInfo final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kSingleChatFriendIdFieldNumber = 1,
-    kConversationIdFieldNumber = 2,
-    kConversationNameFieldNumber = 3,
-    kAvatarFieldNumber = 5,
+    kConversationIdFieldNumber = 1,
+    kConversationNameFieldNumber = 2,
+    kAvatarFieldNumber = 3,
+    kLastMessageContentFieldNumber = 5,
     kPrevMessageFieldNumber = 4,
+    kLastMessageTimestampFieldNumber = 6,
+    kCreatedTimeFieldNumber = 8,
+    kMembersFieldNumber = 7,
   };
-  // optional string single_chat_friend_id = 1;
-  bool has_single_chat_friend_id() const;
-  private:
-  bool _internal_has_single_chat_friend_id() const;
-  public:
-  void clear_single_chat_friend_id();
-  const std::string& single_chat_friend_id() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_single_chat_friend_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_single_chat_friend_id();
-  PROTOBUF_NODISCARD std::string* release_single_chat_friend_id();
-  void set_allocated_single_chat_friend_id(std::string* single_chat_friend_id);
-  private:
-  const std::string& _internal_single_chat_friend_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_single_chat_friend_id(const std::string& value);
-  std::string* _internal_mutable_single_chat_friend_id();
-  public:
-
-  // string conversation_id = 2;
+  // string conversation_id = 1;
   void clear_conversation_id();
   const std::string& conversation_id() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -702,7 +687,7 @@ class ChatSessionInfo final :
   std::string* _internal_mutable_conversation_id();
   public:
 
-  // string conversation_name = 3;
+  // string conversation_name = 2;
   void clear_conversation_name();
   const std::string& conversation_name() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -716,11 +701,7 @@ class ChatSessionInfo final :
   std::string* _internal_mutable_conversation_name();
   public:
 
-  // optional bytes avatar = 5;
-  bool has_avatar() const;
-  private:
-  bool _internal_has_avatar() const;
-  public:
+  // bytes avatar = 3;
   void clear_avatar();
   const std::string& avatar() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -732,6 +713,24 @@ class ChatSessionInfo final :
   const std::string& _internal_avatar() const;
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_avatar(const std::string& value);
   std::string* _internal_mutable_avatar();
+  public:
+
+  // optional string last_message_content = 5;
+  bool has_last_message_content() const;
+  private:
+  bool _internal_has_last_message_content() const;
+  public:
+  void clear_last_message_content();
+  const std::string& last_message_content() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_last_message_content(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_last_message_content();
+  PROTOBUF_NODISCARD std::string* release_last_message_content();
+  void set_allocated_last_message_content(std::string* last_message_content);
+  private:
+  const std::string& _internal_last_message_content() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_last_message_content(const std::string& value);
+  std::string* _internal_mutable_last_message_content();
   public:
 
   // optional .messageSystem.MessageInfo prev_message = 4;
@@ -752,7 +751,42 @@ class ChatSessionInfo final :
       ::messageSystem::MessageInfo* prev_message);
   ::messageSystem::MessageInfo* unsafe_arena_release_prev_message();
 
-  // @@protoc_insertion_point(class_scope:messageSystem.ChatSessionInfo)
+  // optional uint64 last_message_timestamp = 6;
+  bool has_last_message_timestamp() const;
+  private:
+  bool _internal_has_last_message_timestamp() const;
+  public:
+  void clear_last_message_timestamp();
+  uint64_t last_message_timestamp() const;
+  void set_last_message_timestamp(uint64_t value);
+  private:
+  uint64_t _internal_last_message_timestamp() const;
+  void _internal_set_last_message_timestamp(uint64_t value);
+  public:
+
+  // uint64 created_time = 8;
+  void clear_created_time();
+  uint64_t created_time() const;
+  void set_created_time(uint64_t value);
+  private:
+  uint64_t _internal_created_time() const;
+  void _internal_set_created_time(uint64_t value);
+  public:
+
+  // optional uint32 members = 7;
+  bool has_members() const;
+  private:
+  bool _internal_has_members() const;
+  public:
+  void clear_members();
+  uint32_t members() const;
+  void set_members(uint32_t value);
+  private:
+  uint32_t _internal_members() const;
+  void _internal_set_members(uint32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:messageSystem.ConversationInfo)
  private:
   class _Internal;
 
@@ -762,11 +796,14 @@ class ChatSessionInfo final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr single_chat_friend_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr conversation_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr conversation_name_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr avatar_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr last_message_content_;
     ::messageSystem::MessageInfo* prev_message_;
+    uint64_t last_message_timestamp_;
+    uint64_t created_time_;
+    uint32_t members_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_comm_2eproto;
@@ -2736,112 +2773,44 @@ inline void UserInfo::set_age(int32_t value) {
 
 // -------------------------------------------------------------------
 
-// ChatSessionInfo
+// ConversationInfo
 
-// optional string single_chat_friend_id = 1;
-inline bool ChatSessionInfo::_internal_has_single_chat_friend_id() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  return value;
-}
-inline bool ChatSessionInfo::has_single_chat_friend_id() const {
-  return _internal_has_single_chat_friend_id();
-}
-inline void ChatSessionInfo::clear_single_chat_friend_id() {
-  _impl_.single_chat_friend_id_.ClearToEmpty();
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-inline const std::string& ChatSessionInfo::single_chat_friend_id() const {
-  // @@protoc_insertion_point(field_get:messageSystem.ChatSessionInfo.single_chat_friend_id)
-  return _internal_single_chat_friend_id();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void ChatSessionInfo::set_single_chat_friend_id(ArgT0&& arg0, ArgT... args) {
- _impl_._has_bits_[0] |= 0x00000001u;
- _impl_.single_chat_friend_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:messageSystem.ChatSessionInfo.single_chat_friend_id)
-}
-inline std::string* ChatSessionInfo::mutable_single_chat_friend_id() {
-  std::string* _s = _internal_mutable_single_chat_friend_id();
-  // @@protoc_insertion_point(field_mutable:messageSystem.ChatSessionInfo.single_chat_friend_id)
-  return _s;
-}
-inline const std::string& ChatSessionInfo::_internal_single_chat_friend_id() const {
-  return _impl_.single_chat_friend_id_.Get();
-}
-inline void ChatSessionInfo::_internal_set_single_chat_friend_id(const std::string& value) {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.single_chat_friend_id_.Set(value, GetArenaForAllocation());
-}
-inline std::string* ChatSessionInfo::_internal_mutable_single_chat_friend_id() {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  return _impl_.single_chat_friend_id_.Mutable(GetArenaForAllocation());
-}
-inline std::string* ChatSessionInfo::release_single_chat_friend_id() {
-  // @@protoc_insertion_point(field_release:messageSystem.ChatSessionInfo.single_chat_friend_id)
-  if (!_internal_has_single_chat_friend_id()) {
-    return nullptr;
-  }
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  auto* p = _impl_.single_chat_friend_id_.Release();
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.single_chat_friend_id_.IsDefault()) {
-    _impl_.single_chat_friend_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  return p;
-}
-inline void ChatSessionInfo::set_allocated_single_chat_friend_id(std::string* single_chat_friend_id) {
-  if (single_chat_friend_id != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  _impl_.single_chat_friend_id_.SetAllocated(single_chat_friend_id, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.single_chat_friend_id_.IsDefault()) {
-    _impl_.single_chat_friend_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:messageSystem.ChatSessionInfo.single_chat_friend_id)
-}
-
-// string conversation_id = 2;
-inline void ChatSessionInfo::clear_conversation_id() {
+// string conversation_id = 1;
+inline void ConversationInfo::clear_conversation_id() {
   _impl_.conversation_id_.ClearToEmpty();
 }
-inline const std::string& ChatSessionInfo::conversation_id() const {
-  // @@protoc_insertion_point(field_get:messageSystem.ChatSessionInfo.conversation_id)
+inline const std::string& ConversationInfo::conversation_id() const {
+  // @@protoc_insertion_point(field_get:messageSystem.ConversationInfo.conversation_id)
   return _internal_conversation_id();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void ChatSessionInfo::set_conversation_id(ArgT0&& arg0, ArgT... args) {
+void ConversationInfo::set_conversation_id(ArgT0&& arg0, ArgT... args) {
  
  _impl_.conversation_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:messageSystem.ChatSessionInfo.conversation_id)
+  // @@protoc_insertion_point(field_set:messageSystem.ConversationInfo.conversation_id)
 }
-inline std::string* ChatSessionInfo::mutable_conversation_id() {
+inline std::string* ConversationInfo::mutable_conversation_id() {
   std::string* _s = _internal_mutable_conversation_id();
-  // @@protoc_insertion_point(field_mutable:messageSystem.ChatSessionInfo.conversation_id)
+  // @@protoc_insertion_point(field_mutable:messageSystem.ConversationInfo.conversation_id)
   return _s;
 }
-inline const std::string& ChatSessionInfo::_internal_conversation_id() const {
+inline const std::string& ConversationInfo::_internal_conversation_id() const {
   return _impl_.conversation_id_.Get();
 }
-inline void ChatSessionInfo::_internal_set_conversation_id(const std::string& value) {
+inline void ConversationInfo::_internal_set_conversation_id(const std::string& value) {
   
   _impl_.conversation_id_.Set(value, GetArenaForAllocation());
 }
-inline std::string* ChatSessionInfo::_internal_mutable_conversation_id() {
+inline std::string* ConversationInfo::_internal_mutable_conversation_id() {
   
   return _impl_.conversation_id_.Mutable(GetArenaForAllocation());
 }
-inline std::string* ChatSessionInfo::release_conversation_id() {
-  // @@protoc_insertion_point(field_release:messageSystem.ChatSessionInfo.conversation_id)
+inline std::string* ConversationInfo::release_conversation_id() {
+  // @@protoc_insertion_point(field_release:messageSystem.ConversationInfo.conversation_id)
   return _impl_.conversation_id_.Release();
 }
-inline void ChatSessionInfo::set_allocated_conversation_id(std::string* conversation_id) {
+inline void ConversationInfo::set_allocated_conversation_id(std::string* conversation_id) {
   if (conversation_id != nullptr) {
     
   } else {
@@ -2853,45 +2822,45 @@ inline void ChatSessionInfo::set_allocated_conversation_id(std::string* conversa
     _impl_.conversation_id_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:messageSystem.ChatSessionInfo.conversation_id)
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.ConversationInfo.conversation_id)
 }
 
-// string conversation_name = 3;
-inline void ChatSessionInfo::clear_conversation_name() {
+// string conversation_name = 2;
+inline void ConversationInfo::clear_conversation_name() {
   _impl_.conversation_name_.ClearToEmpty();
 }
-inline const std::string& ChatSessionInfo::conversation_name() const {
-  // @@protoc_insertion_point(field_get:messageSystem.ChatSessionInfo.conversation_name)
+inline const std::string& ConversationInfo::conversation_name() const {
+  // @@protoc_insertion_point(field_get:messageSystem.ConversationInfo.conversation_name)
   return _internal_conversation_name();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void ChatSessionInfo::set_conversation_name(ArgT0&& arg0, ArgT... args) {
+void ConversationInfo::set_conversation_name(ArgT0&& arg0, ArgT... args) {
  
  _impl_.conversation_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:messageSystem.ChatSessionInfo.conversation_name)
+  // @@protoc_insertion_point(field_set:messageSystem.ConversationInfo.conversation_name)
 }
-inline std::string* ChatSessionInfo::mutable_conversation_name() {
+inline std::string* ConversationInfo::mutable_conversation_name() {
   std::string* _s = _internal_mutable_conversation_name();
-  // @@protoc_insertion_point(field_mutable:messageSystem.ChatSessionInfo.conversation_name)
+  // @@protoc_insertion_point(field_mutable:messageSystem.ConversationInfo.conversation_name)
   return _s;
 }
-inline const std::string& ChatSessionInfo::_internal_conversation_name() const {
+inline const std::string& ConversationInfo::_internal_conversation_name() const {
   return _impl_.conversation_name_.Get();
 }
-inline void ChatSessionInfo::_internal_set_conversation_name(const std::string& value) {
+inline void ConversationInfo::_internal_set_conversation_name(const std::string& value) {
   
   _impl_.conversation_name_.Set(value, GetArenaForAllocation());
 }
-inline std::string* ChatSessionInfo::_internal_mutable_conversation_name() {
+inline std::string* ConversationInfo::_internal_mutable_conversation_name() {
   
   return _impl_.conversation_name_.Mutable(GetArenaForAllocation());
 }
-inline std::string* ChatSessionInfo::release_conversation_name() {
-  // @@protoc_insertion_point(field_release:messageSystem.ChatSessionInfo.conversation_name)
+inline std::string* ConversationInfo::release_conversation_name() {
+  // @@protoc_insertion_point(field_release:messageSystem.ConversationInfo.conversation_name)
   return _impl_.conversation_name_.Release();
 }
-inline void ChatSessionInfo::set_allocated_conversation_name(std::string* conversation_name) {
+inline void ConversationInfo::set_allocated_conversation_name(std::string* conversation_name) {
   if (conversation_name != nullptr) {
     
   } else {
@@ -2903,46 +2872,96 @@ inline void ChatSessionInfo::set_allocated_conversation_name(std::string* conver
     _impl_.conversation_name_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:messageSystem.ChatSessionInfo.conversation_name)
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.ConversationInfo.conversation_name)
+}
+
+// bytes avatar = 3;
+inline void ConversationInfo::clear_avatar() {
+  _impl_.avatar_.ClearToEmpty();
+}
+inline const std::string& ConversationInfo::avatar() const {
+  // @@protoc_insertion_point(field_get:messageSystem.ConversationInfo.avatar)
+  return _internal_avatar();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ConversationInfo::set_avatar(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.avatar_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.ConversationInfo.avatar)
+}
+inline std::string* ConversationInfo::mutable_avatar() {
+  std::string* _s = _internal_mutable_avatar();
+  // @@protoc_insertion_point(field_mutable:messageSystem.ConversationInfo.avatar)
+  return _s;
+}
+inline const std::string& ConversationInfo::_internal_avatar() const {
+  return _impl_.avatar_.Get();
+}
+inline void ConversationInfo::_internal_set_avatar(const std::string& value) {
+  
+  _impl_.avatar_.Set(value, GetArenaForAllocation());
+}
+inline std::string* ConversationInfo::_internal_mutable_avatar() {
+  
+  return _impl_.avatar_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ConversationInfo::release_avatar() {
+  // @@protoc_insertion_point(field_release:messageSystem.ConversationInfo.avatar)
+  return _impl_.avatar_.Release();
+}
+inline void ConversationInfo::set_allocated_avatar(std::string* avatar) {
+  if (avatar != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.avatar_.SetAllocated(avatar, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.avatar_.IsDefault()) {
+    _impl_.avatar_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.ConversationInfo.avatar)
 }
 
 // optional .messageSystem.MessageInfo prev_message = 4;
-inline bool ChatSessionInfo::_internal_has_prev_message() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+inline bool ConversationInfo::_internal_has_prev_message() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.prev_message_ != nullptr);
   return value;
 }
-inline bool ChatSessionInfo::has_prev_message() const {
+inline bool ConversationInfo::has_prev_message() const {
   return _internal_has_prev_message();
 }
-inline void ChatSessionInfo::clear_prev_message() {
+inline void ConversationInfo::clear_prev_message() {
   if (_impl_.prev_message_ != nullptr) _impl_.prev_message_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000004u;
+  _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline const ::messageSystem::MessageInfo& ChatSessionInfo::_internal_prev_message() const {
+inline const ::messageSystem::MessageInfo& ConversationInfo::_internal_prev_message() const {
   const ::messageSystem::MessageInfo* p = _impl_.prev_message_;
   return p != nullptr ? *p : reinterpret_cast<const ::messageSystem::MessageInfo&>(
       ::messageSystem::_MessageInfo_default_instance_);
 }
-inline const ::messageSystem::MessageInfo& ChatSessionInfo::prev_message() const {
-  // @@protoc_insertion_point(field_get:messageSystem.ChatSessionInfo.prev_message)
+inline const ::messageSystem::MessageInfo& ConversationInfo::prev_message() const {
+  // @@protoc_insertion_point(field_get:messageSystem.ConversationInfo.prev_message)
   return _internal_prev_message();
 }
-inline void ChatSessionInfo::unsafe_arena_set_allocated_prev_message(
+inline void ConversationInfo::unsafe_arena_set_allocated_prev_message(
     ::messageSystem::MessageInfo* prev_message) {
   if (GetArenaForAllocation() == nullptr) {
     delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.prev_message_);
   }
   _impl_.prev_message_ = prev_message;
   if (prev_message) {
-    _impl_._has_bits_[0] |= 0x00000004u;
+    _impl_._has_bits_[0] |= 0x00000002u;
   } else {
-    _impl_._has_bits_[0] &= ~0x00000004u;
+    _impl_._has_bits_[0] &= ~0x00000002u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:messageSystem.ChatSessionInfo.prev_message)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:messageSystem.ConversationInfo.prev_message)
 }
-inline ::messageSystem::MessageInfo* ChatSessionInfo::release_prev_message() {
-  _impl_._has_bits_[0] &= ~0x00000004u;
+inline ::messageSystem::MessageInfo* ConversationInfo::release_prev_message() {
+  _impl_._has_bits_[0] &= ~0x00000002u;
   ::messageSystem::MessageInfo* temp = _impl_.prev_message_;
   _impl_.prev_message_ = nullptr;
 #ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
@@ -2956,27 +2975,27 @@ inline ::messageSystem::MessageInfo* ChatSessionInfo::release_prev_message() {
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
   return temp;
 }
-inline ::messageSystem::MessageInfo* ChatSessionInfo::unsafe_arena_release_prev_message() {
-  // @@protoc_insertion_point(field_release:messageSystem.ChatSessionInfo.prev_message)
-  _impl_._has_bits_[0] &= ~0x00000004u;
+inline ::messageSystem::MessageInfo* ConversationInfo::unsafe_arena_release_prev_message() {
+  // @@protoc_insertion_point(field_release:messageSystem.ConversationInfo.prev_message)
+  _impl_._has_bits_[0] &= ~0x00000002u;
   ::messageSystem::MessageInfo* temp = _impl_.prev_message_;
   _impl_.prev_message_ = nullptr;
   return temp;
 }
-inline ::messageSystem::MessageInfo* ChatSessionInfo::_internal_mutable_prev_message() {
-  _impl_._has_bits_[0] |= 0x00000004u;
+inline ::messageSystem::MessageInfo* ConversationInfo::_internal_mutable_prev_message() {
+  _impl_._has_bits_[0] |= 0x00000002u;
   if (_impl_.prev_message_ == nullptr) {
     auto* p = CreateMaybeMessage<::messageSystem::MessageInfo>(GetArenaForAllocation());
     _impl_.prev_message_ = p;
   }
   return _impl_.prev_message_;
 }
-inline ::messageSystem::MessageInfo* ChatSessionInfo::mutable_prev_message() {
+inline ::messageSystem::MessageInfo* ConversationInfo::mutable_prev_message() {
   ::messageSystem::MessageInfo* _msg = _internal_mutable_prev_message();
-  // @@protoc_insertion_point(field_mutable:messageSystem.ChatSessionInfo.prev_message)
+  // @@protoc_insertion_point(field_mutable:messageSystem.ConversationInfo.prev_message)
   return _msg;
 }
-inline void ChatSessionInfo::set_allocated_prev_message(::messageSystem::MessageInfo* prev_message) {
+inline void ConversationInfo::set_allocated_prev_message(::messageSystem::MessageInfo* prev_message) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
     delete _impl_.prev_message_;
@@ -2988,80 +3007,156 @@ inline void ChatSessionInfo::set_allocated_prev_message(::messageSystem::Message
       prev_message = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
           message_arena, prev_message, submessage_arena);
     }
-    _impl_._has_bits_[0] |= 0x00000004u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000004u;
-  }
-  _impl_.prev_message_ = prev_message;
-  // @@protoc_insertion_point(field_set_allocated:messageSystem.ChatSessionInfo.prev_message)
-}
-
-// optional bytes avatar = 5;
-inline bool ChatSessionInfo::_internal_has_avatar() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
-  return value;
-}
-inline bool ChatSessionInfo::has_avatar() const {
-  return _internal_has_avatar();
-}
-inline void ChatSessionInfo::clear_avatar() {
-  _impl_.avatar_.ClearToEmpty();
-  _impl_._has_bits_[0] &= ~0x00000002u;
-}
-inline const std::string& ChatSessionInfo::avatar() const {
-  // @@protoc_insertion_point(field_get:messageSystem.ChatSessionInfo.avatar)
-  return _internal_avatar();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void ChatSessionInfo::set_avatar(ArgT0&& arg0, ArgT... args) {
- _impl_._has_bits_[0] |= 0x00000002u;
- _impl_.avatar_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:messageSystem.ChatSessionInfo.avatar)
-}
-inline std::string* ChatSessionInfo::mutable_avatar() {
-  std::string* _s = _internal_mutable_avatar();
-  // @@protoc_insertion_point(field_mutable:messageSystem.ChatSessionInfo.avatar)
-  return _s;
-}
-inline const std::string& ChatSessionInfo::_internal_avatar() const {
-  return _impl_.avatar_.Get();
-}
-inline void ChatSessionInfo::_internal_set_avatar(const std::string& value) {
-  _impl_._has_bits_[0] |= 0x00000002u;
-  _impl_.avatar_.Set(value, GetArenaForAllocation());
-}
-inline std::string* ChatSessionInfo::_internal_mutable_avatar() {
-  _impl_._has_bits_[0] |= 0x00000002u;
-  return _impl_.avatar_.Mutable(GetArenaForAllocation());
-}
-inline std::string* ChatSessionInfo::release_avatar() {
-  // @@protoc_insertion_point(field_release:messageSystem.ChatSessionInfo.avatar)
-  if (!_internal_has_avatar()) {
-    return nullptr;
-  }
-  _impl_._has_bits_[0] &= ~0x00000002u;
-  auto* p = _impl_.avatar_.Release();
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.avatar_.IsDefault()) {
-    _impl_.avatar_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  return p;
-}
-inline void ChatSessionInfo::set_allocated_avatar(std::string* avatar) {
-  if (avatar != nullptr) {
     _impl_._has_bits_[0] |= 0x00000002u;
   } else {
     _impl_._has_bits_[0] &= ~0x00000002u;
   }
-  _impl_.avatar_.SetAllocated(avatar, GetArenaForAllocation());
+  _impl_.prev_message_ = prev_message;
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.ConversationInfo.prev_message)
+}
+
+// optional string last_message_content = 5;
+inline bool ConversationInfo::_internal_has_last_message_content() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool ConversationInfo::has_last_message_content() const {
+  return _internal_has_last_message_content();
+}
+inline void ConversationInfo::clear_last_message_content() {
+  _impl_.last_message_content_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& ConversationInfo::last_message_content() const {
+  // @@protoc_insertion_point(field_get:messageSystem.ConversationInfo.last_message_content)
+  return _internal_last_message_content();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ConversationInfo::set_last_message_content(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.last_message_content_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.ConversationInfo.last_message_content)
+}
+inline std::string* ConversationInfo::mutable_last_message_content() {
+  std::string* _s = _internal_mutable_last_message_content();
+  // @@protoc_insertion_point(field_mutable:messageSystem.ConversationInfo.last_message_content)
+  return _s;
+}
+inline const std::string& ConversationInfo::_internal_last_message_content() const {
+  return _impl_.last_message_content_.Get();
+}
+inline void ConversationInfo::_internal_set_last_message_content(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.last_message_content_.Set(value, GetArenaForAllocation());
+}
+inline std::string* ConversationInfo::_internal_mutable_last_message_content() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.last_message_content_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ConversationInfo::release_last_message_content() {
+  // @@protoc_insertion_point(field_release:messageSystem.ConversationInfo.last_message_content)
+  if (!_internal_has_last_message_content()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.last_message_content_.Release();
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.avatar_.IsDefault()) {
-    _impl_.avatar_.Set("", GetArenaForAllocation());
+  if (_impl_.last_message_content_.IsDefault()) {
+    _impl_.last_message_content_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:messageSystem.ChatSessionInfo.avatar)
+  return p;
+}
+inline void ConversationInfo::set_allocated_last_message_content(std::string* last_message_content) {
+  if (last_message_content != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.last_message_content_.SetAllocated(last_message_content, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.last_message_content_.IsDefault()) {
+    _impl_.last_message_content_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.ConversationInfo.last_message_content)
+}
+
+// optional uint64 last_message_timestamp = 6;
+inline bool ConversationInfo::_internal_has_last_message_timestamp() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  return value;
+}
+inline bool ConversationInfo::has_last_message_timestamp() const {
+  return _internal_has_last_message_timestamp();
+}
+inline void ConversationInfo::clear_last_message_timestamp() {
+  _impl_.last_message_timestamp_ = uint64_t{0u};
+  _impl_._has_bits_[0] &= ~0x00000004u;
+}
+inline uint64_t ConversationInfo::_internal_last_message_timestamp() const {
+  return _impl_.last_message_timestamp_;
+}
+inline uint64_t ConversationInfo::last_message_timestamp() const {
+  // @@protoc_insertion_point(field_get:messageSystem.ConversationInfo.last_message_timestamp)
+  return _internal_last_message_timestamp();
+}
+inline void ConversationInfo::_internal_set_last_message_timestamp(uint64_t value) {
+  _impl_._has_bits_[0] |= 0x00000004u;
+  _impl_.last_message_timestamp_ = value;
+}
+inline void ConversationInfo::set_last_message_timestamp(uint64_t value) {
+  _internal_set_last_message_timestamp(value);
+  // @@protoc_insertion_point(field_set:messageSystem.ConversationInfo.last_message_timestamp)
+}
+
+// optional uint32 members = 7;
+inline bool ConversationInfo::_internal_has_members() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
+  return value;
+}
+inline bool ConversationInfo::has_members() const {
+  return _internal_has_members();
+}
+inline void ConversationInfo::clear_members() {
+  _impl_.members_ = 0u;
+  _impl_._has_bits_[0] &= ~0x00000008u;
+}
+inline uint32_t ConversationInfo::_internal_members() const {
+  return _impl_.members_;
+}
+inline uint32_t ConversationInfo::members() const {
+  // @@protoc_insertion_point(field_get:messageSystem.ConversationInfo.members)
+  return _internal_members();
+}
+inline void ConversationInfo::_internal_set_members(uint32_t value) {
+  _impl_._has_bits_[0] |= 0x00000008u;
+  _impl_.members_ = value;
+}
+inline void ConversationInfo::set_members(uint32_t value) {
+  _internal_set_members(value);
+  // @@protoc_insertion_point(field_set:messageSystem.ConversationInfo.members)
+}
+
+// uint64 created_time = 8;
+inline void ConversationInfo::clear_created_time() {
+  _impl_.created_time_ = uint64_t{0u};
+}
+inline uint64_t ConversationInfo::_internal_created_time() const {
+  return _impl_.created_time_;
+}
+inline uint64_t ConversationInfo::created_time() const {
+  // @@protoc_insertion_point(field_get:messageSystem.ConversationInfo.created_time)
+  return _internal_created_time();
+}
+inline void ConversationInfo::_internal_set_created_time(uint64_t value) {
+  
+  _impl_.created_time_ = value;
+}
+inline void ConversationInfo::set_created_time(uint64_t value) {
+  _internal_set_created_time(value);
+  // @@protoc_insertion_point(field_set:messageSystem.ConversationInfo.created_time)
 }
 
 // -------------------------------------------------------------------

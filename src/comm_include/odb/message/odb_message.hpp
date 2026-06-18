@@ -34,26 +34,30 @@ namespace odbMessage
         }
         
         /// @brief 插入单条消息
-        bool insertMessage(Message& message)
+        Response insertMessage(Message& message)
         {
+            Response rep;
             Timer t(_monitor,"insert message(id):" + std::to_string(message.id));
             try
             {
                 odb::transaction t(_db->begin());
                 _db->persist<Message>(message);
                 t.commit();
+                rep.status = true;
             }
             catch(const odb::exception& e)
             {
                 LOG_ERROR("插入消息{}失败:{}!",message.id,e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
-            return true;
+            return rep;
         }
         
         /// @brief 批量插入文本消息
-        bool insertTextMessages(const std::vector<Message>& messages)
+        Response insertTextMessages(const std::vector<Message>& messages)
         {
+            Response rep;
             Timer t(_monitor,"insert text messages(size):" + std::to_string(messages.size()));
             try
             {
@@ -72,18 +76,21 @@ namespace odbMessage
                 }
                 _db->execute(ss.str());
                 t.commit();
+                rep.status = true;
             }
             catch(const odb::exception& e)
             {
                 LOG_ERROR("插入一批文本消息失败:{}!",e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
-            return true;
+            return rep;
         }
         
         /// @brief 批量插入文件消息
-        bool insertFileMessages(const std::vector<Message>& messages)
+        Response insertFileMessages(const std::vector<Message>& messages)
         {
+            Response rep;
             Timer t(_monitor,"insert file messages(size):" + std::to_string(messages.size()));
             try
             {
@@ -104,54 +111,63 @@ namespace odbMessage
                 }
                 _db->execute(ss.str());
                 t.commit();
+                rep.status = true;
             }
             catch(const odb::exception& e)
             {
                 LOG_ERROR("插入一批文件消息失败:{}!",e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
-            return true;
+            return rep;
         }
         
         /// @brief 删除消息
-        bool deleteMessage(const std::string& message_id)
+        Response deleteMessage(const std::string& message_id)
         {
+            Response rep;
             Timer t(_monitor,"delete message(mid):" + message_id);
             try
             {
                 odb::transaction t(_db->begin());
                 _db->erase_query<Message>(query::message_id == message_id);
                 t.commit();
+                rep.status = true;
             }
             catch(const odb::exception& e)
             {
                 LOG_ERROR("删除消息{}失败:{}!",message_id,e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
-            return true;
+            return rep;
         }
         
         /// @brief 删除会话所有消息
-        bool removeConversation(const std::string& id)
+        Response removeConversation(const std::string& id)
         {
+            Response rep;
             Timer t(_monitor,"remove conversation(cid):" + id);
             try
             {
                 odb::transaction t(_db->begin());
                 _db->erase_query<Message>(query::conversation_id == id);
                 t.commit();
+                rep.status = true;
             }
             catch(const odb::exception& e)
             {
                 LOG_ERROR("删除会话{}失败:{}!",id,e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
-            return true;
+            return rep;
         }
         
         /// @brief 获取最近消息
-        bool getRecentMessages(const std::string& id, int count, std::vector<Message>* messages)
+        Response getRecentMessages(const std::string& id, int count, std::vector<Message>* messages)
         {
+            Response rep;
             Timer t(_monitor,"get recent messages(cid,count):" + id + ":" + std::to_string(count));
             try
             {
@@ -165,18 +181,21 @@ namespace odbMessage
                     messages->emplace_back(it);
                 }
                 t.commit();
+                rep.status = true;
             }
             catch(const odb::exception& e)
             {
                 LOG_ERROR("获取最近会话{}消息{}失败:{}!",id,count,e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
-            return true;
+            return rep;
         }
         
         /// @brief 获取历史消息
-        bool getHistoryMessages(const std::string& id, unsigned long long start, unsigned long long end, std::vector<Message>* messages)
+        Response getHistoryMessages(const std::string& id, unsigned long long start, unsigned long long end, std::vector<Message>* messages)
         {
+            Response rep;
             Timer t(_monitor,"get history messages(cid,start,end):" + id + " " + 
                 std::to_string(start) + "-" + std::to_string(end));
             try
@@ -191,13 +210,15 @@ namespace odbMessage
                     messages->emplace_back(it);
                 }
                 t.commit();
+                rep.status = true;
             }
             catch(const odb::exception& e)
             {
                 LOG_ERROR("获取历史会话{}消息{}-{}失败:{}!",id, start, end, e.what());
-                return false;
+                rep.status = false;
+                rep.errmsg = e.what();
             }
-            return true;
+            return rep;
         }
 
     private:

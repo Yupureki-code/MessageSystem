@@ -84,7 +84,14 @@ namespace messageSystem
                 return;
             }
             std::shared_ptr<User> user;
-            if (_odb->selectByName(name, &user) && user)
+            auto select_rep = _odb->selectByName(name, &user);
+            if (!select_rep.status)
+            {
+                LOG_ERROR("{} - 查询用户失败:{}！", rid, select_rep.errmsg);
+                HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
+                return;
+            }
+            if (user)
             {
                 LOG_ERROR("{} - 该用户名已存在:{}！", rid, name);
                 HandlerError(rep, rid, false, "该用户名已存在！");
@@ -93,17 +100,19 @@ namespace messageSystem
             user = std::make_shared<User>();
             user->name = name;
             user->password = password;
-            if (!_odb->insert(*user))
+            auto insert_rep = _odb->insert(*user);
+            if (!insert_rep.status)
             {
-                LOG_ERROR("{} - MySQL新增数据失败！", name);
+                LOG_ERROR("{} - MySQL新增数据失败:{}！", rid, insert_rep.errmsg);
                 HandlerError(rep, rid, false, "MySQL新增数据失败！");
                 return;
             }
             ESInsert es;
             es.add("uid", user->uid).add("name", name).add("password", password);
-            if (!es.insert("messageSystem", "user", std::to_string(user->uid)))
+            auto es_rep = es.insert("messageSystem", "user", std::to_string(user->uid));
+            if (!es_rep.status)
             {
-                LOG_ERROR("{} - ES新增数据失败！", rid);
+                LOG_ERROR("{} - ES新增数据失败:{}！", rid, es_rep.errmsg);
                 HandlerError(rep, rid, false, "ES新增数据失败");
                 return;
             }
@@ -123,7 +132,8 @@ namespace messageSystem
             std::string name = request->nickname();
             std::string password = request->password();
             std::shared_ptr<User> user;
-            if (!_odb->selectByName(name, &user) || !user || user->password != password)
+            auto select_rep = _odb->selectByName(name, &user);
+            if (!select_rep.status || !user || user->password != password)
             {
                 LOG_INFO("{} - 用户名或密码错误(uid):{}！", rid, uid);
                 HandlerError(rep, rid, false, "用户名或密码错误");
@@ -136,7 +146,13 @@ namespace messageSystem
                 return;
             }
             std::string ssid = util::StringUtil::generateUniqueName();
-            _redis->setex(uid, ssid);
+            auto redis_rep = _redis->setex(uid, ssid);
+            if (!redis_rep.status)
+            {
+                LOG_ERROR("{} - Redis设置失败:{}！", rid, redis_rep.errmsg);
+                HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
+                return;
+            }
             rep->set_request_id(rid);
             rep->set_status(true);
             response->set_login_session_id(ssid);
@@ -166,7 +182,13 @@ namespace messageSystem
                 HandlerError(rep, rid, false, ret.error);
                 return;
             }
-            _redis->setex(email, code);
+            auto redis_rep = _redis->setex(email, code);
+            if (!redis_rep.status)
+            {
+                LOG_ERROR("{} - Redis设置失败:{}！", rid, redis_rep.errmsg);
+                HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
+                return;
+            }
             rep->set_request_id(request->request_id());
             rep->set_status(true);
             response->set_verify_code_id(code);
@@ -189,15 +211,22 @@ namespace messageSystem
                 return;
             }
             std::string code;
-            _redis->get(email, &code);
-            if (code != request->verify_code())
+            auto get_rep = _redis->get(email, &code);
+            if (!get_rep.status || code != request->verify_code())
             {
                 LOG_INFO("{} - 验证码错误(email):{}!", rid, email);
                 HandlerError(rep, rid, false, "验证码错误!");
                 return;
             }
             std::shared_ptr<User> user;
-            if (_odb->selectByEmail(email, &user) && user)
+            auto select_rep = _odb->selectByEmail(email, &user);
+            if (!select_rep.status)
+            {
+                LOG_ERROR("{} - 查询用户失败:{}！", rid, select_rep.errmsg);
+                HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
+                return;
+            }
+            if (user)
             {
                 LOG_INFO("{} - 该邮箱已注册过用户(email):{}！", rid, email);
                 HandlerError(rep, rid, false, "该邮箱已注册过用户!");
@@ -205,7 +234,8 @@ namespace messageSystem
             }
             user = std::make_shared<User>();
             user->email = email;
-            if (!_odb->insert(*user))
+            auto insert_rep = _odb->insert(*user);
+            if (!insert_rep.status)
             {
                 LOG_INFO("{} - MySQL注册用户失败(email):{}！", rid, email);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
@@ -213,7 +243,8 @@ namespace messageSystem
             }
             ESInsert es;
             es.add("uid", user->uid).add("email", email);
-            if (!es.insert("messageSystem", "user", std::to_string(user->uid)))
+            auto es_rep = es.insert("messageSystem", "user", std::to_string(user->uid));
+            if (!es_rep.status)
             {
                 LOG_INFO("{} - ES注册用户失败(email):{}！", rid, email);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试");
@@ -239,15 +270,16 @@ namespace messageSystem
                 return;
             }
             std::string code;
-            _redis->get(email, &code);
-            if (code != request->verify_code())
+            auto get_rep = _redis->get(email, &code);
+            if (!get_rep.status || code != request->verify_code())
             {
                 LOG_INFO("{} - 验证码错误!", rid);
                 HandlerError(rep, rid, false, "验证码错误!");
                 return;
             }
             std::shared_ptr<User> user;
-            if (!_odb->selectByEmail(email, &user) || !user)
+            auto select_rep = _odb->selectByEmail(email, &user);
+            if (!select_rep.status || !user)
             {
                 LOG_INFO("{} - 该邮箱未注册过用户(email):{}！", rid, email);
                 HandlerError(rep, rid, false, "该邮箱未注册过用户!");
@@ -261,7 +293,13 @@ namespace messageSystem
                 return;
             }
             std::string ssid = util::StringUtil::generateUniqueName();
-            _redis->setex(std::to_string(user->uid), ssid);
+            auto redis_rep = _redis->setex(std::to_string(user->uid), ssid);
+            if (!redis_rep.status)
+            {
+                LOG_ERROR("{} - Redis设置失败:{}！", rid, redis_rep.errmsg);
+                HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
+                return;
+            }
             response->set_login_session_id(ssid);
             rep->set_status(true);
             rep->set_request_id(rid);
@@ -339,7 +377,8 @@ namespace messageSystem
             std::string avatar_id = util::StringUtil::generateUniqueName();
             CommRsp* rep = response->mutable_response();
             std::shared_ptr<User> user;
-            if (!_odb->selectById(uid, &user) || !user)
+            auto select_rep = _odb->selectById(uid, &user);
+            if (!select_rep.status || !user)
             {
                 LOG_INFO("{} - 用户不存在(uid):{}！", rid, uid);
                 HandlerError(rep, rid, false, "当前用户不存在!");
@@ -369,7 +408,8 @@ namespace messageSystem
                 return;
             }
             user->avatar = avatar_id;
-            if (!_odb->update(user))
+            auto update_rep = _odb->update(user);
+            if (!update_rep.status)
             {
                 LOG_INFO("{} - 更新MySQL用户头像失败(uid):{}！", rid, uid);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
@@ -382,7 +422,8 @@ namespace messageSystem
             .add("email", user->email)
             .add("desc", user->desc)
             .add("avatar", user->avatar);
-            if (!es.insert("messageSystem", "user", uid))
+            auto es_rep = es.insert("messageSystem", "user", uid);
+            if (!es_rep.status)
             {
                 LOG_INFO("{} - 更新ES失败(uid):{}！", rid, uid);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
@@ -409,14 +450,16 @@ namespace messageSystem
                 return;
             }
             std::shared_ptr<User> user;
-            if (!_odb->selectById(uid, &user) || !user)
+            auto select_rep = _odb->selectById(uid, &user);
+            if (!select_rep.status || !user)
             {
                 LOG_INFO("{} - 未找到该用户(uid):{}！", rid, uid);
                 HandlerError(rep, rid, false, "未找到该用户!");
                 return;
             }
             user->name = new_name;
-            if (!_odb->update(user))
+            auto update_rep = _odb->update(user);
+            if (!update_rep.status)
             {
                 LOG_INFO("{} - 更新MySQL用户名称失败(uid):{}！", rid, uid);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
@@ -429,7 +472,8 @@ namespace messageSystem
             .add("email", user->email)
             .add("desc", user->desc)
             .add("avatar", user->avatar);
-            if (!es.insert("messageSystem", "user", uid))
+            auto es_rep = es.insert("messageSystem", "user", uid);
+            if (!es_rep.status)
             {
                 LOG_INFO("{} - 更新ES失败(uid):{}！", rid, uid);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
@@ -450,14 +494,16 @@ namespace messageSystem
             std::string new_desc = request->description();
             CommRsp* rep = response->mutable_response();
             std::shared_ptr<User> user;
-            if (!_odb->selectById(uid, &user) || !user)
+            auto select_rep = _odb->selectById(uid, &user);
+            if (!select_rep.status || !user)
             {
                 LOG_INFO("{} - 未找到该用户(uid):{}！", rid, uid);
                 HandlerError(rep, rid, false, "未找到该用户!");
                 return;
             }
             user->desc = new_desc;
-            if (!_odb->update(user))
+            auto update_rep = _odb->update(user);
+            if (!update_rep.status)
             {
                 LOG_INFO("{} - 更新MySQL用户签名失败(uid):{}！", rid, uid);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
@@ -470,7 +516,8 @@ namespace messageSystem
             .add("email", user->email)
             .add("desc", user->desc)
             .add("avatar", user->avatar);
-            if (!es.insert("messageSystem", "user", uid))
+            auto es_rep = es.insert("messageSystem", "user", uid);
+            if (!es_rep.status)
             {
                 LOG_INFO("{} - 更新ES失败(uid):{}！", rid, uid);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
@@ -492,21 +539,24 @@ namespace messageSystem
             std::string new_email = request->email();
             std::string code = request->email_verify_code();
             std::string vcode;
-            if (!_redis->get(uid, &vcode) || vcode != code)
+            auto get_rep = _redis->get(uid, &vcode);
+            if (!get_rep.status || vcode != code)
             {
                 LOG_INFO("{} - 验证码错误！", rid);
                 HandlerError(rep, rid, false, "验证码错误!");
                 return;
             }
             std::shared_ptr<User> user;
-            if (!_odb->selectById(uid, &user) || !user)
+            auto select_rep = _odb->selectById(uid, &user);
+            if (!select_rep.status || !user)
             {
                 LOG_INFO("{} - 未找到该用户(uid):{}！", rid, uid);
                 HandlerError(rep, rid, false, "未找到该用户!");
                 return;
             }
             user->email = new_email;
-            if (!_odb->update(user))
+            auto update_rep = _odb->update(user);
+            if (!update_rep.status)
             {
                 LOG_INFO("{} - 更新MySQL用户邮箱失败(uid):{}！", rid, uid);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
@@ -519,7 +569,8 @@ namespace messageSystem
             .add("email", user->email)
             .add("desc", user->desc)
             .add("avatar", user->avatar);
-            if (!es.insert("messageSystem", "user", uid))
+            auto es_rep = es.insert("messageSystem", "user", uid);
+            if (!es_rep.status)
             {
                 LOG_INFO("{} - 更新ES失败(uid):{}！", rid, uid);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");

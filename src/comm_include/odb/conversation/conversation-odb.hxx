@@ -4,8 +4,8 @@
 // compiler for C++.
 //
 
-#ifndef CONVERSTAION_ODB_HXX
-#define CONVERSTAION_ODB_HXX
+#ifndef CONVERSATION_ODB_HXX
+#define CONVERSATION_ODB_HXX
 
 #include <odb/version.hxx>
 
@@ -15,7 +15,7 @@
 
 #include <odb/pre.hxx>
 
-#include "converstaion.hxx"
+#include "conversation.hxx"
 
 #include "../user/user-odb.hxx"
 
@@ -40,20 +40,20 @@
 
 namespace odb
 {
-  // Converstaion
+  // Conversation
   //
   template <>
-  struct class_traits< ::Converstaion >
+  struct class_traits< ::Conversation >
   {
     static const class_kind kind = class_object;
   };
 
   template <>
-  class access::object_traits< ::Converstaion >
+  class access::object_traits< ::Conversation >
   {
     public:
-    typedef ::Converstaion object_type;
-    typedef ::Converstaion* pointer_type;
+    typedef ::Conversation object_type;
+    typedef ::Conversation* pointer_type;
     typedef odb::pointer_traits<pointer_type> pointer_traits;
 
     static const bool polymorphic = false;
@@ -82,27 +82,27 @@ namespace odb
     callback (database&, const object_type&, callback_event);
   };
 
-  // ConverstaionMember
+  // ConversationMember
   //
   template <>
-  struct class_traits< ::ConverstaionMember >
+  struct class_traits< ::ConversationMember >
   {
     static const class_kind kind = class_object;
   };
 
   template <>
-  class access::object_traits< ::ConverstaionMember >
+  class access::object_traits< ::ConversationMember >
   {
     public:
-    typedef ::ConverstaionMember object_type;
-    typedef ::ConverstaionMember* pointer_type;
+    typedef ::ConversationMember object_type;
+    typedef ::ConversationMember* pointer_type;
     typedef odb::pointer_traits<pointer_type> pointer_traits;
 
     static const bool polymorphic = false;
 
-    typedef ::size_t id_type;
+    typedef ::uint64_t id_type;
 
-    static const bool auto_id = true;
+    static const bool auto_id = false;
 
     static const bool abstract = false;
 
@@ -142,6 +142,25 @@ namespace odb
     static void
     callback (database&, view_type&, callback_event);
   };
+
+  // GroupConversation
+  //
+  template <>
+  struct class_traits< ::GroupConversation >
+  {
+    static const class_kind kind = class_view;
+  };
+
+  template <>
+  class access::view_traits< ::GroupConversation >
+  {
+    public:
+    typedef ::GroupConversation view_type;
+    typedef ::GroupConversation* pointer_type;
+
+    static void
+    callback (database&, view_type&, callback_event);
+  };
 }
 
 #include <odb/details/buffer.hxx>
@@ -154,10 +173,10 @@ namespace odb
 
 namespace odb
 {
-  // Converstaion
+  // Conversation
   //
   template <typename A>
-  struct query_columns< ::Converstaion, id_mysql, A >
+  struct query_columns< ::Conversation, id_mysql, A >
   {
     // conversation_id
     //
@@ -188,7 +207,7 @@ namespace odb
     typedef
     mysql::query_column<
       mysql::value_traits<
-        ::ConverstaionType,
+        ::ConversationType,
         mysql::id_enum >::query_type,
       mysql::id_enum >
     type_type_;
@@ -207,6 +226,18 @@ namespace odb
 
     static const avatar_type_ avatar;
 
+    // members
+    //
+    typedef
+    mysql::query_column<
+      mysql::value_traits<
+        ::size_t,
+        mysql::id_ulonglong >::query_type,
+      mysql::id_ulonglong >
+    members_type_;
+
+    static const members_type_ members;
+
     // created_time
     //
     typedef
@@ -218,76 +249,47 @@ namespace odb
     created_time_type_;
 
     static const created_time_type_ created_time;
-
-    // last_message_content
-    //
-    typedef
-    mysql::query_column<
-      mysql::value_traits<
-        ::std::string,
-        mysql::id_string >::query_type,
-      mysql::id_string >
-    last_message_content_type_;
-
-    static const last_message_content_type_ last_message_content;
-
-    // last_message_time
-    //
-    typedef
-    mysql::query_column<
-      mysql::value_traits<
-        ::std::string,
-        mysql::id_string >::query_type,
-      mysql::id_string >
-    last_message_time_type_;
-
-    static const last_message_time_type_ last_message_time;
   };
 
   template <typename A>
-  const typename query_columns< ::Converstaion, id_mysql, A >::conversation_id_type_
-  query_columns< ::Converstaion, id_mysql, A >::
+  const typename query_columns< ::Conversation, id_mysql, A >::conversation_id_type_
+  query_columns< ::Conversation, id_mysql, A >::
   conversation_id (A::table_name, "`conversation_id`", 0);
 
   template <typename A>
-  const typename query_columns< ::Converstaion, id_mysql, A >::name_type_
-  query_columns< ::Converstaion, id_mysql, A >::
+  const typename query_columns< ::Conversation, id_mysql, A >::name_type_
+  query_columns< ::Conversation, id_mysql, A >::
   name (A::table_name, "`name`", 0);
 
   template <typename A>
-  const typename query_columns< ::Converstaion, id_mysql, A >::type_type_
-  query_columns< ::Converstaion, id_mysql, A >::
+  const typename query_columns< ::Conversation, id_mysql, A >::type_type_
+  query_columns< ::Conversation, id_mysql, A >::
   type (A::table_name, "`type`", 0);
 
   template <typename A>
-  const typename query_columns< ::Converstaion, id_mysql, A >::avatar_type_
-  query_columns< ::Converstaion, id_mysql, A >::
+  const typename query_columns< ::Conversation, id_mysql, A >::avatar_type_
+  query_columns< ::Conversation, id_mysql, A >::
   avatar (A::table_name, "`avatar`", 0);
 
   template <typename A>
-  const typename query_columns< ::Converstaion, id_mysql, A >::created_time_type_
-  query_columns< ::Converstaion, id_mysql, A >::
+  const typename query_columns< ::Conversation, id_mysql, A >::members_type_
+  query_columns< ::Conversation, id_mysql, A >::
+  members (A::table_name, "`members`", 0);
+
+  template <typename A>
+  const typename query_columns< ::Conversation, id_mysql, A >::created_time_type_
+  query_columns< ::Conversation, id_mysql, A >::
   created_time (A::table_name, "`created_time`", 0);
 
   template <typename A>
-  const typename query_columns< ::Converstaion, id_mysql, A >::last_message_content_type_
-  query_columns< ::Converstaion, id_mysql, A >::
-  last_message_content (A::table_name, "`last_message_content`", 0);
-
-  template <typename A>
-  const typename query_columns< ::Converstaion, id_mysql, A >::last_message_time_type_
-  query_columns< ::Converstaion, id_mysql, A >::
-  last_message_time (A::table_name, "`last_message_time`", 0);
-
-  template <typename A>
-  struct pointer_query_columns< ::Converstaion, id_mysql, A >:
-    query_columns< ::Converstaion, id_mysql, A >
+  struct pointer_query_columns< ::Conversation, id_mysql, A >:
+    query_columns< ::Conversation, id_mysql, A >
   {
   };
 
   template <>
-  class access::object_traits_impl< ::Converstaion, id_mysql >:
-    public access::object_traits< ::Converstaion >
+  class access::object_traits_impl< ::Conversation, id_mysql >:
+    public access::object_traits< ::Conversation >
   {
     public:
     struct id_image_type
@@ -313,7 +315,7 @@ namespace odb
 
       // type
       //
-      mysql::value_traits< ::ConverstaionType, mysql::id_enum >::image_type type_value;
+      mysql::value_traits< ::ConversationType, mysql::id_enum >::image_type type_value;
       unsigned long type_size;
       my_bool type_null;
 
@@ -323,22 +325,15 @@ namespace odb
       unsigned long avatar_size;
       my_bool avatar_null;
 
+      // members
+      //
+      unsigned long long members_value;
+      my_bool members_null;
+
       // created_time
       //
       unsigned long long created_time_value;
       my_bool created_time_null;
-
-      // last_message_content
-      //
-      details::buffer last_message_content_value;
-      unsigned long last_message_content_size;
-      my_bool last_message_content_null;
-
-      // last_message_time
-      //
-      details::buffer last_message_time_value;
-      unsigned long last_message_time_size;
-      my_bool last_message_time_null;
 
       std::size_t version;
     };
@@ -382,7 +377,7 @@ namespace odb
 
     typedef mysql::query_base query_base_type;
 
-    static const std::size_t column_count = 7UL;
+    static const std::size_t column_count = 6UL;
     static const std::size_t id_column_count = 1UL;
     static const std::size_t inverse_column_count = 0UL;
     static const std::size_t readonly_column_count = 0UL;
@@ -441,16 +436,28 @@ namespace odb
   };
 
   template <>
-  class access::object_traits_impl< ::Converstaion, id_common >:
-    public access::object_traits_impl< ::Converstaion, id_mysql >
+  class access::object_traits_impl< ::Conversation, id_common >:
+    public access::object_traits_impl< ::Conversation, id_mysql >
   {
   };
 
-  // ConverstaionMember
+  // ConversationMember
   //
   template <typename A>
-  struct query_columns< ::ConverstaionMember, id_mysql, A >
+  struct query_columns< ::ConversationMember, id_mysql, A >
   {
+    // id
+    //
+    typedef
+    mysql::query_column<
+      mysql::value_traits<
+        ::uint64_t,
+        mysql::id_ulonglong >::query_type,
+      mysql::id_ulonglong >
+    id_type_;
+
+    static const id_type_ id;
+
     // conversation_id
     //
     typedef
@@ -468,7 +475,7 @@ namespace odb
     typedef
     mysql::query_column<
       mysql::value_traits<
-        ::ConverstaionMemberPower,
+        ::ConversationMemberPower,
         mysql::id_enum >::query_type,
       mysql::id_enum >
     power_type_;
@@ -513,39 +520,44 @@ namespace odb
   };
 
   template <typename A>
-  const typename query_columns< ::ConverstaionMember, id_mysql, A >::conversation_id_type_
-  query_columns< ::ConverstaionMember, id_mysql, A >::
+  const typename query_columns< ::ConversationMember, id_mysql, A >::id_type_
+  query_columns< ::ConversationMember, id_mysql, A >::
+  id (A::table_name, "`id`", 0);
+
+  template <typename A>
+  const typename query_columns< ::ConversationMember, id_mysql, A >::conversation_id_type_
+  query_columns< ::ConversationMember, id_mysql, A >::
   conversation_id (A::table_name, "`conversation_id`", 0);
 
   template <typename A>
-  const typename query_columns< ::ConverstaionMember, id_mysql, A >::power_type_
-  query_columns< ::ConverstaionMember, id_mysql, A >::
+  const typename query_columns< ::ConversationMember, id_mysql, A >::power_type_
+  query_columns< ::ConversationMember, id_mysql, A >::
   power (A::table_name, "`power`", 0);
 
   template <typename A>
-  const typename query_columns< ::ConverstaionMember, id_mysql, A >::uid_type_
-  query_columns< ::ConverstaionMember, id_mysql, A >::
+  const typename query_columns< ::ConversationMember, id_mysql, A >::uid_type_
+  query_columns< ::ConversationMember, id_mysql, A >::
   uid (A::table_name, "`uid`", 0);
 
   template <typename A>
-  const typename query_columns< ::ConverstaionMember, id_mysql, A >::conversation_member_name_type_
-  query_columns< ::ConverstaionMember, id_mysql, A >::
+  const typename query_columns< ::ConversationMember, id_mysql, A >::conversation_member_name_type_
+  query_columns< ::ConversationMember, id_mysql, A >::
   conversation_member_name (A::table_name, "`conversation_member_name`", 0);
 
   template <typename A>
-  const typename query_columns< ::ConverstaionMember, id_mysql, A >::conversation_remark_name_type_
-  query_columns< ::ConverstaionMember, id_mysql, A >::
+  const typename query_columns< ::ConversationMember, id_mysql, A >::conversation_remark_name_type_
+  query_columns< ::ConversationMember, id_mysql, A >::
   conversation_remark_name (A::table_name, "`conversation_remark_name`", 0);
 
   template <typename A>
-  struct pointer_query_columns< ::ConverstaionMember, id_mysql, A >:
-    query_columns< ::ConverstaionMember, id_mysql, A >
+  struct pointer_query_columns< ::ConversationMember, id_mysql, A >:
+    query_columns< ::ConversationMember, id_mysql, A >
   {
   };
 
   template <>
-  class access::object_traits_impl< ::ConverstaionMember, id_mysql >:
-    public access::object_traits< ::ConverstaionMember >
+  class access::object_traits_impl< ::ConversationMember, id_mysql >:
+    public access::object_traits< ::ConversationMember >
   {
     public:
     struct id_image_type
@@ -558,6 +570,11 @@ namespace odb
 
     struct image_type
     {
+      // id
+      //
+      unsigned long long id_value;
+      my_bool id_null;
+
       // conversation_id
       //
       unsigned long long conversation_id_value;
@@ -565,7 +582,7 @@ namespace odb
 
       // power
       //
-      mysql::value_traits< ::ConverstaionMemberPower, mysql::id_enum >::image_type power_value;
+      mysql::value_traits< ::ConversationMemberPower, mysql::id_enum >::image_type power_value;
       unsigned long power_size;
       my_bool power_null;
 
@@ -592,9 +609,6 @@ namespace odb
     struct extra_statement_cache_type;
 
     using object_traits<object_type>::id;
-
-    static id_type
-    id (const id_image_type&);
 
     static id_type
     id (const image_type&);
@@ -628,7 +642,7 @@ namespace odb
 
     typedef mysql::query_base query_base_type;
 
-    static const std::size_t column_count = 5UL;
+    static const std::size_t column_count = 6UL;
     static const std::size_t id_column_count = 1UL;
     static const std::size_t inverse_column_count = 0UL;
     static const std::size_t readonly_column_count = 0UL;
@@ -649,7 +663,7 @@ namespace odb
     static const char table_name[];
 
     static void
-    persist (database&, object_type&);
+    persist (database&, const object_type&);
 
     static pointer_type
     find (database&, const id_type&);
@@ -687,8 +701,8 @@ namespace odb
   };
 
   template <>
-  class access::object_traits_impl< ::ConverstaionMember, id_common >:
-    public access::object_traits_impl< ::ConverstaionMember, id_mysql >
+  class access::object_traits_impl< ::ConversationMember, id_common >:
+    public access::object_traits_impl< ::ConversationMember, id_mysql >
   {
   };
 
@@ -718,22 +732,74 @@ namespace odb
       unsigned long avatar_size;
       my_bool avatar_null;
 
-      // created_time
-      //
-      unsigned long long created_time_value;
-      my_bool created_time_null;
+      std::size_t version;
+    };
 
-      // last_message_content
-      //
-      details::buffer last_message_content_value;
-      unsigned long last_message_content_size;
-      my_bool last_message_content_null;
+    typedef mysql::view_statements<view_type> statements_type;
 
-      // last_message_time
+    typedef mysql::query_base query_base_type;
+    struct query_columns;
+
+    static const bool versioned = false;
+
+    static bool
+    grow (image_type&,
+          my_bool*);
+
+    static void
+    bind (MYSQL_BIND*,
+          image_type&);
+
+    static void
+    init (view_type&,
+          const image_type&,
+          database*);
+
+    static const std::size_t column_count = 3UL;
+
+    static query_base_type
+    query_statement (const query_base_type&);
+
+    static result<view_type>
+    query (database&, const query_base_type&);
+  };
+
+  template <>
+  class access::view_traits_impl< ::PrivateConversation, id_common >:
+    public access::view_traits_impl< ::PrivateConversation, id_mysql >
+  {
+  };
+
+  // GroupConversation
+  //
+  template <>
+  class access::view_traits_impl< ::GroupConversation, id_mysql >:
+    public access::view_traits< ::GroupConversation >
+  {
+    public:
+    struct image_type
+    {
+      // conversation_id
       //
-      details::buffer last_message_time_value;
-      unsigned long last_message_time_size;
-      my_bool last_message_time_null;
+      unsigned long long conversation_id_value;
+      my_bool conversation_id_null;
+
+      // name
+      //
+      details::buffer name_value;
+      unsigned long name_size;
+      my_bool name_null;
+
+      // avatar
+      //
+      details::buffer avatar_value;
+      unsigned long avatar_size;
+      my_bool avatar_null;
+
+      // members
+      //
+      unsigned long long members_value;
+      my_bool members_null;
 
       std::size_t version;
     };
@@ -758,7 +824,7 @@ namespace odb
           const image_type&,
           database*);
 
-    static const std::size_t column_count = 6UL;
+    static const std::size_t column_count = 4UL;
 
     static query_base_type
     query_statement (const query_base_type&);
@@ -768,36 +834,36 @@ namespace odb
   };
 
   template <>
-  class access::view_traits_impl< ::PrivateConversation, id_common >:
-    public access::view_traits_impl< ::PrivateConversation, id_mysql >
+  class access::view_traits_impl< ::GroupConversation, id_common >:
+    public access::view_traits_impl< ::GroupConversation, id_mysql >
   {
   };
 
-  // Converstaion
+  // Conversation
   //
-  // ConverstaionMember
+  // ConversationMember
   //
   // PrivateConversation
   //
   struct access::view_traits_impl< ::PrivateConversation, id_mysql >::query_columns
   {
-    // Converstaion
+    // Conversation
     //
     typedef
     odb::pointer_query_columns<
-      ::Converstaion,
+      ::Conversation,
       id_mysql,
-      odb::access::object_traits_impl< ::Converstaion, id_mysql > >
-    Converstaion;
+      odb::access::object_traits_impl< ::Conversation, id_mysql > >
+    Conversation;
 
-    // ConverstaionMember
+    // ConversationMember
     //
     typedef
     odb::pointer_query_columns<
-      ::ConverstaionMember,
+      ::ConversationMember,
       id_mysql,
-      odb::access::object_traits_impl< ::ConverstaionMember, id_mysql > >
-    ConverstaionMember;
+      odb::access::object_traits_impl< ::ConversationMember, id_mysql > >
+    ConversationMember;
 
     // User
     //
@@ -808,10 +874,33 @@ namespace odb
       odb::access::object_traits_impl< ::User, id_mysql > >
     User;
   };
+
+  // GroupConversation
+  //
+  struct access::view_traits_impl< ::GroupConversation, id_mysql >::query_columns
+  {
+    // Conversation
+    //
+    typedef
+    odb::pointer_query_columns<
+      ::Conversation,
+      id_mysql,
+      odb::access::object_traits_impl< ::Conversation, id_mysql > >
+    Conversation;
+
+    // ConversationMember
+    //
+    typedef
+    odb::pointer_query_columns<
+      ::ConversationMember,
+      id_mysql,
+      odb::access::object_traits_impl< ::ConversationMember, id_mysql > >
+    ConversationMember;
+  };
 }
 
-#include "converstaion-odb.ixx"
+#include "conversation-odb.ixx"
 
 #include <odb/post.hxx>
 
-#endif // CONVERSTAION_ODB_HXX
+#endif // CONVERSATION_ODB_HXX

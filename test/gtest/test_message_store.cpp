@@ -11,7 +11,7 @@
 #include <chrono>
 #include <thread>
 
-#include "comm_include/comm.pb.h"
+#include "comm_include/proto_include/comm.pb.h"
 #include "comm_include/proto_include/message_store.pb.h"
 #include "comm_include/proto_include/file.pb.h"
 

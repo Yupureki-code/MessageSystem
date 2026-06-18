@@ -21,15 +21,16 @@ message UserInfo {
 }
 
 //聊天会话信息
-message ChatSessionInfo {
-    //群聊会话不需要设置，单聊会话设置为对方用户ID
-    optional string single_chat_friend_id = 1;
-    string conversation_id = 2; //会话ID
-    string conversation_name = 3;//会话名称git 
-    //会话上一条消息，新建的会话没有最新消息
+message ConversationInfo 
+{
+    string conversation_id = 1;
+    string conversation_name = 2;
+    bytes avatar = 3;
     optional MessageInfo prev_message = 4;
-    //会话头像 --群聊会话不需要，直接由前端固定渲染，单聊就是对方的头像
-    optional bytes avatar = 5;
+    optional string last_message_content = 5;
+    optional uint64 last_message_timestamp = 6;
+    optional uint32 members = 7;
+    uint64 created_time = 8;
 }
 
 //消息类型

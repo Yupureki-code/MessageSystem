@@ -2,7 +2,6 @@
 #include "../../comm_include/proto_include/file.pb.h"
 #include "../../comm_include/filesystem.hpp"
 #include "../../comm_include/comm.hpp"
-#include "../../comm_include/comm.pb.h"
 #include "../../comm_include/etcd.hpp"
 #include "../../comm_include/channel.hpp"
 #include <brpc/server.h>

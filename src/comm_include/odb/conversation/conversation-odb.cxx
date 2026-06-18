@@ -6,7 +6,7 @@
 
 #include <odb/pre.hxx>
 
-#include "converstaion-odb.hxx"
+#include "conversation-odb.hxx"
 
 #include <cassert>
 #include <cstring>  // std::memcpy
@@ -28,10 +28,10 @@
 
 namespace odb
 {
-  // Converstaion
+  // Conversation
   //
 
-  struct access::object_traits_impl< ::Converstaion, id_mysql >::extra_statement_cache_type
+  struct access::object_traits_impl< ::Conversation, id_mysql >::extra_statement_cache_type
   {
     extra_statement_cache_type (
       mysql::connection&,
@@ -43,8 +43,8 @@ namespace odb
     }
   };
 
-  access::object_traits_impl< ::Converstaion, id_mysql >::id_type
-  access::object_traits_impl< ::Converstaion, id_mysql >::
+  access::object_traits_impl< ::Conversation, id_mysql >::id_type
+  access::object_traits_impl< ::Conversation, id_mysql >::
   id (const id_image_type& i)
   {
     mysql::database* db (0);
@@ -63,8 +63,8 @@ namespace odb
     return id;
   }
 
-  access::object_traits_impl< ::Converstaion, id_mysql >::id_type
-  access::object_traits_impl< ::Converstaion, id_mysql >::
+  access::object_traits_impl< ::Conversation, id_mysql >::id_type
+  access::object_traits_impl< ::Conversation, id_mysql >::
   id (const image_type& i)
   {
     mysql::database* db (0);
@@ -83,7 +83,7 @@ namespace odb
     return id;
   }
 
-  bool access::object_traits_impl< ::Converstaion, id_mysql >::
+  bool access::object_traits_impl< ::Conversation, id_mysql >::
   grow (image_type& i,
         my_bool* t)
   {
@@ -122,30 +122,18 @@ namespace odb
       grew = true;
     }
 
-    // created_time
+    // members
     //
     t[4UL] = 0;
 
-    // last_message_content
+    // created_time
     //
-    if (t[5UL])
-    {
-      i.last_message_content_value.capacity (i.last_message_content_size);
-      grew = true;
-    }
-
-    // last_message_time
-    //
-    if (t[6UL])
-    {
-      i.last_message_time_value.capacity (i.last_message_time_size);
-      grew = true;
-    }
+    t[5UL] = 0;
 
     return grew;
   }
 
-  void access::object_traits_impl< ::Converstaion, id_mysql >::
+  void access::object_traits_impl< ::Conversation, id_mysql >::
   bind (MYSQL_BIND* b,
         image_type& i,
         mysql::statement_kind sk)
@@ -195,6 +183,14 @@ namespace odb
     b[n].is_null = &i.avatar_null;
     n++;
 
+    // members
+    //
+    b[n].buffer_type = MYSQL_TYPE_LONGLONG;
+    b[n].is_unsigned = 1;
+    b[n].buffer = &i.members_value;
+    b[n].is_null = &i.members_null;
+    n++;
+
     // created_time
     //
     b[n].buffer_type = MYSQL_TYPE_LONGLONG;
@@ -202,29 +198,9 @@ namespace odb
     b[n].buffer = &i.created_time_value;
     b[n].is_null = &i.created_time_null;
     n++;
-
-    // last_message_content
-    //
-    b[n].buffer_type = MYSQL_TYPE_STRING;
-    b[n].buffer = i.last_message_content_value.data ();
-    b[n].buffer_length = static_cast<unsigned long> (
-      i.last_message_content_value.capacity ());
-    b[n].length = &i.last_message_content_size;
-    b[n].is_null = &i.last_message_content_null;
-    n++;
-
-    // last_message_time
-    //
-    b[n].buffer_type = MYSQL_TYPE_STRING;
-    b[n].buffer = i.last_message_time_value.data ();
-    b[n].buffer_length = static_cast<unsigned long> (
-      i.last_message_time_value.capacity ());
-    b[n].length = &i.last_message_time_size;
-    b[n].is_null = &i.last_message_time_null;
-    n++;
   }
 
-  void access::object_traits_impl< ::Converstaion, id_mysql >::
+  void access::object_traits_impl< ::Conversation, id_mysql >::
   bind (MYSQL_BIND* b, id_image_type& i)
   {
     std::size_t n (0);
@@ -234,7 +210,7 @@ namespace odb
     b[n].is_null = &i.id_null;
   }
 
-  bool access::object_traits_impl< ::Converstaion, id_mysql >::
+  bool access::object_traits_impl< ::Conversation, id_mysql >::
   init (image_type& i,
         const object_type& o,
         mysql::statement_kind sk)
@@ -286,7 +262,7 @@ namespace odb
     // type
     //
     {
-      ::ConverstaionType const& v =
+      ::ConversationType const& v =
         o.type;
 
       bool is_null (false);
@@ -321,6 +297,20 @@ namespace odb
       grew = grew || (cap != i.avatar_value.capacity ());
     }
 
+    // members
+    //
+    {
+      ::size_t const& v =
+        o.members;
+
+      bool is_null (false);
+      mysql::value_traits<
+          ::size_t,
+          mysql::id_ulonglong >::set_image (
+        i.members_value, is_null, v);
+      i.members_null = is_null;
+    }
+
     // created_time
     //
     {
@@ -335,52 +325,10 @@ namespace odb
       i.created_time_null = is_null;
     }
 
-    // last_message_content
-    //
-    {
-      ::std::string const& v =
-        o.last_message_content;
-
-      bool is_null (false);
-      std::size_t size (0);
-      std::size_t cap (i.last_message_content_value.capacity ());
-      mysql::value_traits<
-          ::std::string,
-          mysql::id_string >::set_image (
-        i.last_message_content_value,
-        size,
-        is_null,
-        v);
-      i.last_message_content_null = is_null;
-      i.last_message_content_size = static_cast<unsigned long> (size);
-      grew = grew || (cap != i.last_message_content_value.capacity ());
-    }
-
-    // last_message_time
-    //
-    {
-      ::std::string const& v =
-        o.last_message_time;
-
-      bool is_null (false);
-      std::size_t size (0);
-      std::size_t cap (i.last_message_time_value.capacity ());
-      mysql::value_traits<
-          ::std::string,
-          mysql::id_string >::set_image (
-        i.last_message_time_value,
-        size,
-        is_null,
-        v);
-      i.last_message_time_null = is_null;
-      i.last_message_time_size = static_cast<unsigned long> (size);
-      grew = grew || (cap != i.last_message_time_value.capacity ());
-    }
-
     return grew;
   }
 
-  void access::object_traits_impl< ::Converstaion, id_mysql >::
+  void access::object_traits_impl< ::Conversation, id_mysql >::
   init (object_type& o,
         const image_type& i,
         database* db)
@@ -421,7 +369,7 @@ namespace odb
     // type
     //
     {
-      ::ConverstaionType& v =
+      ::ConversationType& v =
         o.type;
 
       mysql::enum_traits::set_value (
@@ -446,6 +394,20 @@ namespace odb
         i.avatar_null);
     }
 
+    // members
+    //
+    {
+      ::size_t& v =
+        o.members;
+
+      mysql::value_traits<
+          ::size_t,
+          mysql::id_ulonglong >::set_value (
+        v,
+        i.members_value,
+        i.members_null);
+    }
+
     // created_time
     //
     {
@@ -459,39 +421,9 @@ namespace odb
         i.created_time_value,
         i.created_time_null);
     }
-
-    // last_message_content
-    //
-    {
-      ::std::string& v =
-        o.last_message_content;
-
-      mysql::value_traits<
-          ::std::string,
-          mysql::id_string >::set_value (
-        v,
-        i.last_message_content_value,
-        i.last_message_content_size,
-        i.last_message_content_null);
-    }
-
-    // last_message_time
-    //
-    {
-      ::std::string& v =
-        o.last_message_time;
-
-      mysql::value_traits<
-          ::std::string,
-          mysql::id_string >::set_value (
-        v,
-        i.last_message_time_value,
-        i.last_message_time_size,
-        i.last_message_time_null);
-    }
   }
 
-  void access::object_traits_impl< ::Converstaion, id_mysql >::
+  void access::object_traits_impl< ::Conversation, id_mysql >::
   init (id_image_type& i, const id_type& id)
   {
     {
@@ -504,63 +436,59 @@ namespace odb
     }
   }
 
-  const char access::object_traits_impl< ::Converstaion, id_mysql >::persist_statement[] =
-  "INSERT INTO `converstaion` "
+  const char access::object_traits_impl< ::Conversation, id_mysql >::persist_statement[] =
+  "INSERT INTO `Conversation` "
   "(`conversation_id`, "
   "`name`, "
   "`type`, "
   "`avatar`, "
-  "`created_time`, "
-  "`last_message_content`, "
-  "`last_message_time`) "
+  "`members`, "
+  "`created_time`) "
   "VALUES "
-  "(?, ?, ?, ?, ?, ?, ?)";
+  "(?, ?, ?, ?, ?, ?)";
 
-  const char access::object_traits_impl< ::Converstaion, id_mysql >::find_statement[] =
+  const char access::object_traits_impl< ::Conversation, id_mysql >::find_statement[] =
   "SELECT "
-  "`converstaion`.`conversation_id`, "
-  "`converstaion`.`name`, "
-  "CONCAT(`converstaion`.`type`+0,' ',`converstaion`.`type`), "
-  "`converstaion`.`avatar`, "
-  "`converstaion`.`created_time`, "
-  "`converstaion`.`last_message_content`, "
-  "`converstaion`.`last_message_time` "
-  "FROM `converstaion` "
-  "WHERE `converstaion`.`conversation_id`=?";
+  "`Conversation`.`conversation_id`, "
+  "`Conversation`.`name`, "
+  "CONCAT(`Conversation`.`type`+0,' ',`Conversation`.`type`), "
+  "`Conversation`.`avatar`, "
+  "`Conversation`.`members`, "
+  "`Conversation`.`created_time` "
+  "FROM `Conversation` "
+  "WHERE `Conversation`.`conversation_id`=?";
 
-  const char access::object_traits_impl< ::Converstaion, id_mysql >::update_statement[] =
-  "UPDATE `converstaion` "
+  const char access::object_traits_impl< ::Conversation, id_mysql >::update_statement[] =
+  "UPDATE `Conversation` "
   "SET "
   "`name`=?, "
   "`type`=?, "
   "`avatar`=?, "
-  "`created_time`=?, "
-  "`last_message_content`=?, "
-  "`last_message_time`=? "
+  "`members`=?, "
+  "`created_time`=? "
   "WHERE `conversation_id`=?";
 
-  const char access::object_traits_impl< ::Converstaion, id_mysql >::erase_statement[] =
-  "DELETE FROM `converstaion` "
+  const char access::object_traits_impl< ::Conversation, id_mysql >::erase_statement[] =
+  "DELETE FROM `Conversation` "
   "WHERE `conversation_id`=?";
 
-  const char access::object_traits_impl< ::Converstaion, id_mysql >::query_statement[] =
+  const char access::object_traits_impl< ::Conversation, id_mysql >::query_statement[] =
   "SELECT "
-  "`converstaion`.`conversation_id`, "
-  "`converstaion`.`name`, "
-  "CONCAT(`converstaion`.`type`+0,' ',`converstaion`.`type`), "
-  "`converstaion`.`avatar`, "
-  "`converstaion`.`created_time`, "
-  "`converstaion`.`last_message_content`, "
-  "`converstaion`.`last_message_time` "
-  "FROM `converstaion`";
+  "`Conversation`.`conversation_id`, "
+  "`Conversation`.`name`, "
+  "CONCAT(`Conversation`.`type`+0,' ',`Conversation`.`type`), "
+  "`Conversation`.`avatar`, "
+  "`Conversation`.`members`, "
+  "`Conversation`.`created_time` "
+  "FROM `Conversation`";
 
-  const char access::object_traits_impl< ::Converstaion, id_mysql >::erase_query_statement[] =
-  "DELETE FROM `converstaion`";
+  const char access::object_traits_impl< ::Conversation, id_mysql >::erase_query_statement[] =
+  "DELETE FROM `Conversation`";
 
-  const char access::object_traits_impl< ::Converstaion, id_mysql >::table_name[] =
-  "`converstaion`";
+  const char access::object_traits_impl< ::Conversation, id_mysql >::table_name[] =
+  "`Conversation`";
 
-  void access::object_traits_impl< ::Converstaion, id_mysql >::
+  void access::object_traits_impl< ::Conversation, id_mysql >::
   persist (database& db, object_type& obj)
   {
     using namespace mysql;
@@ -612,7 +540,7 @@ namespace odb
               callback_event::post_persist);
   }
 
-  void access::object_traits_impl< ::Converstaion, id_mysql >::
+  void access::object_traits_impl< ::Conversation, id_mysql >::
   update (database& db, const object_type& obj)
   {
     ODB_POTENTIALLY_UNUSED (db);
@@ -671,7 +599,7 @@ namespace odb
     pointer_cache_traits::update (db, obj);
   }
 
-  void access::object_traits_impl< ::Converstaion, id_mysql >::
+  void access::object_traits_impl< ::Conversation, id_mysql >::
   erase (database& db, const id_type& id)
   {
     using namespace mysql;
@@ -698,8 +626,8 @@ namespace odb
     pointer_cache_traits::erase (db, id);
   }
 
-  access::object_traits_impl< ::Converstaion, id_mysql >::pointer_type
-  access::object_traits_impl< ::Converstaion, id_mysql >::
+  access::object_traits_impl< ::Conversation, id_mysql >::pointer_type
+  access::object_traits_impl< ::Conversation, id_mysql >::
   find (database& db, const id_type& id)
   {
     using namespace mysql;
@@ -754,7 +682,7 @@ namespace odb
     return p;
   }
 
-  bool access::object_traits_impl< ::Converstaion, id_mysql >::
+  bool access::object_traits_impl< ::Conversation, id_mysql >::
   find (database& db, const id_type& id, object_type& obj)
   {
     using namespace mysql;
@@ -788,7 +716,7 @@ namespace odb
     return true;
   }
 
-  bool access::object_traits_impl< ::Converstaion, id_mysql >::
+  bool access::object_traits_impl< ::Conversation, id_mysql >::
   reload (database& db, object_type& obj)
   {
     using namespace mysql;
@@ -817,7 +745,7 @@ namespace odb
     return true;
   }
 
-  bool access::object_traits_impl< ::Converstaion, id_mysql >::
+  bool access::object_traits_impl< ::Conversation, id_mysql >::
   find_ (statements_type& sts,
          const id_type* id)
   {
@@ -868,8 +796,8 @@ namespace odb
     return r != select_statement::no_data;
   }
 
-  result< access::object_traits_impl< ::Converstaion, id_mysql >::object_type >
-  access::object_traits_impl< ::Converstaion, id_mysql >::
+  result< access::object_traits_impl< ::Conversation, id_mysql >::object_type >
+  access::object_traits_impl< ::Conversation, id_mysql >::
   query (database& db, const query_base_type& q)
   {
     using namespace mysql;
@@ -919,7 +847,7 @@ namespace odb
     return result<object_type> (r);
   }
 
-  unsigned long long access::object_traits_impl< ::Converstaion, id_mysql >::
+  unsigned long long access::object_traits_impl< ::Conversation, id_mysql >::
   erase_query (database& db, const query_base_type& q)
   {
     using namespace mysql;
@@ -943,10 +871,10 @@ namespace odb
     return st.execute ();
   }
 
-  // ConverstaionMember
+  // ConversationMember
   //
 
-  struct access::object_traits_impl< ::ConverstaionMember, id_mysql >::extra_statement_cache_type
+  struct access::object_traits_impl< ::ConversationMember, id_mysql >::extra_statement_cache_type
   {
     extra_statement_cache_type (
       mysql::connection&,
@@ -958,9 +886,9 @@ namespace odb
     }
   };
 
-  access::object_traits_impl< ::ConverstaionMember, id_mysql >::id_type
-  access::object_traits_impl< ::ConverstaionMember, id_mysql >::
-  id (const id_image_type& i)
+  access::object_traits_impl< ::ConversationMember, id_mysql >::id_type
+  access::object_traits_impl< ::ConversationMember, id_mysql >::
+  id (const image_type& i)
   {
     mysql::database* db (0);
     ODB_POTENTIALLY_UNUSED (db);
@@ -968,7 +896,7 @@ namespace odb
     id_type id;
     {
       mysql::value_traits<
-          ::size_t,
+          ::uint64_t,
           mysql::id_ulonglong >::set_value (
         id,
         i.id_value,
@@ -978,27 +906,7 @@ namespace odb
     return id;
   }
 
-  access::object_traits_impl< ::ConverstaionMember, id_mysql >::id_type
-  access::object_traits_impl< ::ConverstaionMember, id_mysql >::
-  id (const image_type& i)
-  {
-    mysql::database* db (0);
-    ODB_POTENTIALLY_UNUSED (db);
-
-    id_type id;
-    {
-      mysql::value_traits<
-          ::size_t,
-          mysql::id_ulonglong >::set_value (
-        id,
-        i.conversation_id_value,
-        i.conversation_id_null);
-    }
-
-    return id;
-  }
-
-  bool access::object_traits_impl< ::ConverstaionMember, id_mysql >::
+  bool access::object_traits_impl< ::ConversationMember, id_mysql >::
   grow (image_type& i,
         my_bool* t)
   {
@@ -1007,27 +915,31 @@ namespace odb
 
     bool grew (false);
 
-    // conversation_id
+    // id
     //
     t[0UL] = 0;
 
+    // conversation_id
+    //
+    t[1UL] = 0;
+
     // power
     //
-    if (t[1UL])
+    if (t[2UL])
     {
       if (mysql::enum_traits::grow (i.power_value, i.power_size))
         grew = true;
       else
-        t[1UL] = 0;
+        t[2UL] = 0;
     }
 
     // uid
     //
-    t[2UL] = 0;
+    t[3UL] = 0;
 
     // conversation_member_name
     //
-    if (t[3UL])
+    if (t[4UL])
     {
       i.conversation_member_name_value.capacity (i.conversation_member_name_size);
       grew = true;
@@ -1035,7 +947,7 @@ namespace odb
 
     // conversation_remark_name
     //
-    if (t[4UL])
+    if (t[5UL])
     {
       i.conversation_remark_name_value.capacity (i.conversation_remark_name_size);
       grew = true;
@@ -1044,7 +956,7 @@ namespace odb
     return grew;
   }
 
-  void access::object_traits_impl< ::ConverstaionMember, id_mysql >::
+  void access::object_traits_impl< ::ConversationMember, id_mysql >::
   bind (MYSQL_BIND* b,
         image_type& i,
         mysql::statement_kind sk)
@@ -1055,16 +967,24 @@ namespace odb
 
     std::size_t n (0);
 
-    // conversation_id
+    // id
     //
     if (sk != statement_update)
     {
       b[n].buffer_type = MYSQL_TYPE_LONGLONG;
       b[n].is_unsigned = 1;
-      b[n].buffer = &i.conversation_id_value;
-      b[n].is_null = &i.conversation_id_null;
+      b[n].buffer = &i.id_value;
+      b[n].is_null = &i.id_null;
       n++;
     }
+
+    // conversation_id
+    //
+    b[n].buffer_type = MYSQL_TYPE_LONGLONG;
+    b[n].is_unsigned = 1;
+    b[n].buffer = &i.conversation_id_value;
+    b[n].is_null = &i.conversation_id_null;
+    n++;
 
     // power
     //
@@ -1103,7 +1023,7 @@ namespace odb
     n++;
   }
 
-  void access::object_traits_impl< ::ConverstaionMember, id_mysql >::
+  void access::object_traits_impl< ::ConversationMember, id_mysql >::
   bind (MYSQL_BIND* b, id_image_type& i)
   {
     std::size_t n (0);
@@ -1113,7 +1033,7 @@ namespace odb
     b[n].is_null = &i.id_null;
   }
 
-  bool access::object_traits_impl< ::ConverstaionMember, id_mysql >::
+  bool access::object_traits_impl< ::ConversationMember, id_mysql >::
   init (image_type& i,
         const object_type& o,
         mysql::statement_kind sk)
@@ -1126,9 +1046,23 @@ namespace odb
 
     bool grew (false);
 
-    // conversation_id
+    // id
     //
     if (sk == statement_insert)
+    {
+      ::uint64_t const& v =
+        o.id;
+
+      bool is_null (false);
+      mysql::value_traits<
+          ::uint64_t,
+          mysql::id_ulonglong >::set_image (
+        i.id_value, is_null, v);
+      i.id_null = is_null;
+    }
+
+    // conversation_id
+    //
     {
       ::size_t const& v =
         o.conversation_id;
@@ -1144,7 +1078,7 @@ namespace odb
     // power
     //
     {
-      ::ConverstaionMemberPower const& v =
+      ::ConversationMemberPower const& v =
         o.power;
 
       bool is_null (false);
@@ -1217,7 +1151,7 @@ namespace odb
     return grew;
   }
 
-  void access::object_traits_impl< ::ConverstaionMember, id_mysql >::
+  void access::object_traits_impl< ::ConversationMember, id_mysql >::
   init (object_type& o,
         const image_type& i,
         database* db)
@@ -1225,6 +1159,20 @@ namespace odb
     ODB_POTENTIALLY_UNUSED (o);
     ODB_POTENTIALLY_UNUSED (i);
     ODB_POTENTIALLY_UNUSED (db);
+
+    // id
+    //
+    {
+      ::uint64_t& v =
+        o.id;
+
+      mysql::value_traits<
+          ::uint64_t,
+          mysql::id_ulonglong >::set_value (
+        v,
+        i.id_value,
+        i.id_null);
+    }
 
     // conversation_id
     //
@@ -1243,7 +1191,7 @@ namespace odb
     // power
     //
     {
-      ::ConverstaionMemberPower& v =
+      ::ConversationMemberPower& v =
         o.power;
 
       mysql::enum_traits::set_value (
@@ -1298,69 +1246,73 @@ namespace odb
     }
   }
 
-  void access::object_traits_impl< ::ConverstaionMember, id_mysql >::
+  void access::object_traits_impl< ::ConversationMember, id_mysql >::
   init (id_image_type& i, const id_type& id)
   {
     {
       bool is_null (false);
       mysql::value_traits<
-          ::size_t,
+          ::uint64_t,
           mysql::id_ulonglong >::set_image (
         i.id_value, is_null, id);
       i.id_null = is_null;
     }
   }
 
-  const char access::object_traits_impl< ::ConverstaionMember, id_mysql >::persist_statement[] =
-  "INSERT INTO `converstaion_member` "
-  "(`conversation_id`, "
+  const char access::object_traits_impl< ::ConversationMember, id_mysql >::persist_statement[] =
+  "INSERT INTO `Conversation_member` "
+  "(`id`, "
+  "`conversation_id`, "
   "`power`, "
   "`uid`, "
   "`conversation_member_name`, "
   "`conversation_remark_name`) "
   "VALUES "
-  "(?, ?, ?, ?, ?)";
+  "(?, ?, ?, ?, ?, ?)";
 
-  const char access::object_traits_impl< ::ConverstaionMember, id_mysql >::find_statement[] =
+  const char access::object_traits_impl< ::ConversationMember, id_mysql >::find_statement[] =
   "SELECT "
-  "`converstaion_member`.`conversation_id`, "
-  "CONCAT(`converstaion_member`.`power`+0,' ',`converstaion_member`.`power`), "
-  "`converstaion_member`.`uid`, "
-  "`converstaion_member`.`conversation_member_name`, "
-  "`converstaion_member`.`conversation_remark_name` "
-  "FROM `converstaion_member` "
-  "WHERE `converstaion_member`.`conversation_id`=?";
+  "`Conversation_member`.`id`, "
+  "`Conversation_member`.`conversation_id`, "
+  "CONCAT(`Conversation_member`.`power`+0,' ',`Conversation_member`.`power`), "
+  "`Conversation_member`.`uid`, "
+  "`Conversation_member`.`conversation_member_name`, "
+  "`Conversation_member`.`conversation_remark_name` "
+  "FROM `Conversation_member` "
+  "WHERE `Conversation_member`.`id`=?";
 
-  const char access::object_traits_impl< ::ConverstaionMember, id_mysql >::update_statement[] =
-  "UPDATE `converstaion_member` "
+  const char access::object_traits_impl< ::ConversationMember, id_mysql >::update_statement[] =
+  "UPDATE `Conversation_member` "
   "SET "
+  "`conversation_id`=?, "
   "`power`=?, "
   "`uid`=?, "
   "`conversation_member_name`=?, "
   "`conversation_remark_name`=? "
-  "WHERE `conversation_id`=?";
+  "WHERE `id`=?";
 
-  const char access::object_traits_impl< ::ConverstaionMember, id_mysql >::erase_statement[] =
-  "DELETE FROM `converstaion_member` "
-  "WHERE `conversation_id`=?";
+  const char access::object_traits_impl< ::ConversationMember, id_mysql >::erase_statement[] =
+  "DELETE FROM `Conversation_member` "
+  "WHERE `id`=?";
 
-  const char access::object_traits_impl< ::ConverstaionMember, id_mysql >::query_statement[] =
+  const char access::object_traits_impl< ::ConversationMember, id_mysql >::query_statement[] =
   "SELECT "
-  "`converstaion_member`.`conversation_id`, "
-  "CONCAT(`converstaion_member`.`power`+0,' ',`converstaion_member`.`power`), "
-  "`converstaion_member`.`uid`, "
-  "`converstaion_member`.`conversation_member_name`, "
-  "`converstaion_member`.`conversation_remark_name` "
-  "FROM `converstaion_member`";
+  "`Conversation_member`.`id`, "
+  "`Conversation_member`.`conversation_id`, "
+  "CONCAT(`Conversation_member`.`power`+0,' ',`Conversation_member`.`power`), "
+  "`Conversation_member`.`uid`, "
+  "`Conversation_member`.`conversation_member_name`, "
+  "`Conversation_member`.`conversation_remark_name` "
+  "FROM `Conversation_member`";
 
-  const char access::object_traits_impl< ::ConverstaionMember, id_mysql >::erase_query_statement[] =
-  "DELETE FROM `converstaion_member`";
+  const char access::object_traits_impl< ::ConversationMember, id_mysql >::erase_query_statement[] =
+  "DELETE FROM `Conversation_member`";
 
-  const char access::object_traits_impl< ::ConverstaionMember, id_mysql >::table_name[] =
-  "`converstaion_member`";
+  const char access::object_traits_impl< ::ConversationMember, id_mysql >::table_name[] =
+  "`Conversation_member`";
 
-  void access::object_traits_impl< ::ConverstaionMember, id_mysql >::
-  persist (database& db, object_type& obj)
+  void access::object_traits_impl< ::ConversationMember, id_mysql >::
+  persist (database& db, const object_type& obj)
   {
     using namespace mysql;
 
@@ -1370,7 +1322,7 @@ namespace odb
       conn.statement_cache ().find_object<object_type> ());
 
     callback (db,
-              static_cast<const object_type&> (obj),
+              obj,
               callback_event::pre_persist);
 
     image_type& im (sts.image ());
@@ -1378,8 +1330,6 @@ namespace odb
 
     if (init (im, obj, statement_insert))
       im.version++;
-
-    im.conversation_id_value = 0;
 
     if (im.version != sts.insert_image_version () ||
         imb.version == 0)
@@ -1389,29 +1339,16 @@ namespace odb
       imb.version++;
     }
 
-    {
-      id_image_type& i (sts.id_image ());
-      binding& b (sts.id_image_binding ());
-      if (i.version != sts.id_image_version () || b.version == 0)
-      {
-        bind (b.bind, i);
-        sts.id_image_version (i.version);
-        b.version++;
-      }
-    }
-
     insert_statement& st (sts.persist_statement ());
     if (!st.execute ())
       throw object_already_persistent ();
 
-    obj.conversation_id = id (sts.id_image ());
-
     callback (db,
-              static_cast<const object_type&> (obj),
+              obj,
               callback_event::post_persist);
   }
 
-  void access::object_traits_impl< ::ConverstaionMember, id_mysql >::
+  void access::object_traits_impl< ::ConversationMember, id_mysql >::
   update (database& db, const object_type& obj)
   {
     ODB_POTENTIALLY_UNUSED (db);
@@ -1470,7 +1407,7 @@ namespace odb
     pointer_cache_traits::update (db, obj);
   }
 
-  void access::object_traits_impl< ::ConverstaionMember, id_mysql >::
+  void access::object_traits_impl< ::ConversationMember, id_mysql >::
   erase (database& db, const id_type& id)
   {
     using namespace mysql;
@@ -1497,8 +1434,8 @@ namespace odb
     pointer_cache_traits::erase (db, id);
   }
 
-  access::object_traits_impl< ::ConverstaionMember, id_mysql >::pointer_type
-  access::object_traits_impl< ::ConverstaionMember, id_mysql >::
+  access::object_traits_impl< ::ConversationMember, id_mysql >::pointer_type
+  access::object_traits_impl< ::ConversationMember, id_mysql >::
   find (database& db, const id_type& id)
   {
     using namespace mysql;
@@ -1553,7 +1490,7 @@ namespace odb
     return p;
   }
 
-  bool access::object_traits_impl< ::ConverstaionMember, id_mysql >::
+  bool access::object_traits_impl< ::ConversationMember, id_mysql >::
   find (database& db, const id_type& id, object_type& obj)
   {
     using namespace mysql;
@@ -1587,7 +1524,7 @@ namespace odb
     return true;
   }
 
-  bool access::object_traits_impl< ::ConverstaionMember, id_mysql >::
+  bool access::object_traits_impl< ::ConversationMember, id_mysql >::
   reload (database& db, object_type& obj)
   {
     using namespace mysql;
@@ -1616,7 +1553,7 @@ namespace odb
     return true;
   }
 
-  bool access::object_traits_impl< ::ConverstaionMember, id_mysql >::
+  bool access::object_traits_impl< ::ConversationMember, id_mysql >::
   find_ (statements_type& sts,
          const id_type* id)
   {
@@ -1667,8 +1604,8 @@ namespace odb
     return r != select_statement::no_data;
   }
 
-  result< access::object_traits_impl< ::ConverstaionMember, id_mysql >::object_type >
-  access::object_traits_impl< ::ConverstaionMember, id_mysql >::
+  result< access::object_traits_impl< ::ConversationMember, id_mysql >::object_type >
+  access::object_traits_impl< ::ConversationMember, id_mysql >::
   query (database& db, const query_base_type& q)
   {
     using namespace mysql;
@@ -1718,7 +1655,7 @@ namespace odb
     return result<object_type> (r);
   }
 
-  unsigned long long access::object_traits_impl< ::ConverstaionMember, id_mysql >::
+  unsigned long long access::object_traits_impl< ::ConversationMember, id_mysql >::
   erase_query (database& db, const query_base_type& q)
   {
     using namespace mysql;
@@ -1774,26 +1711,6 @@ namespace odb
       grew = true;
     }
 
-    // created_time
-    //
-    t[3UL] = 0;
-
-    // last_message_content
-    //
-    if (t[4UL])
-    {
-      i.last_message_content_value.capacity (i.last_message_content_size);
-      grew = true;
-    }
-
-    // last_message_time
-    //
-    if (t[5UL])
-    {
-      i.last_message_time_value.capacity (i.last_message_time_size);
-      grew = true;
-    }
-
     return grew;
   }
 
@@ -1834,34 +1751,6 @@ namespace odb
       i.avatar_value.capacity ());
     b[n].length = &i.avatar_size;
     b[n].is_null = &i.avatar_null;
-    n++;
-
-    // created_time
-    //
-    b[n].buffer_type = MYSQL_TYPE_LONGLONG;
-    b[n].is_unsigned = 1;
-    b[n].buffer = &i.created_time_value;
-    b[n].is_null = &i.created_time_null;
-    n++;
-
-    // last_message_content
-    //
-    b[n].buffer_type = MYSQL_TYPE_STRING;
-    b[n].buffer = i.last_message_content_value.data ();
-    b[n].buffer_length = static_cast<unsigned long> (
-      i.last_message_content_value.capacity ());
-    b[n].length = &i.last_message_content_size;
-    b[n].is_null = &i.last_message_content_null;
-    n++;
-
-    // last_message_time
-    //
-    b[n].buffer_type = MYSQL_TYPE_STRING;
-    b[n].buffer = i.last_message_time_value.data ();
-    b[n].buffer_length = static_cast<unsigned long> (
-      i.last_message_time_value.capacity ());
-    b[n].length = &i.last_message_time_size;
-    b[n].is_null = &i.last_message_time_null;
     n++;
   }
 
@@ -1917,50 +1806,6 @@ namespace odb
         i.avatar_size,
         i.avatar_null);
     }
-
-    // created_time
-    //
-    {
-      long unsigned int& v =
-        o.created_time;
-
-      mysql::value_traits<
-          long unsigned int,
-          mysql::id_ulonglong >::set_value (
-        v,
-        i.created_time_value,
-        i.created_time_null);
-    }
-
-    // last_message_content
-    //
-    {
-      ::std::string& v =
-        o.last_message_content;
-
-      mysql::value_traits<
-          ::std::string,
-          mysql::id_string >::set_value (
-        v,
-        i.last_message_content_value,
-        i.last_message_content_size,
-        i.last_message_content_null);
-    }
-
-    // last_message_time
-    //
-    {
-      ::std::string& v =
-        o.last_message_time;
-
-      mysql::value_traits<
-          ::std::string,
-          mysql::id_string >::set_value (
-        v,
-        i.last_message_time_value,
-        i.last_message_time_size,
-        i.last_message_time_null);
-    }
   }
 
   access::view_traits_impl< ::PrivateConversation, id_mysql >::query_base_type
@@ -1969,26 +1814,23 @@ namespace odb
   {
     query_base_type r (
       "SELECT "
-      "`converstaion`.`conversation_id`, "
+      "`Conversation`.`conversation_id`, "
       "`user`.`name`, "
-      "`user`.`avatar`, "
-      "`converstaion`.`created_time`, "
-      "`converstaion`.`last_message_content`, "
-      "`converstaion`.`last_message_time` ");
+      "`user`.`avatar` ");
 
-    r += "FROM `converstaion`";
+    r += "FROM `Conversation`";
 
-    r += " LEFT JOIN `converstaion_member` ON";
-    // From converstaion.hxx:46:17
-    r += query_columns::ConverstaionMember::conversation_id == query_columns::Converstaion::conversation_id;
+    r += " LEFT JOIN `Conversation_member` ON";
+    // From conversation.hxx:47:17
+    r += ConversationMember::Conversation_id == query_columns::Conversation::conversation_id;
 
     r += " LEFT JOIN `user` ON";
-    // From converstaion.hxx:47:17
-    r += User : uid != ConverstaionMember : uid;
+    // From conversation.hxx:48:17
+    r += query_columns::User::uid != query_columns::ConversationMember::uid;
 
     query_base_type c (
-      // From converstaion.hxx:48:17
-      query_columns::Converstaion::type == "PRIVATE");
+      // From conversation.hxx:49:17
+      ? == query_columns::ConversationMember::uid);
 
     c += q;
 
@@ -2004,6 +1846,237 @@ namespace odb
 
   result< access::view_traits_impl< ::PrivateConversation, id_mysql >::view_type >
   access::view_traits_impl< ::PrivateConversation, id_mysql >::
+  query (database& db, const query_base_type& q)
+  {
+    using namespace mysql;
+    using odb::details::shared;
+    using odb::details::shared_ptr;
+
+    mysql::connection& conn (
+      mysql::transaction::current ().connection (db));
+    statements_type& sts (
+      conn.statement_cache ().find_view<view_type> ());
+
+    image_type& im (sts.image ());
+    binding& imb (sts.image_binding ());
+
+    if (im.version != sts.image_version () || imb.version == 0)
+    {
+      bind (imb.bind, im);
+      sts.image_version (im.version);
+      imb.version++;
+    }
+
+    const query_base_type& qs (query_statement (q));
+    qs.init_parameters ();
+    shared_ptr<select_statement> st (
+      new (shared) select_statement (
+        conn,
+        qs.clause (),
+        false,
+        true,
+        qs.parameters_binding (),
+        imb));
+
+    st->execute ();
+
+    shared_ptr< odb::view_result_impl<view_type> > r (
+      new (shared) mysql::view_result_impl<view_type> (
+        qs, st, sts, 0));
+
+    return result<view_type> (r);
+  }
+
+  // GroupConversation
+  //
+
+  bool access::view_traits_impl< ::GroupConversation, id_mysql >::
+  grow (image_type& i,
+        my_bool* t)
+  {
+    ODB_POTENTIALLY_UNUSED (i);
+    ODB_POTENTIALLY_UNUSED (t);
+
+    bool grew (false);
+
+    // conversation_id
+    //
+    t[0UL] = 0;
+
+    // name
+    //
+    if (t[1UL])
+    {
+      i.name_value.capacity (i.name_size);
+      grew = true;
+    }
+
+    // avatar
+    //
+    if (t[2UL])
+    {
+      i.avatar_value.capacity (i.avatar_size);
+      grew = true;
+    }
+
+    // members
+    //
+    t[3UL] = 0;
+
+    return grew;
+  }
+
+  void access::view_traits_impl< ::GroupConversation, id_mysql >::
+  bind (MYSQL_BIND* b,
+        image_type& i)
+  {
+    using namespace mysql;
+
+    mysql::statement_kind sk (statement_select);
+    ODB_POTENTIALLY_UNUSED (sk);
+
+    std::size_t n (0);
+
+    // conversation_id
+    //
+    b[n].buffer_type = MYSQL_TYPE_LONGLONG;
+    b[n].is_unsigned = 1;
+    b[n].buffer = &i.conversation_id_value;
+    b[n].is_null = &i.conversation_id_null;
+    n++;
+
+    // name
+    //
+    b[n].buffer_type = MYSQL_TYPE_STRING;
+    b[n].buffer = i.name_value.data ();
+    b[n].buffer_length = static_cast<unsigned long> (
+      i.name_value.capacity ());
+    b[n].length = &i.name_size;
+    b[n].is_null = &i.name_null;
+    n++;
+
+    // avatar
+    //
+    b[n].buffer_type = MYSQL_TYPE_STRING;
+    b[n].buffer = i.avatar_value.data ();
+    b[n].buffer_length = static_cast<unsigned long> (
+      i.avatar_value.capacity ());
+    b[n].length = &i.avatar_size;
+    b[n].is_null = &i.avatar_null;
+    n++;
+
+    // members
+    //
+    b[n].buffer_type = MYSQL_TYPE_LONGLONG;
+    b[n].is_unsigned = 1;
+    b[n].buffer = &i.members_value;
+    b[n].is_null = &i.members_null;
+    n++;
+  }
+
+  void access::view_traits_impl< ::GroupConversation, id_mysql >::
+  init (view_type& o,
+        const image_type& i,
+        database* db)
+  {
+    ODB_POTENTIALLY_UNUSED (o);
+    ODB_POTENTIALLY_UNUSED (i);
+    ODB_POTENTIALLY_UNUSED (db);
+
+    // conversation_id
+    //
+    {
+      ::size_t& v =
+        o.conversation_id;
+
+      mysql::value_traits<
+          ::size_t,
+          mysql::id_ulonglong >::set_value (
+        v,
+        i.conversation_id_value,
+        i.conversation_id_null);
+    }
+
+    // name
+    //
+    {
+      ::std::string& v =
+        o.name;
+
+      mysql::value_traits<
+          ::std::string,
+          mysql::id_string >::set_value (
+        v,
+        i.name_value,
+        i.name_size,
+        i.name_null);
+    }
+
+    // avatar
+    //
+    {
+      ::std::string& v =
+        o.avatar;
+
+      mysql::value_traits<
+          ::std::string,
+          mysql::id_string >::set_value (
+        v,
+        i.avatar_value,
+        i.avatar_size,
+        i.avatar_null);
+    }
+
+    // members
+    //
+    {
+      ::size_t& v =
+        o.members;
+
+      mysql::value_traits<
+          ::size_t,
+          mysql::id_ulonglong >::set_value (
+        v,
+        i.members_value,
+        i.members_null);
+    }
+  }
+
+  access::view_traits_impl< ::GroupConversation, id_mysql >::query_base_type
+  access::view_traits_impl< ::GroupConversation, id_mysql >::
+  query_statement (const query_base_type& q)
+  {
+    query_base_type r (
+      "SELECT "
+      "`Conversation`.`conversation_id`, "
+      "`Conversation_member`.`conversation_remark_name`, "
+      "`Conversation`.`avatar`, "
+      "`Conversation`.`members` ");
+
+    r += "FROM `Conversation`";
+
+    r += " LEFT JOIN `Conversation_member` ON";
+    // From conversation.hxx:62:17
+    r += query_columns::ConversationMember::conversation_id == query_columns::Conversation::conversation_id;
+
+    query_base_type c (
+      // From conversation.hxx:63:17
+      ? == query_columns::ConversationMember::uid);
+
+    c += q;
+
+    if (!c.empty ())
+    {
+      r += " ";
+      r += c.clause_prefix ();
+      r += c;
+    }
+
+    return r;
+  }
+
+  result< access::view_traits_impl< ::GroupConversation, id_mysql >::view_type >
+  access::view_traits_impl< ::GroupConversation, id_mysql >::
   query (database& db, const query_base_type& q)
   {
     using namespace mysql;

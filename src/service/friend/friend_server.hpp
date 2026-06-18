@@ -64,7 +64,8 @@ namespace messageSystem
             }
             // 2. 检查好友是否存在
             std::shared_ptr<User> friend_user;
-            if (!_user_db->selectById(friend_uid, &friend_user) || !friend_user)
+            auto select_user_rep = _user_db->selectById(friend_uid, &friend_user);
+            if (!select_user_rep.status || !friend_user)
             {
                 LOG_INFO("{} - 好友用户不存在(uid):{}！", rid, friend_uid);
                 HandlerError(rep, rid, false, "该用户不存在!");
@@ -72,7 +73,14 @@ namespace messageSystem
             }
             // 3. 检查是否已经是好友
             std::shared_ptr<Friendships> existing;
-            if (_friend_db->selectByUid(std::stoul(uid), std::stoul(friend_uid), &existing) && existing)
+            auto select_fs_rep = _friend_db->selectByUid(std::stoul(uid), std::stoul(friend_uid), &existing);
+            if (!select_fs_rep.status)
+            {
+                LOG_ERROR("{} - 查询好友关系失败:{}！", rid, select_fs_rep.errmsg);
+                HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
+                return;
+            }
+            if (existing)
             {
                 LOG_INFO("{} - 已经是好友关系！", rid);
                 HandlerError(rep, rid, false, "已经是好友关系!");
@@ -88,9 +96,10 @@ namespace messageSystem
             fs1.remark = remark;
             fs1.created_time = now;
             fs1.updated_time = now;
-            if (!_friend_db->insert(fs1))
+            auto insert_rep1 = _friend_db->insert(fs1);
+            if (!insert_rep1.status)
             {
-                LOG_ERROR("{} - 插入好友关系失败！", rid);
+                LOG_ERROR("{} - 插入好友关系失败:{}！", rid, insert_rep1.errmsg);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                 return;
             }
@@ -102,9 +111,10 @@ namespace messageSystem
             fs2.remark = "";
             fs2.created_time = now;
             fs2.updated_time = now;
-            if (!_friend_db->insert(fs2))
+            auto insert_rep2 = _friend_db->insert(fs2);
+            if (!insert_rep2.status)
             {
-                LOG_ERROR("{} - 插入反向好友关系失败！", rid);
+                LOG_ERROR("{} - 插入反向好友关系失败:{}！", rid, insert_rep2.errmsg);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                 return;
             }
@@ -126,7 +136,8 @@ namespace messageSystem
             std::string remark = request->remark();
 
             std::shared_ptr<Friendships> fs;
-            if (!_friend_db->selectByUid(std::stoul(uid), std::stoul(friend_uid), &fs) || !fs)
+            auto select_fs_rep = _friend_db->selectByUid(std::stoul(uid), std::stoul(friend_uid), &fs);
+            if (!select_fs_rep.status || !fs)
             {
                 LOG_INFO("{} - 好友关系不存在！", rid);
                 HandlerError(rep, rid, false, "好友关系不存在!");
@@ -135,9 +146,10 @@ namespace messageSystem
             fs->remark = remark;
             fs->updated_time = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch()).count();
-            if (!_friend_db->update(*fs))
+            auto update_rep = _friend_db->update(*fs);
+            if (!update_rep.status)
             {
-                LOG_ERROR("{} - 更新好友备注失败！", rid);
+                LOG_ERROR("{} - 更新好友备注失败:{}！", rid, update_rep.errmsg);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                 return;
             }
@@ -159,7 +171,8 @@ namespace messageSystem
 
             // 1. 检查好友关系是否存在
             std::shared_ptr<Friendships> fs;
-            if (!_friend_db->selectByUid(std::stoul(uid), std::stoul(friend_uid), &fs) || !fs)
+            auto select_fs_rep = _friend_db->selectByUid(std::stoul(uid), std::stoul(friend_uid), &fs);
+            if (!select_fs_rep.status || !fs)
             {
                 LOG_INFO("{} - 好友关系不存在！", rid);
                 HandlerError(rep, rid, false, "好友关系不存在!");
@@ -167,7 +180,8 @@ namespace messageSystem
             }
             // 2. 获取好友用户信息
             std::shared_ptr<User> friend_user;
-            if (!_user_db->selectById(friend_uid, &friend_user) || !friend_user)
+            auto select_user_rep = _user_db->selectById(friend_uid, &friend_user);
+            if (!select_user_rep.status || !friend_user)
             {
                 LOG_INFO("{} - 好友用户信息不存在(uid):{}！", rid, friend_uid);
                 HandlerError(rep, rid, false, "好友信息不存在!");
@@ -233,9 +247,10 @@ namespace messageSystem
 
             // 1. 通过FindFriend视图直接查询好友
             std::vector<FindFriend> friends;
-            if (!_friend_db->selectFriendsByName(std::stoul(uid), name, &friends))
+            auto select_rep = _friend_db->selectFriendsByName(std::stoul(uid), name, &friends);
+            if (!select_rep.status)
             {
-                LOG_ERROR("{} - 查询好友失败！", rid);
+                LOG_ERROR("{} - 查询好友失败:{}！", rid, select_rep.errmsg);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                 return;
             }

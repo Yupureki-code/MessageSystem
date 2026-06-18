@@ -2,22 +2,22 @@
  * compiler for C++.
  */
 
-DROP TABLE IF EXISTS `converstaion_member`;
+DROP TABLE IF EXISTS `Conversation_member`;
 
-DROP TABLE IF EXISTS `converstaion`;
+DROP TABLE IF EXISTS `Conversation`;
 
-CREATE TABLE `converstaion` (
+CREATE TABLE `Conversation` (
   `conversation_id` BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
   `type` ENUM('PRIVATE', 'GROUP') NOT NULL,
   `avatar` TEXT NOT NULL,
-  `created_time` BIGINT UNSIGNED NOT NULL,
-  `last_message_content` TEXT NOT NULL,
-  `last_message_time` TEXT NOT NULL)
+  `members` BIGINT UNSIGNED NOT NULL,
+  `created_time` BIGINT UNSIGNED NOT NULL)
  ENGINE=InnoDB;
 
-CREATE TABLE `converstaion_member` (
-  `conversation_id` BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE `Conversation_member` (
+  `id` BIGINT UNSIGNED NOT NULL PRIMARY KEY,
+  `conversation_id` BIGINT UNSIGNED NOT NULL,
   `power` ENUM('COMMON', 'ADMIN', 'OWNER') NOT NULL,
   `uid` BIGINT UNSIGNED NOT NULL,
   `conversation_member_name` TEXT NOT NULL,

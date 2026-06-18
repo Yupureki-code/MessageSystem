@@ -1,3 +1,4 @@
+#pragma once
 #include "logger.hpp"
 #include <chrono>
 #include <iostream>
@@ -21,18 +22,13 @@ namespace redis
             try
             {
                 ConnectionOptions opts;
-                opts.host = ip;  // Redis 服务器地址
-                opts.port = port;         // Redis 端口
-                // opts.password = "your_password";  // 如果有密码
-                // opts.db = 0;  // 数据库索引，默认为0
+                opts.host = ip;
+                opts.port = port;
                 
-                // 创建连接池选项（线程安全）
                 ConnectionPoolOptions pool_opts;
-                pool_opts.size = thread_size;  // 连接池大小
+                pool_opts.size = thread_size;
                 pool_opts.wait_timeout = std::chrono::minutes(late_time);
-                // 创建 Redis 客户端（带连接池）
                 _redis = std::make_unique<Redis>(opts,pool_opts);
-                // 测试连接
                 std::string ping_result = _redis->ping();
                 LOG_DEBUG("Redis Ping:",ping_result);
             }
@@ -50,21 +46,48 @@ namespace redis
             _env = env;
             _version = version;
         }
-        void setex(const std::string& key,const std::string& value,int time = -1)
+        Response setex(const std::string& key,const std::string& value,int time = -1)
         {
+            Response rep;
             std::string full = _business + ":" + _env + ":" + _version + ":" + key;
             Timer t(_monitor,"setex " + key + ": " +value);
-            _redis->setex(full,time,value);
+            try
+            {
+                _redis->setex(full,time,value);
+                rep.status = true;
+            }
+            catch(const Error& e)
+            {
+                LOG_ERROR("Redis setex失败:{}!",e.what());
+                rep.status = false;
+                rep.errmsg = e.what();
+            }
+            return rep;
         }
-        bool get(const std::string& key,std::string* value)
+        Response get(const std::string& key,std::string* value)
         {
+            Response rep;
             std::string full = _business + ":" + _env + ":" + _version + ":" + key;
             Timer t(_monitor,"get " + key);
-            auto ret = _redis->get(full);
-            if(!ret)
-                return false;
-            *value = *ret;
-            return true;
+            try
+            {
+                auto ret = _redis->get(full);
+                if(!ret)
+                {
+                    rep.status = false;
+                    rep.errmsg = "key不存在";
+                    return rep;
+                }
+                *value = *ret;
+                rep.status = true;
+            }
+            catch(const Error& e)
+            {
+                LOG_ERROR("Redis get失败:{}!",e.what());
+                rep.status = false;
+                rep.errmsg = e.what();
+            }
+            return rep;
         }
         bool exists(const std::string& key)
         {
@@ -75,11 +98,23 @@ namespace redis
                 return false;
             return true;
         }
-        void remove(const std::string& key)
+        Response remove(const std::string& key)
         {
+            Response rep;
             std::string full = _business + ":" + _env + ":" + _version + ":" + key;
-            Timer t(_monitor,"exists " + key);
-            _redis->del(key);
+            Timer t(_monitor,"remove " + key);
+            try
+            {
+                _redis->del(full);
+                rep.status = true;
+            }
+            catch(const Error& e)
+            {
+                LOG_ERROR("Redis remove失败:{}!",e.what());
+                rep.status = false;
+                rep.errmsg = e.what();
+            }
+            return rep;
         }
     private:
         std::unique_ptr<Redis> _redis;
@@ -88,4 +123,4 @@ namespace redis
         std::string _env;
         std::string _version;
     };
-};
+}
