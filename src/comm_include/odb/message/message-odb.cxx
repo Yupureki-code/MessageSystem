@@ -51,7 +51,7 @@ namespace odb
     id_type id;
     {
       mysql::value_traits<
-          long unsigned int,
+          long long unsigned int,
           mysql::id_ulonglong >::set_value (
         id,
         i.id_value,
@@ -71,11 +71,11 @@ namespace odb
     id_type id;
     {
       mysql::value_traits<
-          long unsigned int,
+          long long unsigned int,
           mysql::id_ulonglong >::set_value (
         id,
-        i.id_value,
-        i.id_null);
+        i.message_id_value,
+        i.message_id_null);
     }
 
     return id;
@@ -90,17 +90,13 @@ namespace odb
 
     bool grew (false);
 
-    // id
+    // message_id
     //
     t[0UL] = 0;
 
-    // message_id
+    // seq
     //
-    if (t[1UL])
-    {
-      i.message_id_value.capacity (i.message_id_size);
-      grew = true;
-    }
+    t[1UL] = 0;
 
     // conversation_id
     //
@@ -168,25 +164,23 @@ namespace odb
 
     std::size_t n (0);
 
-    // id
+    // message_id
     //
     if (sk != statement_update)
     {
       b[n].buffer_type = MYSQL_TYPE_LONGLONG;
       b[n].is_unsigned = 1;
-      b[n].buffer = &i.id_value;
-      b[n].is_null = &i.id_null;
+      b[n].buffer = &i.message_id_value;
+      b[n].is_null = &i.message_id_null;
       n++;
     }
 
-    // message_id
+    // seq
     //
-    b[n].buffer_type = MYSQL_TYPE_STRING;
-    b[n].buffer = i.message_id_value.data ();
-    b[n].buffer_length = static_cast<unsigned long> (
-      i.message_id_value.capacity ());
-    b[n].length = &i.message_id_size;
-    b[n].is_null = &i.message_id_null;
+    b[n].buffer_type = MYSQL_TYPE_LONGLONG;
+    b[n].is_unsigned = 1;
+    b[n].buffer = &i.seq_value;
+    b[n].is_null = &i.seq_null;
     n++;
 
     // conversation_id
@@ -287,40 +281,33 @@ namespace odb
 
     bool grew (false);
 
-    // id
+    // message_id
     //
     if (sk == statement_insert)
     {
+      long long unsigned int const& v =
+        o.message_id;
+
+      bool is_null (false);
+      mysql::value_traits<
+          long long unsigned int,
+          mysql::id_ulonglong >::set_image (
+        i.message_id_value, is_null, v);
+      i.message_id_null = is_null;
+    }
+
+    // seq
+    //
+    {
       long unsigned int const& v =
-        o.id;
+        o.seq;
 
       bool is_null (false);
       mysql::value_traits<
           long unsigned int,
           mysql::id_ulonglong >::set_image (
-        i.id_value, is_null, v);
-      i.id_null = is_null;
-    }
-
-    // message_id
-    //
-    {
-      ::std::string const& v =
-        o.message_id;
-
-      bool is_null (false);
-      std::size_t size (0);
-      std::size_t cap (i.message_id_value.capacity ());
-      mysql::value_traits<
-          ::std::string,
-          mysql::id_string >::set_image (
-        i.message_id_value,
-        size,
-        is_null,
-        v);
-      i.message_id_null = is_null;
-      i.message_id_size = static_cast<unsigned long> (size);
-      grew = grew || (cap != i.message_id_value.capacity ());
+        i.seq_value, is_null, v);
+      i.seq_null = is_null;
     }
 
     // conversation_id
@@ -482,33 +469,32 @@ namespace odb
     ODB_POTENTIALLY_UNUSED (i);
     ODB_POTENTIALLY_UNUSED (db);
 
-    // id
+    // message_id
+    //
+    {
+      long long unsigned int& v =
+        o.message_id;
+
+      mysql::value_traits<
+          long long unsigned int,
+          mysql::id_ulonglong >::set_value (
+        v,
+        i.message_id_value,
+        i.message_id_null);
+    }
+
+    // seq
     //
     {
       long unsigned int& v =
-        o.id;
+        o.seq;
 
       mysql::value_traits<
           long unsigned int,
           mysql::id_ulonglong >::set_value (
         v,
-        i.id_value,
-        i.id_null);
-    }
-
-    // message_id
-    //
-    {
-      ::std::string& v =
-        o.message_id;
-
-      mysql::value_traits<
-          ::std::string,
-          mysql::id_string >::set_value (
-        v,
-        i.message_id_value,
-        i.message_id_size,
-        i.message_id_null);
+        i.seq_value,
+        i.seq_null);
     }
 
     // conversation_id
@@ -635,7 +621,7 @@ namespace odb
     {
       bool is_null (false);
       mysql::value_traits<
-          long unsigned int,
+          long long unsigned int,
           mysql::id_ulonglong >::set_image (
         i.id_value, is_null, id);
       i.id_null = is_null;
@@ -644,8 +630,8 @@ namespace odb
 
   const char access::object_traits_impl< ::Message, id_mysql >::persist_statement[] =
   "INSERT INTO `message` "
-  "(`id`, "
-  "`message_id`, "
+  "(`message_id`, "
+  "`seq`, "
   "`conversation_id`, "
   "`sender_id`, "
   "`message_type`, "
@@ -659,8 +645,8 @@ namespace odb
 
   const char access::object_traits_impl< ::Message, id_mysql >::find_statement[] =
   "SELECT "
-  "`message`.`id`, "
   "`message`.`message_id`, "
+  "`message`.`seq`, "
   "`message`.`conversation_id`, "
   "`message`.`sender_id`, "
   "`message`.`message_type`, "
@@ -670,12 +656,12 @@ namespace odb
   "`message`.`file_name`, "
   "`message`.`file_size` "
   "FROM `message` "
-  "WHERE `message`.`id`=?";
+  "WHERE `message`.`message_id`=?";
 
   const char access::object_traits_impl< ::Message, id_mysql >::update_statement[] =
   "UPDATE `message` "
   "SET "
-  "`message_id`=?, "
+  "`seq`=?, "
   "`conversation_id`=?, "
   "`sender_id`=?, "
   "`message_type`=?, "
@@ -684,16 +670,16 @@ namespace odb
   "`file_id`=?, "
   "`file_name`=?, "
   "`file_size`=? "
-  "WHERE `id`=?";
+  "WHERE `message_id`=?";
 
   const char access::object_traits_impl< ::Message, id_mysql >::erase_statement[] =
   "DELETE FROM `message` "
-  "WHERE `id`=?";
+  "WHERE `message_id`=?";
 
   const char access::object_traits_impl< ::Message, id_mysql >::query_statement[] =
   "SELECT "
-  "`message`.`id`, "
   "`message`.`message_id`, "
+  "`message`.`seq`, "
   "`message`.`conversation_id`, "
   "`message`.`sender_id`, "
   "`message`.`message_type`, "
@@ -730,7 +716,7 @@ namespace odb
     if (init (im, obj, statement_insert))
       im.version++;
 
-    im.id_value = 0;
+    im.message_id_value = 0;
 
     if (im.version != sts.insert_image_version () ||
         imb.version == 0)
@@ -755,7 +741,7 @@ namespace odb
     if (!st.execute ())
       throw object_already_persistent ();
 
-    obj.id = id (sts.id_image ());
+    obj.message_id = id (sts.id_image ());
 
     callback (db,
               static_cast<const object_type&> (obj),

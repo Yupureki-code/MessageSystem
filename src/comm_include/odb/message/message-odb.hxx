@@ -54,7 +54,7 @@ namespace odb
 
     static const bool polymorphic = false;
 
-    typedef long unsigned int id_type;
+    typedef long long unsigned int id_type;
 
     static const bool auto_id = true;
 
@@ -94,7 +94,19 @@ namespace odb
   template <typename A>
   struct query_columns< ::Message, id_mysql, A >
   {
-    // id
+    // message_id
+    //
+    typedef
+    mysql::query_column<
+      mysql::value_traits<
+        long long unsigned int,
+        mysql::id_ulonglong >::query_type,
+      mysql::id_ulonglong >
+    message_id_type_;
+
+    static const message_id_type_ message_id;
+
+    // seq
     //
     typedef
     mysql::query_column<
@@ -102,21 +114,9 @@ namespace odb
         long unsigned int,
         mysql::id_ulonglong >::query_type,
       mysql::id_ulonglong >
-    id_type_;
+    seq_type_;
 
-    static const id_type_ id;
-
-    // message_id
-    //
-    typedef
-    mysql::query_column<
-      mysql::value_traits<
-        ::std::string,
-        mysql::id_string >::query_type,
-      mysql::id_string >
-    message_id_type_;
-
-    static const message_id_type_ message_id;
+    static const seq_type_ seq;
 
     // conversation_id
     //
@@ -216,14 +216,14 @@ namespace odb
   };
 
   template <typename A>
-  const typename query_columns< ::Message, id_mysql, A >::id_type_
-  query_columns< ::Message, id_mysql, A >::
-  id (A::table_name, "`id`", 0);
-
-  template <typename A>
   const typename query_columns< ::Message, id_mysql, A >::message_id_type_
   query_columns< ::Message, id_mysql, A >::
   message_id (A::table_name, "`message_id`", 0);
+
+  template <typename A>
+  const typename query_columns< ::Message, id_mysql, A >::seq_type_
+  query_columns< ::Message, id_mysql, A >::
+  seq (A::table_name, "`seq`", 0);
 
   template <typename A>
   const typename query_columns< ::Message, id_mysql, A >::conversation_id_type_
@@ -286,16 +286,15 @@ namespace odb
 
     struct image_type
     {
-      // id
-      //
-      unsigned long long id_value;
-      my_bool id_null;
-
       // message_id
       //
-      details::buffer message_id_value;
-      unsigned long message_id_size;
+      unsigned long long message_id_value;
       my_bool message_id_null;
+
+      // seq
+      //
+      unsigned long long seq_value;
+      my_bool seq_null;
 
       // conversation_id
       //

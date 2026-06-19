@@ -53,14 +53,22 @@ extern MarkAsReadReqDefaultTypeInternal _MarkAsReadReq_default_instance_;
 class RecallMessageReq;
 struct RecallMessageReqDefaultTypeInternal;
 extern RecallMessageReqDefaultTypeInternal _RecallMessageReq_default_instance_;
+class RecallMessageRsp;
+struct RecallMessageRspDefaultTypeInternal;
+extern RecallMessageRspDefaultTypeInternal _RecallMessageRsp_default_instance_;
 class SendMessageReq;
 struct SendMessageReqDefaultTypeInternal;
 extern SendMessageReqDefaultTypeInternal _SendMessageReq_default_instance_;
+class SendMessageRsq;
+struct SendMessageRsqDefaultTypeInternal;
+extern SendMessageRsqDefaultTypeInternal _SendMessageRsq_default_instance_;
 }  // namespace messageSystem
 PROTOBUF_NAMESPACE_OPEN
 template<> ::messageSystem::MarkAsReadReq* Arena::CreateMaybeMessage<::messageSystem::MarkAsReadReq>(Arena*);
 template<> ::messageSystem::RecallMessageReq* Arena::CreateMaybeMessage<::messageSystem::RecallMessageReq>(Arena*);
+template<> ::messageSystem::RecallMessageRsp* Arena::CreateMaybeMessage<::messageSystem::RecallMessageRsp>(Arena*);
 template<> ::messageSystem::SendMessageReq* Arena::CreateMaybeMessage<::messageSystem::SendMessageReq>(Arena*);
+template<> ::messageSystem::SendMessageRsq* Arena::CreateMaybeMessage<::messageSystem::SendMessageRsq>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace messageSystem {
 
@@ -239,6 +247,189 @@ class SendMessageReq final :
 };
 // -------------------------------------------------------------------
 
+class SendMessageRsq final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:messageSystem.SendMessageRsq) */ {
+ public:
+  inline SendMessageRsq() : SendMessageRsq(nullptr) {}
+  ~SendMessageRsq() override;
+  explicit PROTOBUF_CONSTEXPR SendMessageRsq(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  SendMessageRsq(const SendMessageRsq& from);
+  SendMessageRsq(SendMessageRsq&& from) noexcept
+    : SendMessageRsq() {
+    *this = ::std::move(from);
+  }
+
+  inline SendMessageRsq& operator=(const SendMessageRsq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SendMessageRsq& operator=(SendMessageRsq&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SendMessageRsq& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SendMessageRsq* internal_default_instance() {
+    return reinterpret_cast<const SendMessageRsq*>(
+               &_SendMessageRsq_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(SendMessageRsq& a, SendMessageRsq& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SendMessageRsq* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SendMessageRsq* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SendMessageRsq* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SendMessageRsq>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const SendMessageRsq& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const SendMessageRsq& from) {
+    SendMessageRsq::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SendMessageRsq* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "messageSystem.SendMessageRsq";
+  }
+  protected:
+  explicit SendMessageRsq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kUidsFieldNumber = 2,
+    kResponseFieldNumber = 1,
+  };
+  // repeated string uids = 2;
+  int uids_size() const;
+  private:
+  int _internal_uids_size() const;
+  public:
+  void clear_uids();
+  const std::string& uids(int index) const;
+  std::string* mutable_uids(int index);
+  void set_uids(int index, const std::string& value);
+  void set_uids(int index, std::string&& value);
+  void set_uids(int index, const char* value);
+  void set_uids(int index, const char* value, size_t size);
+  std::string* add_uids();
+  void add_uids(const std::string& value);
+  void add_uids(std::string&& value);
+  void add_uids(const char* value);
+  void add_uids(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& uids() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_uids();
+  private:
+  const std::string& _internal_uids(int index) const;
+  std::string* _internal_add_uids();
+  public:
+
+  // .messageSystem.CommRsp response = 1;
+  bool has_response() const;
+  private:
+  bool _internal_has_response() const;
+  public:
+  void clear_response();
+  const ::messageSystem::CommRsp& response() const;
+  PROTOBUF_NODISCARD ::messageSystem::CommRsp* release_response();
+  ::messageSystem::CommRsp* mutable_response();
+  void set_allocated_response(::messageSystem::CommRsp* response);
+  private:
+  const ::messageSystem::CommRsp& _internal_response() const;
+  ::messageSystem::CommRsp* _internal_mutable_response();
+  public:
+  void unsafe_arena_set_allocated_response(
+      ::messageSystem::CommRsp* response);
+  ::messageSystem::CommRsp* unsafe_arena_release_response();
+
+  // @@protoc_insertion_point(class_scope:messageSystem.SendMessageRsq)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> uids_;
+    ::messageSystem::CommRsp* response_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
 class RecallMessageReq final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:messageSystem.RecallMessageReq) */ {
  public:
@@ -287,7 +478,7 @@ class RecallMessageReq final :
                &_RecallMessageReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    2;
 
   friend void swap(RecallMessageReq& a, RecallMessageReq& b) {
     a.Swap(&b);
@@ -412,6 +603,189 @@ class RecallMessageReq final :
 };
 // -------------------------------------------------------------------
 
+class RecallMessageRsp final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:messageSystem.RecallMessageRsp) */ {
+ public:
+  inline RecallMessageRsp() : RecallMessageRsp(nullptr) {}
+  ~RecallMessageRsp() override;
+  explicit PROTOBUF_CONSTEXPR RecallMessageRsp(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  RecallMessageRsp(const RecallMessageRsp& from);
+  RecallMessageRsp(RecallMessageRsp&& from) noexcept
+    : RecallMessageRsp() {
+    *this = ::std::move(from);
+  }
+
+  inline RecallMessageRsp& operator=(const RecallMessageRsp& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline RecallMessageRsp& operator=(RecallMessageRsp&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const RecallMessageRsp& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const RecallMessageRsp* internal_default_instance() {
+    return reinterpret_cast<const RecallMessageRsp*>(
+               &_RecallMessageRsp_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  friend void swap(RecallMessageRsp& a, RecallMessageRsp& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(RecallMessageRsp* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(RecallMessageRsp* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  RecallMessageRsp* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<RecallMessageRsp>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const RecallMessageRsp& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const RecallMessageRsp& from) {
+    RecallMessageRsp::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(RecallMessageRsp* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "messageSystem.RecallMessageRsp";
+  }
+  protected:
+  explicit RecallMessageRsp(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kUidsFieldNumber = 2,
+    kResponseFieldNumber = 1,
+  };
+  // repeated string uids = 2;
+  int uids_size() const;
+  private:
+  int _internal_uids_size() const;
+  public:
+  void clear_uids();
+  const std::string& uids(int index) const;
+  std::string* mutable_uids(int index);
+  void set_uids(int index, const std::string& value);
+  void set_uids(int index, std::string&& value);
+  void set_uids(int index, const char* value);
+  void set_uids(int index, const char* value, size_t size);
+  std::string* add_uids();
+  void add_uids(const std::string& value);
+  void add_uids(std::string&& value);
+  void add_uids(const char* value);
+  void add_uids(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& uids() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_uids();
+  private:
+  const std::string& _internal_uids(int index) const;
+  std::string* _internal_add_uids();
+  public:
+
+  // .messageSystem.CommRsp response = 1;
+  bool has_response() const;
+  private:
+  bool _internal_has_response() const;
+  public:
+  void clear_response();
+  const ::messageSystem::CommRsp& response() const;
+  PROTOBUF_NODISCARD ::messageSystem::CommRsp* release_response();
+  ::messageSystem::CommRsp* mutable_response();
+  void set_allocated_response(::messageSystem::CommRsp* response);
+  private:
+  const ::messageSystem::CommRsp& _internal_response() const;
+  ::messageSystem::CommRsp* _internal_mutable_response();
+  public:
+  void unsafe_arena_set_allocated_response(
+      ::messageSystem::CommRsp* response);
+  ::messageSystem::CommRsp* unsafe_arena_release_response();
+
+  // @@protoc_insertion_point(class_scope:messageSystem.RecallMessageRsp)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> uids_;
+    ::messageSystem::CommRsp* response_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
 class MarkAsReadReq final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:messageSystem.MarkAsReadReq) */ {
  public:
@@ -460,7 +834,7 @@ class MarkAsReadReq final :
                &_MarkAsReadReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    4;
 
   friend void swap(MarkAsReadReq& a, MarkAsReadReq& b) {
     a.Swap(&b);
@@ -535,6 +909,7 @@ class MarkAsReadReq final :
   enum : int {
     kRequestIdFieldNumber = 1,
     kCoversationIdFieldNumber = 2,
+    kUserIdFieldNumber = 3,
   };
   // string request_id = 1;
   void clear_request_id();
@@ -564,6 +939,20 @@ class MarkAsReadReq final :
   std::string* _internal_mutable_coversation_id();
   public:
 
+  // string user_id = 3;
+  void clear_user_id();
+  const std::string& user_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_user_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_user_id();
+  PROTOBUF_NODISCARD std::string* release_user_id();
+  void set_allocated_user_id(std::string* user_id);
+  private:
+  const std::string& _internal_user_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_user_id(const std::string& value);
+  std::string* _internal_mutable_user_id();
+  public:
+
   // @@protoc_insertion_point(class_scope:messageSystem.MarkAsReadReq)
  private:
   class _Internal;
@@ -574,6 +963,7 @@ class MarkAsReadReq final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr coversation_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr user_id_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -596,11 +986,11 @@ class MessageServer : public ::PROTOBUF_NAMESPACE_ID::Service {
 
   virtual void SendMessage(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                        const ::messageSystem::SendMessageReq* request,
-                       ::messageSystem::CommRsp* response,
+                       ::messageSystem::SendMessageRsq* response,
                        ::google::protobuf::Closure* done);
   virtual void RecallMessage(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                        const ::messageSystem::RecallMessageReq* request,
-                       ::messageSystem::CommRsp* response,
+                       ::messageSystem::RecallMessageRsp* response,
                        ::google::protobuf::Closure* done);
   virtual void MarkAsRead(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                        const ::messageSystem::MarkAsReadReq* request,
@@ -637,11 +1027,11 @@ class MessageServer_Stub : public MessageServer {
 
   void SendMessage(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                        const ::messageSystem::SendMessageReq* request,
-                       ::messageSystem::CommRsp* response,
+                       ::messageSystem::SendMessageRsq* response,
                        ::google::protobuf::Closure* done);
   void RecallMessage(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                        const ::messageSystem::RecallMessageReq* request,
-                       ::messageSystem::CommRsp* response,
+                       ::messageSystem::RecallMessageRsp* response,
                        ::google::protobuf::Closure* done);
   void MarkAsRead(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                        const ::messageSystem::MarkAsReadReq* request,
@@ -802,6 +1192,170 @@ inline void SendMessageReq::set_allocated_message(::messageSystem::MessageInfo* 
 
 // -------------------------------------------------------------------
 
+// SendMessageRsq
+
+// .messageSystem.CommRsp response = 1;
+inline bool SendMessageRsq::_internal_has_response() const {
+  return this != internal_default_instance() && _impl_.response_ != nullptr;
+}
+inline bool SendMessageRsq::has_response() const {
+  return _internal_has_response();
+}
+inline const ::messageSystem::CommRsp& SendMessageRsq::_internal_response() const {
+  const ::messageSystem::CommRsp* p = _impl_.response_;
+  return p != nullptr ? *p : reinterpret_cast<const ::messageSystem::CommRsp&>(
+      ::messageSystem::_CommRsp_default_instance_);
+}
+inline const ::messageSystem::CommRsp& SendMessageRsq::response() const {
+  // @@protoc_insertion_point(field_get:messageSystem.SendMessageRsq.response)
+  return _internal_response();
+}
+inline void SendMessageRsq::unsafe_arena_set_allocated_response(
+    ::messageSystem::CommRsp* response) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.response_);
+  }
+  _impl_.response_ = response;
+  if (response) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:messageSystem.SendMessageRsq.response)
+}
+inline ::messageSystem::CommRsp* SendMessageRsq::release_response() {
+  
+  ::messageSystem::CommRsp* temp = _impl_.response_;
+  _impl_.response_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::messageSystem::CommRsp* SendMessageRsq::unsafe_arena_release_response() {
+  // @@protoc_insertion_point(field_release:messageSystem.SendMessageRsq.response)
+  
+  ::messageSystem::CommRsp* temp = _impl_.response_;
+  _impl_.response_ = nullptr;
+  return temp;
+}
+inline ::messageSystem::CommRsp* SendMessageRsq::_internal_mutable_response() {
+  
+  if (_impl_.response_ == nullptr) {
+    auto* p = CreateMaybeMessage<::messageSystem::CommRsp>(GetArenaForAllocation());
+    _impl_.response_ = p;
+  }
+  return _impl_.response_;
+}
+inline ::messageSystem::CommRsp* SendMessageRsq::mutable_response() {
+  ::messageSystem::CommRsp* _msg = _internal_mutable_response();
+  // @@protoc_insertion_point(field_mutable:messageSystem.SendMessageRsq.response)
+  return _msg;
+}
+inline void SendMessageRsq::set_allocated_response(::messageSystem::CommRsp* response) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.response_);
+  }
+  if (response) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(response));
+    if (message_arena != submessage_arena) {
+      response = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, response, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.response_ = response;
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.SendMessageRsq.response)
+}
+
+// repeated string uids = 2;
+inline int SendMessageRsq::_internal_uids_size() const {
+  return _impl_.uids_.size();
+}
+inline int SendMessageRsq::uids_size() const {
+  return _internal_uids_size();
+}
+inline void SendMessageRsq::clear_uids() {
+  _impl_.uids_.Clear();
+}
+inline std::string* SendMessageRsq::add_uids() {
+  std::string* _s = _internal_add_uids();
+  // @@protoc_insertion_point(field_add_mutable:messageSystem.SendMessageRsq.uids)
+  return _s;
+}
+inline const std::string& SendMessageRsq::_internal_uids(int index) const {
+  return _impl_.uids_.Get(index);
+}
+inline const std::string& SendMessageRsq::uids(int index) const {
+  // @@protoc_insertion_point(field_get:messageSystem.SendMessageRsq.uids)
+  return _internal_uids(index);
+}
+inline std::string* SendMessageRsq::mutable_uids(int index) {
+  // @@protoc_insertion_point(field_mutable:messageSystem.SendMessageRsq.uids)
+  return _impl_.uids_.Mutable(index);
+}
+inline void SendMessageRsq::set_uids(int index, const std::string& value) {
+  _impl_.uids_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:messageSystem.SendMessageRsq.uids)
+}
+inline void SendMessageRsq::set_uids(int index, std::string&& value) {
+  _impl_.uids_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:messageSystem.SendMessageRsq.uids)
+}
+inline void SendMessageRsq::set_uids(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.uids_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:messageSystem.SendMessageRsq.uids)
+}
+inline void SendMessageRsq::set_uids(int index, const char* value, size_t size) {
+  _impl_.uids_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:messageSystem.SendMessageRsq.uids)
+}
+inline std::string* SendMessageRsq::_internal_add_uids() {
+  return _impl_.uids_.Add();
+}
+inline void SendMessageRsq::add_uids(const std::string& value) {
+  _impl_.uids_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:messageSystem.SendMessageRsq.uids)
+}
+inline void SendMessageRsq::add_uids(std::string&& value) {
+  _impl_.uids_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:messageSystem.SendMessageRsq.uids)
+}
+inline void SendMessageRsq::add_uids(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.uids_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:messageSystem.SendMessageRsq.uids)
+}
+inline void SendMessageRsq::add_uids(const char* value, size_t size) {
+  _impl_.uids_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:messageSystem.SendMessageRsq.uids)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+SendMessageRsq::uids() const {
+  // @@protoc_insertion_point(field_list:messageSystem.SendMessageRsq.uids)
+  return _impl_.uids_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+SendMessageRsq::mutable_uids() {
+  // @@protoc_insertion_point(field_mutable_list:messageSystem.SendMessageRsq.uids)
+  return &_impl_.uids_;
+}
+
+// -------------------------------------------------------------------
+
 // RecallMessageReq
 
 // string request_id = 1;
@@ -941,6 +1495,170 @@ inline void RecallMessageReq::set_allocated_message(::messageSystem::MessageInfo
 
 // -------------------------------------------------------------------
 
+// RecallMessageRsp
+
+// .messageSystem.CommRsp response = 1;
+inline bool RecallMessageRsp::_internal_has_response() const {
+  return this != internal_default_instance() && _impl_.response_ != nullptr;
+}
+inline bool RecallMessageRsp::has_response() const {
+  return _internal_has_response();
+}
+inline const ::messageSystem::CommRsp& RecallMessageRsp::_internal_response() const {
+  const ::messageSystem::CommRsp* p = _impl_.response_;
+  return p != nullptr ? *p : reinterpret_cast<const ::messageSystem::CommRsp&>(
+      ::messageSystem::_CommRsp_default_instance_);
+}
+inline const ::messageSystem::CommRsp& RecallMessageRsp::response() const {
+  // @@protoc_insertion_point(field_get:messageSystem.RecallMessageRsp.response)
+  return _internal_response();
+}
+inline void RecallMessageRsp::unsafe_arena_set_allocated_response(
+    ::messageSystem::CommRsp* response) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.response_);
+  }
+  _impl_.response_ = response;
+  if (response) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:messageSystem.RecallMessageRsp.response)
+}
+inline ::messageSystem::CommRsp* RecallMessageRsp::release_response() {
+  
+  ::messageSystem::CommRsp* temp = _impl_.response_;
+  _impl_.response_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::messageSystem::CommRsp* RecallMessageRsp::unsafe_arena_release_response() {
+  // @@protoc_insertion_point(field_release:messageSystem.RecallMessageRsp.response)
+  
+  ::messageSystem::CommRsp* temp = _impl_.response_;
+  _impl_.response_ = nullptr;
+  return temp;
+}
+inline ::messageSystem::CommRsp* RecallMessageRsp::_internal_mutable_response() {
+  
+  if (_impl_.response_ == nullptr) {
+    auto* p = CreateMaybeMessage<::messageSystem::CommRsp>(GetArenaForAllocation());
+    _impl_.response_ = p;
+  }
+  return _impl_.response_;
+}
+inline ::messageSystem::CommRsp* RecallMessageRsp::mutable_response() {
+  ::messageSystem::CommRsp* _msg = _internal_mutable_response();
+  // @@protoc_insertion_point(field_mutable:messageSystem.RecallMessageRsp.response)
+  return _msg;
+}
+inline void RecallMessageRsp::set_allocated_response(::messageSystem::CommRsp* response) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.response_);
+  }
+  if (response) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(response));
+    if (message_arena != submessage_arena) {
+      response = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, response, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.response_ = response;
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.RecallMessageRsp.response)
+}
+
+// repeated string uids = 2;
+inline int RecallMessageRsp::_internal_uids_size() const {
+  return _impl_.uids_.size();
+}
+inline int RecallMessageRsp::uids_size() const {
+  return _internal_uids_size();
+}
+inline void RecallMessageRsp::clear_uids() {
+  _impl_.uids_.Clear();
+}
+inline std::string* RecallMessageRsp::add_uids() {
+  std::string* _s = _internal_add_uids();
+  // @@protoc_insertion_point(field_add_mutable:messageSystem.RecallMessageRsp.uids)
+  return _s;
+}
+inline const std::string& RecallMessageRsp::_internal_uids(int index) const {
+  return _impl_.uids_.Get(index);
+}
+inline const std::string& RecallMessageRsp::uids(int index) const {
+  // @@protoc_insertion_point(field_get:messageSystem.RecallMessageRsp.uids)
+  return _internal_uids(index);
+}
+inline std::string* RecallMessageRsp::mutable_uids(int index) {
+  // @@protoc_insertion_point(field_mutable:messageSystem.RecallMessageRsp.uids)
+  return _impl_.uids_.Mutable(index);
+}
+inline void RecallMessageRsp::set_uids(int index, const std::string& value) {
+  _impl_.uids_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:messageSystem.RecallMessageRsp.uids)
+}
+inline void RecallMessageRsp::set_uids(int index, std::string&& value) {
+  _impl_.uids_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:messageSystem.RecallMessageRsp.uids)
+}
+inline void RecallMessageRsp::set_uids(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.uids_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:messageSystem.RecallMessageRsp.uids)
+}
+inline void RecallMessageRsp::set_uids(int index, const char* value, size_t size) {
+  _impl_.uids_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:messageSystem.RecallMessageRsp.uids)
+}
+inline std::string* RecallMessageRsp::_internal_add_uids() {
+  return _impl_.uids_.Add();
+}
+inline void RecallMessageRsp::add_uids(const std::string& value) {
+  _impl_.uids_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:messageSystem.RecallMessageRsp.uids)
+}
+inline void RecallMessageRsp::add_uids(std::string&& value) {
+  _impl_.uids_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:messageSystem.RecallMessageRsp.uids)
+}
+inline void RecallMessageRsp::add_uids(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.uids_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:messageSystem.RecallMessageRsp.uids)
+}
+inline void RecallMessageRsp::add_uids(const char* value, size_t size) {
+  _impl_.uids_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:messageSystem.RecallMessageRsp.uids)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+RecallMessageRsp::uids() const {
+  // @@protoc_insertion_point(field_list:messageSystem.RecallMessageRsp.uids)
+  return _impl_.uids_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+RecallMessageRsp::mutable_uids() {
+  // @@protoc_insertion_point(field_mutable_list:messageSystem.RecallMessageRsp.uids)
+  return &_impl_.uids_;
+}
+
+// -------------------------------------------------------------------
+
 // MarkAsReadReq
 
 // string request_id = 1;
@@ -1043,9 +1761,63 @@ inline void MarkAsReadReq::set_allocated_coversation_id(std::string* coversation
   // @@protoc_insertion_point(field_set_allocated:messageSystem.MarkAsReadReq.coversation_id)
 }
 
+// string user_id = 3;
+inline void MarkAsReadReq::clear_user_id() {
+  _impl_.user_id_.ClearToEmpty();
+}
+inline const std::string& MarkAsReadReq::user_id() const {
+  // @@protoc_insertion_point(field_get:messageSystem.MarkAsReadReq.user_id)
+  return _internal_user_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void MarkAsReadReq::set_user_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.user_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.MarkAsReadReq.user_id)
+}
+inline std::string* MarkAsReadReq::mutable_user_id() {
+  std::string* _s = _internal_mutable_user_id();
+  // @@protoc_insertion_point(field_mutable:messageSystem.MarkAsReadReq.user_id)
+  return _s;
+}
+inline const std::string& MarkAsReadReq::_internal_user_id() const {
+  return _impl_.user_id_.Get();
+}
+inline void MarkAsReadReq::_internal_set_user_id(const std::string& value) {
+  
+  _impl_.user_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* MarkAsReadReq::_internal_mutable_user_id() {
+  
+  return _impl_.user_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* MarkAsReadReq::release_user_id() {
+  // @@protoc_insertion_point(field_release:messageSystem.MarkAsReadReq.user_id)
+  return _impl_.user_id_.Release();
+}
+inline void MarkAsReadReq::set_allocated_user_id(std::string* user_id) {
+  if (user_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.user_id_.SetAllocated(user_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.user_id_.IsDefault()) {
+    _impl_.user_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.MarkAsReadReq.user_id)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

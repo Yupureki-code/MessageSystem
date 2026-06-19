@@ -11,6 +11,7 @@ message SendMessageReq{
 message SendMessageRsq
 {
     CommRsp response = 1;
+    repeated string uids = 2;
 }
 
 message RecallMessageReq{
@@ -18,13 +19,19 @@ message RecallMessageReq{
     MessageInfo message = 2;
 }
 
+message RecallMessageRsp{
+    CommRsp response = 1;
+    repeated string uids = 2;
+}
+
 message MarkAsReadReq{
     string request_id = 1;
     string coversation_id = 2;
+    string user_id = 3;
 }
 
 service MessageServer{
-    rpc SendMessage(SendMessageReq) returns (CommRsp);
-    rpc RecallMessage(RecallMessageReq) returns (CommRsp);
+    rpc SendMessage(SendMessageReq) returns (SendMessageRsq);
+    rpc RecallMessage(RecallMessageReq) returns (RecallMessageRsp);
     rpc MarkAsRead(MarkAsReadReq) returns (CommRsp);
 }

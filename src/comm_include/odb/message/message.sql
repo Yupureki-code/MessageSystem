@@ -5,8 +5,8 @@
 DROP TABLE IF EXISTS `message`;
 
 CREATE TABLE `message` (
-  `id` BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  `message_id` varchar(64) NOT NULL,
+  `message_id` BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `seq` BIGINT UNSIGNED NOT NULL,
   `conversation_id` varchar(64) NOT NULL,
   `sender_id` varchar(64) NOT NULL,
   `message_type` INT NOT NULL,
@@ -16,9 +16,6 @@ CREATE TABLE `message` (
   `file_name` varchar(128) NULL,
   `file_size` INT UNSIGNED NULL)
  ENGINE=InnoDB;
-
-CREATE UNIQUE INDEX `message_id_i`
-  ON `message` (`message_id`);
 
 CREATE INDEX `conversation_id_i`
   ON `message` (`conversation_id`);

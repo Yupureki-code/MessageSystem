@@ -15,9 +15,8 @@ enum class MessageType : int {
 struct Message 
 {
     #pragma db id auto
-    unsigned long id;
-    #pragma db type("varchar(64)") index unique
-    std::string message_id;
+    unsigned long long message_id;
+    unsigned long seq;
     #pragma db type("varchar(64)") index
     std::string conversation_id;                //所属会话ID
     #pragma db type("varchar(64)")
@@ -33,4 +32,4 @@ struct Message
     odb::nullable<std::string> file_name;  //文件消息的文件名称 -- 只针对文件消息有效
     odb::nullable<unsigned int> file_size; //文件消息的文件大小 -- 只针对文件消息有效
 };
-//odb -d mysql --generate-query --generate-schema -std c++11 message.hxx
+//odb -d mysql --generate-query --generate-schema --std c++11 message.hxx

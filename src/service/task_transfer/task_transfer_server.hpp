@@ -59,7 +59,7 @@ namespace messageSystem
             in_flush_queue = false;
             while(_deliveryTags.size())
             {
-                if(ack)
+                if(ack && mq)
                     mq->ack(_deliveryTags.front());
                 _deliveryTags.pop();
             }
@@ -127,12 +127,33 @@ namespace messageSystem
             routing.nums += payload.msg_list_size();
             return payload.msg_list_size();
         }
+        size_t ParseDeleteMessages(const std::string& body)
+        {
+            messageSystem::DeleteMessagesReq payload;
+            if(!payload.ParseFromString(body))
+            {
+                LOG_ERROR("解析DeleteMessagesReq失败!");
+                return 0;
+            }
+            auto& routing = _routings[AMQP_MESSAGE_DELETE_ROUTING_KEY];
+            if(!routing.payload.has_value())
+            {
+                routing.payload = std::make_shared<DeleteMessagesReq>();
+            }
+            auto messages = std::any_cast<std::shared_ptr<DeleteMessagesReq>>(routing.payload);
+            for(auto& it : *payload.mutable_msg_list())
+            {
+                *messages->add_msg_list() = std::move(it);
+            }
+            routing.nums += payload.msg_list_size();
+            return payload.msg_list_size();
+        }
         void HandlerTransfer(RoutingInfo& routing_info)
         {
             routing_info.updateRetryTime();
             std::string routing = routing_info.routing;
             ServiceChannel::ChannelPtr channel;
-            if(!_services->chooseService(routing, &channel))
+            if(_services->chooseService(routing, &channel).status == false)
             {
                 LOG_ERROR("服务异常:{}!",routing);
                 return;
@@ -146,6 +167,13 @@ namespace messageSystem
                 req->set_request_id(util::StringUtil::generateUniqueName());
                 messageSystem::MsgStorageService_Stub stub(channel.get());
                 stub.PostMessages(cntl, req.get(), rsp, done);
+            }
+            else if(routing == AMQP_MESSAGE_DELETE_ROUTING_KEY)
+            {
+                auto req = std::any_cast<std::shared_ptr<DeleteMessagesReq>>(routing_info.payload);
+                req->set_request_id(util::StringUtil::generateUniqueName());
+                messageSystem::MsgStorageService_Stub stub(channel.get());
+                stub.DeleteMessages(cntl, req.get(), rsp, done);
             }
         }
         void flushThreadWork()
@@ -181,6 +209,13 @@ namespace messageSystem
                             _routings[routing].routing = routing;
                         size_t count = ParsePostMessages(payload.payload_bytes());
                         LOG_DEBUG("合并消息:routing={},count={}", routing, count);
+                    }
+                    else if(routing == AMQP_MESSAGE_DELETE_ROUTING_KEY)
+                    {
+                        if(_routings[routing].routing.empty())
+                            _routings[routing].routing = routing;
+                        size_t count = ParseDeleteMessages(payload.payload_bytes());
+                        LOG_DEBUG("合并撤回任务:routing={},count={}", routing, count);
                     }
                     _routings[routing]._deliveryTags.push(task.deliveryTag);
                 }
@@ -221,6 +256,8 @@ namespace messageSystem
         TaskTransferServer()
         :_retry_queue(this)
         {
+            _mutex = std::make_shared<std::mutex>();
+            _cv = std::make_shared<std::condition_variable>();
             _services = std::make_shared<ServiceManager>();
         }
         ~TaskTransferServer()
@@ -243,13 +280,85 @@ namespace messageSystem
                 ,std::bind(&TaskTransferServer::Put,this,std::placeholders::_1,std::placeholders::_2)
                 ,std::bind(&TaskTransferServer::Del,this,std::placeholders::_1,std::placeholders::_2));
         }
+        void AddRoutingService(const std::string& routing_key, const std::string& host)
+        {
+            std::lock_guard<std::mutex> lock(*_mutex);
+            _services->addService(routing_key, host);
+            _services->activeService(routing_key);
+            _routings[routing_key].routing = routing_key;
+            _routings[routing_key].host = host;
+        }
         /// @brief 测试接口：直接注入任务到内部队列
+        bool PushTaskForTest(const std::string& payload, uint64_t delivery_tag)
+        {
+            std::lock_guard<std::mutex> lock(*_mutex);
+            if(_task_queue.size() >= _config.internal_queue_capacity)
+            {
+                return false;
+            }
+            _task_queue.push(TaskEntry{payload, delivery_tag});
+            return true;
+        }
+        void FlushOnceForTest()
+        {
+            std::vector<TaskEntry> local_tasks;
+            {
+                std::lock_guard<std::mutex> lock(*_mutex);
+                while(!_task_queue.empty())
+                {
+                    local_tasks.push_back(std::move(_task_queue.front()));
+                    _task_queue.pop();
+                }
+            }
+            for(auto& task : local_tasks)
+            {
+                TaskPayload payload;
+                if(!payload.ParseFromString(task.payload_bytes))
+                {
+                    continue;
+                }
+                auto routing = payload.routing_key();
+                if(routing == AMQP_MESSAGE_POST_ROUTING_KEY)
+                {
+                    if(_routings[routing].routing.empty())
+                        _routings[routing].routing = routing;
+                    ParsePostMessages(payload.payload_bytes());
+                }
+                else if(routing == AMQP_MESSAGE_DELETE_ROUTING_KEY)
+                {
+                    if(_routings[routing].routing.empty())
+                        _routings[routing].routing = routing;
+                    ParseDeleteMessages(payload.payload_bytes());
+                }
+                _routings[routing]._deliveryTags.push(task.deliveryTag);
+            }
+            std::vector<std::string> to_flush;
+            {
+                std::lock_guard<std::mutex> lock(*_mutex);
+                for(auto& [key, info] : _routings)
+                {
+                    if(info.nums >= _config.max_batch_size && !info.in_flush_queue)
+                    {
+                        info.in_flush_queue = true;
+                        to_flush.push_back(key);
+                    }
+                }
+            }
+            for(auto& routing : to_flush)
+            {
+                HandlerTransfer(_routings[routing]);
+            }
+        }
         void start()
         {
             _mq->addExchange(AMQP_MESSAGE_EXCHANGE, AMQP::direct, AMQP::durable);
             _mq->addQueue(AMQP_MESSAGE_POST_QUEUE, AMQP::durable);
+            _mq->addQueue(AMQP_MESSAGE_DELETE_QUEUE, AMQP::durable);
             _mq->bind(AMQP_MESSAGE_EXCHANGE, AMQP_MESSAGE_POST_QUEUE, AMQP_MESSAGE_POST_ROUTING_KEY);
+            _mq->bind(AMQP_MESSAGE_EXCHANGE, AMQP_MESSAGE_DELETE_QUEUE, AMQP_MESSAGE_DELETE_ROUTING_KEY);
             _mq->consume(AMQP_MESSAGE_POST_QUEUE,
+                std::bind(&TaskTransferServer::onTaskReceived, this, std::placeholders::_1, std::placeholders::_2));
+            _mq->consume(AMQP_MESSAGE_DELETE_QUEUE,
                 std::bind(&TaskTransferServer::onTaskReceived, this, std::placeholders::_1, std::placeholders::_2));
             _flush_thread = std::thread(&TaskTransferServer::flushThreadWork, this);
             LOG_INFO("任务中转服务已经启动!");

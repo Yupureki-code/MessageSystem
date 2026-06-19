@@ -17,8 +17,9 @@ namespace messageSystem
         ServiceChannel(const std::string& service_name)
         :_service_name(service_name),_cur(_channels.begin())
         {}
-        bool addChannel(const std::string& host)
+        Response addChannel(const std::string& host)
         {
+            Response rep;
             std::lock_guard<std::mutex> lock(_mutex);
             auto channel = std::make_shared<brpc::Channel>();
             brpc::ChannelOptions options;
@@ -28,12 +29,13 @@ namespace messageSystem
             options.max_retry = 3;
             if(channel->Init(host.c_str(),&options) != 0)
             {
-                LOG_ERROR("初始化管道失败:{}!",host);
-                return false;
+                rep.status = false;
+                rep.errmsg = "初始化管道失败:" + host;
+                return rep;
             }
             _channels[host] = channel;
             _cur = _channels.begin();
-            return true;
+            return rep;
         }
         void removeChannel(const std::string& host)
         {
@@ -44,19 +46,21 @@ namespace messageSystem
             _channels.erase(channel);
             _cur = _channels.begin();
         }
-        bool chooseChannel(ChannelPtr* ptr)
+        Response chooseChannel(ChannelPtr* ptr)
         {
+            Response rep;
             std::lock_guard<std::mutex> lock(_mutex);
             if(_channels.empty())
             {
-                LOG_ERROR("没有可用的管道!");
-                return false;
+                rep.status = false;
+                rep.status = "没有可用的管道!";
+                return rep;
             }
             _cur++;
             if(_cur == _channels.end())
                 _cur = _channels.begin();
             *ptr = _cur->second;
-            return true;
+            return rep;
         }
     private:
         std::mutex _mutex;
@@ -69,19 +73,22 @@ namespace messageSystem
     {
     public:
         using ServicePtr = std::shared_ptr<ServiceChannel>;
-        bool chooseService(const std::string& service_name,ServiceChannel::ChannelPtr* ptr)
+        Response chooseService(const std::string& service_name,ServiceChannel::ChannelPtr* ptr)
         {
+            Response rep;
             std::lock_guard<std::mutex> lock(_mutex);
             if(_active_services.find(service_name) == _active_services.end())
             {
-                LOG_DEBUG("当前服务不活跃:{}!",service_name);
-                return false;
+                rep.status = false;
+                rep.errmsg = "当前服务不活跃:" + service_name;
+                return rep;
             }
             auto service = _services.find(service_name);
             if(service == _services.end())
             {
-                LOG_ERROR("不存在该服务:{}!",service_name);
-                return false;
+                rep.status = false;
+                rep.errmsg = "不存在该服务:" + service_name;
+                return rep;
             }
             return service->second->chooseChannel(ptr);
         }
@@ -101,7 +108,7 @@ namespace messageSystem
             }
             _active_services.erase(service);
         }
-        bool addService(const std::string& service_name,const std::string& host)
+        Response addService(const std::string& service_name,const std::string& host)
         {
             std::lock_guard<std::mutex> lock(_mutex);
             if(_services.find(service_name) == _services.end())
@@ -110,14 +117,14 @@ namespace messageSystem
             }
             return _services[service_name]->addChannel(host);
         }
-        bool removeService(const std::string& service_name,const std::string& host)
+        Response removeService(const std::string& service_name,const std::string& host)
         {
             std::lock_guard<std::mutex> lock(_mutex);
             if(_services.find(service_name) != _services.end())
             {
                 _services[service_name]->removeChannel(host);
             }
-            return true;
+            return Response();
         }
     private:
         std::mutex _mutex;

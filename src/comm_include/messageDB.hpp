@@ -1,6 +1,6 @@
 #pragma once
 #include "channel.hpp"
-#include "comm.pb.h"
+#include "proto_include/comm.pb.h"
 #include "comm.hpp"
 #include "redis.hpp"
 #include "odb/message/odb_message.hpp"
@@ -9,6 +9,7 @@
 #include <json/value.h>
 #include <json/writer.h>
 #include <memory>
+#include <sw/redis++/redis.h>
 #include <vector>
 #include "proto_include/file.pb.h"
 #include "es.hpp"
@@ -34,7 +35,10 @@ namespace messageSystem
             _odb = std::make_unique<odbMessage::OdbMessage>(user,password,db,host,port);
             _outbox = std::make_unique<odbMessage::OdbMessageOutbox>(user,password,db,host,port);
         }
-        
+        void InitRedis(const std::string& ip = "127.0.0.1",int port = 6379,int thread_size = 10,int late_time = 5)
+        {
+            _redis = std::make_unique<redis::RedisClient>(ip,port,thread_size,late_time);
+        }
         /// @brief 初始化ES连接
         void InitES(const std::string& host = "127.0.0.1:9200")
         {
@@ -58,11 +62,9 @@ namespace messageSystem
         {
             Response rep;
             ServiceChannel::ChannelPtr channel;
-            if(!_services->chooseService(FILE_SERVICE, &channel))
+            rep = _services->chooseService(FILE_SERVICE, &channel);
+            if(!rep.status)
             {
-                LOG_INFO("文件管理服务异常");
-                rep.status = false;
-                rep.errmsg = "文件管理服务异常";
                 return rep;
             }
             messageSystem::FileService_Stub stub(channel.get());
@@ -84,7 +86,6 @@ namespace messageSystem
             {
                 files->insert(it);
             }
-            rep.status = true;
             return rep;
         }
         
@@ -99,7 +100,6 @@ namespace messageSystem
                 LOG_ERROR("写入MySQL文本消息失败:{}!", odb_rep.errmsg);
                 return odb_rep;
             }
-            
             //2. 创建事务记录
             std::vector<MessageOutbox> outboxes;
             unsigned long long now = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -110,7 +110,7 @@ namespace messageSystem
                 MessageOutbox outbox;
                 outbox.task_type = "INDEX_ES";
                 outbox.conversation_id = msg.conversation_id;
-                outbox.msg_id = std::stoull(msg.message_id);
+                outbox.msg_id = msg.message_id;
                 outbox.payload = buildTextMessageESDoc(msg);
                 outbox.status = static_cast<int>(OutboxStatus::PENDING);
                 outbox.retry_count = 0;
@@ -128,7 +128,7 @@ namespace messageSystem
                 //回滚MySQL
                 for(const auto& msg : messages)
                 {
-                    _odb->deleteMessage(msg.message_id);
+                    _odb->deleteMessage(std::to_string(msg.message_id));
                 }
                 return outbox_rep;
             }
@@ -146,7 +146,6 @@ namespace messageSystem
                     _outbox->markFailed(outboxes[i].id, es_rep.errmsg);
                 }
             }
-            
             rep.status = true;
             return rep;
         }
@@ -173,7 +172,7 @@ namespace messageSystem
                 MessageOutbox outbox;
                 outbox.task_type = "INDEX_ES";
                 outbox.conversation_id = msg.conversation_id;
-                outbox.msg_id = std::stoull(msg.message_id);
+                outbox.msg_id = msg.message_id;
                 outbox.payload = buildFileMessageESDoc(msg);
                 outbox.status = static_cast<int>(OutboxStatus::PENDING);
                 outbox.retry_count = 0;
@@ -191,7 +190,7 @@ namespace messageSystem
                 //回滚MySQL
                 for(const auto& msg : messages)
                 {
-                    _odb->deleteMessage(msg.message_id);
+                    _odb->deleteMessage(std::to_string(msg.message_id));
                 }
                 return outbox_rep;
             }
@@ -221,7 +220,7 @@ namespace messageSystem
             //1. 从MySQL删除
             for(const auto& msg : messages)
             {
-                auto odb_rep = _odb->deleteMessage(msg.message_id);
+                auto odb_rep = _odb->deleteMessage(std::to_string(msg.message_id));
                 if(!odb_rep.status)
                 {
                     LOG_ERROR("从MySQL删除文本消息失败:{}!", odb_rep.errmsg);
@@ -232,7 +231,7 @@ namespace messageSystem
             //2. 从ES删除
             for(const auto& msg : messages)
             {
-                auto es_rep = deleteESDoc(msg.message_id);
+                auto es_rep = deleteESDoc(std::to_string(msg.message_id));
                 if(!es_rep.status)
                 {
                     LOG_ERROR("从ES删除文本消息失败:{}!", es_rep.errmsg);
@@ -252,7 +251,7 @@ namespace messageSystem
             //1. 从MySQL删除
             for(const auto& msg : messages)
             {
-                auto odb_rep = _odb->deleteMessage(msg.message_id);
+                auto odb_rep = _odb->deleteMessage(std::to_string(msg.message_id));
                 if(!odb_rep.status)
                 {
                     LOG_ERROR("从MySQL删除文件消息失败:{}!", odb_rep.errmsg);
@@ -263,7 +262,7 @@ namespace messageSystem
             //2. 从ES删除
             for(const auto& msg : messages)
             {
-                auto es_rep = deleteESDoc(msg.message_id);
+                auto es_rep = deleteESDoc(std::to_string(msg.message_id));
                 if(!es_rep.status)
                 {
                     LOG_ERROR("从ES删除文件消息失败:{}!", es_rep.errmsg);
@@ -358,11 +357,11 @@ namespace messageSystem
         std::string buildTextMessageESDoc(const Message& msg)
         {
             Json::Value value;
-            value["message_id"] = msg.message_id;
+            value["message_id"] = std::to_string(msg.message_id);
             value["conversation_id"] = msg.conversation_id;
             value["message_type"] = msg.message_type;
             value["sender_id"] = msg.sender_id;
-            value["timestamp"] = msg.create_time;
+            value["timestamp"] = std::to_string(msg.create_time);
             value["text"] = msg.text.get();
             return value.toStyledString();
         }
@@ -371,11 +370,11 @@ namespace messageSystem
         std::string buildFileMessageESDoc(const Message& msg)
         {
             Json::Value value;
-            value["message_id"] = msg.message_id;
+            value["message_id"] = std::to_string(msg.message_id);
             value["conversation_id"] = msg.conversation_id;
             value["message_type"] = msg.message_type;
             value["sender_id"] = msg.sender_id;
-            value["timestamp"] = msg.create_time;
+            value["timestamp"] = std::to_string(msg.create_time);
             value["file_id"] = msg.file_id.get();
             value["file_name"] = msg.file_name.get();
             value["file_size"] = msg.file_size.get();
@@ -432,11 +431,9 @@ namespace messageSystem
         {
             Response rep;
             ServiceChannel::ChannelPtr channel;
-            if(!_services->chooseService(FILE_SERVICE, &channel))
+            rep = _services->chooseService(FILE_SERVICE, &channel);
+            if(!rep.status)
             {
-                LOG_INFO("文件管理服务异常");
-                rep.status = false;
-                rep.errmsg = "文件管理服务异常";
                 return rep;
             }
             messageSystem::FileService_Stub stub(channel.get());
@@ -464,12 +461,12 @@ namespace messageSystem
                 std::chrono::system_clock::now().time_since_epoch()).count();
             
             Json::Value payload;
-            payload["message_id"] = msg.message_id;
+            payload["message_id"] = std::to_string(msg.message_id);
             
             MessageOutbox outbox;
             outbox.task_type = "DELETE_ES";
             outbox.conversation_id = msg.conversation_id;
-            outbox.msg_id = std::stoull(msg.message_id);
+            outbox.msg_id = msg.message_id;
             outbox.payload = payload.toStyledString();
             outbox.status = static_cast<int>(OutboxStatus::PENDING);
             outbox.retry_count = 0;
@@ -508,5 +505,6 @@ namespace messageSystem
         std::unique_ptr<odbMessage::OdbMessageOutbox> _outbox;
         std::shared_ptr<ServiceManager> _services;
         std::shared_ptr<elasticlient::Client> _client;
+        std::unique_ptr<redis::RedisClient> _redis;
     };
 }

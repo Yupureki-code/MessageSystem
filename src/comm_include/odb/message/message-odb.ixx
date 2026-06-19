@@ -14,7 +14,7 @@ namespace odb
   access::object_traits< ::Message >::
   id (const object_type& o)
   {
-    return o.id;
+    return o.message_id;
   }
 
   inline

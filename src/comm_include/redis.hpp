@@ -98,6 +98,66 @@ namespace redis
                 return false;
             return true;
         }
+        Response hset(const std::string& hash,const std::string& key,const std::string& value)
+        {
+            Response rep;
+            std::string full = _business + ":" + _env + ":" + _version + ":" + hash;
+            Timer t(_monitor,"set " + key + ":" + value);
+            try
+            {
+                auto ret = _redis->hset(hash,key,value);
+                if(!ret)
+                {
+                    rep.status = false;
+                    rep.errmsg = "key不存在";
+                    return rep;
+                }
+                rep.status = true;
+            }
+            catch(const Error& e)
+            {
+                rep.status = false;
+                rep.errmsg = e.what();
+                return rep;
+            }
+            return rep;
+        }
+        Response hincrby(const std::string& hash,const std::string& value,int x)
+        {
+            Response rep;
+            std::string full = _business + ":" + _env + ":" + _version + ":" + hash;
+            Timer t(_monitor,"hincrby " + hash + ":value" + ": " + std::to_string(x));
+            try
+            {
+                auto ret = _redis->hincrby(hash, value, x);
+                rep.value = ret;
+                rep.status = true;
+            }
+            catch(const Error& e)
+            {
+                rep.status = false;
+                rep.errmsg = e.what();
+                return rep;
+            }
+            return rep;
+        }
+        Response hget(const std::string& hash,const std::string& key,std::string* value)
+        {
+            Response rep;
+            std::string full = _business + ":" + _env + ":" + _version + ":" + hash;
+            Timer t(_monitor,"hget " + full);
+            try
+            {
+                *value = _redis->hget(hash,key).value();
+            }
+            catch(const Error& e)
+            {
+                rep.status = false;
+                rep.errmsg = e.what();
+                return rep;
+            }
+            return rep;
+        }
         Response remove(const std::string& key)
         {
             Response rep;

@@ -21,6 +21,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../src)
 set(PROTO_SOURCES 
     ${PROTO_INCLUDE_DIR}/file.pb.cc
     ${PROTO_INCLUDE_DIR}/message_store.pb.cc
+    ${PROTO_INCLUDE_DIR}/message.pb.cc
+    ${PROTO_INCLUDE_DIR}/conversation.pb.cc
     ${PROTO_INCLUDE_DIR}/user.pb.cc
     ${PROTO_INCLUDE_DIR}/task_transfer.pb.cc
     ${PROTO_INCLUDE_DIR}/friend.pb.cc
@@ -54,6 +56,9 @@ set(COMMON_LIBS
     fmt
     elasticlient
     cpr
+    redis++
+    amqpcpp
+    ev
 )
 
 # 创建消息存储服务测试
@@ -79,6 +84,13 @@ add_executable(test_task_transfer
 )
 target_link_libraries(test_task_transfer ${GTEST_BOTH_LIBRARIES} ${COMMON_LIBS})
 
+# 创建消息服务联调测试
+add_executable(test_message_server
+    test_message_server.cpp
+    ${PROTO_SOURCES}
+)
+target_link_libraries(test_message_server ${GTEST_BOTH_LIBRARIES} ${COMMON_LIBS})
+
 # 创建好友服务测试
 add_executable(test_friend 
     test_friend.cpp
@@ -92,4 +104,5 @@ target_link_libraries(test_friend ${GTEST_BOTH_LIBRARIES} ${COMMON_LIBS})
 add_test(NAME MessageStoreTest COMMAND test_message_store)
 add_test(NAME DatabaseTest COMMAND test_database)
 add_test(NAME TaskTransferTest COMMAND test_task_transfer)
+add_test(NAME MessageServerTest COMMAND test_message_server)
 add_test(NAME FriendTest COMMAND test_friend)

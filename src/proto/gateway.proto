@@ -1,0 +1,19 @@
+syntax = "proto3";
+package messageSystem;
+option cc_generic_services = true;
+import "comm.proto";
+import "user.proto";
+
+service GateWayServer
+{
+    rpc UserLogin(UserLoginReq) returns (UserLoginRsp);
+    rpc GetEmailVerifyCode(EmailVerifyCodeReq) returns (CommRsp);
+    rpc EmailRegister(EmailRegisterReq) returns (CommRsp);
+    rpc EmailLogin(EmailLoginReq) returns (EmailLoginRsp);
+    rpc GetUserInfo(GetUserInfoReq) returns (GetUserInfoRsp);
+    rpc GetMultiUserInfo(GetMultiUserInfoReq) returns (GetMultiUserInfoRsp);
+    rpc SetUserAvatar(SetUserAvatarReq) returns (CommRsp);
+    rpc SetUserNickname(SetUserNameReq) returns (CommRsp);
+    rpc SetUserDescription(SetUserDescriptionReq) returns (CommRsp);
+    rpc SetUserEmail(SetUserEmailReq) returns (CommRsp);
+}

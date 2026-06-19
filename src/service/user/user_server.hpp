@@ -182,7 +182,7 @@ namespace messageSystem
                 HandlerError(rep, rid, false, ret.error);
                 return;
             }
-            auto redis_rep = _redis->setex(email, code);
+            auto redis_rep = _redis->setex(email, code,300);
             if (!redis_rep.status)
             {
                 LOG_ERROR("{} - Redis设置失败:{}！", rid, redis_rep.errmsg);

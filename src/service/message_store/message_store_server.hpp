@@ -1,4 +1,3 @@
-#include "../../comm_include/comm.pb.h"
 #include "../../comm_include/proto_include/message_store.pb.h"
 #include "../../comm_include/messageDB.hpp"
 #include "../../comm_include/es.hpp"
@@ -25,7 +24,7 @@ namespace messageSystem
             ,const std::vector<Message>& messages)
         {
             MessageInfo message;
-            message.set_message_id(messages[i].message_id);
+            message.set_message_id(std::to_string(messages[i].message_id));
             message.set_conversation_id(messages[i].conversation_id);
             message.set_timestamp(messages[i].create_time);
             message.set_sender_id(messages[i].sender_id);
@@ -197,9 +196,10 @@ namespace messageSystem
                 query.addFilterTimeRange("timestamp", conds.start_time(), conds.end_time());
             }
             Json::Value value;
-            if (!query.query("messageSystem", "_doc", &value)) 
+            auto ret = query.query("messageSystem", "_doc", &value);
+            if (!ret.status) 
             {
-                LOG_ERROR("{} - 查询ES失败(cid):{}!", rid, cid);
+                LOG_ERROR("{} - {}:{}!", rid, ret.errmsg,cid);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                 return;
             }
@@ -244,7 +244,7 @@ namespace messageSystem
             {
                 const auto& msg_info = request->msg_list(i);
                 Message msg;
-                msg.message_id = msg_info.message_id();
+                msg.message_id = stoi(msg_info.message_id());
                 msg.conversation_id = msg_info.conversation_id();
                 msg.sender_id = msg_info.sender_id();
                 msg.message_type = msg_info.message().message_type();
@@ -319,7 +319,7 @@ namespace messageSystem
             {
                 const auto& msg_info = request->msg_list(i);
                 Message msg;
-                msg.message_id = msg_info.message_id();
+                msg.message_id = stoi(msg_info.message_id());
                 msg.conversation_id = msg_info.conversation_id();
                 msg.sender_id = msg_info.sender_id();
                 msg.message_type = msg_info.message().message_type();
