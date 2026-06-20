@@ -57,7 +57,9 @@ message GetUserInfoRsp {
 //内部接口
 message GetMultiUserInfoReq {
     string request_id = 1;
-    repeated string users_id = 2;
+    optional string user_id = 2;
+    optional string session_id = 3;
+    repeated string users_id = 4;
 }
 message GetMultiUserInfoRsp {
     CommRsp response = 1;
@@ -90,7 +92,7 @@ message SetUserDescriptionReq {
 }
 
 //----------------------------
-//用户手机修改 
+//用户邮箱修改 
 message SetUserEmailReq {
     string request_id = 1;
     optional string user_id = 2;

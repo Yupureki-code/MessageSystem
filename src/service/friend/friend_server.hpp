@@ -121,6 +121,51 @@ namespace messageSystem
             rep->set_request_id(rid);
             rep->set_status(true);
         }
+        virtual void FriendRequestStatus(::google::protobuf::RpcController* controller,
+            const ::messageSystem::FriendRequestStatusReq* request,
+            ::messageSystem::CommRsp* response,
+            ::google::protobuf::Closure* done) override
+        {
+            LOG_DEBUG("收到好友请求状态更新！");
+            brpc::ClosureGuard rpc_guard(done);
+            std::string rid = request->request_id();
+            CommRsp* rep = response;
+            std::string uid = request->uid();
+            std::string friend_uid = request->friend_uid();
+            bool is_accepted = request->is_accepcted();
+
+            // 1. 查找待处理的好友请求
+            std::shared_ptr<Friendships> fs;
+            auto select_rep = _friend_db->selectByUidWithAnyStatus(std::stoul(uid), std::stoul(friend_uid), &fs);
+            if (!select_rep.status || !fs)
+            {
+                LOG_INFO("{} - 好友请求不存在(uid,friend_uid):{},{}！", rid, uid, friend_uid);
+                HandlerError(rep, rid, false, "好友请求不存在!");
+                return;
+            }
+
+            // 2. 更新状态
+            if (is_accepted)
+            {
+                fs->status = FriendShipStatus::APPROVAL;
+            }
+            else
+            {
+                fs->status = FriendShipStatus::REJECT;
+            }
+            fs->updated_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count();
+
+            auto update_rep = _friend_db->update(*fs);
+            if (!update_rep.status)
+            {
+                LOG_ERROR("{} - 更新好友请求状态失败:{}！", rid, update_rep.errmsg);
+                HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
+                return;
+            }
+            rep->set_request_id(rid);
+            rep->set_status(true);
+        }
         /// @brief 修改好友备注
         virtual void FriendRemark(::google::protobuf::RpcController* controller,
             const ::messageSystem::FriendRemarkReq* request,
@@ -189,45 +234,38 @@ namespace messageSystem
             }
             // 3. 获取好友头像文件
             ServiceChannel::ChannelPtr channel;
-            if (_services->chooseService(FILE_SERVICE, &channel))
+            Response return_rep = _services->chooseService(FILE_SERVICE, &channel);
+            if(!return_rep.status)
             {
-                messageSystem::FileService_Stub stub(channel.get());
-                messageSystem::GetFileReq file_req;
-                messageSystem::GetFileRsp file_rsp;
-                file_req.set_request_id(rid);
-                file_req.add_file_id_list(friend_user->avatar);
-                brpc::Controller cntl;
-                stub.GetMultiFile(&cntl, &file_req, &file_rsp, nullptr);
-                if (!cntl.Failed() && file_rsp.success())
+                LOG_INFO("{} - {}！", rid,return_rep.errmsg);
+                HandlerError(rep, rid, false, return_rep.errmsg);
+                return;
+            } 
+            messageSystem::FileService_Stub stub(channel.get());
+            messageSystem::GetFileReq file_req;
+            messageSystem::GetFileRsp file_rsp;
+            file_req.set_request_id(rid);
+            file_req.add_file_id_list(friend_user->avatar);
+            brpc::Controller cntl;
+            stub.GetMultiFile(&cntl, &file_req, &file_rsp, nullptr);
+            if (!cntl.Failed() && file_rsp.success())
+            {
+                auto* file_data = file_rsp.mutable_file_data();
+                if (file_data->count(friend_user->avatar))
                 {
-                    auto* file_data = file_rsp.mutable_file_data();
-                    if (file_data->count(friend_user->avatar))
-                    {
-                        response->mutable_friend_()->set_avatar((*file_data)[friend_user->avatar].file_content());
-                    }
+                    response->mutable_friend_()->set_avatar((*file_data)[friend_user->avatar].file_content());
                 }
             }
             // 使用FindFriend视图获取完整信息
             std::vector<FindFriend> friends;
-            if (_friend_db->selectFriendsByName(std::stoul(uid), "", &friends))
+            return_rep = _friend_db->selectFriendsByName(std::stoul(uid), "", &friends);
+            for (const auto& ff : friends)
             {
-                for (const auto& ff : friends)
+                if (ff.friend_id == std::stoul(friend_uid))
                 {
-                    if (ff.friend_id == std::stoul(friend_uid))
-                    {
-                        FillUserInfoFromView(response->mutable_friend_(), ff);
-                        break;
-                    }
+                    FillUserInfoFromView(response->mutable_friend_(), ff);
+                    break;
                 }
-            }
-            else
-            {
-                // fallback: 直接填充用户信息
-                response->mutable_friend_()->set_user_id(friend_uid);
-                response->mutable_friend_()->set_nickname(friend_user->name);
-                response->mutable_friend_()->set_description(friend_user->desc);
-                response->mutable_friend_()->set_email(friend_user->email);
-                response->mutable_friend_()->set_avatar(friend_user->avatar);
             }
             rep->set_request_id(rid);
             rep->set_status(true);
@@ -265,7 +303,7 @@ namespace messageSystem
             if (!avatars.empty())
             {
                 ServiceChannel::ChannelPtr channel;
-                if (_services->chooseService(FILE_SERVICE, &channel))
+                if (_services->chooseService(FILE_SERVICE, &channel).status)
                 {
                     messageSystem::FileService_Stub stub(channel.get());
                     messageSystem::GetFileReq file_req;
@@ -279,7 +317,10 @@ namespace messageSystem
                     stub.GetMultiFile(&cntl, &file_req, &file_rsp, nullptr);
                     if (!cntl.Failed() && file_rsp.success())
                     {
-                        file_map = file_rsp.file_data();
+                        for(auto & it : *file_rsp.mutable_file_data())
+                        {
+                            file_map.insert(it);
+                        }
                     }
                 }
             }

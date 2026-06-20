@@ -10,6 +10,7 @@ namespace messageSystem
     const std::string FILE_SERVICE = "file_service";
     const std::string USER_SERVICE = "user_service";
     const std::string CONVERSATION_SERVICE = "conversation_service";
+    const std::string FRIEND_SERVICE = "friend_service";
     const std::string AMQP_MESSAGE_EXCHANGE = "amqp_message_exchange";
     const std::string AMQP_MESSAGE_POST_QUEUE = "amqp_messages_post_queue";
     const std::string AMQP_MESSAGE_DELETE_QUEUE = "amqp_messages_delete_queue";

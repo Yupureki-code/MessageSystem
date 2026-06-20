@@ -30,37 +30,66 @@ static constexpr ::_pb::Message* const* file_default_instances = nullptr;
 
 const char descriptor_table_protodef_gateway_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\rgateway.proto\022\rmessageSystem\032\ncomm.pro"
-  "to\032\nuser.proto2\224\006\n\rGateWayServer\022E\n\tUser"
-  "Login\022\033.messageSystem.UserLoginReq\032\033.mes"
-  "sageSystem.UserLoginRsp\022O\n\022GetEmailVerif"
-  "yCode\022!.messageSystem.EmailVerifyCodeReq"
-  "\032\026.messageSystem.CommRsp\022H\n\rEmailRegiste"
-  "r\022\037.messageSystem.EmailRegisterReq\032\026.mes"
-  "sageSystem.CommRsp\022H\n\nEmailLogin\022\034.messa"
-  "geSystem.EmailLoginReq\032\034.messageSystem.E"
-  "mailLoginRsp\022K\n\013GetUserInfo\022\035.messageSys"
-  "tem.GetUserInfoReq\032\035.messageSystem.GetUs"
-  "erInfoRsp\022Z\n\020GetMultiUserInfo\022\".messageS"
-  "ystem.GetMultiUserInfoReq\032\".messageSyste"
-  "m.GetMultiUserInfoRsp\022H\n\rSetUserAvatar\022\037"
-  ".messageSystem.SetUserAvatarReq\032\026.messag"
-  "eSystem.CommRsp\022H\n\017SetUserNickname\022\035.mes"
-  "sageSystem.SetUserNameReq\032\026.messageSyste"
-  "m.CommRsp\022R\n\022SetUserDescription\022$.messag"
-  "eSystem.SetUserDescriptionReq\032\026.messageS"
-  "ystem.CommRsp\022F\n\014SetUserEmail\022\036.messageS"
-  "ystem.SetUserEmailReq\032\026.messageSystem.Co"
-  "mmRspB\003\200\001\001b\006proto3"
+  "to\032\nuser.proto\032\022conversation.proto\032\014frie"
+  "nd.proto2\244\016\n\rGateWayServer\022E\n\tUserLogin\022"
+  "\033.messageSystem.UserLoginReq\032\033.messageSy"
+  "stem.UserLoginRsp\022O\n\022GetEmailVerifyCode\022"
+  "!.messageSystem.EmailVerifyCodeReq\032\026.mes"
+  "sageSystem.CommRsp\022H\n\rEmailRegister\022\037.me"
+  "ssageSystem.EmailRegisterReq\032\026.messageSy"
+  "stem.CommRsp\022H\n\nEmailLogin\022\034.messageSyst"
+  "em.EmailLoginReq\032\034.messageSystem.EmailLo"
+  "ginRsp\022K\n\013GetUserInfo\022\035.messageSystem.Ge"
+  "tUserInfoReq\032\035.messageSystem.GetUserInfo"
+  "Rsp\022Z\n\020GetMultiUserInfo\022\".messageSystem."
+  "GetMultiUserInfoReq\032\".messageSystem.GetM"
+  "ultiUserInfoRsp\022H\n\rSetUserAvatar\022\037.messa"
+  "geSystem.SetUserAvatarReq\032\026.messageSyste"
+  "m.CommRsp\022H\n\017SetUserNickname\022\035.messageSy"
+  "stem.SetUserNameReq\032\026.messageSystem.Comm"
+  "Rsp\022R\n\022SetUserDescription\022$.messageSyste"
+  "m.SetUserDescriptionReq\032\026.messageSystem."
+  "CommRsp\022F\n\014SetUserEmail\022\036.messageSystem."
+  "SetUserEmailReq\032\026.messageSystem.CommRsp\022"
+  "`\n\022CreateConversation\022$.messageSystem.Cr"
+  "eateConversationReq\032$.messageSystem.Crea"
+  "teConversationRsp\022R\n\022RemoveConversation\022"
+  "$.messageSystem.RemoveConversationReq\032\026."
+  "messageSystem.CommRsp\022@\n\tAddMember\022\033.mes"
+  "sageSystem.AddMemberReq\032\026.messageSystem."
+  "CommRsp\022N\n\020ExitConversation\022\".messageSys"
+  "tem.ExitConversationReq\032\026.messageSystem."
+  "CommRsp\022P\n\021ChangeMemberPower\022#.messageSy"
+  "stem.ChangeMemberPowerReq\032\026.messageSyste"
+  "m.CommRsp\022u\n\031GetConversationMemberList\022+"
+  ".messageSystem.GetConversationMemberList"
+  "Req\032+.messageSystem.GetConversationMembe"
+  "rListRsp\022`\n\022SearchConversation\022$.message"
+  "System.SearchConversationReq\032$.messageSy"
+  "stem.SearchConversationRsp\022H\n\rFriendRequ"
+  "est\022\037.messageSystem.FriendRequestReq\032\026.m"
+  "essageSystem.CommRsp\022T\n\023FriendRequestSta"
+  "tus\022%.messageSystem.FriendRequestStatusR"
+  "eq\032\026.messageSystem.CommRsp\022F\n\014FriendRema"
+  "rk\022\036.messageSystem.FriendRemarkReq\032\026.mes"
+  "sageSystem.CommRsp\022W\n\017FindFriendByUID\022!."
+  "messageSystem.FindFriendByUIDReq\032!.messa"
+  "geSystem.FindFriendByUIDRsp\022Z\n\020FindFrien"
+  "dByName\022\".messageSystem.FindFriendByName"
+  "Req\032\".messageSystem.FindFriendByNameRspB"
+  "\003\200\001\001b\006proto3"
   ;
-static const ::_pbi::DescriptorTable* const descriptor_table_gateway_2eproto_deps[2] = {
+static const ::_pbi::DescriptorTable* const descriptor_table_gateway_2eproto_deps[4] = {
   &::descriptor_table_comm_2eproto,
+  &::descriptor_table_conversation_2eproto,
+  &::descriptor_table_friend_2eproto,
   &::descriptor_table_user_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_gateway_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_gateway_2eproto = {
-    false, false, 858, descriptor_table_protodef_gateway_2eproto,
+    false, false, 1932, descriptor_table_protodef_gateway_2eproto,
     "gateway.proto",
-    &descriptor_table_gateway_2eproto_once, descriptor_table_gateway_2eproto_deps, 2, 0,
+    &descriptor_table_gateway_2eproto_once, descriptor_table_gateway_2eproto_deps, 4, 0,
     schemas, file_default_instances, TableStruct_gateway_2eproto::offsets,
     nullptr, file_level_enum_descriptors_gateway_2eproto,
     file_level_service_descriptors_gateway_2eproto,
@@ -166,6 +195,102 @@ void GateWayServer::SetUserEmail(::PROTOBUF_NAMESPACE_ID::RpcController* control
   done->Run();
 }
 
+void GateWayServer::CreateConversation(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                         const ::messageSystem::CreateConversationReq*,
+                         ::messageSystem::CreateConversationRsp*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method CreateConversation() not implemented.");
+  done->Run();
+}
+
+void GateWayServer::RemoveConversation(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                         const ::messageSystem::RemoveConversationReq*,
+                         ::messageSystem::CommRsp*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method RemoveConversation() not implemented.");
+  done->Run();
+}
+
+void GateWayServer::AddMember(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                         const ::messageSystem::AddMemberReq*,
+                         ::messageSystem::CommRsp*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method AddMember() not implemented.");
+  done->Run();
+}
+
+void GateWayServer::ExitConversation(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                         const ::messageSystem::ExitConversationReq*,
+                         ::messageSystem::CommRsp*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method ExitConversation() not implemented.");
+  done->Run();
+}
+
+void GateWayServer::ChangeMemberPower(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                         const ::messageSystem::ChangeMemberPowerReq*,
+                         ::messageSystem::CommRsp*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method ChangeMemberPower() not implemented.");
+  done->Run();
+}
+
+void GateWayServer::GetConversationMemberList(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                         const ::messageSystem::GetConversationMemberListReq*,
+                         ::messageSystem::GetConversationMemberListRsp*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method GetConversationMemberList() not implemented.");
+  done->Run();
+}
+
+void GateWayServer::SearchConversation(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                         const ::messageSystem::SearchConversationReq*,
+                         ::messageSystem::SearchConversationRsp*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method SearchConversation() not implemented.");
+  done->Run();
+}
+
+void GateWayServer::FriendRequest(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                         const ::messageSystem::FriendRequestReq*,
+                         ::messageSystem::CommRsp*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method FriendRequest() not implemented.");
+  done->Run();
+}
+
+void GateWayServer::FriendRequestStatus(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                         const ::messageSystem::FriendRequestStatusReq*,
+                         ::messageSystem::CommRsp*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method FriendRequestStatus() not implemented.");
+  done->Run();
+}
+
+void GateWayServer::FriendRemark(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                         const ::messageSystem::FriendRemarkReq*,
+                         ::messageSystem::CommRsp*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method FriendRemark() not implemented.");
+  done->Run();
+}
+
+void GateWayServer::FindFriendByUID(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                         const ::messageSystem::FindFriendByUIDReq*,
+                         ::messageSystem::FindFriendByUIDRsp*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method FindFriendByUID() not implemented.");
+  done->Run();
+}
+
+void GateWayServer::FindFriendByName(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                         const ::messageSystem::FindFriendByNameReq*,
+                         ::messageSystem::FindFriendByNameRsp*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method FindFriendByName() not implemented.");
+  done->Run();
+}
+
 void GateWayServer::CallMethod(const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor* method,
                              ::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                              const ::PROTOBUF_NAMESPACE_ID::Message* request,
@@ -253,6 +378,102 @@ void GateWayServer::CallMethod(const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor* 
                  response),
              done);
       break;
+    case 10:
+      CreateConversation(controller,
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::CreateConversationReq*>(
+                 request),
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<::messageSystem::CreateConversationRsp*>(
+                 response),
+             done);
+      break;
+    case 11:
+      RemoveConversation(controller,
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::RemoveConversationReq*>(
+                 request),
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<::messageSystem::CommRsp*>(
+                 response),
+             done);
+      break;
+    case 12:
+      AddMember(controller,
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::AddMemberReq*>(
+                 request),
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<::messageSystem::CommRsp*>(
+                 response),
+             done);
+      break;
+    case 13:
+      ExitConversation(controller,
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::ExitConversationReq*>(
+                 request),
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<::messageSystem::CommRsp*>(
+                 response),
+             done);
+      break;
+    case 14:
+      ChangeMemberPower(controller,
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::ChangeMemberPowerReq*>(
+                 request),
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<::messageSystem::CommRsp*>(
+                 response),
+             done);
+      break;
+    case 15:
+      GetConversationMemberList(controller,
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::GetConversationMemberListReq*>(
+                 request),
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<::messageSystem::GetConversationMemberListRsp*>(
+                 response),
+             done);
+      break;
+    case 16:
+      SearchConversation(controller,
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::SearchConversationReq*>(
+                 request),
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<::messageSystem::SearchConversationRsp*>(
+                 response),
+             done);
+      break;
+    case 17:
+      FriendRequest(controller,
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::FriendRequestReq*>(
+                 request),
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<::messageSystem::CommRsp*>(
+                 response),
+             done);
+      break;
+    case 18:
+      FriendRequestStatus(controller,
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::FriendRequestStatusReq*>(
+                 request),
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<::messageSystem::CommRsp*>(
+                 response),
+             done);
+      break;
+    case 19:
+      FriendRemark(controller,
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::FriendRemarkReq*>(
+                 request),
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<::messageSystem::CommRsp*>(
+                 response),
+             done);
+      break;
+    case 20:
+      FindFriendByUID(controller,
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::FindFriendByUIDReq*>(
+                 request),
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<::messageSystem::FindFriendByUIDRsp*>(
+                 response),
+             done);
+      break;
+    case 21:
+      FindFriendByName(controller,
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::FindFriendByNameReq*>(
+                 request),
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<::messageSystem::FindFriendByNameRsp*>(
+                 response),
+             done);
+      break;
     default:
       GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
       break;
@@ -283,6 +504,30 @@ const ::PROTOBUF_NAMESPACE_ID::Message& GateWayServer::GetRequestPrototype(
       return ::messageSystem::SetUserDescriptionReq::default_instance();
     case 9:
       return ::messageSystem::SetUserEmailReq::default_instance();
+    case 10:
+      return ::messageSystem::CreateConversationReq::default_instance();
+    case 11:
+      return ::messageSystem::RemoveConversationReq::default_instance();
+    case 12:
+      return ::messageSystem::AddMemberReq::default_instance();
+    case 13:
+      return ::messageSystem::ExitConversationReq::default_instance();
+    case 14:
+      return ::messageSystem::ChangeMemberPowerReq::default_instance();
+    case 15:
+      return ::messageSystem::GetConversationMemberListReq::default_instance();
+    case 16:
+      return ::messageSystem::SearchConversationReq::default_instance();
+    case 17:
+      return ::messageSystem::FriendRequestReq::default_instance();
+    case 18:
+      return ::messageSystem::FriendRequestStatusReq::default_instance();
+    case 19:
+      return ::messageSystem::FriendRemarkReq::default_instance();
+    case 20:
+      return ::messageSystem::FindFriendByUIDReq::default_instance();
+    case 21:
+      return ::messageSystem::FindFriendByNameReq::default_instance();
     default:
       GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
       return *::PROTOBUF_NAMESPACE_ID::MessageFactory::generated_factory()
@@ -314,6 +559,30 @@ const ::PROTOBUF_NAMESPACE_ID::Message& GateWayServer::GetResponsePrototype(
       return ::messageSystem::CommRsp::default_instance();
     case 9:
       return ::messageSystem::CommRsp::default_instance();
+    case 10:
+      return ::messageSystem::CreateConversationRsp::default_instance();
+    case 11:
+      return ::messageSystem::CommRsp::default_instance();
+    case 12:
+      return ::messageSystem::CommRsp::default_instance();
+    case 13:
+      return ::messageSystem::CommRsp::default_instance();
+    case 14:
+      return ::messageSystem::CommRsp::default_instance();
+    case 15:
+      return ::messageSystem::GetConversationMemberListRsp::default_instance();
+    case 16:
+      return ::messageSystem::SearchConversationRsp::default_instance();
+    case 17:
+      return ::messageSystem::CommRsp::default_instance();
+    case 18:
+      return ::messageSystem::CommRsp::default_instance();
+    case 19:
+      return ::messageSystem::CommRsp::default_instance();
+    case 20:
+      return ::messageSystem::FindFriendByUIDRsp::default_instance();
+    case 21:
+      return ::messageSystem::FindFriendByNameRsp::default_instance();
     default:
       GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
       return *::PROTOBUF_NAMESPACE_ID::MessageFactory::generated_factory()
@@ -400,6 +669,90 @@ void GateWayServer_Stub::SetUserEmail(::PROTOBUF_NAMESPACE_ID::RpcController* co
                               ::messageSystem::CommRsp* response,
                               ::google::protobuf::Closure* done) {
   channel_->CallMethod(descriptor()->method(9),
+                       controller, request, response, done);
+}
+void GateWayServer_Stub::CreateConversation(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                              const ::messageSystem::CreateConversationReq* request,
+                              ::messageSystem::CreateConversationRsp* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(10),
+                       controller, request, response, done);
+}
+void GateWayServer_Stub::RemoveConversation(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                              const ::messageSystem::RemoveConversationReq* request,
+                              ::messageSystem::CommRsp* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(11),
+                       controller, request, response, done);
+}
+void GateWayServer_Stub::AddMember(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                              const ::messageSystem::AddMemberReq* request,
+                              ::messageSystem::CommRsp* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(12),
+                       controller, request, response, done);
+}
+void GateWayServer_Stub::ExitConversation(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                              const ::messageSystem::ExitConversationReq* request,
+                              ::messageSystem::CommRsp* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(13),
+                       controller, request, response, done);
+}
+void GateWayServer_Stub::ChangeMemberPower(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                              const ::messageSystem::ChangeMemberPowerReq* request,
+                              ::messageSystem::CommRsp* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(14),
+                       controller, request, response, done);
+}
+void GateWayServer_Stub::GetConversationMemberList(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                              const ::messageSystem::GetConversationMemberListReq* request,
+                              ::messageSystem::GetConversationMemberListRsp* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(15),
+                       controller, request, response, done);
+}
+void GateWayServer_Stub::SearchConversation(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                              const ::messageSystem::SearchConversationReq* request,
+                              ::messageSystem::SearchConversationRsp* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(16),
+                       controller, request, response, done);
+}
+void GateWayServer_Stub::FriendRequest(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                              const ::messageSystem::FriendRequestReq* request,
+                              ::messageSystem::CommRsp* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(17),
+                       controller, request, response, done);
+}
+void GateWayServer_Stub::FriendRequestStatus(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                              const ::messageSystem::FriendRequestStatusReq* request,
+                              ::messageSystem::CommRsp* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(18),
+                       controller, request, response, done);
+}
+void GateWayServer_Stub::FriendRemark(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                              const ::messageSystem::FriendRemarkReq* request,
+                              ::messageSystem::CommRsp* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(19),
+                       controller, request, response, done);
+}
+void GateWayServer_Stub::FindFriendByUID(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                              const ::messageSystem::FindFriendByUIDReq* request,
+                              ::messageSystem::FindFriendByUIDRsp* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(20),
+                       controller, request, response, done);
+}
+void GateWayServer_Stub::FindFriendByName(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                              const ::messageSystem::FindFriendByNameReq* request,
+                              ::messageSystem::FindFriendByNameRsp* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(21),
                        controller, request, response, done);
 }
 

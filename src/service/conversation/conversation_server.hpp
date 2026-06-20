@@ -3,6 +3,8 @@
 #include "../../comm_include/etcd.hpp"
 #include "../../comm_include/channel.hpp"
 #include "../../comm_include/proto_include/user.pb.h"
+#include "../../comm_include/proto_include/file.pb.h"
+#include <brpc/controller.h>
 #include <brpc/server.h>
 #include <memory>
 
@@ -22,9 +24,10 @@ namespace messageSystem
                                    std::unordered_map<std::string, UserInfo>* user_map)
         {
             ServiceChannel::ChannelPtr channel;
-            if (!_services->chooseService(USER_SERVICE, &channel))
+            Response rep = _services->chooseService(USER_SERVICE, &channel);
+            if (!rep.status)
             {
-                LOG_INFO("{} - 未找到用户服务节点！", rid);
+                LOG_INFO("{} - {}！", rid,rep.errmsg);
                 return false;
             }
             messageSystem::UserService_Stub stub(channel.get());
@@ -42,7 +45,10 @@ namespace messageSystem
                 LOG_INFO("{} - 获取用户信息失败！", rid);
                 return false;
             }
-            *user_map = rsp.users_info();
+            for(auto & it : *rsp.mutable_users_info())
+            {
+                user_map->insert({it.first,it.second});
+            }
             return true;
         }
     public:
@@ -232,6 +238,51 @@ namespace messageSystem
             for (const auto& user : users)
             {
                 *response->add_user_infos() = user;
+            }
+        }
+        void SearchConversation(google::protobuf::RpcController* controller,
+                    const ::messageSystem::SearchConversationReq* request,
+                    ::messageSystem::SearchConversationRsp* response,
+                    ::google::protobuf::Closure* done) override
+        {
+            brpc::ClosureGuard rpc_guard(done);
+            CommRsp* comm_rep = response->mutable_response();
+            std::string rid = request->request_id();
+            std::string cid = request->conversaion_id();
+            std::string cname = request->conversaion_name();
+            std::vector<Conversation> find_conversations;
+            Response rep = _db->SearchConversation(cid, cname, &find_conversations);
+            if(!rep.status)
+            {
+                LOG_ERROR("{} - {}",rid,rep.errmsg);
+                HandlerError(comm_rep, rid, rep.errmsg);
+                return;
+            }
+            GetFileReq req;
+            GetFileRsp rsp;
+            req.set_request_id(rid);
+            for(const auto & it : find_conversations)
+            {
+                req.add_file_id_list(it.avatar);
+            }
+            ServiceChannel::ChannelPtr channel;
+            rep = _services->chooseService(FILE_SERVICE, &channel);
+            if(!rep.status)
+            {
+                LOG_ERROR("{} - {}",rid,rep.errmsg);
+                HandlerError(comm_rep, rid, rep.errmsg);
+                return;
+            }
+            FileService_Stub stub(channel.get());
+            brpc::Controller cntl;
+            stub.GetMultiFile(&cntl, &req, &rsp, nullptr);
+            for(auto & it : find_conversations)
+            {
+                ConversationInfo info;
+                info.set_conversation_id(std::to_string(it.conversation_id));
+                info.set_conversation_name(it.name);
+                info.set_created_time(it.created_time);
+                info.set_avatar(rsp.mutable_file_data()->find(it.avatar)->second.file_content());
             }
         }
     private:

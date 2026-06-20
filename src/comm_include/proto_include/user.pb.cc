@@ -145,9 +145,12 @@ struct GetUserInfoRspDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GetUserInfoRspDefaultTypeInternal _GetUserInfoRsp_default_instance_;
 PROTOBUF_CONSTEXPR GetMultiUserInfoReq::GetMultiUserInfoReq(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.users_id_)*/{}
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.users_id_)*/{}
   , /*decltype(_impl_.request_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+  , /*decltype(_impl_.user_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.session_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}} {}
 struct GetMultiUserInfoReqDefaultTypeInternal {
   PROTOBUF_CONSTEXPR GetMultiUserInfoReqDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -338,14 +341,20 @@ const uint32_t TableStruct_user_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetUserInfoRsp, _impl_.response_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetUserInfoRsp, _impl_.user_info_),
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::messageSystem::GetMultiUserInfoReq, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetMultiUserInfoReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetMultiUserInfoReq, _impl_.request_id_),
+  PROTOBUF_FIELD_OFFSET(::messageSystem::GetMultiUserInfoReq, _impl_.user_id_),
+  PROTOBUF_FIELD_OFFSET(::messageSystem::GetMultiUserInfoReq, _impl_.session_id_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetMultiUserInfoReq, _impl_.users_id_),
+  ~0u,
+  0,
+  1,
+  ~0u,
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetMultiUserInfoRsp_UsersInfoEntry_DoNotUse, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetMultiUserInfoRsp_UsersInfoEntry_DoNotUse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -432,13 +441,13 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 53, -1, -1, sizeof(::messageSystem::EmailLoginRsp)},
   { 61, 70, -1, sizeof(::messageSystem::GetUserInfoReq)},
   { 73, -1, -1, sizeof(::messageSystem::GetUserInfoRsp)},
-  { 81, -1, -1, sizeof(::messageSystem::GetMultiUserInfoReq)},
-  { 89, 97, -1, sizeof(::messageSystem::GetMultiUserInfoRsp_UsersInfoEntry_DoNotUse)},
-  { 99, -1, -1, sizeof(::messageSystem::GetMultiUserInfoRsp)},
-  { 107, 117, -1, sizeof(::messageSystem::SetUserAvatarReq)},
-  { 121, 131, -1, sizeof(::messageSystem::SetUserNameReq)},
-  { 135, 145, -1, sizeof(::messageSystem::SetUserDescriptionReq)},
-  { 149, 160, -1, sizeof(::messageSystem::SetUserEmailReq)},
+  { 81, 91, -1, sizeof(::messageSystem::GetMultiUserInfoReq)},
+  { 95, 103, -1, sizeof(::messageSystem::GetMultiUserInfoRsp_UsersInfoEntry_DoNotUse)},
+  { 105, -1, -1, sizeof(::messageSystem::GetMultiUserInfoRsp)},
+  { 113, 123, -1, sizeof(::messageSystem::SetUserAvatarReq)},
+  { 127, 137, -1, sizeof(::messageSystem::SetUserNameReq)},
+  { 141, 151, -1, sizeof(::messageSystem::SetUserDescriptionReq)},
+  { 155, 166, -1, sizeof(::messageSystem::SetUserEmailReq)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -480,54 +489,56 @@ const char descriptor_table_protodef_user_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
   "_user_idB\r\n\013_session_id\"f\n\016GetUserInfoRs"
   "p\022(\n\010response\030\001 \001(\0132\026.messageSystem.Comm"
   "Rsp\022*\n\tuser_info\030\002 \001(\0132\027.messageSystem.U"
-  "serInfo\";\n\023GetMultiUserInfoReq\022\022\n\nreques"
-  "t_id\030\001 \001(\t\022\020\n\010users_id\030\002 \003(\t\"\321\001\n\023GetMult"
-  "iUserInfoRsp\022(\n\010response\030\001 \001(\0132\026.message"
-  "System.CommRsp\022E\n\nusers_info\030\002 \003(\01321.mes"
-  "sageSystem.GetMultiUserInfoRsp.UsersInfo"
-  "Entry\032I\n\016UsersInfoEntry\022\013\n\003key\030\001 \001(\t\022&\n\005"
-  "value\030\002 \001(\0132\027.messageSystem.UserInfo:\0028\001"
-  "\"\200\001\n\020SetUserAvatarReq\022\022\n\nrequest_id\030\001 \001("
-  "\t\022\024\n\007user_id\030\002 \001(\tH\000\210\001\001\022\027\n\nsession_id\030\003 "
-  "\001(\tH\001\210\001\001\022\016\n\006avatar\030\004 \001(\014B\n\n\010_user_idB\r\n\013"
-  "_session_id\"\200\001\n\016SetUserNameReq\022\022\n\nreques"
-  "t_id\030\001 \001(\t\022\024\n\007user_id\030\002 \001(\tH\000\210\001\001\022\027\n\nsess"
-  "ion_id\030\003 \001(\tH\001\210\001\001\022\020\n\010nickname\030\004 \001(\tB\n\n\010_"
-  "user_idB\r\n\013_session_id\"\203\001\n\025SetUserDescri"
-  "ptionReq\022\022\n\nrequest_id\030\001 \001(\t\022\024\n\007user_id\030"
-  "\002 \001(\tH\000\210\001\001\022\027\n\nsession_id\030\003 \001(\tH\001\210\001\001\022\014\n\004d"
-  "esc\030\004 \001(\tB\n\n\010_user_idB\r\n\013_session_id\"\231\001\n"
-  "\017SetUserEmailReq\022\022\n\nrequest_id\030\001 \001(\t\022\024\n\007"
+  "serInfo\"\205\001\n\023GetMultiUserInfoReq\022\022\n\nreque"
+  "st_id\030\001 \001(\t\022\024\n\007user_id\030\002 \001(\tH\000\210\001\001\022\027\n\nses"
+  "sion_id\030\003 \001(\tH\001\210\001\001\022\020\n\010users_id\030\004 \003(\tB\n\n\010"
+  "_user_idB\r\n\013_session_id\"\321\001\n\023GetMultiUser"
+  "InfoRsp\022(\n\010response\030\001 \001(\0132\026.messageSyste"
+  "m.CommRsp\022E\n\nusers_info\030\002 \003(\01321.messageS"
+  "ystem.GetMultiUserInfoRsp.UsersInfoEntry"
+  "\032I\n\016UsersInfoEntry\022\013\n\003key\030\001 \001(\t\022&\n\005value"
+  "\030\002 \001(\0132\027.messageSystem.UserInfo:\0028\001\"\200\001\n\020"
+  "SetUserAvatarReq\022\022\n\nrequest_id\030\001 \001(\t\022\024\n\007"
   "user_id\030\002 \001(\tH\000\210\001\001\022\027\n\nsession_id\030\003 \001(\tH\001"
-  "\210\001\001\022\r\n\005email\030\004 \001(\t\022\031\n\021email_verify_code\030"
-  "\005 \001(\tB\n\n\010_user_idB\r\n\013_session_id2\222\006\n\013Use"
-  "rService\022E\n\tUserLogin\022\033.messageSystem.Us"
-  "erLoginReq\032\033.messageSystem.UserLoginRsp\022"
-  "O\n\022GetEmailVerifyCode\022!.messageSystem.Em"
-  "ailVerifyCodeReq\032\026.messageSystem.CommRsp"
-  "\022H\n\rEmailRegister\022\037.messageSystem.EmailR"
-  "egisterReq\032\026.messageSystem.CommRsp\022H\n\nEm"
-  "ailLogin\022\034.messageSystem.EmailLoginReq\032\034"
-  ".messageSystem.EmailLoginRsp\022K\n\013GetUserI"
-  "nfo\022\035.messageSystem.GetUserInfoReq\032\035.mes"
-  "sageSystem.GetUserInfoRsp\022Z\n\020GetMultiUse"
-  "rInfo\022\".messageSystem.GetMultiUserInfoRe"
-  "q\032\".messageSystem.GetMultiUserInfoRsp\022H\n"
-  "\rSetUserAvatar\022\037.messageSystem.SetUserAv"
-  "atarReq\032\026.messageSystem.CommRsp\022H\n\017SetUs"
-  "erNickname\022\035.messageSystem.SetUserNameRe"
-  "q\032\026.messageSystem.CommRsp\022R\n\022SetUserDesc"
-  "ription\022$.messageSystem.SetUserDescripti"
-  "onReq\032\026.messageSystem.CommRsp\022F\n\014SetUser"
-  "Email\022\036.messageSystem.SetUserEmailReq\032\026."
-  "messageSystem.CommRspB\003\200\001\001b\006proto3"
+  "\210\001\001\022\016\n\006avatar\030\004 \001(\014B\n\n\010_user_idB\r\n\013_sess"
+  "ion_id\"\200\001\n\016SetUserNameReq\022\022\n\nrequest_id\030"
+  "\001 \001(\t\022\024\n\007user_id\030\002 \001(\tH\000\210\001\001\022\027\n\nsession_i"
+  "d\030\003 \001(\tH\001\210\001\001\022\020\n\010nickname\030\004 \001(\tB\n\n\010_user_"
+  "idB\r\n\013_session_id\"\203\001\n\025SetUserDescription"
+  "Req\022\022\n\nrequest_id\030\001 \001(\t\022\024\n\007user_id\030\002 \001(\t"
+  "H\000\210\001\001\022\027\n\nsession_id\030\003 \001(\tH\001\210\001\001\022\014\n\004desc\030\004"
+  " \001(\tB\n\n\010_user_idB\r\n\013_session_id\"\231\001\n\017SetU"
+  "serEmailReq\022\022\n\nrequest_id\030\001 \001(\t\022\024\n\007user_"
+  "id\030\002 \001(\tH\000\210\001\001\022\027\n\nsession_id\030\003 \001(\tH\001\210\001\001\022\r"
+  "\n\005email\030\004 \001(\t\022\031\n\021email_verify_code\030\005 \001(\t"
+  "B\n\n\010_user_idB\r\n\013_session_id2\222\006\n\013UserServ"
+  "ice\022E\n\tUserLogin\022\033.messageSystem.UserLog"
+  "inReq\032\033.messageSystem.UserLoginRsp\022O\n\022Ge"
+  "tEmailVerifyCode\022!.messageSystem.EmailVe"
+  "rifyCodeReq\032\026.messageSystem.CommRsp\022H\n\rE"
+  "mailRegister\022\037.messageSystem.EmailRegist"
+  "erReq\032\026.messageSystem.CommRsp\022H\n\nEmailLo"
+  "gin\022\034.messageSystem.EmailLoginReq\032\034.mess"
+  "ageSystem.EmailLoginRsp\022K\n\013GetUserInfo\022\035"
+  ".messageSystem.GetUserInfoReq\032\035.messageS"
+  "ystem.GetUserInfoRsp\022Z\n\020GetMultiUserInfo"
+  "\022\".messageSystem.GetMultiUserInfoReq\032\".m"
+  "essageSystem.GetMultiUserInfoRsp\022H\n\rSetU"
+  "serAvatar\022\037.messageSystem.SetUserAvatarR"
+  "eq\032\026.messageSystem.CommRsp\022H\n\017SetUserNic"
+  "kname\022\035.messageSystem.SetUserNameReq\032\026.m"
+  "essageSystem.CommRsp\022R\n\022SetUserDescripti"
+  "on\022$.messageSystem.SetUserDescriptionReq"
+  "\032\026.messageSystem.CommRsp\022F\n\014SetUserEmail"
+  "\022\036.messageSystem.SetUserEmailReq\032\026.messa"
+  "geSystem.CommRspB\003\200\001\001b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_user_2eproto_deps[1] = {
   &::descriptor_table_comm_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_user_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_user_2eproto = {
-    false, false, 2434, descriptor_table_protodef_user_2eproto,
+    false, false, 2509, descriptor_table_protodef_user_2eproto,
     "user.proto",
     &descriptor_table_user_2eproto_once, descriptor_table_user_2eproto_deps, 1, 15,
     schemas, file_default_instances, TableStruct_user_2eproto::offsets,
@@ -3016,6 +3027,13 @@ void GetUserInfoRsp::InternalSwap(GetUserInfoRsp* other) {
 
 class GetMultiUserInfoReq::_Internal {
  public:
+  using HasBits = decltype(std::declval<GetMultiUserInfoReq>()._impl_._has_bits_);
+  static void set_has_user_id(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static void set_has_session_id(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
 };
 
 GetMultiUserInfoReq::GetMultiUserInfoReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -3028,9 +3046,12 @@ GetMultiUserInfoReq::GetMultiUserInfoReq(const GetMultiUserInfoReq& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   GetMultiUserInfoReq* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.users_id_){from._impl_.users_id_}
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.users_id_){from._impl_.users_id_}
     , decltype(_impl_.request_id_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
+    , decltype(_impl_.user_id_){}
+    , decltype(_impl_.session_id_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   _impl_.request_id_.InitDefault();
@@ -3041,6 +3062,22 @@ GetMultiUserInfoReq::GetMultiUserInfoReq(const GetMultiUserInfoReq& from)
     _this->_impl_.request_id_.Set(from._internal_request_id(), 
       _this->GetArenaForAllocation());
   }
+  _impl_.user_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.user_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_user_id()) {
+    _this->_impl_.user_id_.Set(from._internal_user_id(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.session_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.session_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_session_id()) {
+    _this->_impl_.session_id_.Set(from._internal_session_id(), 
+      _this->GetArenaForAllocation());
+  }
   // @@protoc_insertion_point(copy_constructor:messageSystem.GetMultiUserInfoReq)
 }
 
@@ -3049,13 +3086,24 @@ inline void GetMultiUserInfoReq::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.users_id_){arena}
-    , decltype(_impl_.request_id_){}
+      decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.users_id_){arena}
+    , decltype(_impl_.request_id_){}
+    , decltype(_impl_.user_id_){}
+    , decltype(_impl_.session_id_){}
   };
   _impl_.request_id_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.request_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.user_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.user_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.session_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.session_id_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
@@ -3072,6 +3120,8 @@ inline void GetMultiUserInfoReq::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.users_id_.~RepeatedPtrField();
   _impl_.request_id_.Destroy();
+  _impl_.user_id_.Destroy();
+  _impl_.session_id_.Destroy();
 }
 
 void GetMultiUserInfoReq::SetCachedSize(int size) const {
@@ -3086,11 +3136,22 @@ void GetMultiUserInfoReq::Clear() {
 
   _impl_.users_id_.Clear();
   _impl_.request_id_.ClearToEmpty();
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      _impl_.user_id_.ClearNonDefaultToEmpty();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _impl_.session_id_.ClearNonDefaultToEmpty();
+    }
+  }
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* GetMultiUserInfoReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
@@ -3105,9 +3166,29 @@ const char* GetMultiUserInfoReq::_InternalParse(const char* ptr, ::_pbi::ParseCo
         } else
           goto handle_unusual;
         continue;
-      // repeated string users_id = 2;
+      // optional string user_id = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_user_id();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.GetMultiUserInfoReq.user_id"));
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string session_id = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_session_id();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.GetMultiUserInfoReq.session_id"));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated string users_id = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
           ptr -= 1;
           do {
             ptr += 1;
@@ -3116,7 +3197,7 @@ const char* GetMultiUserInfoReq::_InternalParse(const char* ptr, ::_pbi::ParseCo
             CHK_(ptr);
             CHK_(::_pbi::VerifyUTF8(str, "messageSystem.GetMultiUserInfoReq.users_id"));
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
         } else
           goto handle_unusual;
         continue;
@@ -3136,6 +3217,7 @@ const char* GetMultiUserInfoReq::_InternalParse(const char* ptr, ::_pbi::ParseCo
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -3159,14 +3241,34 @@ uint8_t* GetMultiUserInfoReq::_InternalSerialize(
         1, this->_internal_request_id(), target);
   }
 
-  // repeated string users_id = 2;
+  // optional string user_id = 2;
+  if (_internal_has_user_id()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_user_id().data(), static_cast<int>(this->_internal_user_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "messageSystem.GetMultiUserInfoReq.user_id");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_user_id(), target);
+  }
+
+  // optional string session_id = 3;
+  if (_internal_has_session_id()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_session_id().data(), static_cast<int>(this->_internal_session_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "messageSystem.GetMultiUserInfoReq.session_id");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_session_id(), target);
+  }
+
+  // repeated string users_id = 4;
   for (int i = 0, n = this->_internal_users_id_size(); i < n; i++) {
     const auto& s = this->_internal_users_id(i);
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       s.data(), static_cast<int>(s.length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "messageSystem.GetMultiUserInfoReq.users_id");
-    target = stream->WriteString(2, s, target);
+    target = stream->WriteString(4, s, target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -3185,7 +3287,7 @@ size_t GetMultiUserInfoReq::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated string users_id = 2;
+  // repeated string users_id = 4;
   total_size += 1 *
       ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.users_id_.size());
   for (int i = 0, n = _impl_.users_id_.size(); i < n; i++) {
@@ -3200,6 +3302,23 @@ size_t GetMultiUserInfoReq::ByteSizeLong() const {
         this->_internal_request_id());
   }
 
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    // optional string user_id = 2;
+    if (cached_has_bits & 0x00000001u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_user_id());
+    }
+
+    // optional string session_id = 3;
+    if (cached_has_bits & 0x00000002u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_session_id());
+    }
+
+  }
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -3222,6 +3341,15 @@ void GetMultiUserInfoReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, co
   if (!from._internal_request_id().empty()) {
     _this->_internal_set_request_id(from._internal_request_id());
   }
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      _this->_internal_set_user_id(from._internal_user_id());
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _this->_internal_set_session_id(from._internal_session_id());
+    }
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -3241,10 +3369,19 @@ void GetMultiUserInfoReq::InternalSwap(GetMultiUserInfoReq* other) {
   auto* lhs_arena = GetArenaForAllocation();
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   _impl_.users_id_.InternalSwap(&other->_impl_.users_id_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.request_id_, lhs_arena,
       &other->_impl_.request_id_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.user_id_, lhs_arena,
+      &other->_impl_.user_id_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.session_id_, lhs_arena,
+      &other->_impl_.session_id_, rhs_arena
   );
 }
 

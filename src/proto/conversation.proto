@@ -11,6 +11,7 @@ message CreateConversationReq
     repeated string comm_uid = 3;
     optional string owner_uid = 4;
     optional string group_conversation_name = 5;
+    optional string session_id = 6;
 }
 
 message CreateConversationRsp
@@ -24,6 +25,7 @@ message RemoveConversationReq
     string request_id = 1;
     string conversaion_id = 2;
     string owner_uid = 3;
+    optional string session_id = 4;
 }
 
 message AddMemberReq
@@ -31,6 +33,8 @@ message AddMemberReq
     string request_id = 1;
     string conversaion_id = 2;
     string uid = 3;
+    optional string user_id = 4;
+    optional string session_id = 5;
 }
 
 message ExitConversationReq
@@ -38,6 +42,8 @@ message ExitConversationReq
     string request_id = 1;
     string conversaion_id = 2;
     string uid = 3;
+    optional string user_id = 4;
+    optional string session_id = 5;
 }
 
 message ChangeMemberPowerReq
@@ -47,12 +53,15 @@ message ChangeMemberPowerReq
     string owner_uid = 3;
     string uid = 4;
     int32 power = 5;
+    optional string session_id = 6;
 }
 
 message GetConversationMemberListReq
 {
     string request_id = 1;
     string conversaion_id = 2;
+    optional string user_id = 3;
+    optional string session_id = 4;
 }
 
 message GetConversationMemberListRsp
@@ -66,6 +75,8 @@ message SearchConversationReq
     string request_id = 1;
     optional string conversaion_id = 2;
     optional string conversaion_name = 3;
+    optional string user_id = 4;
+    optional string session_id = 5;
 }
 
 message SearchConversationRsp
@@ -81,4 +92,5 @@ service ConversationServer {
     rpc ExitConversation(ExitConversationReq) returns (CommRsp);
     rpc ChangeMemberPower(ChangeMemberPowerReq) returns (CommRsp);
     rpc GetConversationMemberList(GetConversationMemberListReq) returns (GetConversationMemberListRsp);
+    rpc SearchConversation(SearchConversationReq) returns (SearchConversationRsp);
 }

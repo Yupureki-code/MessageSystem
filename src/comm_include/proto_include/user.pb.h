@@ -1752,10 +1752,12 @@ class GetMultiUserInfoReq final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kUsersIdFieldNumber = 2,
+    kUsersIdFieldNumber = 4,
     kRequestIdFieldNumber = 1,
+    kUserIdFieldNumber = 2,
+    kSessionIdFieldNumber = 3,
   };
-  // repeated string users_id = 2;
+  // repeated string users_id = 4;
   int users_id_size() const;
   private:
   int _internal_users_id_size() const;
@@ -1793,6 +1795,42 @@ class GetMultiUserInfoReq final :
   std::string* _internal_mutable_request_id();
   public:
 
+  // optional string user_id = 2;
+  bool has_user_id() const;
+  private:
+  bool _internal_has_user_id() const;
+  public:
+  void clear_user_id();
+  const std::string& user_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_user_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_user_id();
+  PROTOBUF_NODISCARD std::string* release_user_id();
+  void set_allocated_user_id(std::string* user_id);
+  private:
+  const std::string& _internal_user_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_user_id(const std::string& value);
+  std::string* _internal_mutable_user_id();
+  public:
+
+  // optional string session_id = 3;
+  bool has_session_id() const;
+  private:
+  bool _internal_has_session_id() const;
+  public:
+  void clear_session_id();
+  const std::string& session_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_session_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_session_id();
+  PROTOBUF_NODISCARD std::string* release_session_id();
+  void set_allocated_session_id(std::string* session_id);
+  private:
+  const std::string& _internal_session_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_session_id(const std::string& value);
+  std::string* _internal_mutable_session_id();
+  public:
+
   // @@protoc_insertion_point(class_scope:messageSystem.GetMultiUserInfoReq)
  private:
   class _Internal;
@@ -1801,9 +1839,12 @@ class GetMultiUserInfoReq final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> users_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr user_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr session_id_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_user_2eproto;
@@ -4509,7 +4550,143 @@ inline void GetMultiUserInfoReq::set_allocated_request_id(std::string* request_i
   // @@protoc_insertion_point(field_set_allocated:messageSystem.GetMultiUserInfoReq.request_id)
 }
 
-// repeated string users_id = 2;
+// optional string user_id = 2;
+inline bool GetMultiUserInfoReq::_internal_has_user_id() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool GetMultiUserInfoReq::has_user_id() const {
+  return _internal_has_user_id();
+}
+inline void GetMultiUserInfoReq::clear_user_id() {
+  _impl_.user_id_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& GetMultiUserInfoReq::user_id() const {
+  // @@protoc_insertion_point(field_get:messageSystem.GetMultiUserInfoReq.user_id)
+  return _internal_user_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void GetMultiUserInfoReq::set_user_id(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.user_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.GetMultiUserInfoReq.user_id)
+}
+inline std::string* GetMultiUserInfoReq::mutable_user_id() {
+  std::string* _s = _internal_mutable_user_id();
+  // @@protoc_insertion_point(field_mutable:messageSystem.GetMultiUserInfoReq.user_id)
+  return _s;
+}
+inline const std::string& GetMultiUserInfoReq::_internal_user_id() const {
+  return _impl_.user_id_.Get();
+}
+inline void GetMultiUserInfoReq::_internal_set_user_id(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.user_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* GetMultiUserInfoReq::_internal_mutable_user_id() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.user_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* GetMultiUserInfoReq::release_user_id() {
+  // @@protoc_insertion_point(field_release:messageSystem.GetMultiUserInfoReq.user_id)
+  if (!_internal_has_user_id()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.user_id_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.user_id_.IsDefault()) {
+    _impl_.user_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void GetMultiUserInfoReq::set_allocated_user_id(std::string* user_id) {
+  if (user_id != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.user_id_.SetAllocated(user_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.user_id_.IsDefault()) {
+    _impl_.user_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.GetMultiUserInfoReq.user_id)
+}
+
+// optional string session_id = 3;
+inline bool GetMultiUserInfoReq::_internal_has_session_id() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool GetMultiUserInfoReq::has_session_id() const {
+  return _internal_has_session_id();
+}
+inline void GetMultiUserInfoReq::clear_session_id() {
+  _impl_.session_id_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const std::string& GetMultiUserInfoReq::session_id() const {
+  // @@protoc_insertion_point(field_get:messageSystem.GetMultiUserInfoReq.session_id)
+  return _internal_session_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void GetMultiUserInfoReq::set_session_id(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000002u;
+ _impl_.session_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.GetMultiUserInfoReq.session_id)
+}
+inline std::string* GetMultiUserInfoReq::mutable_session_id() {
+  std::string* _s = _internal_mutable_session_id();
+  // @@protoc_insertion_point(field_mutable:messageSystem.GetMultiUserInfoReq.session_id)
+  return _s;
+}
+inline const std::string& GetMultiUserInfoReq::_internal_session_id() const {
+  return _impl_.session_id_.Get();
+}
+inline void GetMultiUserInfoReq::_internal_set_session_id(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.session_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* GetMultiUserInfoReq::_internal_mutable_session_id() {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  return _impl_.session_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* GetMultiUserInfoReq::release_session_id() {
+  // @@protoc_insertion_point(field_release:messageSystem.GetMultiUserInfoReq.session_id)
+  if (!_internal_has_session_id()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  auto* p = _impl_.session_id_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.session_id_.IsDefault()) {
+    _impl_.session_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void GetMultiUserInfoReq::set_allocated_session_id(std::string* session_id) {
+  if (session_id != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  _impl_.session_id_.SetAllocated(session_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.session_id_.IsDefault()) {
+    _impl_.session_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.GetMultiUserInfoReq.session_id)
+}
+
+// repeated string users_id = 4;
 inline int GetMultiUserInfoReq::_internal_users_id_size() const {
   return _impl_.users_id_.size();
 }

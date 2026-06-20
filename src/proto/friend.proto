@@ -9,6 +9,7 @@ message FriendRequestReq
     string uid = 1;
     string friend_uid = 2;
     string remark = 3;
+    optional string session_id = 5;
 }
 
 message FriendRequestStatusReq
@@ -17,6 +18,7 @@ message FriendRequestStatusReq
     string uid = 1;
     string friend_uid = 2;
     bool is_accepcted = 3;
+    optional string session_id = 5;
 }
 
 message FriendRemarkReq
@@ -25,6 +27,7 @@ message FriendRemarkReq
     string uid = 1;
     string friend_uid = 2;
     string remark = 3;
+    optional string session_id = 5;
 }
 
 message FindFriendByUIDReq
@@ -32,6 +35,7 @@ message FindFriendByUIDReq
     string request_id = 4;
     string uid = 1;
     string friend_uid = 2;
+    optional string session_id = 3;
 }
 
 message FindFriendByUIDRsp
@@ -45,6 +49,7 @@ message FindFriendByNameReq
     string request_id = 4;
     string uid = 1;
     string name = 2;
+    optional string session_id = 3;
 }
 
 message FindFriendByNameRsp
@@ -55,6 +60,7 @@ message FindFriendByNameRsp
 
 service FriendServer {
     rpc FriendRequest(FriendRequestReq) returns (CommRsp);
+    rpc FriendRequestStatus(FriendRequestStatusReq) returns (CommRsp);
     rpc FriendRemark(FriendRemarkReq) returns (CommRsp);
     rpc FindFriendByUID(FindFriendByUIDReq) returns (FindFriendByUIDRsp);
     rpc FindFriendByName(FindFriendByNameReq) returns (FindFriendByNameRsp);

@@ -31,6 +31,8 @@
 #include <google/protobuf/service.h>
 #include "comm.pb.h"
 #include "user.pb.h"
+#include "conversation.pb.h"
+#include "friend.pb.h"
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_gateway_2eproto
@@ -107,6 +109,54 @@ class GateWayServer : public ::PROTOBUF_NAMESPACE_ID::Service {
                        const ::messageSystem::SetUserEmailReq* request,
                        ::messageSystem::CommRsp* response,
                        ::google::protobuf::Closure* done);
+  virtual void CreateConversation(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::CreateConversationReq* request,
+                       ::messageSystem::CreateConversationRsp* response,
+                       ::google::protobuf::Closure* done);
+  virtual void RemoveConversation(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::RemoveConversationReq* request,
+                       ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+  virtual void AddMember(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::AddMemberReq* request,
+                       ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+  virtual void ExitConversation(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::ExitConversationReq* request,
+                       ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+  virtual void ChangeMemberPower(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::ChangeMemberPowerReq* request,
+                       ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+  virtual void GetConversationMemberList(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::GetConversationMemberListReq* request,
+                       ::messageSystem::GetConversationMemberListRsp* response,
+                       ::google::protobuf::Closure* done);
+  virtual void SearchConversation(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::SearchConversationReq* request,
+                       ::messageSystem::SearchConversationRsp* response,
+                       ::google::protobuf::Closure* done);
+  virtual void FriendRequest(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::FriendRequestReq* request,
+                       ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+  virtual void FriendRequestStatus(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::FriendRequestStatusReq* request,
+                       ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+  virtual void FriendRemark(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::FriendRemarkReq* request,
+                       ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+  virtual void FindFriendByUID(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::FindFriendByUIDReq* request,
+                       ::messageSystem::FindFriendByUIDRsp* response,
+                       ::google::protobuf::Closure* done);
+  virtual void FindFriendByName(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::FindFriendByNameReq* request,
+                       ::messageSystem::FindFriendByNameRsp* response,
+                       ::google::protobuf::Closure* done);
 
   // implements Service ----------------------------------------------
 
@@ -175,6 +225,54 @@ class GateWayServer_Stub : public GateWayServer {
   void SetUserEmail(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                        const ::messageSystem::SetUserEmailReq* request,
                        ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+  void CreateConversation(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::CreateConversationReq* request,
+                       ::messageSystem::CreateConversationRsp* response,
+                       ::google::protobuf::Closure* done);
+  void RemoveConversation(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::RemoveConversationReq* request,
+                       ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+  void AddMember(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::AddMemberReq* request,
+                       ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+  void ExitConversation(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::ExitConversationReq* request,
+                       ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+  void ChangeMemberPower(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::ChangeMemberPowerReq* request,
+                       ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+  void GetConversationMemberList(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::GetConversationMemberListReq* request,
+                       ::messageSystem::GetConversationMemberListRsp* response,
+                       ::google::protobuf::Closure* done);
+  void SearchConversation(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::SearchConversationReq* request,
+                       ::messageSystem::SearchConversationRsp* response,
+                       ::google::protobuf::Closure* done);
+  void FriendRequest(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::FriendRequestReq* request,
+                       ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+  void FriendRequestStatus(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::FriendRequestStatusReq* request,
+                       ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+  void FriendRemark(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::FriendRemarkReq* request,
+                       ::messageSystem::CommRsp* response,
+                       ::google::protobuf::Closure* done);
+  void FindFriendByUID(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::FindFriendByUIDReq* request,
+                       ::messageSystem::FindFriendByUIDRsp* response,
+                       ::google::protobuf::Closure* done);
+  void FindFriendByName(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::FindFriendByNameReq* request,
+                       ::messageSystem::FindFriendByNameRsp* response,
                        ::google::protobuf::Closure* done);
  private:
   ::PROTOBUF_NAMESPACE_ID::RpcChannel* channel_;

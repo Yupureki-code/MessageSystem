@@ -219,6 +219,7 @@ class CreateConversationReq final :
     kRequestIdFieldNumber = 1,
     kOwnerUidFieldNumber = 4,
     kGroupConversationNameFieldNumber = 5,
+    kSessionIdFieldNumber = 6,
     kIsGroupFieldNumber = 2,
   };
   // repeated string comm_uid = 3;
@@ -295,6 +296,24 @@ class CreateConversationReq final :
   std::string* _internal_mutable_group_conversation_name();
   public:
 
+  // optional string session_id = 6;
+  bool has_session_id() const;
+  private:
+  bool _internal_has_session_id() const;
+  public:
+  void clear_session_id();
+  const std::string& session_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_session_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_session_id();
+  PROTOBUF_NODISCARD std::string* release_session_id();
+  void set_allocated_session_id(std::string* session_id);
+  private:
+  const std::string& _internal_session_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_session_id(const std::string& value);
+  std::string* _internal_mutable_session_id();
+  public:
+
   // bool is_group = 2;
   void clear_is_group();
   bool is_group() const;
@@ -318,6 +337,7 @@ class CreateConversationReq final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr owner_uid_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr group_conversation_name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr session_id_;
     bool is_group_;
   };
   union { Impl_ _impl_; };
@@ -622,6 +642,7 @@ class RemoveConversationReq final :
     kRequestIdFieldNumber = 1,
     kConversaionIdFieldNumber = 2,
     kOwnerUidFieldNumber = 3,
+    kSessionIdFieldNumber = 4,
   };
   // string request_id = 1;
   void clear_request_id();
@@ -665,6 +686,24 @@ class RemoveConversationReq final :
   std::string* _internal_mutable_owner_uid();
   public:
 
+  // optional string session_id = 4;
+  bool has_session_id() const;
+  private:
+  bool _internal_has_session_id() const;
+  public:
+  void clear_session_id();
+  const std::string& session_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_session_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_session_id();
+  PROTOBUF_NODISCARD std::string* release_session_id();
+  void set_allocated_session_id(std::string* session_id);
+  private:
+  const std::string& _internal_session_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_session_id(const std::string& value);
+  std::string* _internal_mutable_session_id();
+  public:
+
   // @@protoc_insertion_point(class_scope:messageSystem.RemoveConversationReq)
  private:
   class _Internal;
@@ -673,10 +712,12 @@ class RemoveConversationReq final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr conversaion_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr owner_uid_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr session_id_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_conversation_2eproto;
@@ -807,6 +848,8 @@ class AddMemberReq final :
     kRequestIdFieldNumber = 1,
     kConversaionIdFieldNumber = 2,
     kUidFieldNumber = 3,
+    kUserIdFieldNumber = 4,
+    kSessionIdFieldNumber = 5,
   };
   // string request_id = 1;
   void clear_request_id();
@@ -850,6 +893,42 @@ class AddMemberReq final :
   std::string* _internal_mutable_uid();
   public:
 
+  // optional string user_id = 4;
+  bool has_user_id() const;
+  private:
+  bool _internal_has_user_id() const;
+  public:
+  void clear_user_id();
+  const std::string& user_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_user_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_user_id();
+  PROTOBUF_NODISCARD std::string* release_user_id();
+  void set_allocated_user_id(std::string* user_id);
+  private:
+  const std::string& _internal_user_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_user_id(const std::string& value);
+  std::string* _internal_mutable_user_id();
+  public:
+
+  // optional string session_id = 5;
+  bool has_session_id() const;
+  private:
+  bool _internal_has_session_id() const;
+  public:
+  void clear_session_id();
+  const std::string& session_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_session_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_session_id();
+  PROTOBUF_NODISCARD std::string* release_session_id();
+  void set_allocated_session_id(std::string* session_id);
+  private:
+  const std::string& _internal_session_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_session_id(const std::string& value);
+  std::string* _internal_mutable_session_id();
+  public:
+
   // @@protoc_insertion_point(class_scope:messageSystem.AddMemberReq)
  private:
   class _Internal;
@@ -858,10 +937,13 @@ class AddMemberReq final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr conversaion_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr uid_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr user_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr session_id_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_conversation_2eproto;
@@ -992,7 +1074,8 @@ class ExitConversationReq final :
     kRequestIdFieldNumber = 1,
     kConversaionIdFieldNumber = 2,
     kUidFieldNumber = 3,
-    kOwnerUidFieldNumber = 4,
+    kUserIdFieldNumber = 4,
+    kSessionIdFieldNumber = 5,
   };
   // string request_id = 1;
   void clear_request_id();
@@ -1036,22 +1119,40 @@ class ExitConversationReq final :
   std::string* _internal_mutable_uid();
   public:
 
-  // optional string owner_uid = 4;
-  bool has_owner_uid() const;
+  // optional string user_id = 4;
+  bool has_user_id() const;
   private:
-  bool _internal_has_owner_uid() const;
+  bool _internal_has_user_id() const;
   public:
-  void clear_owner_uid();
-  const std::string& owner_uid() const;
+  void clear_user_id();
+  const std::string& user_id() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_owner_uid(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_owner_uid();
-  PROTOBUF_NODISCARD std::string* release_owner_uid();
-  void set_allocated_owner_uid(std::string* owner_uid);
+  void set_user_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_user_id();
+  PROTOBUF_NODISCARD std::string* release_user_id();
+  void set_allocated_user_id(std::string* user_id);
   private:
-  const std::string& _internal_owner_uid() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_owner_uid(const std::string& value);
-  std::string* _internal_mutable_owner_uid();
+  const std::string& _internal_user_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_user_id(const std::string& value);
+  std::string* _internal_mutable_user_id();
+  public:
+
+  // optional string session_id = 5;
+  bool has_session_id() const;
+  private:
+  bool _internal_has_session_id() const;
+  public:
+  void clear_session_id();
+  const std::string& session_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_session_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_session_id();
+  PROTOBUF_NODISCARD std::string* release_session_id();
+  void set_allocated_session_id(std::string* session_id);
+  private:
+  const std::string& _internal_session_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_session_id(const std::string& value);
+  std::string* _internal_mutable_session_id();
   public:
 
   // @@protoc_insertion_point(class_scope:messageSystem.ExitConversationReq)
@@ -1067,7 +1168,8 @@ class ExitConversationReq final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr conversaion_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr uid_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr owner_uid_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr user_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr session_id_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_conversation_2eproto;
@@ -1199,6 +1301,7 @@ class ChangeMemberPowerReq final :
     kConversaionIdFieldNumber = 2,
     kOwnerUidFieldNumber = 3,
     kUidFieldNumber = 4,
+    kSessionIdFieldNumber = 6,
     kPowerFieldNumber = 5,
   };
   // string request_id = 1;
@@ -1257,6 +1360,24 @@ class ChangeMemberPowerReq final :
   std::string* _internal_mutable_uid();
   public:
 
+  // optional string session_id = 6;
+  bool has_session_id() const;
+  private:
+  bool _internal_has_session_id() const;
+  public:
+  void clear_session_id();
+  const std::string& session_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_session_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_session_id();
+  PROTOBUF_NODISCARD std::string* release_session_id();
+  void set_allocated_session_id(std::string* session_id);
+  private:
+  const std::string& _internal_session_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_session_id(const std::string& value);
+  std::string* _internal_mutable_session_id();
+  public:
+
   // int32 power = 5;
   void clear_power();
   int32_t power() const;
@@ -1274,12 +1395,14 @@ class ChangeMemberPowerReq final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr conversaion_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr owner_uid_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr uid_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr session_id_;
     int32_t power_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_conversation_2eproto;
@@ -1409,6 +1532,8 @@ class GetConversationMemberListReq final :
   enum : int {
     kRequestIdFieldNumber = 1,
     kConversaionIdFieldNumber = 2,
+    kUserIdFieldNumber = 3,
+    kSessionIdFieldNumber = 4,
   };
   // string request_id = 1;
   void clear_request_id();
@@ -1438,6 +1563,42 @@ class GetConversationMemberListReq final :
   std::string* _internal_mutable_conversaion_id();
   public:
 
+  // optional string user_id = 3;
+  bool has_user_id() const;
+  private:
+  bool _internal_has_user_id() const;
+  public:
+  void clear_user_id();
+  const std::string& user_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_user_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_user_id();
+  PROTOBUF_NODISCARD std::string* release_user_id();
+  void set_allocated_user_id(std::string* user_id);
+  private:
+  const std::string& _internal_user_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_user_id(const std::string& value);
+  std::string* _internal_mutable_user_id();
+  public:
+
+  // optional string session_id = 4;
+  bool has_session_id() const;
+  private:
+  bool _internal_has_session_id() const;
+  public:
+  void clear_session_id();
+  const std::string& session_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_session_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_session_id();
+  PROTOBUF_NODISCARD std::string* release_session_id();
+  void set_allocated_session_id(std::string* session_id);
+  private:
+  const std::string& _internal_session_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_session_id(const std::string& value);
+  std::string* _internal_mutable_session_id();
+  public:
+
   // @@protoc_insertion_point(class_scope:messageSystem.GetConversationMemberListReq)
  private:
   class _Internal;
@@ -1446,9 +1607,12 @@ class GetConversationMemberListReq final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr conversaion_id_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr user_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr session_id_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_conversation_2eproto;
@@ -1756,6 +1920,8 @@ class SearchConversationReq final :
     kRequestIdFieldNumber = 1,
     kConversaionIdFieldNumber = 2,
     kConversaionNameFieldNumber = 3,
+    kUserIdFieldNumber = 4,
+    kSessionIdFieldNumber = 5,
   };
   // string request_id = 1;
   void clear_request_id();
@@ -1807,6 +1973,42 @@ class SearchConversationReq final :
   std::string* _internal_mutable_conversaion_name();
   public:
 
+  // optional string user_id = 4;
+  bool has_user_id() const;
+  private:
+  bool _internal_has_user_id() const;
+  public:
+  void clear_user_id();
+  const std::string& user_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_user_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_user_id();
+  PROTOBUF_NODISCARD std::string* release_user_id();
+  void set_allocated_user_id(std::string* user_id);
+  private:
+  const std::string& _internal_user_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_user_id(const std::string& value);
+  std::string* _internal_mutable_user_id();
+  public:
+
+  // optional string session_id = 5;
+  bool has_session_id() const;
+  private:
+  bool _internal_has_session_id() const;
+  public:
+  void clear_session_id();
+  const std::string& session_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_session_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_session_id();
+  PROTOBUF_NODISCARD std::string* release_session_id();
+  void set_allocated_session_id(std::string* session_id);
+  private:
+  const std::string& _internal_session_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_session_id(const std::string& value);
+  std::string* _internal_mutable_session_id();
+  public:
+
   // @@protoc_insertion_point(class_scope:messageSystem.SearchConversationReq)
  private:
   class _Internal;
@@ -1820,6 +2022,8 @@ class SearchConversationReq final :
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr conversaion_id_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr conversaion_name_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr user_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr session_id_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_conversation_2eproto;
@@ -2040,6 +2244,10 @@ class ConversationServer : public ::PROTOBUF_NAMESPACE_ID::Service {
                        const ::messageSystem::GetConversationMemberListReq* request,
                        ::messageSystem::GetConversationMemberListRsp* response,
                        ::google::protobuf::Closure* done);
+  virtual void SearchConversation(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::SearchConversationReq* request,
+                       ::messageSystem::SearchConversationRsp* response,
+                       ::google::protobuf::Closure* done);
 
   // implements Service ----------------------------------------------
 
@@ -2092,6 +2300,10 @@ class ConversationServer_Stub : public ConversationServer {
   void GetConversationMemberList(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                        const ::messageSystem::GetConversationMemberListReq* request,
                        ::messageSystem::GetConversationMemberListRsp* response,
+                       ::google::protobuf::Closure* done);
+  void SearchConversation(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::messageSystem::SearchConversationReq* request,
+                       ::messageSystem::SearchConversationRsp* response,
                        ::google::protobuf::Closure* done);
  private:
   ::PROTOBUF_NAMESPACE_ID::RpcChannel* channel_;
@@ -2392,6 +2604,74 @@ inline void CreateConversationReq::set_allocated_group_conversation_name(std::st
   // @@protoc_insertion_point(field_set_allocated:messageSystem.CreateConversationReq.group_conversation_name)
 }
 
+// optional string session_id = 6;
+inline bool CreateConversationReq::_internal_has_session_id() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  return value;
+}
+inline bool CreateConversationReq::has_session_id() const {
+  return _internal_has_session_id();
+}
+inline void CreateConversationReq::clear_session_id() {
+  _impl_.session_id_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000004u;
+}
+inline const std::string& CreateConversationReq::session_id() const {
+  // @@protoc_insertion_point(field_get:messageSystem.CreateConversationReq.session_id)
+  return _internal_session_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void CreateConversationReq::set_session_id(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000004u;
+ _impl_.session_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.CreateConversationReq.session_id)
+}
+inline std::string* CreateConversationReq::mutable_session_id() {
+  std::string* _s = _internal_mutable_session_id();
+  // @@protoc_insertion_point(field_mutable:messageSystem.CreateConversationReq.session_id)
+  return _s;
+}
+inline const std::string& CreateConversationReq::_internal_session_id() const {
+  return _impl_.session_id_.Get();
+}
+inline void CreateConversationReq::_internal_set_session_id(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000004u;
+  _impl_.session_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* CreateConversationReq::_internal_mutable_session_id() {
+  _impl_._has_bits_[0] |= 0x00000004u;
+  return _impl_.session_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* CreateConversationReq::release_session_id() {
+  // @@protoc_insertion_point(field_release:messageSystem.CreateConversationReq.session_id)
+  if (!_internal_has_session_id()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000004u;
+  auto* p = _impl_.session_id_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.session_id_.IsDefault()) {
+    _impl_.session_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void CreateConversationReq::set_allocated_session_id(std::string* session_id) {
+  if (session_id != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000004u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000004u;
+  }
+  _impl_.session_id_.SetAllocated(session_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.session_id_.IsDefault()) {
+    _impl_.session_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.CreateConversationReq.session_id)
+}
+
 // -------------------------------------------------------------------
 
 // CreateConversationRsp
@@ -2685,6 +2965,74 @@ inline void RemoveConversationReq::set_allocated_owner_uid(std::string* owner_ui
   // @@protoc_insertion_point(field_set_allocated:messageSystem.RemoveConversationReq.owner_uid)
 }
 
+// optional string session_id = 4;
+inline bool RemoveConversationReq::_internal_has_session_id() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool RemoveConversationReq::has_session_id() const {
+  return _internal_has_session_id();
+}
+inline void RemoveConversationReq::clear_session_id() {
+  _impl_.session_id_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& RemoveConversationReq::session_id() const {
+  // @@protoc_insertion_point(field_get:messageSystem.RemoveConversationReq.session_id)
+  return _internal_session_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void RemoveConversationReq::set_session_id(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.session_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.RemoveConversationReq.session_id)
+}
+inline std::string* RemoveConversationReq::mutable_session_id() {
+  std::string* _s = _internal_mutable_session_id();
+  // @@protoc_insertion_point(field_mutable:messageSystem.RemoveConversationReq.session_id)
+  return _s;
+}
+inline const std::string& RemoveConversationReq::_internal_session_id() const {
+  return _impl_.session_id_.Get();
+}
+inline void RemoveConversationReq::_internal_set_session_id(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.session_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* RemoveConversationReq::_internal_mutable_session_id() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.session_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* RemoveConversationReq::release_session_id() {
+  // @@protoc_insertion_point(field_release:messageSystem.RemoveConversationReq.session_id)
+  if (!_internal_has_session_id()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.session_id_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.session_id_.IsDefault()) {
+    _impl_.session_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void RemoveConversationReq::set_allocated_session_id(std::string* session_id) {
+  if (session_id != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.session_id_.SetAllocated(session_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.session_id_.IsDefault()) {
+    _impl_.session_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.RemoveConversationReq.session_id)
+}
+
 // -------------------------------------------------------------------
 
 // AddMemberReq
@@ -2837,6 +3185,142 @@ inline void AddMemberReq::set_allocated_uid(std::string* uid) {
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:messageSystem.AddMemberReq.uid)
+}
+
+// optional string user_id = 4;
+inline bool AddMemberReq::_internal_has_user_id() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool AddMemberReq::has_user_id() const {
+  return _internal_has_user_id();
+}
+inline void AddMemberReq::clear_user_id() {
+  _impl_.user_id_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& AddMemberReq::user_id() const {
+  // @@protoc_insertion_point(field_get:messageSystem.AddMemberReq.user_id)
+  return _internal_user_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void AddMemberReq::set_user_id(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.user_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.AddMemberReq.user_id)
+}
+inline std::string* AddMemberReq::mutable_user_id() {
+  std::string* _s = _internal_mutable_user_id();
+  // @@protoc_insertion_point(field_mutable:messageSystem.AddMemberReq.user_id)
+  return _s;
+}
+inline const std::string& AddMemberReq::_internal_user_id() const {
+  return _impl_.user_id_.Get();
+}
+inline void AddMemberReq::_internal_set_user_id(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.user_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* AddMemberReq::_internal_mutable_user_id() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.user_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* AddMemberReq::release_user_id() {
+  // @@protoc_insertion_point(field_release:messageSystem.AddMemberReq.user_id)
+  if (!_internal_has_user_id()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.user_id_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.user_id_.IsDefault()) {
+    _impl_.user_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void AddMemberReq::set_allocated_user_id(std::string* user_id) {
+  if (user_id != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.user_id_.SetAllocated(user_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.user_id_.IsDefault()) {
+    _impl_.user_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.AddMemberReq.user_id)
+}
+
+// optional string session_id = 5;
+inline bool AddMemberReq::_internal_has_session_id() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool AddMemberReq::has_session_id() const {
+  return _internal_has_session_id();
+}
+inline void AddMemberReq::clear_session_id() {
+  _impl_.session_id_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const std::string& AddMemberReq::session_id() const {
+  // @@protoc_insertion_point(field_get:messageSystem.AddMemberReq.session_id)
+  return _internal_session_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void AddMemberReq::set_session_id(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000002u;
+ _impl_.session_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.AddMemberReq.session_id)
+}
+inline std::string* AddMemberReq::mutable_session_id() {
+  std::string* _s = _internal_mutable_session_id();
+  // @@protoc_insertion_point(field_mutable:messageSystem.AddMemberReq.session_id)
+  return _s;
+}
+inline const std::string& AddMemberReq::_internal_session_id() const {
+  return _impl_.session_id_.Get();
+}
+inline void AddMemberReq::_internal_set_session_id(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.session_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* AddMemberReq::_internal_mutable_session_id() {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  return _impl_.session_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* AddMemberReq::release_session_id() {
+  // @@protoc_insertion_point(field_release:messageSystem.AddMemberReq.session_id)
+  if (!_internal_has_session_id()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  auto* p = _impl_.session_id_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.session_id_.IsDefault()) {
+    _impl_.session_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void AddMemberReq::set_allocated_session_id(std::string* session_id) {
+  if (session_id != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  _impl_.session_id_.SetAllocated(session_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.session_id_.IsDefault()) {
+    _impl_.session_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.AddMemberReq.session_id)
 }
 
 // -------------------------------------------------------------------
@@ -2993,72 +3477,140 @@ inline void ExitConversationReq::set_allocated_uid(std::string* uid) {
   // @@protoc_insertion_point(field_set_allocated:messageSystem.ExitConversationReq.uid)
 }
 
-// optional string owner_uid = 4;
-inline bool ExitConversationReq::_internal_has_owner_uid() const {
+// optional string user_id = 4;
+inline bool ExitConversationReq::_internal_has_user_id() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   return value;
 }
-inline bool ExitConversationReq::has_owner_uid() const {
-  return _internal_has_owner_uid();
+inline bool ExitConversationReq::has_user_id() const {
+  return _internal_has_user_id();
 }
-inline void ExitConversationReq::clear_owner_uid() {
-  _impl_.owner_uid_.ClearToEmpty();
+inline void ExitConversationReq::clear_user_id() {
+  _impl_.user_id_.ClearToEmpty();
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline const std::string& ExitConversationReq::owner_uid() const {
-  // @@protoc_insertion_point(field_get:messageSystem.ExitConversationReq.owner_uid)
-  return _internal_owner_uid();
+inline const std::string& ExitConversationReq::user_id() const {
+  // @@protoc_insertion_point(field_get:messageSystem.ExitConversationReq.user_id)
+  return _internal_user_id();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void ExitConversationReq::set_owner_uid(ArgT0&& arg0, ArgT... args) {
+void ExitConversationReq::set_user_id(ArgT0&& arg0, ArgT... args) {
  _impl_._has_bits_[0] |= 0x00000001u;
- _impl_.owner_uid_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:messageSystem.ExitConversationReq.owner_uid)
+ _impl_.user_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.ExitConversationReq.user_id)
 }
-inline std::string* ExitConversationReq::mutable_owner_uid() {
-  std::string* _s = _internal_mutable_owner_uid();
-  // @@protoc_insertion_point(field_mutable:messageSystem.ExitConversationReq.owner_uid)
+inline std::string* ExitConversationReq::mutable_user_id() {
+  std::string* _s = _internal_mutable_user_id();
+  // @@protoc_insertion_point(field_mutable:messageSystem.ExitConversationReq.user_id)
   return _s;
 }
-inline const std::string& ExitConversationReq::_internal_owner_uid() const {
-  return _impl_.owner_uid_.Get();
+inline const std::string& ExitConversationReq::_internal_user_id() const {
+  return _impl_.user_id_.Get();
 }
-inline void ExitConversationReq::_internal_set_owner_uid(const std::string& value) {
+inline void ExitConversationReq::_internal_set_user_id(const std::string& value) {
   _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.owner_uid_.Set(value, GetArenaForAllocation());
+  _impl_.user_id_.Set(value, GetArenaForAllocation());
 }
-inline std::string* ExitConversationReq::_internal_mutable_owner_uid() {
+inline std::string* ExitConversationReq::_internal_mutable_user_id() {
   _impl_._has_bits_[0] |= 0x00000001u;
-  return _impl_.owner_uid_.Mutable(GetArenaForAllocation());
+  return _impl_.user_id_.Mutable(GetArenaForAllocation());
 }
-inline std::string* ExitConversationReq::release_owner_uid() {
-  // @@protoc_insertion_point(field_release:messageSystem.ExitConversationReq.owner_uid)
-  if (!_internal_has_owner_uid()) {
+inline std::string* ExitConversationReq::release_user_id() {
+  // @@protoc_insertion_point(field_release:messageSystem.ExitConversationReq.user_id)
+  if (!_internal_has_user_id()) {
     return nullptr;
   }
   _impl_._has_bits_[0] &= ~0x00000001u;
-  auto* p = _impl_.owner_uid_.Release();
+  auto* p = _impl_.user_id_.Release();
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.owner_uid_.IsDefault()) {
-    _impl_.owner_uid_.Set("", GetArenaForAllocation());
+  if (_impl_.user_id_.IsDefault()) {
+    _impl_.user_id_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   return p;
 }
-inline void ExitConversationReq::set_allocated_owner_uid(std::string* owner_uid) {
-  if (owner_uid != nullptr) {
+inline void ExitConversationReq::set_allocated_user_id(std::string* user_id) {
+  if (user_id != nullptr) {
     _impl_._has_bits_[0] |= 0x00000001u;
   } else {
     _impl_._has_bits_[0] &= ~0x00000001u;
   }
-  _impl_.owner_uid_.SetAllocated(owner_uid, GetArenaForAllocation());
+  _impl_.user_id_.SetAllocated(user_id, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.owner_uid_.IsDefault()) {
-    _impl_.owner_uid_.Set("", GetArenaForAllocation());
+  if (_impl_.user_id_.IsDefault()) {
+    _impl_.user_id_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:messageSystem.ExitConversationReq.owner_uid)
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.ExitConversationReq.user_id)
+}
+
+// optional string session_id = 5;
+inline bool ExitConversationReq::_internal_has_session_id() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool ExitConversationReq::has_session_id() const {
+  return _internal_has_session_id();
+}
+inline void ExitConversationReq::clear_session_id() {
+  _impl_.session_id_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const std::string& ExitConversationReq::session_id() const {
+  // @@protoc_insertion_point(field_get:messageSystem.ExitConversationReq.session_id)
+  return _internal_session_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ExitConversationReq::set_session_id(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000002u;
+ _impl_.session_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.ExitConversationReq.session_id)
+}
+inline std::string* ExitConversationReq::mutable_session_id() {
+  std::string* _s = _internal_mutable_session_id();
+  // @@protoc_insertion_point(field_mutable:messageSystem.ExitConversationReq.session_id)
+  return _s;
+}
+inline const std::string& ExitConversationReq::_internal_session_id() const {
+  return _impl_.session_id_.Get();
+}
+inline void ExitConversationReq::_internal_set_session_id(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.session_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* ExitConversationReq::_internal_mutable_session_id() {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  return _impl_.session_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ExitConversationReq::release_session_id() {
+  // @@protoc_insertion_point(field_release:messageSystem.ExitConversationReq.session_id)
+  if (!_internal_has_session_id()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  auto* p = _impl_.session_id_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.session_id_.IsDefault()) {
+    _impl_.session_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void ExitConversationReq::set_allocated_session_id(std::string* session_id) {
+  if (session_id != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  _impl_.session_id_.SetAllocated(session_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.session_id_.IsDefault()) {
+    _impl_.session_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.ExitConversationReq.session_id)
 }
 
 // -------------------------------------------------------------------
@@ -3285,6 +3837,74 @@ inline void ChangeMemberPowerReq::set_power(int32_t value) {
   // @@protoc_insertion_point(field_set:messageSystem.ChangeMemberPowerReq.power)
 }
 
+// optional string session_id = 6;
+inline bool ChangeMemberPowerReq::_internal_has_session_id() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool ChangeMemberPowerReq::has_session_id() const {
+  return _internal_has_session_id();
+}
+inline void ChangeMemberPowerReq::clear_session_id() {
+  _impl_.session_id_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& ChangeMemberPowerReq::session_id() const {
+  // @@protoc_insertion_point(field_get:messageSystem.ChangeMemberPowerReq.session_id)
+  return _internal_session_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ChangeMemberPowerReq::set_session_id(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.session_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.ChangeMemberPowerReq.session_id)
+}
+inline std::string* ChangeMemberPowerReq::mutable_session_id() {
+  std::string* _s = _internal_mutable_session_id();
+  // @@protoc_insertion_point(field_mutable:messageSystem.ChangeMemberPowerReq.session_id)
+  return _s;
+}
+inline const std::string& ChangeMemberPowerReq::_internal_session_id() const {
+  return _impl_.session_id_.Get();
+}
+inline void ChangeMemberPowerReq::_internal_set_session_id(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.session_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* ChangeMemberPowerReq::_internal_mutable_session_id() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.session_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ChangeMemberPowerReq::release_session_id() {
+  // @@protoc_insertion_point(field_release:messageSystem.ChangeMemberPowerReq.session_id)
+  if (!_internal_has_session_id()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.session_id_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.session_id_.IsDefault()) {
+    _impl_.session_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void ChangeMemberPowerReq::set_allocated_session_id(std::string* session_id) {
+  if (session_id != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.session_id_.SetAllocated(session_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.session_id_.IsDefault()) {
+    _impl_.session_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.ChangeMemberPowerReq.session_id)
+}
+
 // -------------------------------------------------------------------
 
 // GetConversationMemberListReq
@@ -3387,6 +4007,142 @@ inline void GetConversationMemberListReq::set_allocated_conversaion_id(std::stri
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:messageSystem.GetConversationMemberListReq.conversaion_id)
+}
+
+// optional string user_id = 3;
+inline bool GetConversationMemberListReq::_internal_has_user_id() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool GetConversationMemberListReq::has_user_id() const {
+  return _internal_has_user_id();
+}
+inline void GetConversationMemberListReq::clear_user_id() {
+  _impl_.user_id_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& GetConversationMemberListReq::user_id() const {
+  // @@protoc_insertion_point(field_get:messageSystem.GetConversationMemberListReq.user_id)
+  return _internal_user_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void GetConversationMemberListReq::set_user_id(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.user_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.GetConversationMemberListReq.user_id)
+}
+inline std::string* GetConversationMemberListReq::mutable_user_id() {
+  std::string* _s = _internal_mutable_user_id();
+  // @@protoc_insertion_point(field_mutable:messageSystem.GetConversationMemberListReq.user_id)
+  return _s;
+}
+inline const std::string& GetConversationMemberListReq::_internal_user_id() const {
+  return _impl_.user_id_.Get();
+}
+inline void GetConversationMemberListReq::_internal_set_user_id(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.user_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* GetConversationMemberListReq::_internal_mutable_user_id() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.user_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* GetConversationMemberListReq::release_user_id() {
+  // @@protoc_insertion_point(field_release:messageSystem.GetConversationMemberListReq.user_id)
+  if (!_internal_has_user_id()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.user_id_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.user_id_.IsDefault()) {
+    _impl_.user_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void GetConversationMemberListReq::set_allocated_user_id(std::string* user_id) {
+  if (user_id != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.user_id_.SetAllocated(user_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.user_id_.IsDefault()) {
+    _impl_.user_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.GetConversationMemberListReq.user_id)
+}
+
+// optional string session_id = 4;
+inline bool GetConversationMemberListReq::_internal_has_session_id() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool GetConversationMemberListReq::has_session_id() const {
+  return _internal_has_session_id();
+}
+inline void GetConversationMemberListReq::clear_session_id() {
+  _impl_.session_id_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const std::string& GetConversationMemberListReq::session_id() const {
+  // @@protoc_insertion_point(field_get:messageSystem.GetConversationMemberListReq.session_id)
+  return _internal_session_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void GetConversationMemberListReq::set_session_id(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000002u;
+ _impl_.session_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.GetConversationMemberListReq.session_id)
+}
+inline std::string* GetConversationMemberListReq::mutable_session_id() {
+  std::string* _s = _internal_mutable_session_id();
+  // @@protoc_insertion_point(field_mutable:messageSystem.GetConversationMemberListReq.session_id)
+  return _s;
+}
+inline const std::string& GetConversationMemberListReq::_internal_session_id() const {
+  return _impl_.session_id_.Get();
+}
+inline void GetConversationMemberListReq::_internal_set_session_id(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.session_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* GetConversationMemberListReq::_internal_mutable_session_id() {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  return _impl_.session_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* GetConversationMemberListReq::release_session_id() {
+  // @@protoc_insertion_point(field_release:messageSystem.GetConversationMemberListReq.session_id)
+  if (!_internal_has_session_id()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  auto* p = _impl_.session_id_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.session_id_.IsDefault()) {
+    _impl_.session_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void GetConversationMemberListReq::set_allocated_session_id(std::string* session_id) {
+  if (session_id != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  _impl_.session_id_.SetAllocated(session_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.session_id_.IsDefault()) {
+    _impl_.session_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.GetConversationMemberListReq.session_id)
 }
 
 // -------------------------------------------------------------------
@@ -3703,6 +4459,142 @@ inline void SearchConversationReq::set_allocated_conversaion_name(std::string* c
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:messageSystem.SearchConversationReq.conversaion_name)
+}
+
+// optional string user_id = 4;
+inline bool SearchConversationReq::_internal_has_user_id() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  return value;
+}
+inline bool SearchConversationReq::has_user_id() const {
+  return _internal_has_user_id();
+}
+inline void SearchConversationReq::clear_user_id() {
+  _impl_.user_id_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000004u;
+}
+inline const std::string& SearchConversationReq::user_id() const {
+  // @@protoc_insertion_point(field_get:messageSystem.SearchConversationReq.user_id)
+  return _internal_user_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SearchConversationReq::set_user_id(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000004u;
+ _impl_.user_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.SearchConversationReq.user_id)
+}
+inline std::string* SearchConversationReq::mutable_user_id() {
+  std::string* _s = _internal_mutable_user_id();
+  // @@protoc_insertion_point(field_mutable:messageSystem.SearchConversationReq.user_id)
+  return _s;
+}
+inline const std::string& SearchConversationReq::_internal_user_id() const {
+  return _impl_.user_id_.Get();
+}
+inline void SearchConversationReq::_internal_set_user_id(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000004u;
+  _impl_.user_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SearchConversationReq::_internal_mutable_user_id() {
+  _impl_._has_bits_[0] |= 0x00000004u;
+  return _impl_.user_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SearchConversationReq::release_user_id() {
+  // @@protoc_insertion_point(field_release:messageSystem.SearchConversationReq.user_id)
+  if (!_internal_has_user_id()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000004u;
+  auto* p = _impl_.user_id_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.user_id_.IsDefault()) {
+    _impl_.user_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void SearchConversationReq::set_allocated_user_id(std::string* user_id) {
+  if (user_id != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000004u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000004u;
+  }
+  _impl_.user_id_.SetAllocated(user_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.user_id_.IsDefault()) {
+    _impl_.user_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.SearchConversationReq.user_id)
+}
+
+// optional string session_id = 5;
+inline bool SearchConversationReq::_internal_has_session_id() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
+  return value;
+}
+inline bool SearchConversationReq::has_session_id() const {
+  return _internal_has_session_id();
+}
+inline void SearchConversationReq::clear_session_id() {
+  _impl_.session_id_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000008u;
+}
+inline const std::string& SearchConversationReq::session_id() const {
+  // @@protoc_insertion_point(field_get:messageSystem.SearchConversationReq.session_id)
+  return _internal_session_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SearchConversationReq::set_session_id(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000008u;
+ _impl_.session_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.SearchConversationReq.session_id)
+}
+inline std::string* SearchConversationReq::mutable_session_id() {
+  std::string* _s = _internal_mutable_session_id();
+  // @@protoc_insertion_point(field_mutable:messageSystem.SearchConversationReq.session_id)
+  return _s;
+}
+inline const std::string& SearchConversationReq::_internal_session_id() const {
+  return _impl_.session_id_.Get();
+}
+inline void SearchConversationReq::_internal_set_session_id(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000008u;
+  _impl_.session_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SearchConversationReq::_internal_mutable_session_id() {
+  _impl_._has_bits_[0] |= 0x00000008u;
+  return _impl_.session_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SearchConversationReq::release_session_id() {
+  // @@protoc_insertion_point(field_release:messageSystem.SearchConversationReq.session_id)
+  if (!_internal_has_session_id()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000008u;
+  auto* p = _impl_.session_id_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.session_id_.IsDefault()) {
+    _impl_.session_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void SearchConversationReq::set_allocated_session_id(std::string* session_id) {
+  if (session_id != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000008u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000008u;
+  }
+  _impl_.session_id_.SetAllocated(session_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.session_id_.IsDefault()) {
+    _impl_.session_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.SearchConversationReq.session_id)
 }
 
 // -------------------------------------------------------------------

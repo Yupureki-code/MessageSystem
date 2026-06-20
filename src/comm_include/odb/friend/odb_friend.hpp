@@ -111,6 +111,26 @@ namespace odbFriend
             }
             return rep;
         }
+        Response selectByUidWithAnyStatus(size_t uid,size_t friend_uid,std::shared_ptr<Friendships>* table)
+        {
+            Response rep;
+            Timer t(_monitor,"select friendships any status(uid,friend_uid):" + std::to_string(uid) + "," + std::to_string(friend_uid));
+            try
+            {
+                odb::transaction t(_db->begin());
+                auto ret = _db->query_one<Friendships>(query::uid == uid && query::friend_uid == friend_uid);
+                table->reset(ret);
+                t.commit();
+                rep.status = true;
+            }
+            catch(const odb::exception& e)
+            {
+                LOG_ERROR("查找好友关系表{}:{}失败:{}!",uid,friend_uid,e.what());
+                rep.status = false;
+                rep.errmsg = e.what();
+            }
+            return rep;
+        }
         Response update(const Friendships& table)
         {
             Response rep;
