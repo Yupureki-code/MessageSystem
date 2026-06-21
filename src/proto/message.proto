@@ -4,7 +4,7 @@ import "comm.proto";
 option cc_generic_services = true;
 
 message SendMessageReq{
-    string request_id = 1;
+    CommReq request = 1;
     MessageInfo message = 2;
 }
 
@@ -15,7 +15,7 @@ message SendMessageRsq
 }
 
 message RecallMessageReq{
-    string request_id = 1;
+    CommReq request = 1;
     MessageInfo message = 2;
 }
 
@@ -25,9 +25,8 @@ message RecallMessageRsp{
 }
 
 message MarkAsReadReq{
-    string request_id = 1;
+    CommReq request = 1;
     string coversation_id = 2;
-    string user_id = 3;
 }
 
 service MessageServer{

@@ -6,10 +6,8 @@ option cc_generic_services = true;
 
 message GetFileReq 
 {
-    string request_id = 1;
-    optional string user_id = 2;
-    optional string session_id = 3;
-    repeated string file_id_list = 4;
+    CommReq request = 1;
+    repeated string file_id_list = 2;
 }
 
 message GetFileRsp 
@@ -22,19 +20,15 @@ message GetFileRsp
 
 message PutFileReq 
 {
-    string request_id = 1;
-    optional string user_id = 2;
-    optional string session_id = 3;
-    repeated FileUploadData file_data = 4;
+    CommReq request = 1;
+    repeated FileUploadData file_data = 2;
 }
 
 
 message DeleteFileReq 
 {
-    string request_id = 1;
-    optional string user_id = 2;
-    optional string session_id = 3;
-    repeated string file_id_list = 4;
+    CommReq request = 1;
+    repeated string file_id_list = 2;
 }
 
 

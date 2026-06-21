@@ -198,12 +198,10 @@ class GetFileReq final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kFileIdListFieldNumber = 4,
-    kRequestIdFieldNumber = 1,
-    kUserIdFieldNumber = 2,
-    kSessionIdFieldNumber = 3,
+    kFileIdListFieldNumber = 2,
+    kRequestFieldNumber = 1,
   };
-  // repeated string file_id_list = 4;
+  // repeated string file_id_list = 2;
   int file_id_list_size() const;
   private:
   int _internal_file_id_list_size() const;
@@ -227,55 +225,23 @@ class GetFileReq final :
   std::string* _internal_add_file_id_list();
   public:
 
-  // string request_id = 1;
-  void clear_request_id();
-  const std::string& request_id() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_request_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_request_id();
-  PROTOBUF_NODISCARD std::string* release_request_id();
-  void set_allocated_request_id(std::string* request_id);
+  // .messageSystem.CommReq request = 1;
+  bool has_request() const;
   private:
-  const std::string& _internal_request_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
-  std::string* _internal_mutable_request_id();
+  bool _internal_has_request() const;
   public:
-
-  // optional string user_id = 2;
-  bool has_user_id() const;
+  void clear_request();
+  const ::messageSystem::CommReq& request() const;
+  PROTOBUF_NODISCARD ::messageSystem::CommReq* release_request();
+  ::messageSystem::CommReq* mutable_request();
+  void set_allocated_request(::messageSystem::CommReq* request);
   private:
-  bool _internal_has_user_id() const;
+  const ::messageSystem::CommReq& _internal_request() const;
+  ::messageSystem::CommReq* _internal_mutable_request();
   public:
-  void clear_user_id();
-  const std::string& user_id() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_user_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_user_id();
-  PROTOBUF_NODISCARD std::string* release_user_id();
-  void set_allocated_user_id(std::string* user_id);
-  private:
-  const std::string& _internal_user_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_user_id(const std::string& value);
-  std::string* _internal_mutable_user_id();
-  public:
-
-  // optional string session_id = 3;
-  bool has_session_id() const;
-  private:
-  bool _internal_has_session_id() const;
-  public:
-  void clear_session_id();
-  const std::string& session_id() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_session_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_session_id();
-  PROTOBUF_NODISCARD std::string* release_session_id();
-  void set_allocated_session_id(std::string* session_id);
-  private:
-  const std::string& _internal_session_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_session_id(const std::string& value);
-  std::string* _internal_mutable_session_id();
-  public:
+  void unsafe_arena_set_allocated_request(
+      ::messageSystem::CommReq* request);
+  ::messageSystem::CommReq* unsafe_arena_release_request();
 
   // @@protoc_insertion_point(class_scope:messageSystem.GetFileReq)
  private:
@@ -285,12 +251,9 @@ class GetFileReq final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> file_id_list_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr user_id_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr session_id_;
+    ::messageSystem::CommReq* request_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_file_2eproto;
@@ -650,12 +613,10 @@ class PutFileReq final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kFileDataFieldNumber = 4,
-    kRequestIdFieldNumber = 1,
-    kUserIdFieldNumber = 2,
-    kSessionIdFieldNumber = 3,
+    kFileDataFieldNumber = 2,
+    kRequestFieldNumber = 1,
   };
-  // repeated .messageSystem.FileUploadData file_data = 4;
+  // repeated .messageSystem.FileUploadData file_data = 2;
   int file_data_size() const;
   private:
   int _internal_file_data_size() const;
@@ -673,55 +634,23 @@ class PutFileReq final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::messageSystem::FileUploadData >&
       file_data() const;
 
-  // string request_id = 1;
-  void clear_request_id();
-  const std::string& request_id() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_request_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_request_id();
-  PROTOBUF_NODISCARD std::string* release_request_id();
-  void set_allocated_request_id(std::string* request_id);
+  // .messageSystem.CommReq request = 1;
+  bool has_request() const;
   private:
-  const std::string& _internal_request_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
-  std::string* _internal_mutable_request_id();
+  bool _internal_has_request() const;
   public:
-
-  // optional string user_id = 2;
-  bool has_user_id() const;
+  void clear_request();
+  const ::messageSystem::CommReq& request() const;
+  PROTOBUF_NODISCARD ::messageSystem::CommReq* release_request();
+  ::messageSystem::CommReq* mutable_request();
+  void set_allocated_request(::messageSystem::CommReq* request);
   private:
-  bool _internal_has_user_id() const;
+  const ::messageSystem::CommReq& _internal_request() const;
+  ::messageSystem::CommReq* _internal_mutable_request();
   public:
-  void clear_user_id();
-  const std::string& user_id() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_user_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_user_id();
-  PROTOBUF_NODISCARD std::string* release_user_id();
-  void set_allocated_user_id(std::string* user_id);
-  private:
-  const std::string& _internal_user_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_user_id(const std::string& value);
-  std::string* _internal_mutable_user_id();
-  public:
-
-  // optional string session_id = 3;
-  bool has_session_id() const;
-  private:
-  bool _internal_has_session_id() const;
-  public:
-  void clear_session_id();
-  const std::string& session_id() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_session_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_session_id();
-  PROTOBUF_NODISCARD std::string* release_session_id();
-  void set_allocated_session_id(std::string* session_id);
-  private:
-  const std::string& _internal_session_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_session_id(const std::string& value);
-  std::string* _internal_mutable_session_id();
-  public:
+  void unsafe_arena_set_allocated_request(
+      ::messageSystem::CommReq* request);
+  ::messageSystem::CommReq* unsafe_arena_release_request();
 
   // @@protoc_insertion_point(class_scope:messageSystem.PutFileReq)
  private:
@@ -731,12 +660,9 @@ class PutFileReq final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::messageSystem::FileUploadData > file_data_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr user_id_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr session_id_;
+    ::messageSystem::CommReq* request_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_file_2eproto;
@@ -864,12 +790,10 @@ class DeleteFileReq final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kFileIdListFieldNumber = 4,
-    kRequestIdFieldNumber = 1,
-    kUserIdFieldNumber = 2,
-    kSessionIdFieldNumber = 3,
+    kFileIdListFieldNumber = 2,
+    kRequestFieldNumber = 1,
   };
-  // repeated string file_id_list = 4;
+  // repeated string file_id_list = 2;
   int file_id_list_size() const;
   private:
   int _internal_file_id_list_size() const;
@@ -893,55 +817,23 @@ class DeleteFileReq final :
   std::string* _internal_add_file_id_list();
   public:
 
-  // string request_id = 1;
-  void clear_request_id();
-  const std::string& request_id() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_request_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_request_id();
-  PROTOBUF_NODISCARD std::string* release_request_id();
-  void set_allocated_request_id(std::string* request_id);
+  // .messageSystem.CommReq request = 1;
+  bool has_request() const;
   private:
-  const std::string& _internal_request_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
-  std::string* _internal_mutable_request_id();
+  bool _internal_has_request() const;
   public:
-
-  // optional string user_id = 2;
-  bool has_user_id() const;
+  void clear_request();
+  const ::messageSystem::CommReq& request() const;
+  PROTOBUF_NODISCARD ::messageSystem::CommReq* release_request();
+  ::messageSystem::CommReq* mutable_request();
+  void set_allocated_request(::messageSystem::CommReq* request);
   private:
-  bool _internal_has_user_id() const;
+  const ::messageSystem::CommReq& _internal_request() const;
+  ::messageSystem::CommReq* _internal_mutable_request();
   public:
-  void clear_user_id();
-  const std::string& user_id() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_user_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_user_id();
-  PROTOBUF_NODISCARD std::string* release_user_id();
-  void set_allocated_user_id(std::string* user_id);
-  private:
-  const std::string& _internal_user_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_user_id(const std::string& value);
-  std::string* _internal_mutable_user_id();
-  public:
-
-  // optional string session_id = 3;
-  bool has_session_id() const;
-  private:
-  bool _internal_has_session_id() const;
-  public:
-  void clear_session_id();
-  const std::string& session_id() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_session_id(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_session_id();
-  PROTOBUF_NODISCARD std::string* release_session_id();
-  void set_allocated_session_id(std::string* session_id);
-  private:
-  const std::string& _internal_session_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_session_id(const std::string& value);
-  std::string* _internal_mutable_session_id();
-  public:
+  void unsafe_arena_set_allocated_request(
+      ::messageSystem::CommReq* request);
+  ::messageSystem::CommReq* unsafe_arena_release_request();
 
   // @@protoc_insertion_point(class_scope:messageSystem.DeleteFileReq)
  private:
@@ -951,12 +843,9 @@ class DeleteFileReq final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> file_id_list_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr user_id_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr session_id_;
+    ::messageSystem::CommReq* request_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_file_2eproto;
@@ -1063,193 +952,92 @@ class FileService_Stub : public FileService {
 #endif  // __GNUC__
 // GetFileReq
 
-// string request_id = 1;
-inline void GetFileReq::clear_request_id() {
-  _impl_.request_id_.ClearToEmpty();
+// .messageSystem.CommReq request = 1;
+inline bool GetFileReq::_internal_has_request() const {
+  return this != internal_default_instance() && _impl_.request_ != nullptr;
 }
-inline const std::string& GetFileReq::request_id() const {
-  // @@protoc_insertion_point(field_get:messageSystem.GetFileReq.request_id)
-  return _internal_request_id();
+inline bool GetFileReq::has_request() const {
+  return _internal_has_request();
 }
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void GetFileReq::set_request_id(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.request_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:messageSystem.GetFileReq.request_id)
+inline const ::messageSystem::CommReq& GetFileReq::_internal_request() const {
+  const ::messageSystem::CommReq* p = _impl_.request_;
+  return p != nullptr ? *p : reinterpret_cast<const ::messageSystem::CommReq&>(
+      ::messageSystem::_CommReq_default_instance_);
 }
-inline std::string* GetFileReq::mutable_request_id() {
-  std::string* _s = _internal_mutable_request_id();
-  // @@protoc_insertion_point(field_mutable:messageSystem.GetFileReq.request_id)
-  return _s;
+inline const ::messageSystem::CommReq& GetFileReq::request() const {
+  // @@protoc_insertion_point(field_get:messageSystem.GetFileReq.request)
+  return _internal_request();
 }
-inline const std::string& GetFileReq::_internal_request_id() const {
-  return _impl_.request_id_.Get();
-}
-inline void GetFileReq::_internal_set_request_id(const std::string& value) {
-  
-  _impl_.request_id_.Set(value, GetArenaForAllocation());
-}
-inline std::string* GetFileReq::_internal_mutable_request_id() {
-  
-  return _impl_.request_id_.Mutable(GetArenaForAllocation());
-}
-inline std::string* GetFileReq::release_request_id() {
-  // @@protoc_insertion_point(field_release:messageSystem.GetFileReq.request_id)
-  return _impl_.request_id_.Release();
-}
-inline void GetFileReq::set_allocated_request_id(std::string* request_id) {
-  if (request_id != nullptr) {
+inline void GetFileReq::unsafe_arena_set_allocated_request(
+    ::messageSystem::CommReq* request) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.request_);
+  }
+  _impl_.request_ = request;
+  if (request) {
     
   } else {
     
   }
-  _impl_.request_id_.SetAllocated(request_id, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.request_id_.IsDefault()) {
-    _impl_.request_id_.Set("", GetArenaForAllocation());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:messageSystem.GetFileReq.request)
+}
+inline ::messageSystem::CommReq* GetFileReq::release_request() {
+  
+  ::messageSystem::CommReq* temp = _impl_.request_;
+  _impl_.request_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
   }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:messageSystem.GetFileReq.request_id)
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
 }
-
-// optional string user_id = 2;
-inline bool GetFileReq::_internal_has_user_id() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  return value;
+inline ::messageSystem::CommReq* GetFileReq::unsafe_arena_release_request() {
+  // @@protoc_insertion_point(field_release:messageSystem.GetFileReq.request)
+  
+  ::messageSystem::CommReq* temp = _impl_.request_;
+  _impl_.request_ = nullptr;
+  return temp;
 }
-inline bool GetFileReq::has_user_id() const {
-  return _internal_has_user_id();
-}
-inline void GetFileReq::clear_user_id() {
-  _impl_.user_id_.ClearToEmpty();
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-inline const std::string& GetFileReq::user_id() const {
-  // @@protoc_insertion_point(field_get:messageSystem.GetFileReq.user_id)
-  return _internal_user_id();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void GetFileReq::set_user_id(ArgT0&& arg0, ArgT... args) {
- _impl_._has_bits_[0] |= 0x00000001u;
- _impl_.user_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:messageSystem.GetFileReq.user_id)
-}
-inline std::string* GetFileReq::mutable_user_id() {
-  std::string* _s = _internal_mutable_user_id();
-  // @@protoc_insertion_point(field_mutable:messageSystem.GetFileReq.user_id)
-  return _s;
-}
-inline const std::string& GetFileReq::_internal_user_id() const {
-  return _impl_.user_id_.Get();
-}
-inline void GetFileReq::_internal_set_user_id(const std::string& value) {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.user_id_.Set(value, GetArenaForAllocation());
-}
-inline std::string* GetFileReq::_internal_mutable_user_id() {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  return _impl_.user_id_.Mutable(GetArenaForAllocation());
-}
-inline std::string* GetFileReq::release_user_id() {
-  // @@protoc_insertion_point(field_release:messageSystem.GetFileReq.user_id)
-  if (!_internal_has_user_id()) {
-    return nullptr;
+inline ::messageSystem::CommReq* GetFileReq::_internal_mutable_request() {
+  
+  if (_impl_.request_ == nullptr) {
+    auto* p = CreateMaybeMessage<::messageSystem::CommReq>(GetArenaForAllocation());
+    _impl_.request_ = p;
   }
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  auto* p = _impl_.user_id_.Release();
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.user_id_.IsDefault()) {
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  return p;
+  return _impl_.request_;
 }
-inline void GetFileReq::set_allocated_user_id(std::string* user_id) {
-  if (user_id != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000001u;
+inline ::messageSystem::CommReq* GetFileReq::mutable_request() {
+  ::messageSystem::CommReq* _msg = _internal_mutable_request();
+  // @@protoc_insertion_point(field_mutable:messageSystem.GetFileReq.request)
+  return _msg;
+}
+inline void GetFileReq::set_allocated_request(::messageSystem::CommReq* request) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.request_);
+  }
+  if (request) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(request));
+    if (message_arena != submessage_arena) {
+      request = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, request, submessage_arena);
+    }
+    
   } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
+    
   }
-  _impl_.user_id_.SetAllocated(user_id, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.user_id_.IsDefault()) {
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:messageSystem.GetFileReq.user_id)
+  _impl_.request_ = request;
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.GetFileReq.request)
 }
 
-// optional string session_id = 3;
-inline bool GetFileReq::_internal_has_session_id() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
-  return value;
-}
-inline bool GetFileReq::has_session_id() const {
-  return _internal_has_session_id();
-}
-inline void GetFileReq::clear_session_id() {
-  _impl_.session_id_.ClearToEmpty();
-  _impl_._has_bits_[0] &= ~0x00000002u;
-}
-inline const std::string& GetFileReq::session_id() const {
-  // @@protoc_insertion_point(field_get:messageSystem.GetFileReq.session_id)
-  return _internal_session_id();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void GetFileReq::set_session_id(ArgT0&& arg0, ArgT... args) {
- _impl_._has_bits_[0] |= 0x00000002u;
- _impl_.session_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:messageSystem.GetFileReq.session_id)
-}
-inline std::string* GetFileReq::mutable_session_id() {
-  std::string* _s = _internal_mutable_session_id();
-  // @@protoc_insertion_point(field_mutable:messageSystem.GetFileReq.session_id)
-  return _s;
-}
-inline const std::string& GetFileReq::_internal_session_id() const {
-  return _impl_.session_id_.Get();
-}
-inline void GetFileReq::_internal_set_session_id(const std::string& value) {
-  _impl_._has_bits_[0] |= 0x00000002u;
-  _impl_.session_id_.Set(value, GetArenaForAllocation());
-}
-inline std::string* GetFileReq::_internal_mutable_session_id() {
-  _impl_._has_bits_[0] |= 0x00000002u;
-  return _impl_.session_id_.Mutable(GetArenaForAllocation());
-}
-inline std::string* GetFileReq::release_session_id() {
-  // @@protoc_insertion_point(field_release:messageSystem.GetFileReq.session_id)
-  if (!_internal_has_session_id()) {
-    return nullptr;
-  }
-  _impl_._has_bits_[0] &= ~0x00000002u;
-  auto* p = _impl_.session_id_.Release();
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.session_id_.IsDefault()) {
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  return p;
-}
-inline void GetFileReq::set_allocated_session_id(std::string* session_id) {
-  if (session_id != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000002u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000002u;
-  }
-  _impl_.session_id_.SetAllocated(session_id, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.session_id_.IsDefault()) {
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:messageSystem.GetFileReq.session_id)
-}
-
-// repeated string file_id_list = 4;
+// repeated string file_id_list = 2;
 inline int GetFileReq::_internal_file_id_list_size() const {
   return _impl_.file_id_list_.size();
 }
@@ -1480,193 +1268,92 @@ GetFileRsp::mutable_file_data() {
 
 // PutFileReq
 
-// string request_id = 1;
-inline void PutFileReq::clear_request_id() {
-  _impl_.request_id_.ClearToEmpty();
+// .messageSystem.CommReq request = 1;
+inline bool PutFileReq::_internal_has_request() const {
+  return this != internal_default_instance() && _impl_.request_ != nullptr;
 }
-inline const std::string& PutFileReq::request_id() const {
-  // @@protoc_insertion_point(field_get:messageSystem.PutFileReq.request_id)
-  return _internal_request_id();
+inline bool PutFileReq::has_request() const {
+  return _internal_has_request();
 }
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void PutFileReq::set_request_id(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.request_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:messageSystem.PutFileReq.request_id)
+inline const ::messageSystem::CommReq& PutFileReq::_internal_request() const {
+  const ::messageSystem::CommReq* p = _impl_.request_;
+  return p != nullptr ? *p : reinterpret_cast<const ::messageSystem::CommReq&>(
+      ::messageSystem::_CommReq_default_instance_);
 }
-inline std::string* PutFileReq::mutable_request_id() {
-  std::string* _s = _internal_mutable_request_id();
-  // @@protoc_insertion_point(field_mutable:messageSystem.PutFileReq.request_id)
-  return _s;
+inline const ::messageSystem::CommReq& PutFileReq::request() const {
+  // @@protoc_insertion_point(field_get:messageSystem.PutFileReq.request)
+  return _internal_request();
 }
-inline const std::string& PutFileReq::_internal_request_id() const {
-  return _impl_.request_id_.Get();
-}
-inline void PutFileReq::_internal_set_request_id(const std::string& value) {
-  
-  _impl_.request_id_.Set(value, GetArenaForAllocation());
-}
-inline std::string* PutFileReq::_internal_mutable_request_id() {
-  
-  return _impl_.request_id_.Mutable(GetArenaForAllocation());
-}
-inline std::string* PutFileReq::release_request_id() {
-  // @@protoc_insertion_point(field_release:messageSystem.PutFileReq.request_id)
-  return _impl_.request_id_.Release();
-}
-inline void PutFileReq::set_allocated_request_id(std::string* request_id) {
-  if (request_id != nullptr) {
+inline void PutFileReq::unsafe_arena_set_allocated_request(
+    ::messageSystem::CommReq* request) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.request_);
+  }
+  _impl_.request_ = request;
+  if (request) {
     
   } else {
     
   }
-  _impl_.request_id_.SetAllocated(request_id, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.request_id_.IsDefault()) {
-    _impl_.request_id_.Set("", GetArenaForAllocation());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:messageSystem.PutFileReq.request)
+}
+inline ::messageSystem::CommReq* PutFileReq::release_request() {
+  
+  ::messageSystem::CommReq* temp = _impl_.request_;
+  _impl_.request_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
   }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:messageSystem.PutFileReq.request_id)
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
 }
-
-// optional string user_id = 2;
-inline bool PutFileReq::_internal_has_user_id() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  return value;
+inline ::messageSystem::CommReq* PutFileReq::unsafe_arena_release_request() {
+  // @@protoc_insertion_point(field_release:messageSystem.PutFileReq.request)
+  
+  ::messageSystem::CommReq* temp = _impl_.request_;
+  _impl_.request_ = nullptr;
+  return temp;
 }
-inline bool PutFileReq::has_user_id() const {
-  return _internal_has_user_id();
-}
-inline void PutFileReq::clear_user_id() {
-  _impl_.user_id_.ClearToEmpty();
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-inline const std::string& PutFileReq::user_id() const {
-  // @@protoc_insertion_point(field_get:messageSystem.PutFileReq.user_id)
-  return _internal_user_id();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void PutFileReq::set_user_id(ArgT0&& arg0, ArgT... args) {
- _impl_._has_bits_[0] |= 0x00000001u;
- _impl_.user_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:messageSystem.PutFileReq.user_id)
-}
-inline std::string* PutFileReq::mutable_user_id() {
-  std::string* _s = _internal_mutable_user_id();
-  // @@protoc_insertion_point(field_mutable:messageSystem.PutFileReq.user_id)
-  return _s;
-}
-inline const std::string& PutFileReq::_internal_user_id() const {
-  return _impl_.user_id_.Get();
-}
-inline void PutFileReq::_internal_set_user_id(const std::string& value) {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.user_id_.Set(value, GetArenaForAllocation());
-}
-inline std::string* PutFileReq::_internal_mutable_user_id() {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  return _impl_.user_id_.Mutable(GetArenaForAllocation());
-}
-inline std::string* PutFileReq::release_user_id() {
-  // @@protoc_insertion_point(field_release:messageSystem.PutFileReq.user_id)
-  if (!_internal_has_user_id()) {
-    return nullptr;
+inline ::messageSystem::CommReq* PutFileReq::_internal_mutable_request() {
+  
+  if (_impl_.request_ == nullptr) {
+    auto* p = CreateMaybeMessage<::messageSystem::CommReq>(GetArenaForAllocation());
+    _impl_.request_ = p;
   }
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  auto* p = _impl_.user_id_.Release();
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.user_id_.IsDefault()) {
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  return p;
+  return _impl_.request_;
 }
-inline void PutFileReq::set_allocated_user_id(std::string* user_id) {
-  if (user_id != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000001u;
+inline ::messageSystem::CommReq* PutFileReq::mutable_request() {
+  ::messageSystem::CommReq* _msg = _internal_mutable_request();
+  // @@protoc_insertion_point(field_mutable:messageSystem.PutFileReq.request)
+  return _msg;
+}
+inline void PutFileReq::set_allocated_request(::messageSystem::CommReq* request) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.request_);
+  }
+  if (request) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(request));
+    if (message_arena != submessage_arena) {
+      request = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, request, submessage_arena);
+    }
+    
   } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
+    
   }
-  _impl_.user_id_.SetAllocated(user_id, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.user_id_.IsDefault()) {
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:messageSystem.PutFileReq.user_id)
+  _impl_.request_ = request;
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.PutFileReq.request)
 }
 
-// optional string session_id = 3;
-inline bool PutFileReq::_internal_has_session_id() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
-  return value;
-}
-inline bool PutFileReq::has_session_id() const {
-  return _internal_has_session_id();
-}
-inline void PutFileReq::clear_session_id() {
-  _impl_.session_id_.ClearToEmpty();
-  _impl_._has_bits_[0] &= ~0x00000002u;
-}
-inline const std::string& PutFileReq::session_id() const {
-  // @@protoc_insertion_point(field_get:messageSystem.PutFileReq.session_id)
-  return _internal_session_id();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void PutFileReq::set_session_id(ArgT0&& arg0, ArgT... args) {
- _impl_._has_bits_[0] |= 0x00000002u;
- _impl_.session_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:messageSystem.PutFileReq.session_id)
-}
-inline std::string* PutFileReq::mutable_session_id() {
-  std::string* _s = _internal_mutable_session_id();
-  // @@protoc_insertion_point(field_mutable:messageSystem.PutFileReq.session_id)
-  return _s;
-}
-inline const std::string& PutFileReq::_internal_session_id() const {
-  return _impl_.session_id_.Get();
-}
-inline void PutFileReq::_internal_set_session_id(const std::string& value) {
-  _impl_._has_bits_[0] |= 0x00000002u;
-  _impl_.session_id_.Set(value, GetArenaForAllocation());
-}
-inline std::string* PutFileReq::_internal_mutable_session_id() {
-  _impl_._has_bits_[0] |= 0x00000002u;
-  return _impl_.session_id_.Mutable(GetArenaForAllocation());
-}
-inline std::string* PutFileReq::release_session_id() {
-  // @@protoc_insertion_point(field_release:messageSystem.PutFileReq.session_id)
-  if (!_internal_has_session_id()) {
-    return nullptr;
-  }
-  _impl_._has_bits_[0] &= ~0x00000002u;
-  auto* p = _impl_.session_id_.Release();
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.session_id_.IsDefault()) {
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  return p;
-}
-inline void PutFileReq::set_allocated_session_id(std::string* session_id) {
-  if (session_id != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000002u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000002u;
-  }
-  _impl_.session_id_.SetAllocated(session_id, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.session_id_.IsDefault()) {
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:messageSystem.PutFileReq.session_id)
-}
-
-// repeated .messageSystem.FileUploadData file_data = 4;
+// repeated .messageSystem.FileUploadData file_data = 2;
 inline int PutFileReq::_internal_file_data_size() const {
   return _impl_.file_data_.size();
 }
@@ -1707,193 +1394,92 @@ PutFileReq::file_data() const {
 
 // DeleteFileReq
 
-// string request_id = 1;
-inline void DeleteFileReq::clear_request_id() {
-  _impl_.request_id_.ClearToEmpty();
+// .messageSystem.CommReq request = 1;
+inline bool DeleteFileReq::_internal_has_request() const {
+  return this != internal_default_instance() && _impl_.request_ != nullptr;
 }
-inline const std::string& DeleteFileReq::request_id() const {
-  // @@protoc_insertion_point(field_get:messageSystem.DeleteFileReq.request_id)
-  return _internal_request_id();
+inline bool DeleteFileReq::has_request() const {
+  return _internal_has_request();
 }
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void DeleteFileReq::set_request_id(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.request_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:messageSystem.DeleteFileReq.request_id)
+inline const ::messageSystem::CommReq& DeleteFileReq::_internal_request() const {
+  const ::messageSystem::CommReq* p = _impl_.request_;
+  return p != nullptr ? *p : reinterpret_cast<const ::messageSystem::CommReq&>(
+      ::messageSystem::_CommReq_default_instance_);
 }
-inline std::string* DeleteFileReq::mutable_request_id() {
-  std::string* _s = _internal_mutable_request_id();
-  // @@protoc_insertion_point(field_mutable:messageSystem.DeleteFileReq.request_id)
-  return _s;
+inline const ::messageSystem::CommReq& DeleteFileReq::request() const {
+  // @@protoc_insertion_point(field_get:messageSystem.DeleteFileReq.request)
+  return _internal_request();
 }
-inline const std::string& DeleteFileReq::_internal_request_id() const {
-  return _impl_.request_id_.Get();
-}
-inline void DeleteFileReq::_internal_set_request_id(const std::string& value) {
-  
-  _impl_.request_id_.Set(value, GetArenaForAllocation());
-}
-inline std::string* DeleteFileReq::_internal_mutable_request_id() {
-  
-  return _impl_.request_id_.Mutable(GetArenaForAllocation());
-}
-inline std::string* DeleteFileReq::release_request_id() {
-  // @@protoc_insertion_point(field_release:messageSystem.DeleteFileReq.request_id)
-  return _impl_.request_id_.Release();
-}
-inline void DeleteFileReq::set_allocated_request_id(std::string* request_id) {
-  if (request_id != nullptr) {
+inline void DeleteFileReq::unsafe_arena_set_allocated_request(
+    ::messageSystem::CommReq* request) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.request_);
+  }
+  _impl_.request_ = request;
+  if (request) {
     
   } else {
     
   }
-  _impl_.request_id_.SetAllocated(request_id, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.request_id_.IsDefault()) {
-    _impl_.request_id_.Set("", GetArenaForAllocation());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:messageSystem.DeleteFileReq.request)
+}
+inline ::messageSystem::CommReq* DeleteFileReq::release_request() {
+  
+  ::messageSystem::CommReq* temp = _impl_.request_;
+  _impl_.request_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
   }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:messageSystem.DeleteFileReq.request_id)
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
 }
-
-// optional string user_id = 2;
-inline bool DeleteFileReq::_internal_has_user_id() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  return value;
+inline ::messageSystem::CommReq* DeleteFileReq::unsafe_arena_release_request() {
+  // @@protoc_insertion_point(field_release:messageSystem.DeleteFileReq.request)
+  
+  ::messageSystem::CommReq* temp = _impl_.request_;
+  _impl_.request_ = nullptr;
+  return temp;
 }
-inline bool DeleteFileReq::has_user_id() const {
-  return _internal_has_user_id();
-}
-inline void DeleteFileReq::clear_user_id() {
-  _impl_.user_id_.ClearToEmpty();
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-inline const std::string& DeleteFileReq::user_id() const {
-  // @@protoc_insertion_point(field_get:messageSystem.DeleteFileReq.user_id)
-  return _internal_user_id();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void DeleteFileReq::set_user_id(ArgT0&& arg0, ArgT... args) {
- _impl_._has_bits_[0] |= 0x00000001u;
- _impl_.user_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:messageSystem.DeleteFileReq.user_id)
-}
-inline std::string* DeleteFileReq::mutable_user_id() {
-  std::string* _s = _internal_mutable_user_id();
-  // @@protoc_insertion_point(field_mutable:messageSystem.DeleteFileReq.user_id)
-  return _s;
-}
-inline const std::string& DeleteFileReq::_internal_user_id() const {
-  return _impl_.user_id_.Get();
-}
-inline void DeleteFileReq::_internal_set_user_id(const std::string& value) {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.user_id_.Set(value, GetArenaForAllocation());
-}
-inline std::string* DeleteFileReq::_internal_mutable_user_id() {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  return _impl_.user_id_.Mutable(GetArenaForAllocation());
-}
-inline std::string* DeleteFileReq::release_user_id() {
-  // @@protoc_insertion_point(field_release:messageSystem.DeleteFileReq.user_id)
-  if (!_internal_has_user_id()) {
-    return nullptr;
+inline ::messageSystem::CommReq* DeleteFileReq::_internal_mutable_request() {
+  
+  if (_impl_.request_ == nullptr) {
+    auto* p = CreateMaybeMessage<::messageSystem::CommReq>(GetArenaForAllocation());
+    _impl_.request_ = p;
   }
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  auto* p = _impl_.user_id_.Release();
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.user_id_.IsDefault()) {
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  return p;
+  return _impl_.request_;
 }
-inline void DeleteFileReq::set_allocated_user_id(std::string* user_id) {
-  if (user_id != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000001u;
+inline ::messageSystem::CommReq* DeleteFileReq::mutable_request() {
+  ::messageSystem::CommReq* _msg = _internal_mutable_request();
+  // @@protoc_insertion_point(field_mutable:messageSystem.DeleteFileReq.request)
+  return _msg;
+}
+inline void DeleteFileReq::set_allocated_request(::messageSystem::CommReq* request) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.request_);
+  }
+  if (request) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(request));
+    if (message_arena != submessage_arena) {
+      request = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, request, submessage_arena);
+    }
+    
   } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
+    
   }
-  _impl_.user_id_.SetAllocated(user_id, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.user_id_.IsDefault()) {
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:messageSystem.DeleteFileReq.user_id)
+  _impl_.request_ = request;
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.DeleteFileReq.request)
 }
 
-// optional string session_id = 3;
-inline bool DeleteFileReq::_internal_has_session_id() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
-  return value;
-}
-inline bool DeleteFileReq::has_session_id() const {
-  return _internal_has_session_id();
-}
-inline void DeleteFileReq::clear_session_id() {
-  _impl_.session_id_.ClearToEmpty();
-  _impl_._has_bits_[0] &= ~0x00000002u;
-}
-inline const std::string& DeleteFileReq::session_id() const {
-  // @@protoc_insertion_point(field_get:messageSystem.DeleteFileReq.session_id)
-  return _internal_session_id();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void DeleteFileReq::set_session_id(ArgT0&& arg0, ArgT... args) {
- _impl_._has_bits_[0] |= 0x00000002u;
- _impl_.session_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:messageSystem.DeleteFileReq.session_id)
-}
-inline std::string* DeleteFileReq::mutable_session_id() {
-  std::string* _s = _internal_mutable_session_id();
-  // @@protoc_insertion_point(field_mutable:messageSystem.DeleteFileReq.session_id)
-  return _s;
-}
-inline const std::string& DeleteFileReq::_internal_session_id() const {
-  return _impl_.session_id_.Get();
-}
-inline void DeleteFileReq::_internal_set_session_id(const std::string& value) {
-  _impl_._has_bits_[0] |= 0x00000002u;
-  _impl_.session_id_.Set(value, GetArenaForAllocation());
-}
-inline std::string* DeleteFileReq::_internal_mutable_session_id() {
-  _impl_._has_bits_[0] |= 0x00000002u;
-  return _impl_.session_id_.Mutable(GetArenaForAllocation());
-}
-inline std::string* DeleteFileReq::release_session_id() {
-  // @@protoc_insertion_point(field_release:messageSystem.DeleteFileReq.session_id)
-  if (!_internal_has_session_id()) {
-    return nullptr;
-  }
-  _impl_._has_bits_[0] &= ~0x00000002u;
-  auto* p = _impl_.session_id_.Release();
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.session_id_.IsDefault()) {
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  return p;
-}
-inline void DeleteFileReq::set_allocated_session_id(std::string* session_id) {
-  if (session_id != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000002u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000002u;
-  }
-  _impl_.session_id_.SetAllocated(session_id, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.session_id_.IsDefault()) {
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:messageSystem.DeleteFileReq.session_id)
-}
-
-// repeated string file_id_list = 4;
+// repeated string file_id_list = 2;
 inline int DeleteFileReq::_internal_file_id_list_size() const {
   return _impl_.file_id_list_.size();
 }

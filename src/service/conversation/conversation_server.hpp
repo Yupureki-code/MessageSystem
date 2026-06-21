@@ -67,7 +67,7 @@ namespace messageSystem
         {
             brpc::ClosureGuard rpc_guard(done);
             CommRsp* comm_rep = response->mutable_response();
-            std::string rid = request->request_id();
+            std::string rid = request->request().request_id();
             std::vector<ConversationMember> members;
             Conversation c;
             int size = request->comm_uid_size();
@@ -75,7 +75,7 @@ namespace messageSystem
             {
                 members.resize(size + 1);
                 members[size].power = ConversationMemberPower::OWNER;
-                members[size].uid = stoi(request->owner_uid());
+                members[size].uid = stoi(request->request().uid());
                 c.name = request->group_conversation_name();
                 c.type = ConversationType::GROUP;
             }
@@ -107,8 +107,8 @@ namespace messageSystem
                     ::google::protobuf::Closure* done) override
         {
             brpc::ClosureGuard rpc_guard(done);
-            std::string rid = request->request_id();
-            std::string owner_id = request->owner_uid();
+            std::string rid = request->request().request_id();
+            std::string owner_id = request->request().uid();
             std::string cid = request->conversaion_id();
             auto rep = _db->removeConversation(cid, owner_id);
             if (!rep.status)
@@ -126,9 +126,9 @@ namespace messageSystem
                     ::google::protobuf::Closure* done) override
         {
             brpc::ClosureGuard rpc_guard(done);
-            std::string rid = request->request_id();
+            std::string rid = request->request().request_id();
             std::string cid = request->conversaion_id();
-            std::string uid = request->uid();
+            std::string uid = request->request().uid();
 
             ConversationMember member;
             member.conversation_id = std::stoi(cid);
@@ -151,9 +151,9 @@ namespace messageSystem
                     ::google::protobuf::Closure* done) override
         {
             brpc::ClosureGuard rpc_guard(done);
-            std::string rid = request->request_id();
+            std::string rid = request->request().request_id();
             std::string cid = request->conversaion_id();
-            std::string uid = request->uid();
+            std::string uid = request->request().uid();
 
             auto rep = _db->exitConversation(cid, uid);
             if (!rep.status)
@@ -171,9 +171,9 @@ namespace messageSystem
                     ::google::protobuf::Closure* done) override
         {
             brpc::ClosureGuard rpc_guard(done);
-            std::string rid = request->request_id();
+            std::string rid = request->request().request_id();
             std::string cid = request->conversaion_id();
-            std::string owner_id = request->owner_uid();
+            std::string owner_id = request->request().uid();
             std::string uid = request->uid();
             int power = request->power();
 
@@ -194,7 +194,7 @@ namespace messageSystem
         {
             brpc::ClosureGuard rpc_guard(done);
             CommRsp* comm_rep = response->mutable_response();
-            std::string rid = request->request_id();
+            std::string rid = request->request().request_id();
             std::string cid = request->conversaion_id();
 
             // 1. 从ES获取会话成员列表
@@ -247,7 +247,7 @@ namespace messageSystem
         {
             brpc::ClosureGuard rpc_guard(done);
             CommRsp* comm_rep = response->mutable_response();
-            std::string rid = request->request_id();
+            std::string rid = request->request().request_id();
             std::string cid = request->conversaion_id();
             std::string cname = request->conversaion_name();
             std::vector<Conversation> find_conversations;

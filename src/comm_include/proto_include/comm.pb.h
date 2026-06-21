@@ -46,6 +46,9 @@ struct TableStruct_comm_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_comm_2eproto;
 namespace messageSystem {
+class CommReq;
+struct CommReqDefaultTypeInternal;
+extern CommReqDefaultTypeInternal _CommReq_default_instance_;
 class CommRsp;
 struct CommRspDefaultTypeInternal;
 extern CommRspDefaultTypeInternal _CommRsp_default_instance_;
@@ -81,6 +84,7 @@ struct UserInfoDefaultTypeInternal;
 extern UserInfoDefaultTypeInternal _UserInfo_default_instance_;
 }  // namespace messageSystem
 PROTOBUF_NAMESPACE_OPEN
+template<> ::messageSystem::CommReq* Arena::CreateMaybeMessage<::messageSystem::CommReq>(Arena*);
 template<> ::messageSystem::CommRsp* Arena::CreateMaybeMessage<::messageSystem::CommRsp>(Arena*);
 template<> ::messageSystem::ConversationInfo* Arena::CreateMaybeMessage<::messageSystem::ConversationInfo>(Arena*);
 template<> ::messageSystem::FileDownloadData* Arena::CreateMaybeMessage<::messageSystem::FileDownloadData>(Arena*);
@@ -123,6 +127,191 @@ inline bool MessageType_Parse(
     MessageType_descriptor(), name, value);
 }
 // ===================================================================
+
+class CommReq final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:messageSystem.CommReq) */ {
+ public:
+  inline CommReq() : CommReq(nullptr) {}
+  ~CommReq() override;
+  explicit PROTOBUF_CONSTEXPR CommReq(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  CommReq(const CommReq& from);
+  CommReq(CommReq&& from) noexcept
+    : CommReq() {
+    *this = ::std::move(from);
+  }
+
+  inline CommReq& operator=(const CommReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CommReq& operator=(CommReq&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CommReq& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CommReq* internal_default_instance() {
+    return reinterpret_cast<const CommReq*>(
+               &_CommReq_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    0;
+
+  friend void swap(CommReq& a, CommReq& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CommReq* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CommReq* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  CommReq* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<CommReq>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const CommReq& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const CommReq& from) {
+    CommReq::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CommReq* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "messageSystem.CommReq";
+  }
+  protected:
+  explicit CommReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRequestIdFieldNumber = 1,
+    kUidFieldNumber = 2,
+    kTokenFieldNumber = 3,
+  };
+  // string request_id = 1;
+  void clear_request_id();
+  const std::string& request_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_request_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_request_id();
+  PROTOBUF_NODISCARD std::string* release_request_id();
+  void set_allocated_request_id(std::string* request_id);
+  private:
+  const std::string& _internal_request_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_request_id(const std::string& value);
+  std::string* _internal_mutable_request_id();
+  public:
+
+  // string uid = 2;
+  void clear_uid();
+  const std::string& uid() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_uid(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_uid();
+  PROTOBUF_NODISCARD std::string* release_uid();
+  void set_allocated_uid(std::string* uid);
+  private:
+  const std::string& _internal_uid() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_uid(const std::string& value);
+  std::string* _internal_mutable_uid();
+  public:
+
+  // string token = 3;
+  void clear_token();
+  const std::string& token() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_token(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_token();
+  PROTOBUF_NODISCARD std::string* release_token();
+  void set_allocated_token(std::string* token);
+  private:
+  const std::string& _internal_token() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_token(const std::string& value);
+  std::string* _internal_mutable_token();
+  public:
+
+  // @@protoc_insertion_point(class_scope:messageSystem.CommReq)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr request_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr uid_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr token_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_comm_2eproto;
+};
+// -------------------------------------------------------------------
 
 class CommRsp final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:messageSystem.CommRsp) */ {
@@ -172,7 +361,7 @@ class CommRsp final :
                &_CommRsp_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    0;
+    1;
 
   friend void swap(CommRsp& a, CommRsp& b) {
     a.Swap(&b);
@@ -352,7 +541,7 @@ class UserInfo final :
                &_UserInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    2;
 
   friend void swap(UserInfo& a, UserInfo& b) {
     a.Swap(&b);
@@ -591,7 +780,7 @@ class ConversationInfo final :
                &_ConversationInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    3;
 
   friend void swap(ConversationInfo& a, ConversationInfo& b) {
     a.Swap(&b);
@@ -858,7 +1047,7 @@ class StringMessageInfo final :
                &_StringMessageInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
   friend void swap(StringMessageInfo& a, StringMessageInfo& b) {
     a.Swap(&b);
@@ -1011,7 +1200,7 @@ class ImageMessageInfo final :
                &_ImageMessageInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    5;
 
   friend void swap(ImageMessageInfo& a, ImageMessageInfo& b) {
     a.Swap(&b);
@@ -1189,7 +1378,7 @@ class FileMessageInfo final :
                &_FileMessageInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    6;
 
   friend void swap(FileMessageInfo& a, FileMessageInfo& b) {
     a.Swap(&b);
@@ -1402,7 +1591,7 @@ class SpeechMessageInfo final :
                &_SpeechMessageInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    7;
 
   friend void swap(SpeechMessageInfo& a, SpeechMessageInfo& b) {
     a.Swap(&b);
@@ -1588,7 +1777,7 @@ class MessageContent final :
                &_MessageContent_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    8;
 
   friend void swap(MessageContent& a, MessageContent& b) {
     a.Swap(&b);
@@ -1831,7 +2020,7 @@ class MessageInfo final :
                &_MessageInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    9;
 
   friend void swap(MessageInfo& a, MessageInfo& b) {
     a.Swap(&b);
@@ -2047,7 +2236,7 @@ class FileDownloadData final :
                &_FileDownloadData_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    10;
 
   friend void swap(FileDownloadData& a, FileDownloadData& b) {
     a.Swap(&b);
@@ -2216,7 +2405,7 @@ class FileUploadData final :
                &_FileUploadData_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    11;
 
   friend void swap(FileUploadData& a, FileUploadData& b) {
     a.Swap(&b);
@@ -2355,6 +2544,160 @@ class FileUploadData final :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// CommReq
+
+// string request_id = 1;
+inline void CommReq::clear_request_id() {
+  _impl_.request_id_.ClearToEmpty();
+}
+inline const std::string& CommReq::request_id() const {
+  // @@protoc_insertion_point(field_get:messageSystem.CommReq.request_id)
+  return _internal_request_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void CommReq::set_request_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.request_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.CommReq.request_id)
+}
+inline std::string* CommReq::mutable_request_id() {
+  std::string* _s = _internal_mutable_request_id();
+  // @@protoc_insertion_point(field_mutable:messageSystem.CommReq.request_id)
+  return _s;
+}
+inline const std::string& CommReq::_internal_request_id() const {
+  return _impl_.request_id_.Get();
+}
+inline void CommReq::_internal_set_request_id(const std::string& value) {
+  
+  _impl_.request_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* CommReq::_internal_mutable_request_id() {
+  
+  return _impl_.request_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* CommReq::release_request_id() {
+  // @@protoc_insertion_point(field_release:messageSystem.CommReq.request_id)
+  return _impl_.request_id_.Release();
+}
+inline void CommReq::set_allocated_request_id(std::string* request_id) {
+  if (request_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.request_id_.SetAllocated(request_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.request_id_.IsDefault()) {
+    _impl_.request_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.CommReq.request_id)
+}
+
+// string uid = 2;
+inline void CommReq::clear_uid() {
+  _impl_.uid_.ClearToEmpty();
+}
+inline const std::string& CommReq::uid() const {
+  // @@protoc_insertion_point(field_get:messageSystem.CommReq.uid)
+  return _internal_uid();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void CommReq::set_uid(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.uid_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.CommReq.uid)
+}
+inline std::string* CommReq::mutable_uid() {
+  std::string* _s = _internal_mutable_uid();
+  // @@protoc_insertion_point(field_mutable:messageSystem.CommReq.uid)
+  return _s;
+}
+inline const std::string& CommReq::_internal_uid() const {
+  return _impl_.uid_.Get();
+}
+inline void CommReq::_internal_set_uid(const std::string& value) {
+  
+  _impl_.uid_.Set(value, GetArenaForAllocation());
+}
+inline std::string* CommReq::_internal_mutable_uid() {
+  
+  return _impl_.uid_.Mutable(GetArenaForAllocation());
+}
+inline std::string* CommReq::release_uid() {
+  // @@protoc_insertion_point(field_release:messageSystem.CommReq.uid)
+  return _impl_.uid_.Release();
+}
+inline void CommReq::set_allocated_uid(std::string* uid) {
+  if (uid != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.uid_.SetAllocated(uid, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.uid_.IsDefault()) {
+    _impl_.uid_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.CommReq.uid)
+}
+
+// string token = 3;
+inline void CommReq::clear_token() {
+  _impl_.token_.ClearToEmpty();
+}
+inline const std::string& CommReq::token() const {
+  // @@protoc_insertion_point(field_get:messageSystem.CommReq.token)
+  return _internal_token();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void CommReq::set_token(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.token_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:messageSystem.CommReq.token)
+}
+inline std::string* CommReq::mutable_token() {
+  std::string* _s = _internal_mutable_token();
+  // @@protoc_insertion_point(field_mutable:messageSystem.CommReq.token)
+  return _s;
+}
+inline const std::string& CommReq::_internal_token() const {
+  return _impl_.token_.Get();
+}
+inline void CommReq::_internal_set_token(const std::string& value) {
+  
+  _impl_.token_.Set(value, GetArenaForAllocation());
+}
+inline std::string* CommReq::_internal_mutable_token() {
+  
+  return _impl_.token_.Mutable(GetArenaForAllocation());
+}
+inline std::string* CommReq::release_token() {
+  // @@protoc_insertion_point(field_release:messageSystem.CommReq.token)
+  return _impl_.token_.Release();
+}
+inline void CommReq::set_allocated_token(std::string* token) {
+  if (token != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.token_.SetAllocated(token, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.token_.IsDefault()) {
+    _impl_.token_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:messageSystem.CommReq.token)
+}
+
+// -------------------------------------------------------------------
+
 // CommRsp
 
 // string request_id = 1;
@@ -4553,6 +4896,8 @@ inline void FileUploadData::set_allocated_file_content(std::string* file_content
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

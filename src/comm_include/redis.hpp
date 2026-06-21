@@ -5,6 +5,7 @@
 #include <memory>
 #include <sw/redis++/redis++.h>
 #include <string>
+#include <sw/redis++/utils.h>
 #include "latecymonitor.hpp"
 #include "comm.hpp"
 
@@ -64,22 +65,14 @@ namespace redis
             }
             return rep;
         }
-        Response get(const std::string& key,std::string* value)
+        Response get(const std::string& key,OptionalString* value)
         {
             Response rep;
             std::string full = _business + ":" + _env + ":" + _version + ":" + key;
             Timer t(_monitor,"get " + key);
             try
             {
-                auto ret = _redis->get(full);
-                if(!ret)
-                {
-                    rep.status = false;
-                    rep.errmsg = "key不存在";
-                    return rep;
-                }
-                *value = *ret;
-                rep.status = true;
+                *value = _redis->get(full);
             }
             catch(const Error& e)
             {
@@ -141,14 +134,14 @@ namespace redis
             }
             return rep;
         }
-        Response hget(const std::string& hash,const std::string& key,std::string* value)
+        Response hget(const std::string& hash,const std::string& key,OptionalString* value)
         {
             Response rep;
             std::string full = _business + ":" + _env + ":" + _version + ":" + hash;
             Timer t(_monitor,"hget " + full);
             try
             {
-                *value = _redis->hget(hash,key).value();
+                *value = _redis->hget(hash,key);
             }
             catch(const Error& e)
             {

@@ -3,6 +3,7 @@
 #include <cctype>
 #include <functional>
 #include <memory>
+#include <sw/redis++/utils.h>
 #include <vector>
 #include <odb/database.hxx>
 #include <odb/transaction.hxx>
@@ -23,7 +24,7 @@ namespace messageSystem
 {
     class UserServiceImpl : public UserService
     {
-    public:
+    private:
         bool checkPassword(const std::string& str)
         {
             if(str.size() < 6 || str.size() > 40)
@@ -60,65 +61,6 @@ namespace messageSystem
         {
             _services = services;
         }
-        virtual void UserRegister(::google::protobuf::RpcController* controller,
-            const ::messageSystem::UserRegisterReq* request,
-            ::messageSystem::UserRegisterRsp* response,
-            ::google::protobuf::Closure* done)
-        {
-            LOG_DEBUG("收到用户注册请求！");
-            brpc::ClosureGuard rpc_guard(done);
-            std::string rid = request->request_id();
-            std::string name = request->nickname();
-            std::string password = request->password();
-            CommRsp* rep = response->mutable_response();
-            if (!checkName(name))
-            {
-                LOG_ERROR("{} - 用户名长度不合法:{}！", rid, name);
-                HandlerError(rep, rid, false, "用户名长度不合法");
-                return;
-            }
-            if (!checkPassword(password))
-            {
-                LOG_ERROR("{} - 密码格式不合法！", rid);
-                HandlerError(rep, rid, false, "密码格式不合法");
-                return;
-            }
-            std::shared_ptr<User> user;
-            auto select_rep = _odb->selectByName(name, &user);
-            if (!select_rep.status)
-            {
-                LOG_ERROR("{} - 查询用户失败:{}！", rid, select_rep.errmsg);
-                HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
-                return;
-            }
-            if (user)
-            {
-                LOG_ERROR("{} - 该用户名已存在:{}！", rid, name);
-                HandlerError(rep, rid, false, "该用户名已存在！");
-                return;
-            }
-            user = std::make_shared<User>();
-            user->name = name;
-            user->password = password;
-            auto insert_rep = _odb->insert(*user);
-            if (!insert_rep.status)
-            {
-                LOG_ERROR("{} - MySQL新增数据失败:{}！", rid, insert_rep.errmsg);
-                HandlerError(rep, rid, false, "MySQL新增数据失败！");
-                return;
-            }
-            ESInsert es;
-            es.add("uid", user->uid).add("name", name).add("password", password);
-            auto es_rep = es.insert("messageSystem", "user", std::to_string(user->uid));
-            if (!es_rep.status)
-            {
-                LOG_ERROR("{} - ES新增数据失败:{}！", rid, es_rep.errmsg);
-                HandlerError(rep, rid, false, "ES新增数据失败");
-                return;
-            }
-            response->mutable_response()->set_status(true);
-            response->mutable_response()->set_request_id(rid);
-        }
         virtual void UserLogin(::google::protobuf::RpcController* controller,
             const ::messageSystem::UserLoginReq* request,
             ::messageSystem::UserLoginRsp* response,
@@ -126,9 +68,9 @@ namespace messageSystem
         {
             LOG_DEBUG("收到用户登录请求！");
             brpc::ClosureGuard rpc_guard(done);
-            CommRsp* rep = response->mutable_response();
             std::string rid = request->request_id();
             std::string uid = request->uid();
+            CommRsp* rep = response->mutable_response();
             std::string name = request->nickname();
             std::string password = request->password();
             std::shared_ptr<User> user;
@@ -153,22 +95,40 @@ namespace messageSystem
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                 return;
             }
+            std::string token = util::StringUtil::generateUniqueName();
+            redis_rep = _redis->setex("token:uid", token,3600);
+            if(!redis_rep.status)
+            {
+                LOG_ERROR("{} - Redis设置失败:{}！", rid, redis_rep.errmsg);
+                HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
+                return;
+            }
+            response->set_token(token);
             rep->set_request_id(rid);
             rep->set_status(true);
-            response->set_login_session_id(ssid);
+        }
+        virtual void UserLoginByToken(::google::protobuf::RpcController* controller,
+            const ::messageSystem::UserLoginByTokenReq* request,
+            ::messageSystem::CommRsp* response,
+            ::google::protobuf::Closure* done)
+        {
+            LOG_DEBUG("收到用户登录请求！");
+            brpc::ClosureGuard rpc_guard(done);
+            std::string token = request->token();
+            std::string rid = request->request_id();
+            response->set_request_id(rid);
         }
         virtual void GetEmailVerifyCode(::google::protobuf::RpcController* controller,
             const ::messageSystem::EmailVerifyCodeReq* request,
-            ::messageSystem::EmailVerifyCodeRsp* response,
+            ::messageSystem::CommRsp* response,
             ::google::protobuf::Closure* done)
         {
             std::string email = request->email();
             std::string rid = request->request_id();
-            CommRsp* rep = response->mutable_response();
             if (!_mail->IsValidEmail(email))
             {
                 LOG_INFO("{} - 邮箱非法(email):{}!", rid, email);
-                HandlerError(rep, rid, false, "邮箱非法!");
+                HandlerError(response, rid, false, "邮箱非法!");
                 return;
             }
             std::string code;
@@ -179,40 +139,38 @@ namespace messageSystem
             if (!ret.ok)
             {
                 LOG_INFO("{} - 发送邮件验证码失败(error):{}!", rid, ret.error);
-                HandlerError(rep, rid, false, ret.error);
+                HandlerError(response, rid, false, ret.error);
                 return;
             }
             auto redis_rep = _redis->setex(email, code,300);
             if (!redis_rep.status)
             {
                 LOG_ERROR("{} - Redis设置失败:{}！", rid, redis_rep.errmsg);
-                HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
+                HandlerError(response, rid, false, "服务器繁忙，请稍后重试!");
                 return;
             }
-            rep->set_request_id(request->request_id());
-            rep->set_status(true);
-            response->set_verify_code_id(code);
+            response->set_request_id(request->request_id());
+            response->set_status(true);
             LOG_DEBUG("获取邮件验证码处理完成！");
         }
         virtual void EmailRegister(::google::protobuf::RpcController* controller,
             const ::messageSystem::EmailRegisterReq* request,
-            ::messageSystem::EmailRegisterRsp* response,
+            ::messageSystem::CommRsp* rep,
             ::google::protobuf::Closure* done)
         {
             LOG_DEBUG("收到邮箱注册请求！");
             brpc::ClosureGuard rpc_guard(done);
             std::string email = request->email();
             std::string rid = request->request_id();
-            CommRsp* rep = response->mutable_response();
             if (!_mail->IsValidEmail(email))
             {
                 LOG_INFO("{} - 邮箱非法:{}!", rid, email);
                 HandlerError(rep, rid, false, "邮箱非法!");
                 return;
             }
-            std::string code;
+            sw::redis::OptionalString code;
             auto get_rep = _redis->get(email, &code);
-            if (!get_rep.status || code != request->verify_code())
+            if (!get_rep.status || !code || code != request->verify_code())
             {
                 LOG_INFO("{} - 验证码错误(email):{}!", rid, email);
                 HandlerError(rep, rid, false, "验证码错误!");
@@ -262,16 +220,16 @@ namespace messageSystem
             brpc::ClosureGuard rpc_guard(done);
             std::string email = request->email();
             std::string rid = request->request_id();
-            CommRsp* rep = response->mutable_response();
+            CommRsp*rep = response->mutable_response();
             if (!_mail->IsValidEmail(email))
             {
                 LOG_INFO("{} - 邮箱非法(email):{}!", rid, email);
                 HandlerError(rep, rid, false, "邮箱非法!");
                 return;
             }
-            std::string code;
+            sw::redis::OptionalString code;
             auto get_rep = _redis->get(email, &code);
-            if (!get_rep.status || code != request->verify_code())
+            if (!get_rep.status || !code || code != request->verify_code())
             {
                 LOG_INFO("{} - 验证码错误!", rid);
                 HandlerError(rep, rid, false, "验证码错误!");
@@ -300,7 +258,15 @@ namespace messageSystem
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                 return;
             }
-            response->set_login_session_id(ssid);
+            std::string token = util::StringUtil::generateUniqueName();
+            redis_rep = _redis->setex("token:uid", token,3600);
+            if(!redis_rep.status)
+            {
+                LOG_ERROR("{} - Redis设置失败:{}！", rid, redis_rep.errmsg);
+                HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
+                return;
+            }
+            response->set_token(token);
             rep->set_status(true);
             rep->set_request_id(rid);
         }
@@ -313,7 +279,7 @@ namespace messageSystem
             brpc::ClosureGuard rpc_guard(done);
             CommRsp* rep = response->mutable_response();
             std::vector<std::string> uid_lists;
-            std::string rid = request->request_id();
+            std::string rid = request->request().request_id();
             uid_lists.resize(request->users_id_size());
             for (int i = 0; i < request->users_id_size(); i++)
             {
@@ -328,9 +294,10 @@ namespace messageSystem
                 return;
             }
             ServiceChannel::ChannelPtr channel;
-            if (!_services->chooseService(FILE_SERVICE, &channel))
+            Response return_rep = _services->chooseService(FILE_SERVICE, &channel);
+            if (!return_rep.status)
             {
-                LOG_INFO("{} - 未找到文件管理子服务节点:{}！", request->request_id(), FILE_SERVICE);
+                LOG_ERROR("{} - {}",rid,return_rep.errmsg);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                 return;
             }
@@ -346,7 +313,7 @@ namespace messageSystem
             stub.GetMultiFile(&cntl, &req, &rsp, nullptr);
             if (cntl.Failed() || !rsp.success())
             {
-                LOG_INFO("{} - 文件服务异常！", request->request_id());
+                LOG_INFO("{} - 文件服务异常！", rid);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                 return;
             }
@@ -367,15 +334,14 @@ namespace messageSystem
         }
         virtual void SetUserAvatar(::google::protobuf::RpcController* controller,
             const ::messageSystem::SetUserAvatarReq* request,
-            ::messageSystem::SetUserAvatarRsp* response,
+            ::messageSystem::CommRsp* rep,
             ::google::protobuf::Closure* done)
         {
             LOG_DEBUG("收到用户头像设置请求！");
             brpc::ClosureGuard rpc_guard(done);
-            std::string uid = request->user_id();
-            std::string rid = request->request_id();
+            std::string uid = request->request().uid();
+            std::string rid = request->request().request_id();
             std::string avatar_id = util::StringUtil::generateUniqueName();
-            CommRsp* rep = response->mutable_response();
             std::shared_ptr<User> user;
             auto select_rep = _odb->selectById(uid, &user);
             if (!select_rep.status || !user)
@@ -385,9 +351,10 @@ namespace messageSystem
                 return;
             }
             ServiceChannel::ChannelPtr channel;
-            if (!_services->chooseService(FILE_SERVICE, &channel))
+            Response return_rep = _services->chooseService(FILE_SERVICE, &channel);
+            if (!return_rep.status)
             {
-                LOG_INFO("{} - 未找到文件管理子服务节点:{}！", request->request_id(), FILE_SERVICE);
+                LOG_ERROR("{} - {}",rid,return_rep.errmsg);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                 return;
             }
@@ -433,16 +400,15 @@ namespace messageSystem
             rep->set_status(true);
         }
         virtual void SetUserNickname(::google::protobuf::RpcController* controller,
-            const ::messageSystem::SetUserNicknameReq* request,
-            ::messageSystem::SetUserNicknameRsp* response,
+            const ::messageSystem::SetUserNameReq* request,
+            ::messageSystem::CommRsp* rep,
             ::google::protobuf::Closure* done)
         {
             LOG_DEBUG("收到用户昵称设置请求！");
             brpc::ClosureGuard rpc_guard(done);
-            std::string rid = request->request_id();
-            std::string uid = request->user_id();
+            std::string rid = request->request().request_id();
+            std::string uid = request->request().uid();
             std::string new_name = request->nickname();
-            CommRsp* rep = response->mutable_response();
             if (!checkName(new_name))
             {
                 LOG_INFO("{} - 用户名非法(name):{}！", rid, new_name);
@@ -484,15 +450,14 @@ namespace messageSystem
         }
         virtual void SetUserDescription(::google::protobuf::RpcController* controller,
             const ::messageSystem::SetUserDescriptionReq* request,
-            ::messageSystem::SetUserDescriptionRsp* response,
+            ::messageSystem::CommRsp* rep,
             ::google::protobuf::Closure* done)
         {
             LOG_DEBUG("收到用户签名设置请求！");
             brpc::ClosureGuard rpc_guard(done);
-            std::string rid = request->request_id();
-            std::string uid = request->user_id();
-            std::string new_desc = request->description();
-            CommRsp* rep = response->mutable_response();
+            std::string rid = request->request().request_id();
+            std::string uid = request->request().uid();
+            std::string new_desc = request->desc();
             std::shared_ptr<User> user;
             auto select_rep = _odb->selectById(uid, &user);
             if (!select_rep.status || !user)
@@ -527,20 +492,19 @@ namespace messageSystem
             rep->set_status(true);
         }
         virtual void SetUserEmailNumber(::google::protobuf::RpcController* controller,
-            const ::messageSystem::SetUserEmailNumberReq* request,
-            ::messageSystem::SetUserEmailNumberRsp* response,
+            const ::messageSystem::SetUserEmailReq* request,
+            ::messageSystem::CommRsp* rep,
             ::google::protobuf::Closure* done)
         {
             LOG_DEBUG("收到用户邮箱设置请求！");
             brpc::ClosureGuard rpc_guard(done);
-            std::string rid = request->request_id();
-            CommRsp* rep = response->mutable_response();
-            std::string uid = request->user_id();
+            std::string rid = request->request().request_id();
+            std::string uid = request->request().uid();
             std::string new_email = request->email();
             std::string code = request->email_verify_code();
-            std::string vcode;
+            sw::redis::OptionalString vcode;
             auto get_rep = _redis->get(uid, &vcode);
-            if (!get_rep.status || vcode != code)
+            if (!get_rep.status || !vcode|| vcode != code)
             {
                 LOG_INFO("{} - 验证码错误！", rid);
                 HandlerError(rep, rid, false, "验证码错误!");

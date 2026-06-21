@@ -6,9 +6,12 @@
 #include <brpc/callback.h>
 #include <brpc/controller.h>
 #include <functional>
+#include <sw/redis++/utils.h>
 #include <unordered_map>
 #include "../../comm_include/etcd.hpp"
+#include "../../comm_include/redis.hpp"
 #include "../../comm_include/channel.hpp"
+#include "ws_server.hpp"
 
 namespace messageSystem
 {
@@ -35,6 +38,17 @@ namespace messageSystem
             delete cntl;
             delete rid;
             done->Run();
+        }
+        bool CheckToken(const std::string& uid,const std::string token,CommRsp* rsp)
+        {
+            sw::redis::OptionalString value;
+            auto rep = _redis->get("token:" + uid, &value);
+            if(!rep.status || !value || token != value)
+            {
+                HandlerError(rsp, false,"登陆状态过期!");
+                return false;
+            }
+            return true;
         }
     public:
         virtual void GetEmailVerifyCode(::google::protobuf::RpcController* controller,
@@ -125,16 +139,16 @@ namespace messageSystem
             ::google::protobuf::Closure* done)
         {
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
-            std::string uid = request->user_id();
-            std::string sid = request->session_id();
-            // 检查session_id映射
-            if(_sessions.find(uid) == _sessions.end() || _sessions[uid] != sid)
+            CommRsp* rep = response->mutable_response();
+            // 从CommReq获取uid和token进行验证
+            std::string uid = request->request().uid();
+            std::string token = request->request().token();
+            if(!CheckToken(uid, token, rep))
             {
-                HandlerError(response->mutable_response(), false, "用户未登录或session无效!");
                 delete rid;
                 return;
             }
-            request->set_request_id(*rid);
+            request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
             services->chooseService(USER_SERVICE, &channel);
             UserService_Stub stub(channel.get());
@@ -152,16 +166,16 @@ namespace messageSystem
             ::google::protobuf::Closure* done)
         {
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
-            std::string uid = request->user_id();
-            std::string sid = request->session_id();
-            // 检查session_id映射
-            if(_sessions.find(uid) == _sessions.end() || _sessions[uid] != sid)
+            CommRsp* rep = response->mutable_response();
+            // 从CommReq获取uid和token进行验证
+            std::string uid = request->request().uid();
+            std::string token = request->request().token();
+            if(!CheckToken(uid, token, rep))
             {
-                HandlerError(response->mutable_response(), false, "用户未登录或session无效!");
                 delete rid;
                 return;
             }
-            request->set_request_id(*rid);
+            request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
             services->chooseService(USER_SERVICE, &channel);
             UserService_Stub stub(channel.get());
@@ -179,16 +193,15 @@ namespace messageSystem
             ::google::protobuf::Closure* done)
         {
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
-            std::string uid = request->user_id();
-            std::string sid = request->session_id();
-            // 检查session_id映射
-            if(_sessions.find(uid) == _sessions.end() || _sessions[uid] != sid)
+            // 从CommReq获取uid和token进行验证
+            std::string uid = request->request().uid();
+            std::string token = request->request().token();
+            if(!CheckToken(uid, token, response))
             {
-                HandlerError(response, false, "用户未登录或session无效!");
                 delete rid;
                 return;
             }
-            request->set_request_id(*rid);
+            request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
             services->chooseService(USER_SERVICE, &channel);
             UserService_Stub stub(channel.get());
@@ -206,16 +219,15 @@ namespace messageSystem
             ::google::protobuf::Closure* done)
         {
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
-            std::string uid = request->user_id();
-            std::string sid = request->session_id();
-            // 检查session_id映射
-            if(_sessions.find(uid) == _sessions.end() || _sessions[uid] != sid)
+            // 从CommReq获取uid和token进行验证
+            std::string uid = request->request().uid();
+            std::string token = request->request().token();
+            if(!CheckToken(uid, token, response))
             {
-                HandlerError(response, false, "用户未登录或session无效!");
                 delete rid;
                 return;
             }
-            request->set_request_id(*rid);
+            request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
             services->chooseService(USER_SERVICE, &channel);
             UserService_Stub stub(channel.get());
@@ -233,16 +245,15 @@ namespace messageSystem
             ::google::protobuf::Closure* done)
         {
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
-            std::string uid = request->user_id();
-            std::string sid = request->session_id();
-            // 检查session_id映射
-            if(_sessions.find(uid) == _sessions.end() || _sessions[uid] != sid)
+            // 从CommReq获取uid和token进行验证
+            std::string uid = request->request().uid();
+            std::string token = request->request().token();
+            if(!CheckToken(uid, token, response))
             {
-                HandlerError(response, false, "用户未登录或session无效!");
                 delete rid;
                 return;
             }
-            request->set_request_id(*rid);
+            request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
             services->chooseService(USER_SERVICE, &channel);
             UserService_Stub stub(channel.get());
@@ -260,16 +271,15 @@ namespace messageSystem
             ::google::protobuf::Closure* done)
         {
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
-            std::string uid = request->user_id();
-            std::string sid = request->session_id();
-            // 检查session_id映射
-            if(_sessions.find(uid) == _sessions.end() || _sessions[uid] != sid)
+            // 从CommReq获取uid和token进行验证
+            std::string uid = request->request().uid();
+            std::string token = request->request().token();
+            if(!CheckToken(uid, token, response))
             {
-                HandlerError(response, false, "用户未登录或session无效!");
                 delete rid;
                 return;
             }
-            request->set_request_id(*rid);
+            request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
             services->chooseService(USER_SERVICE, &channel);
             UserService_Stub stub(channel.get());
@@ -287,16 +297,16 @@ namespace messageSystem
             ::google::protobuf::Closure* done)
         {
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
-            std::string uid = request->owner_uid();
-            std::string sid = request->session_id();
-            // 检查session_id映射
-            if(_sessions.find(uid) == _sessions.end() || _sessions[uid] != sid)
+            CommRsp* rep = response->mutable_response();
+            // 从CommReq获取uid和token进行验证
+            std::string uid = request->request().uid();
+            std::string token = request->request().token();
+            if(!CheckToken(uid, token, rep))
             {
-                HandlerError(response->mutable_response(), false, "用户未登录或session无效!");
                 delete rid;
                 return;
             }
-            request->set_request_id(*rid);
+            request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
             services->chooseService(CONVERSATION_SERVICE, &channel);
             ConversationServer_Stub stub(channel.get());
@@ -314,16 +324,15 @@ namespace messageSystem
             ::google::protobuf::Closure* done)
         {
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
-            std::string uid = request->owner_uid();
-            std::string sid = request->session_id();
-            // 检查session_id映射
-            if(_sessions.find(uid) == _sessions.end() || _sessions[uid] != sid)
+            // 从CommReq获取uid和token进行验证
+            std::string uid = request->request().uid();
+            std::string token = request->request().token();
+            if(!CheckToken(uid, token, response))
             {
-                HandlerError(response, false, "用户未登录或session无效!");
                 delete rid;
                 return;
             }
-            request->set_request_id(*rid);
+            request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
             services->chooseService(CONVERSATION_SERVICE, &channel);
             ConversationServer_Stub stub(channel.get());
@@ -341,16 +350,15 @@ namespace messageSystem
             ::google::protobuf::Closure* done)
         {
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
-            std::string uid = request->user_id();
-            std::string sid = request->session_id();
-            // 检查session_id映射
-            if(_sessions.find(uid) == _sessions.end() || _sessions[uid] != sid)
+            // 从CommReq获取uid和token进行验证
+            std::string uid = request->request().uid();
+            std::string token = request->request().token();
+            if(!CheckToken(uid, token, response))
             {
-                HandlerError(response, false, "用户未登录或session无效!");
                 delete rid;
                 return;
             }
-            request->set_request_id(*rid);
+            request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
             services->chooseService(CONVERSATION_SERVICE, &channel);
             ConversationServer_Stub stub(channel.get());
@@ -368,16 +376,15 @@ namespace messageSystem
             ::google::protobuf::Closure* done)
         {
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
-            std::string uid = request->user_id();
-            std::string sid = request->session_id();
-            // 检查session_id映射
-            if(_sessions.find(uid) == _sessions.end() || _sessions[uid] != sid)
+            // 从CommReq获取uid和token进行验证
+            std::string uid = request->request().uid();
+            std::string token = request->request().token();
+            if(!CheckToken(uid, token, response))
             {
-                HandlerError(response, false, "用户未登录或session无效!");
                 delete rid;
                 return;
             }
-            request->set_request_id(*rid);
+            request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
             services->chooseService(CONVERSATION_SERVICE, &channel);
             ConversationServer_Stub stub(channel.get());
@@ -395,16 +402,15 @@ namespace messageSystem
             ::google::protobuf::Closure* done)
         {
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
-            std::string uid = request->owner_uid();
-            std::string sid = request->session_id();
-            // 检查session_id映射
-            if(_sessions.find(uid) == _sessions.end() || _sessions[uid] != sid)
+            // 从CommReq获取uid和token进行验证
+            std::string uid = request->request().uid();
+            std::string token = request->request().token();
+            if(!CheckToken(uid, token, response))
             {
-                HandlerError(response, false, "用户未登录或session无效!");
                 delete rid;
                 return;
             }
-            request->set_request_id(*rid);
+            request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
             services->chooseService(CONVERSATION_SERVICE, &channel);
             ConversationServer_Stub stub(channel.get());
@@ -422,16 +428,16 @@ namespace messageSystem
             ::google::protobuf::Closure* done)
         {
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
-            std::string uid = request->user_id();
-            std::string sid = request->session_id();
-            // 检查session_id映射
-            if(_sessions.find(uid) == _sessions.end() || _sessions[uid] != sid)
+            CommRsp* rep = response->mutable_response();
+            // 从CommReq获取uid和token进行验证
+            std::string uid = request->request().uid();
+            std::string token = request->request().token();
+            if(!CheckToken(uid, token, rep))
             {
-                HandlerError(response->mutable_response(), false, "用户未登录或session无效!");
                 delete rid;
                 return;
             }
-            request->set_request_id(*rid);
+            request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
             services->chooseService(CONVERSATION_SERVICE, &channel);
             ConversationServer_Stub stub(channel.get());
@@ -449,16 +455,16 @@ namespace messageSystem
             ::google::protobuf::Closure* done)
         {
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
-            std::string uid = request->user_id();
-            std::string sid = request->session_id();
-            // 检查session_id映射
-            if(_sessions.find(uid) == _sessions.end() || _sessions[uid] != sid)
+            CommRsp* rep = response->mutable_response();
+            // 从CommReq获取uid和token进行验证
+            std::string uid = request->request().uid();
+            std::string token = request->request().token();
+            if(!CheckToken(uid, token, rep))
             {
-                HandlerError(response->mutable_response(), false, "用户未登录或session无效!");
                 delete rid;
                 return;
             }
-            request->set_request_id(*rid);
+            request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
             services->chooseService(CONVERSATION_SERVICE, &channel);
             ConversationServer_Stub stub(channel.get());
@@ -476,16 +482,15 @@ namespace messageSystem
             ::google::protobuf::Closure* done)
         {
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
-            std::string uid = request->uid();
-            std::string sid = request->session_id();
-            // 检查session_id映射
-            if(_sessions.find(uid) == _sessions.end() || _sessions[uid] != sid)
+            // 从CommReq获取uid和token进行验证
+            std::string uid = request->request().uid();
+            std::string token = request->request().token();
+            if(!CheckToken(uid, token, response))
             {
-                HandlerError(response, false, "用户未登录或session无效!");
                 delete rid;
                 return;
             }
-            request->set_request_id(*rid);
+            request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
             services->chooseService(FRIEND_SERVICE, &channel);
             FriendServer_Stub stub(channel.get());
@@ -503,16 +508,15 @@ namespace messageSystem
             ::google::protobuf::Closure* done)
         {
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
-            std::string uid = request->uid();
-            std::string sid = request->session_id();
-            // 检查session_id映射
-            if(_sessions.find(uid) == _sessions.end() || _sessions[uid] != sid)
+            // 从CommReq获取uid和token进行验证
+            std::string uid = request->request().uid();
+            std::string token = request->request().token();
+            if(!CheckToken(uid, token, response))
             {
-                HandlerError(response, false, "用户未登录或session无效!");
                 delete rid;
                 return;
             }
-            request->set_request_id(*rid);
+            request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
             services->chooseService(FRIEND_SERVICE, &channel);
             FriendServer_Stub stub(channel.get());
@@ -530,16 +534,15 @@ namespace messageSystem
             ::google::protobuf::Closure* done)
         {
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
-            std::string uid = request->uid();
-            std::string sid = request->session_id();
-            // 检查session_id映射
-            if(_sessions.find(uid) == _sessions.end() || _sessions[uid] != sid)
+            // 从CommReq获取uid和token进行验证
+            std::string uid = request->request().uid();
+            std::string token = request->request().token();
+            if(!CheckToken(uid, token, response))
             {
-                HandlerError(response, false, "用户未登录或session无效!");
                 delete rid;
                 return;
             }
-            request->set_request_id(*rid);
+            request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
             services->chooseService(FRIEND_SERVICE, &channel);
             FriendServer_Stub stub(channel.get());
@@ -557,16 +560,16 @@ namespace messageSystem
             ::google::protobuf::Closure* done)
         {
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
-            std::string uid = request->uid();
-            std::string sid = request->session_id();
-            // 检查session_id映射
-            if(_sessions.find(uid) == _sessions.end() || _sessions[uid] != sid)
+            CommRsp* rep = response->mutable_response();
+            // 从CommReq获取uid和token进行验证
+            std::string uid = request->request().uid();
+            std::string token = request->request().token();
+            if(!CheckToken(uid, token, rep))
             {
-                HandlerError(response->mutable_response(), false, "用户未登录或session无效!");
                 delete rid;
                 return;
             }
-            request->set_request_id(*rid);
+            request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
             services->chooseService(FRIEND_SERVICE, &channel);
             FriendServer_Stub stub(channel.get());
@@ -584,16 +587,16 @@ namespace messageSystem
             ::google::protobuf::Closure* done)
         {
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
-            std::string uid = request->uid();
-            std::string sid = request->session_id();
-            // 检查session_id映射
-            if(_sessions.find(uid) == _sessions.end() || _sessions[uid] != sid)
+            CommRsp* rep = response->mutable_response();
+            // 从CommReq获取uid和token进行验证
+            std::string uid = request->request().uid();
+            std::string token = request->request().token();
+            if(!CheckToken(uid, token, rep))
             {
-                HandlerError(response->mutable_response(), false, "用户未登录或session无效!");
                 delete rid;
                 return;
             }
-            request->set_request_id(*rid);
+            request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
             services->chooseService(FRIEND_SERVICE, &channel);
             FriendServer_Stub stub(channel.get());
@@ -609,7 +612,7 @@ namespace messageSystem
     private:
         std::shared_ptr<Discovery> discover;
         std::shared_ptr<ServiceManager> services;
-        std::unordered_map<std::string, std::string> _sessions;
-        std::unordered_map<std::string, typename Tp>
+        std::shared_ptr<WsServer> _ws_server;
+        std::shared_ptr<redis::RedisClient> _redis;
     };
 }

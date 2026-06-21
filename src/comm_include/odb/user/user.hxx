@@ -18,6 +18,8 @@ struct User
     size_t uid;
     #pragma db type("varchar(20)") unique not_null
     std::string name;
+    #pragma db type("varchar(40)") unique not_null
+    std::string token;
     #pragma db type("varchar(40)") not_null
     std::string password;
     Sex sex;

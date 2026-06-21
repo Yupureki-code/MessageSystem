@@ -23,12 +23,9 @@ namespace _pbi = _pb::internal;
 namespace messageSystem {
 PROTOBUF_CONSTEXPR GetFileReq::GetFileReq(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_._has_bits_)*/{}
-  , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.file_id_list_)*/{}
-  , /*decltype(_impl_.request_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.user_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.session_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}} {}
+    /*decltype(_impl_.file_id_list_)*/{}
+  , /*decltype(_impl_.request_)*/nullptr
+  , /*decltype(_impl_._cached_size_)*/{}} {}
 struct GetFileReqDefaultTypeInternal {
   PROTOBUF_CONSTEXPR GetFileReqDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -67,12 +64,9 @@ struct GetFileRspDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GetFileRspDefaultTypeInternal _GetFileRsp_default_instance_;
 PROTOBUF_CONSTEXPR PutFileReq::PutFileReq(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_._has_bits_)*/{}
-  , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.file_data_)*/{}
-  , /*decltype(_impl_.request_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.user_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.session_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}} {}
+    /*decltype(_impl_.file_data_)*/{}
+  , /*decltype(_impl_.request_)*/nullptr
+  , /*decltype(_impl_._cached_size_)*/{}} {}
 struct PutFileReqDefaultTypeInternal {
   PROTOBUF_CONSTEXPR PutFileReqDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -84,12 +78,9 @@ struct PutFileReqDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PutFileReqDefaultTypeInternal _PutFileReq_default_instance_;
 PROTOBUF_CONSTEXPR DeleteFileReq::DeleteFileReq(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_._has_bits_)*/{}
-  , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.file_id_list_)*/{}
-  , /*decltype(_impl_.request_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.user_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.session_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}} {}
+    /*decltype(_impl_.file_id_list_)*/{}
+  , /*decltype(_impl_.request_)*/nullptr
+  , /*decltype(_impl_._cached_size_)*/{}} {}
 struct DeleteFileReqDefaultTypeInternal {
   PROTOBUF_CONSTEXPR DeleteFileReqDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -105,20 +96,14 @@ static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_file_
 static const ::_pb::ServiceDescriptor* file_level_service_descriptors_file_2eproto[1];
 
 const uint32_t TableStruct_file_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  PROTOBUF_FIELD_OFFSET(::messageSystem::GetFileReq, _impl_._has_bits_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetFileReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::messageSystem::GetFileReq, _impl_.request_id_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::GetFileReq, _impl_.user_id_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::GetFileReq, _impl_.session_id_),
+  PROTOBUF_FIELD_OFFSET(::messageSystem::GetFileReq, _impl_.request_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetFileReq, _impl_.file_id_list_),
-  ~0u,
-  0,
-  1,
-  ~0u,
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetFileRsp_FileDataEntry_DoNotUse, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetFileRsp_FileDataEntry_DoNotUse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -139,41 +124,29 @@ const uint32_t TableStruct_file_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetFileRsp, _impl_.success_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetFileRsp, _impl_.errmsg_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetFileRsp, _impl_.file_data_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::PutFileReq, _impl_._has_bits_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::messageSystem::PutFileReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::messageSystem::PutFileReq, _impl_.request_id_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::PutFileReq, _impl_.user_id_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::PutFileReq, _impl_.session_id_),
+  PROTOBUF_FIELD_OFFSET(::messageSystem::PutFileReq, _impl_.request_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::PutFileReq, _impl_.file_data_),
-  ~0u,
-  0,
-  1,
-  ~0u,
-  PROTOBUF_FIELD_OFFSET(::messageSystem::DeleteFileReq, _impl_._has_bits_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::messageSystem::DeleteFileReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::messageSystem::DeleteFileReq, _impl_.request_id_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::DeleteFileReq, _impl_.user_id_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::DeleteFileReq, _impl_.session_id_),
+  PROTOBUF_FIELD_OFFSET(::messageSystem::DeleteFileReq, _impl_.request_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::DeleteFileReq, _impl_.file_id_list_),
-  ~0u,
-  0,
-  1,
-  ~0u,
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 10, -1, sizeof(::messageSystem::GetFileReq)},
-  { 14, 22, -1, sizeof(::messageSystem::GetFileRsp_FileDataEntry_DoNotUse)},
-  { 24, -1, -1, sizeof(::messageSystem::GetFileRsp)},
-  { 34, 44, -1, sizeof(::messageSystem::PutFileReq)},
-  { 48, 58, -1, sizeof(::messageSystem::DeleteFileReq)},
+  { 0, -1, -1, sizeof(::messageSystem::GetFileReq)},
+  { 8, 16, -1, sizeof(::messageSystem::GetFileRsp_FileDataEntry_DoNotUse)},
+  { 18, -1, -1, sizeof(::messageSystem::GetFileRsp)},
+  { 28, -1, -1, sizeof(::messageSystem::PutFileReq)},
+  { 36, -1, -1, sizeof(::messageSystem::DeleteFileReq)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -186,39 +159,35 @@ static const ::_pb::Message* const file_default_instances[] = {
 
 const char descriptor_table_protodef_file_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\nfile.proto\022\rmessageSystem\032\ncomm.proto\""
-  "\200\001\n\nGetFileReq\022\022\n\nrequest_id\030\001 \001(\t\022\024\n\007us"
-  "er_id\030\002 \001(\tH\000\210\001\001\022\027\n\nsession_id\030\003 \001(\tH\001\210\001"
-  "\001\022\024\n\014file_id_list\030\004 \003(\tB\n\n\010_user_idB\r\n\013_"
-  "session_id\"\317\001\n\nGetFileRsp\022\022\n\nrequest_id\030"
-  "\001 \001(\t\022\017\n\007success\030\002 \001(\010\022\016\n\006errmsg\030\003 \001(\t\022:"
-  "\n\tfile_data\030\004 \003(\0132\'.messageSystem.GetFil"
-  "eRsp.FileDataEntry\032P\n\rFileDataEntry\022\013\n\003k"
-  "ey\030\001 \001(\t\022.\n\005value\030\002 \001(\0132\037.messageSystem."
-  "FileDownloadData:\0028\001\"\234\001\n\nPutFileReq\022\022\n\nr"
-  "equest_id\030\001 \001(\t\022\024\n\007user_id\030\002 \001(\tH\000\210\001\001\022\027\n"
-  "\nsession_id\030\003 \001(\tH\001\210\001\001\0220\n\tfile_data\030\004 \003("
-  "\0132\035.messageSystem.FileUploadDataB\n\n\010_use"
-  "r_idB\r\n\013_session_id\"\203\001\n\rDeleteFileReq\022\022\n"
-  "\nrequest_id\030\001 \001(\t\022\024\n\007user_id\030\002 \001(\tH\000\210\001\001\022"
-  "\027\n\nsession_id\030\003 \001(\tH\001\210\001\001\022\024\n\014file_id_list"
-  "\030\004 \003(\tB\n\n\010_user_idB\r\n\013_session_id2\352\002\n\013Fi"
-  "leService\022E\n\rGetSingleFile\022\031.messageSyst"
-  "em.GetFileReq\032\031.messageSystem.GetFileRsp"
-  "\022D\n\014GetMultiFile\022\031.messageSystem.GetFile"
-  "Req\032\031.messageSystem.GetFileRsp\022B\n\rPutSin"
-  "gleFile\022\031.messageSystem.PutFileReq\032\026.mes"
-  "sageSystem.CommRsp\022A\n\014PutMultiFile\022\031.mes"
-  "sageSystem.PutFileReq\032\026.messageSystem.Co"
-  "mmRsp\022G\n\017DeleteMultiFile\022\034.messageSystem"
-  ".DeleteFileReq\032\026.messageSystem.CommRspB\003"
-  "\200\001\001b\006proto3"
+  "K\n\nGetFileReq\022\'\n\007request\030\001 \001(\0132\026.message"
+  "System.CommReq\022\024\n\014file_id_list\030\002 \003(\t\"\317\001\n"
+  "\nGetFileRsp\022\022\n\nrequest_id\030\001 \001(\t\022\017\n\007succe"
+  "ss\030\002 \001(\010\022\016\n\006errmsg\030\003 \001(\t\022:\n\tfile_data\030\004 "
+  "\003(\0132\'.messageSystem.GetFileRsp.FileDataE"
+  "ntry\032P\n\rFileDataEntry\022\013\n\003key\030\001 \001(\t\022.\n\005va"
+  "lue\030\002 \001(\0132\037.messageSystem.FileDownloadDa"
+  "ta:\0028\001\"g\n\nPutFileReq\022\'\n\007request\030\001 \001(\0132\026."
+  "messageSystem.CommReq\0220\n\tfile_data\030\002 \003(\013"
+  "2\035.messageSystem.FileUploadData\"N\n\rDelet"
+  "eFileReq\022\'\n\007request\030\001 \001(\0132\026.messageSyste"
+  "m.CommReq\022\024\n\014file_id_list\030\002 \003(\t2\352\002\n\013File"
+  "Service\022E\n\rGetSingleFile\022\031.messageSystem"
+  ".GetFileReq\032\031.messageSystem.GetFileRsp\022D"
+  "\n\014GetMultiFile\022\031.messageSystem.GetFileRe"
+  "q\032\031.messageSystem.GetFileRsp\022B\n\rPutSingl"
+  "eFile\022\031.messageSystem.PutFileReq\032\026.messa"
+  "geSystem.CommRsp\022A\n\014PutMultiFile\022\031.messa"
+  "geSystem.PutFileReq\032\026.messageSystem.Comm"
+  "Rsp\022G\n\017DeleteMultiFile\022\034.messageSystem.D"
+  "eleteFileReq\032\026.messageSystem.CommRspB\003\200\001"
+  "\001b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_file_2eproto_deps[1] = {
   &::descriptor_table_comm_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_file_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_file_2eproto = {
-    false, false, 1051, descriptor_table_protodef_file_2eproto,
+    false, false, 889, descriptor_table_protodef_file_2eproto,
     "file.proto",
     &descriptor_table_file_2eproto_once, descriptor_table_file_2eproto_deps, 1, 5,
     schemas, file_default_instances, TableStruct_file_2eproto::offsets,
@@ -237,15 +206,19 @@ namespace messageSystem {
 
 class GetFileReq::_Internal {
  public:
-  using HasBits = decltype(std::declval<GetFileReq>()._impl_._has_bits_);
-  static void set_has_user_id(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
-  }
-  static void set_has_session_id(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
-  }
+  static const ::messageSystem::CommReq& request(const GetFileReq* msg);
 };
 
+const ::messageSystem::CommReq&
+GetFileReq::_Internal::request(const GetFileReq* msg) {
+  return *msg->_impl_.request_;
+}
+void GetFileReq::clear_request() {
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
+  }
+  _impl_.request_ = nullptr;
+}
 GetFileReq::GetFileReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -256,37 +229,13 @@ GetFileReq::GetFileReq(const GetFileReq& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   GetFileReq* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_}
-    , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.file_id_list_){from._impl_.file_id_list_}
-    , decltype(_impl_.request_id_){}
-    , decltype(_impl_.user_id_){}
-    , decltype(_impl_.session_id_){}};
+      decltype(_impl_.file_id_list_){from._impl_.file_id_list_}
+    , decltype(_impl_.request_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.request_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.request_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_request_id().empty()) {
-    _this->_impl_.request_id_.Set(from._internal_request_id(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.user_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_user_id()) {
-    _this->_impl_.user_id_.Set(from._internal_user_id(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.session_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_session_id()) {
-    _this->_impl_.session_id_.Set(from._internal_session_id(), 
-      _this->GetArenaForAllocation());
+  if (from._internal_has_request()) {
+    _this->_impl_.request_ = new ::messageSystem::CommReq(*from._impl_.request_);
   }
   // @@protoc_insertion_point(copy_constructor:messageSystem.GetFileReq)
 }
@@ -296,25 +245,10 @@ inline void GetFileReq::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){}
+      decltype(_impl_.file_id_list_){arena}
+    , decltype(_impl_.request_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.file_id_list_){arena}
-    , decltype(_impl_.request_id_){}
-    , decltype(_impl_.user_id_){}
-    , decltype(_impl_.session_id_){}
   };
-  _impl_.request_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.request_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.user_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.session_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 GetFileReq::~GetFileReq() {
@@ -329,9 +263,7 @@ GetFileReq::~GetFileReq() {
 inline void GetFileReq::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.file_id_list_.~RepeatedPtrField();
-  _impl_.request_id_.Destroy();
-  _impl_.user_id_.Destroy();
-  _impl_.session_id_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.request_;
 }
 
 void GetFileReq::SetCachedSize(int size) const {
@@ -345,60 +277,30 @@ void GetFileReq::Clear() {
   (void) cached_has_bits;
 
   _impl_.file_id_list_.Clear();
-  _impl_.request_id_.ClearToEmpty();
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _impl_.user_id_.ClearNonDefaultToEmpty();
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _impl_.session_id_.ClearNonDefaultToEmpty();
-    }
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
   }
-  _impl_._has_bits_.Clear();
+  _impl_.request_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* GetFileReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string request_id = 1;
+      // .messageSystem.CommReq request = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_request_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          ptr = ctx->ParseMessage(_internal_mutable_request(), ptr);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.GetFileReq.request_id"));
         } else
           goto handle_unusual;
         continue;
-      // optional string user_id = 2;
+      // repeated string file_id_list = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          auto str = _internal_mutable_user_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.GetFileReq.user_id"));
-        } else
-          goto handle_unusual;
-        continue;
-      // optional string session_id = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          auto str = _internal_mutable_session_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.GetFileReq.session_id"));
-        } else
-          goto handle_unusual;
-        continue;
-      // repeated string file_id_list = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
           ptr -= 1;
           do {
             ptr += 1;
@@ -407,7 +309,7 @@ const char* GetFileReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
             CHK_(ptr);
             CHK_(::_pbi::VerifyUTF8(str, "messageSystem.GetFileReq.file_id_list"));
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
         } else
           goto handle_unusual;
         continue;
@@ -427,7 +329,6 @@ const char* GetFileReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
     CHK_(ptr != nullptr);
   }  // while
 message_done:
-  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -441,44 +342,21 @@ uint8_t* GetFileReq::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string request_id = 1;
-  if (!this->_internal_request_id().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_request_id().data(), static_cast<int>(this->_internal_request_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.GetFileReq.request_id");
-    target = stream->WriteStringMaybeAliased(
-        1, this->_internal_request_id(), target);
+  // .messageSystem.CommReq request = 1;
+  if (this->_internal_has_request()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::request(this),
+        _Internal::request(this).GetCachedSize(), target, stream);
   }
 
-  // optional string user_id = 2;
-  if (_internal_has_user_id()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_user_id().data(), static_cast<int>(this->_internal_user_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.GetFileReq.user_id");
-    target = stream->WriteStringMaybeAliased(
-        2, this->_internal_user_id(), target);
-  }
-
-  // optional string session_id = 3;
-  if (_internal_has_session_id()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_session_id().data(), static_cast<int>(this->_internal_session_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.GetFileReq.session_id");
-    target = stream->WriteStringMaybeAliased(
-        3, this->_internal_session_id(), target);
-  }
-
-  // repeated string file_id_list = 4;
+  // repeated string file_id_list = 2;
   for (int i = 0, n = this->_internal_file_id_list_size(); i < n; i++) {
     const auto& s = this->_internal_file_id_list(i);
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       s.data(), static_cast<int>(s.length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "messageSystem.GetFileReq.file_id_list");
-    target = stream->WriteString(4, s, target);
+    target = stream->WriteString(2, s, target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -497,7 +375,7 @@ size_t GetFileReq::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated string file_id_list = 4;
+  // repeated string file_id_list = 2;
   total_size += 1 *
       ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.file_id_list_.size());
   for (int i = 0, n = _impl_.file_id_list_.size(); i < n; i++) {
@@ -505,30 +383,13 @@ size_t GetFileReq::ByteSizeLong() const {
       _impl_.file_id_list_.Get(i));
   }
 
-  // string request_id = 1;
-  if (!this->_internal_request_id().empty()) {
+  // .messageSystem.CommReq request = 1;
+  if (this->_internal_has_request()) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_request_id());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.request_);
   }
 
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    // optional string user_id = 2;
-    if (cached_has_bits & 0x00000001u) {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-          this->_internal_user_id());
-    }
-
-    // optional string session_id = 3;
-    if (cached_has_bits & 0x00000002u) {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-          this->_internal_session_id());
-    }
-
-  }
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -548,17 +409,9 @@ void GetFileReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PRO
   (void) cached_has_bits;
 
   _this->_impl_.file_id_list_.MergeFrom(from._impl_.file_id_list_);
-  if (!from._internal_request_id().empty()) {
-    _this->_internal_set_request_id(from._internal_request_id());
-  }
-  cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _this->_internal_set_user_id(from._internal_user_id());
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _this->_internal_set_session_id(from._internal_session_id());
-    }
+  if (from._internal_has_request()) {
+    _this->_internal_mutable_request()->::messageSystem::CommReq::MergeFrom(
+        from._internal_request());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -576,23 +429,9 @@ bool GetFileReq::IsInitialized() const {
 
 void GetFileReq::InternalSwap(GetFileReq* other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   _impl_.file_id_list_.InternalSwap(&other->_impl_.file_id_list_);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.request_id_, lhs_arena,
-      &other->_impl_.request_id_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.user_id_, lhs_arena,
-      &other->_impl_.user_id_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.session_id_, lhs_arena,
-      &other->_impl_.session_id_, rhs_arena
-  );
+  swap(_impl_.request_, other->_impl_.request_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata GetFileReq::GetMetadata() const {
@@ -966,15 +805,19 @@ void GetFileRsp::InternalSwap(GetFileRsp* other) {
 
 class PutFileReq::_Internal {
  public:
-  using HasBits = decltype(std::declval<PutFileReq>()._impl_._has_bits_);
-  static void set_has_user_id(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
-  }
-  static void set_has_session_id(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
-  }
+  static const ::messageSystem::CommReq& request(const PutFileReq* msg);
 };
 
+const ::messageSystem::CommReq&
+PutFileReq::_Internal::request(const PutFileReq* msg) {
+  return *msg->_impl_.request_;
+}
+void PutFileReq::clear_request() {
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
+  }
+  _impl_.request_ = nullptr;
+}
 void PutFileReq::clear_file_data() {
   _impl_.file_data_.Clear();
 }
@@ -988,37 +831,13 @@ PutFileReq::PutFileReq(const PutFileReq& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   PutFileReq* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_}
-    , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.file_data_){from._impl_.file_data_}
-    , decltype(_impl_.request_id_){}
-    , decltype(_impl_.user_id_){}
-    , decltype(_impl_.session_id_){}};
+      decltype(_impl_.file_data_){from._impl_.file_data_}
+    , decltype(_impl_.request_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.request_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.request_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_request_id().empty()) {
-    _this->_impl_.request_id_.Set(from._internal_request_id(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.user_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_user_id()) {
-    _this->_impl_.user_id_.Set(from._internal_user_id(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.session_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_session_id()) {
-    _this->_impl_.session_id_.Set(from._internal_session_id(), 
-      _this->GetArenaForAllocation());
+  if (from._internal_has_request()) {
+    _this->_impl_.request_ = new ::messageSystem::CommReq(*from._impl_.request_);
   }
   // @@protoc_insertion_point(copy_constructor:messageSystem.PutFileReq)
 }
@@ -1028,25 +847,10 @@ inline void PutFileReq::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){}
+      decltype(_impl_.file_data_){arena}
+    , decltype(_impl_.request_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.file_data_){arena}
-    , decltype(_impl_.request_id_){}
-    , decltype(_impl_.user_id_){}
-    , decltype(_impl_.session_id_){}
   };
-  _impl_.request_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.request_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.user_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.session_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 PutFileReq::~PutFileReq() {
@@ -1061,9 +865,7 @@ PutFileReq::~PutFileReq() {
 inline void PutFileReq::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.file_data_.~RepeatedPtrField();
-  _impl_.request_id_.Destroy();
-  _impl_.user_id_.Destroy();
-  _impl_.session_id_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.request_;
 }
 
 void PutFileReq::SetCachedSize(int size) const {
@@ -1077,67 +879,37 @@ void PutFileReq::Clear() {
   (void) cached_has_bits;
 
   _impl_.file_data_.Clear();
-  _impl_.request_id_.ClearToEmpty();
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _impl_.user_id_.ClearNonDefaultToEmpty();
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _impl_.session_id_.ClearNonDefaultToEmpty();
-    }
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
   }
-  _impl_._has_bits_.Clear();
+  _impl_.request_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* PutFileReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string request_id = 1;
+      // .messageSystem.CommReq request = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_request_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          ptr = ctx->ParseMessage(_internal_mutable_request(), ptr);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.PutFileReq.request_id"));
         } else
           goto handle_unusual;
         continue;
-      // optional string user_id = 2;
+      // repeated .messageSystem.FileUploadData file_data = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          auto str = _internal_mutable_user_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.PutFileReq.user_id"));
-        } else
-          goto handle_unusual;
-        continue;
-      // optional string session_id = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          auto str = _internal_mutable_session_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.PutFileReq.session_id"));
-        } else
-          goto handle_unusual;
-        continue;
-      // repeated .messageSystem.FileUploadData file_data = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
           ptr -= 1;
           do {
             ptr += 1;
             ptr = ctx->ParseMessage(_internal_add_file_data(), ptr);
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
         } else
           goto handle_unusual;
         continue;
@@ -1157,7 +929,6 @@ const char* PutFileReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
     CHK_(ptr != nullptr);
   }  // while
 message_done:
-  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -1171,42 +942,19 @@ uint8_t* PutFileReq::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string request_id = 1;
-  if (!this->_internal_request_id().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_request_id().data(), static_cast<int>(this->_internal_request_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.PutFileReq.request_id");
-    target = stream->WriteStringMaybeAliased(
-        1, this->_internal_request_id(), target);
+  // .messageSystem.CommReq request = 1;
+  if (this->_internal_has_request()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::request(this),
+        _Internal::request(this).GetCachedSize(), target, stream);
   }
 
-  // optional string user_id = 2;
-  if (_internal_has_user_id()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_user_id().data(), static_cast<int>(this->_internal_user_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.PutFileReq.user_id");
-    target = stream->WriteStringMaybeAliased(
-        2, this->_internal_user_id(), target);
-  }
-
-  // optional string session_id = 3;
-  if (_internal_has_session_id()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_session_id().data(), static_cast<int>(this->_internal_session_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.PutFileReq.session_id");
-    target = stream->WriteStringMaybeAliased(
-        3, this->_internal_session_id(), target);
-  }
-
-  // repeated .messageSystem.FileUploadData file_data = 4;
+  // repeated .messageSystem.FileUploadData file_data = 2;
   for (unsigned i = 0,
       n = static_cast<unsigned>(this->_internal_file_data_size()); i < n; i++) {
     const auto& repfield = this->_internal_file_data(i);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-        InternalWriteMessage(4, repfield, repfield.GetCachedSize(), target, stream);
+        InternalWriteMessage(2, repfield, repfield.GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1225,37 +973,20 @@ size_t PutFileReq::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .messageSystem.FileUploadData file_data = 4;
+  // repeated .messageSystem.FileUploadData file_data = 2;
   total_size += 1UL * this->_internal_file_data_size();
   for (const auto& msg : this->_impl_.file_data_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  // string request_id = 1;
-  if (!this->_internal_request_id().empty()) {
+  // .messageSystem.CommReq request = 1;
+  if (this->_internal_has_request()) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_request_id());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.request_);
   }
 
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    // optional string user_id = 2;
-    if (cached_has_bits & 0x00000001u) {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-          this->_internal_user_id());
-    }
-
-    // optional string session_id = 3;
-    if (cached_has_bits & 0x00000002u) {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-          this->_internal_session_id());
-    }
-
-  }
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -1275,17 +1006,9 @@ void PutFileReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PRO
   (void) cached_has_bits;
 
   _this->_impl_.file_data_.MergeFrom(from._impl_.file_data_);
-  if (!from._internal_request_id().empty()) {
-    _this->_internal_set_request_id(from._internal_request_id());
-  }
-  cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _this->_internal_set_user_id(from._internal_user_id());
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _this->_internal_set_session_id(from._internal_session_id());
-    }
+  if (from._internal_has_request()) {
+    _this->_internal_mutable_request()->::messageSystem::CommReq::MergeFrom(
+        from._internal_request());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -1303,23 +1026,9 @@ bool PutFileReq::IsInitialized() const {
 
 void PutFileReq::InternalSwap(PutFileReq* other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   _impl_.file_data_.InternalSwap(&other->_impl_.file_data_);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.request_id_, lhs_arena,
-      &other->_impl_.request_id_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.user_id_, lhs_arena,
-      &other->_impl_.user_id_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.session_id_, lhs_arena,
-      &other->_impl_.session_id_, rhs_arena
-  );
+  swap(_impl_.request_, other->_impl_.request_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata PutFileReq::GetMetadata() const {
@@ -1332,15 +1041,19 @@ void PutFileReq::InternalSwap(PutFileReq* other) {
 
 class DeleteFileReq::_Internal {
  public:
-  using HasBits = decltype(std::declval<DeleteFileReq>()._impl_._has_bits_);
-  static void set_has_user_id(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
-  }
-  static void set_has_session_id(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
-  }
+  static const ::messageSystem::CommReq& request(const DeleteFileReq* msg);
 };
 
+const ::messageSystem::CommReq&
+DeleteFileReq::_Internal::request(const DeleteFileReq* msg) {
+  return *msg->_impl_.request_;
+}
+void DeleteFileReq::clear_request() {
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
+  }
+  _impl_.request_ = nullptr;
+}
 DeleteFileReq::DeleteFileReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -1351,37 +1064,13 @@ DeleteFileReq::DeleteFileReq(const DeleteFileReq& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   DeleteFileReq* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_}
-    , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.file_id_list_){from._impl_.file_id_list_}
-    , decltype(_impl_.request_id_){}
-    , decltype(_impl_.user_id_){}
-    , decltype(_impl_.session_id_){}};
+      decltype(_impl_.file_id_list_){from._impl_.file_id_list_}
+    , decltype(_impl_.request_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.request_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.request_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_request_id().empty()) {
-    _this->_impl_.request_id_.Set(from._internal_request_id(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.user_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_user_id()) {
-    _this->_impl_.user_id_.Set(from._internal_user_id(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.session_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_session_id()) {
-    _this->_impl_.session_id_.Set(from._internal_session_id(), 
-      _this->GetArenaForAllocation());
+  if (from._internal_has_request()) {
+    _this->_impl_.request_ = new ::messageSystem::CommReq(*from._impl_.request_);
   }
   // @@protoc_insertion_point(copy_constructor:messageSystem.DeleteFileReq)
 }
@@ -1391,25 +1080,10 @@ inline void DeleteFileReq::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){}
+      decltype(_impl_.file_id_list_){arena}
+    , decltype(_impl_.request_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.file_id_list_){arena}
-    , decltype(_impl_.request_id_){}
-    , decltype(_impl_.user_id_){}
-    , decltype(_impl_.session_id_){}
   };
-  _impl_.request_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.request_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.user_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.session_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 DeleteFileReq::~DeleteFileReq() {
@@ -1424,9 +1098,7 @@ DeleteFileReq::~DeleteFileReq() {
 inline void DeleteFileReq::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.file_id_list_.~RepeatedPtrField();
-  _impl_.request_id_.Destroy();
-  _impl_.user_id_.Destroy();
-  _impl_.session_id_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.request_;
 }
 
 void DeleteFileReq::SetCachedSize(int size) const {
@@ -1440,60 +1112,30 @@ void DeleteFileReq::Clear() {
   (void) cached_has_bits;
 
   _impl_.file_id_list_.Clear();
-  _impl_.request_id_.ClearToEmpty();
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _impl_.user_id_.ClearNonDefaultToEmpty();
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _impl_.session_id_.ClearNonDefaultToEmpty();
-    }
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
   }
-  _impl_._has_bits_.Clear();
+  _impl_.request_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* DeleteFileReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string request_id = 1;
+      // .messageSystem.CommReq request = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_request_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          ptr = ctx->ParseMessage(_internal_mutable_request(), ptr);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.DeleteFileReq.request_id"));
         } else
           goto handle_unusual;
         continue;
-      // optional string user_id = 2;
+      // repeated string file_id_list = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          auto str = _internal_mutable_user_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.DeleteFileReq.user_id"));
-        } else
-          goto handle_unusual;
-        continue;
-      // optional string session_id = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          auto str = _internal_mutable_session_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.DeleteFileReq.session_id"));
-        } else
-          goto handle_unusual;
-        continue;
-      // repeated string file_id_list = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
           ptr -= 1;
           do {
             ptr += 1;
@@ -1502,7 +1144,7 @@ const char* DeleteFileReq::_InternalParse(const char* ptr, ::_pbi::ParseContext*
             CHK_(ptr);
             CHK_(::_pbi::VerifyUTF8(str, "messageSystem.DeleteFileReq.file_id_list"));
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
         } else
           goto handle_unusual;
         continue;
@@ -1522,7 +1164,6 @@ const char* DeleteFileReq::_InternalParse(const char* ptr, ::_pbi::ParseContext*
     CHK_(ptr != nullptr);
   }  // while
 message_done:
-  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -1536,44 +1177,21 @@ uint8_t* DeleteFileReq::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string request_id = 1;
-  if (!this->_internal_request_id().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_request_id().data(), static_cast<int>(this->_internal_request_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.DeleteFileReq.request_id");
-    target = stream->WriteStringMaybeAliased(
-        1, this->_internal_request_id(), target);
+  // .messageSystem.CommReq request = 1;
+  if (this->_internal_has_request()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::request(this),
+        _Internal::request(this).GetCachedSize(), target, stream);
   }
 
-  // optional string user_id = 2;
-  if (_internal_has_user_id()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_user_id().data(), static_cast<int>(this->_internal_user_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.DeleteFileReq.user_id");
-    target = stream->WriteStringMaybeAliased(
-        2, this->_internal_user_id(), target);
-  }
-
-  // optional string session_id = 3;
-  if (_internal_has_session_id()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_session_id().data(), static_cast<int>(this->_internal_session_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.DeleteFileReq.session_id");
-    target = stream->WriteStringMaybeAliased(
-        3, this->_internal_session_id(), target);
-  }
-
-  // repeated string file_id_list = 4;
+  // repeated string file_id_list = 2;
   for (int i = 0, n = this->_internal_file_id_list_size(); i < n; i++) {
     const auto& s = this->_internal_file_id_list(i);
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       s.data(), static_cast<int>(s.length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "messageSystem.DeleteFileReq.file_id_list");
-    target = stream->WriteString(4, s, target);
+    target = stream->WriteString(2, s, target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1592,7 +1210,7 @@ size_t DeleteFileReq::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated string file_id_list = 4;
+  // repeated string file_id_list = 2;
   total_size += 1 *
       ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.file_id_list_.size());
   for (int i = 0, n = _impl_.file_id_list_.size(); i < n; i++) {
@@ -1600,30 +1218,13 @@ size_t DeleteFileReq::ByteSizeLong() const {
       _impl_.file_id_list_.Get(i));
   }
 
-  // string request_id = 1;
-  if (!this->_internal_request_id().empty()) {
+  // .messageSystem.CommReq request = 1;
+  if (this->_internal_has_request()) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_request_id());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.request_);
   }
 
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    // optional string user_id = 2;
-    if (cached_has_bits & 0x00000001u) {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-          this->_internal_user_id());
-    }
-
-    // optional string session_id = 3;
-    if (cached_has_bits & 0x00000002u) {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-          this->_internal_session_id());
-    }
-
-  }
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -1643,17 +1244,9 @@ void DeleteFileReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::
   (void) cached_has_bits;
 
   _this->_impl_.file_id_list_.MergeFrom(from._impl_.file_id_list_);
-  if (!from._internal_request_id().empty()) {
-    _this->_internal_set_request_id(from._internal_request_id());
-  }
-  cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _this->_internal_set_user_id(from._internal_user_id());
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _this->_internal_set_session_id(from._internal_session_id());
-    }
+  if (from._internal_has_request()) {
+    _this->_internal_mutable_request()->::messageSystem::CommReq::MergeFrom(
+        from._internal_request());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -1671,23 +1264,9 @@ bool DeleteFileReq::IsInitialized() const {
 
 void DeleteFileReq::InternalSwap(DeleteFileReq* other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   _impl_.file_id_list_.InternalSwap(&other->_impl_.file_id_list_);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.request_id_, lhs_arena,
-      &other->_impl_.request_id_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.user_id_, lhs_arena,
-      &other->_impl_.user_id_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.session_id_, lhs_arena,
-      &other->_impl_.session_id_, rhs_arena
-  );
+  swap(_impl_.request_, other->_impl_.request_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata DeleteFileReq::GetMetadata() const {

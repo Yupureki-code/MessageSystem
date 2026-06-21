@@ -42,7 +42,7 @@ struct UserLoginReqDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UserLoginReqDefaultTypeInternal _UserLoginReq_default_instance_;
 PROTOBUF_CONSTEXPR UserLoginRsp::UserLoginRsp(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.session_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+    /*decltype(_impl_.token_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.response_)*/nullptr
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct UserLoginRspDefaultTypeInternal {
@@ -54,6 +54,19 @@ struct UserLoginRspDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UserLoginRspDefaultTypeInternal _UserLoginRsp_default_instance_;
+PROTOBUF_CONSTEXPR UserLoginByTokenReq::UserLoginByTokenReq(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.request_)*/nullptr
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct UserLoginByTokenReqDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR UserLoginByTokenReqDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~UserLoginByTokenReqDefaultTypeInternal() {}
+  union {
+    UserLoginByTokenReq _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UserLoginByTokenReqDefaultTypeInternal _UserLoginByTokenReq_default_instance_;
 PROTOBUF_CONSTEXPR EmailVerifyCodeReq::EmailVerifyCodeReq(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.request_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
@@ -101,7 +114,7 @@ struct EmailLoginReqDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 EmailLoginReqDefaultTypeInternal _EmailLoginReq_default_instance_;
 PROTOBUF_CONSTEXPR EmailLoginRsp::EmailLoginRsp(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.session_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+    /*decltype(_impl_.token_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.response_)*/nullptr
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct EmailLoginRspDefaultTypeInternal {
@@ -117,9 +130,8 @@ PROTOBUF_CONSTEXPR GetUserInfoReq::GetUserInfoReq(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.request_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.user_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.session_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}} {}
+  , /*decltype(_impl_.request_)*/nullptr} {}
 struct GetUserInfoReqDefaultTypeInternal {
   PROTOBUF_CONSTEXPR GetUserInfoReqDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -145,12 +157,9 @@ struct GetUserInfoRspDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GetUserInfoRspDefaultTypeInternal _GetUserInfoRsp_default_instance_;
 PROTOBUF_CONSTEXPR GetMultiUserInfoReq::GetMultiUserInfoReq(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_._has_bits_)*/{}
-  , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.users_id_)*/{}
-  , /*decltype(_impl_.request_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.user_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.session_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}} {}
+    /*decltype(_impl_.users_id_)*/{}
+  , /*decltype(_impl_.request_)*/nullptr
+  , /*decltype(_impl_._cached_size_)*/{}} {}
 struct GetMultiUserInfoReqDefaultTypeInternal {
   PROTOBUF_CONSTEXPR GetMultiUserInfoReqDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -187,12 +196,9 @@ struct GetMultiUserInfoRspDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GetMultiUserInfoRspDefaultTypeInternal _GetMultiUserInfoRsp_default_instance_;
 PROTOBUF_CONSTEXPR SetUserAvatarReq::SetUserAvatarReq(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_._has_bits_)*/{}
-  , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.request_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.user_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.session_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.avatar_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}} {}
+    /*decltype(_impl_.avatar_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.request_)*/nullptr
+  , /*decltype(_impl_._cached_size_)*/{}} {}
 struct SetUserAvatarReqDefaultTypeInternal {
   PROTOBUF_CONSTEXPR SetUserAvatarReqDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -204,12 +210,9 @@ struct SetUserAvatarReqDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SetUserAvatarReqDefaultTypeInternal _SetUserAvatarReq_default_instance_;
 PROTOBUF_CONSTEXPR SetUserNameReq::SetUserNameReq(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_._has_bits_)*/{}
-  , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.request_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.user_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.session_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.nickname_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}} {}
+    /*decltype(_impl_.nickname_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.request_)*/nullptr
+  , /*decltype(_impl_._cached_size_)*/{}} {}
 struct SetUserNameReqDefaultTypeInternal {
   PROTOBUF_CONSTEXPR SetUserNameReqDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -221,12 +224,9 @@ struct SetUserNameReqDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SetUserNameReqDefaultTypeInternal _SetUserNameReq_default_instance_;
 PROTOBUF_CONSTEXPR SetUserDescriptionReq::SetUserDescriptionReq(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_._has_bits_)*/{}
-  , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.request_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.user_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.session_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.desc_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}} {}
+    /*decltype(_impl_.desc_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.request_)*/nullptr
+  , /*decltype(_impl_._cached_size_)*/{}} {}
 struct SetUserDescriptionReqDefaultTypeInternal {
   PROTOBUF_CONSTEXPR SetUserDescriptionReqDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -238,13 +238,10 @@ struct SetUserDescriptionReqDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SetUserDescriptionReqDefaultTypeInternal _SetUserDescriptionReq_default_instance_;
 PROTOBUF_CONSTEXPR SetUserEmailReq::SetUserEmailReq(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_._has_bits_)*/{}
-  , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.request_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.user_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.session_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.email_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.email_verify_code_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}} {}
+    /*decltype(_impl_.email_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.email_verify_code_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.request_)*/nullptr
+  , /*decltype(_impl_._cached_size_)*/{}} {}
 struct SetUserEmailReqDefaultTypeInternal {
   PROTOBUF_CONSTEXPR SetUserEmailReqDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -255,7 +252,7 @@ struct SetUserEmailReqDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SetUserEmailReqDefaultTypeInternal _SetUserEmailReq_default_instance_;
 }  // namespace messageSystem
-static ::_pb::Metadata file_level_metadata_user_2eproto[15];
+static ::_pb::Metadata file_level_metadata_user_2eproto[16];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_user_2eproto = nullptr;
 static const ::_pb::ServiceDescriptor* file_level_service_descriptors_user_2eproto[1];
 
@@ -285,7 +282,14 @@ const uint32_t TableStruct_user_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::messageSystem::UserLoginRsp, _impl_.response_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::UserLoginRsp, _impl_.session_id_),
+  PROTOBUF_FIELD_OFFSET(::messageSystem::UserLoginRsp, _impl_.token_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::messageSystem::UserLoginByTokenReq, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::messageSystem::UserLoginByTokenReq, _impl_.request_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::messageSystem::EmailVerifyCodeReq, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -320,19 +324,17 @@ const uint32_t TableStruct_user_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::messageSystem::EmailLoginRsp, _impl_.response_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::EmailLoginRsp, _impl_.session_id_),
+  PROTOBUF_FIELD_OFFSET(::messageSystem::EmailLoginRsp, _impl_.token_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetUserInfoReq, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetUserInfoReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::messageSystem::GetUserInfoReq, _impl_.request_id_),
+  PROTOBUF_FIELD_OFFSET(::messageSystem::GetUserInfoReq, _impl_.request_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetUserInfoReq, _impl_.user_id_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::GetUserInfoReq, _impl_.session_id_),
   ~0u,
   0,
-  1,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetUserInfoRsp, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -341,20 +343,14 @@ const uint32_t TableStruct_user_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetUserInfoRsp, _impl_.response_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetUserInfoRsp, _impl_.user_info_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::GetMultiUserInfoReq, _impl_._has_bits_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetMultiUserInfoReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::messageSystem::GetMultiUserInfoReq, _impl_.request_id_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::GetMultiUserInfoReq, _impl_.user_id_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::GetMultiUserInfoReq, _impl_.session_id_),
+  PROTOBUF_FIELD_OFFSET(::messageSystem::GetMultiUserInfoReq, _impl_.request_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetMultiUserInfoReq, _impl_.users_id_),
-  ~0u,
-  0,
-  1,
-  ~0u,
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetMultiUserInfoRsp_UsersInfoEntry_DoNotUse, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetMultiUserInfoRsp_UsersInfoEntry_DoNotUse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -373,86 +369,63 @@ const uint32_t TableStruct_user_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetMultiUserInfoRsp, _impl_.response_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::GetMultiUserInfoRsp, _impl_.users_info_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserAvatarReq, _impl_._has_bits_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserAvatarReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserAvatarReq, _impl_.request_id_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserAvatarReq, _impl_.user_id_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserAvatarReq, _impl_.session_id_),
+  PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserAvatarReq, _impl_.request_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserAvatarReq, _impl_.avatar_),
-  ~0u,
-  0,
-  1,
-  ~0u,
-  PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserNameReq, _impl_._has_bits_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserNameReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserNameReq, _impl_.request_id_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserNameReq, _impl_.user_id_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserNameReq, _impl_.session_id_),
+  PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserNameReq, _impl_.request_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserNameReq, _impl_.nickname_),
-  ~0u,
-  0,
-  1,
-  ~0u,
-  PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserDescriptionReq, _impl_._has_bits_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserDescriptionReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserDescriptionReq, _impl_.request_id_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserDescriptionReq, _impl_.user_id_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserDescriptionReq, _impl_.session_id_),
+  PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserDescriptionReq, _impl_.request_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserDescriptionReq, _impl_.desc_),
-  ~0u,
-  0,
-  1,
-  ~0u,
-  PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserEmailReq, _impl_._has_bits_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserEmailReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserEmailReq, _impl_.request_id_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserEmailReq, _impl_.user_id_),
-  PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserEmailReq, _impl_.session_id_),
+  PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserEmailReq, _impl_.request_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserEmailReq, _impl_.email_),
   PROTOBUF_FIELD_OFFSET(::messageSystem::SetUserEmailReq, _impl_.email_verify_code_),
-  ~0u,
-  0,
-  1,
-  ~0u,
-  ~0u,
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 12, -1, sizeof(::messageSystem::UserLoginReq)},
   { 18, -1, -1, sizeof(::messageSystem::UserLoginRsp)},
-  { 26, -1, -1, sizeof(::messageSystem::EmailVerifyCodeReq)},
-  { 34, -1, -1, sizeof(::messageSystem::EmailRegisterReq)},
-  { 43, -1, -1, sizeof(::messageSystem::EmailLoginReq)},
-  { 53, -1, -1, sizeof(::messageSystem::EmailLoginRsp)},
-  { 61, 70, -1, sizeof(::messageSystem::GetUserInfoReq)},
-  { 73, -1, -1, sizeof(::messageSystem::GetUserInfoRsp)},
-  { 81, 91, -1, sizeof(::messageSystem::GetMultiUserInfoReq)},
-  { 95, 103, -1, sizeof(::messageSystem::GetMultiUserInfoRsp_UsersInfoEntry_DoNotUse)},
-  { 105, -1, -1, sizeof(::messageSystem::GetMultiUserInfoRsp)},
-  { 113, 123, -1, sizeof(::messageSystem::SetUserAvatarReq)},
-  { 127, 137, -1, sizeof(::messageSystem::SetUserNameReq)},
-  { 141, 151, -1, sizeof(::messageSystem::SetUserDescriptionReq)},
-  { 155, 166, -1, sizeof(::messageSystem::SetUserEmailReq)},
+  { 26, -1, -1, sizeof(::messageSystem::UserLoginByTokenReq)},
+  { 33, -1, -1, sizeof(::messageSystem::EmailVerifyCodeReq)},
+  { 41, -1, -1, sizeof(::messageSystem::EmailRegisterReq)},
+  { 50, -1, -1, sizeof(::messageSystem::EmailLoginReq)},
+  { 60, -1, -1, sizeof(::messageSystem::EmailLoginRsp)},
+  { 68, 76, -1, sizeof(::messageSystem::GetUserInfoReq)},
+  { 78, -1, -1, sizeof(::messageSystem::GetUserInfoRsp)},
+  { 86, -1, -1, sizeof(::messageSystem::GetMultiUserInfoReq)},
+  { 94, 102, -1, sizeof(::messageSystem::GetMultiUserInfoRsp_UsersInfoEntry_DoNotUse)},
+  { 104, -1, -1, sizeof(::messageSystem::GetMultiUserInfoRsp)},
+  { 112, -1, -1, sizeof(::messageSystem::SetUserAvatarReq)},
+  { 120, -1, -1, sizeof(::messageSystem::SetUserNameReq)},
+  { 128, -1, -1, sizeof(::messageSystem::SetUserDescriptionReq)},
+  { 136, -1, -1, sizeof(::messageSystem::SetUserEmailReq)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
   &::messageSystem::_UserLoginReq_default_instance_._instance,
   &::messageSystem::_UserLoginRsp_default_instance_._instance,
+  &::messageSystem::_UserLoginByTokenReq_default_instance_._instance,
   &::messageSystem::_EmailVerifyCodeReq_default_instance_._instance,
   &::messageSystem::_EmailRegisterReq_default_instance_._instance,
   &::messageSystem::_EmailLoginReq_default_instance_._instance,
@@ -474,73 +447,69 @@ const char descriptor_table_protodef_user_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
   "uid\030\006 \001(\t\022\020\n\010nickname\030\002 \001(\t\022\020\n\010password\030"
   "\003 \001(\t\022\033\n\016verify_code_id\030\004 \001(\tH\000\210\001\001\022\030\n\013ve"
   "rify_code\030\005 \001(\tH\001\210\001\001B\021\n\017_verify_code_idB"
-  "\016\n\014_verify_code\"L\n\014UserLoginRsp\022(\n\010respo"
-  "nse\030\001 \001(\0132\026.messageSystem.CommRsp\022\022\n\nses"
-  "sion_id\030\002 \001(\t\"7\n\022EmailVerifyCodeReq\022\022\n\nr"
-  "equest_id\030\001 \001(\t\022\r\n\005email\030\002 \001(\t\"J\n\020EmailR"
-  "egisterReq\022\022\n\nrequest_id\030\001 \001(\t\022\r\n\005email\030"
-  "\002 \001(\t\022\023\n\013verify_code\030\003 \001(\t\"T\n\rEmailLogin"
-  "Req\022\022\n\nrequest_id\030\001 \001(\t\022\013\n\003uid\030\002 \001(\t\022\r\n\005"
-  "email\030\003 \001(\t\022\023\n\013verify_code\030\004 \001(\t\"M\n\rEmai"
-  "lLoginRsp\022(\n\010response\030\001 \001(\0132\026.messageSys"
-  "tem.CommRsp\022\022\n\nsession_id\030\002 \001(\t\"n\n\016GetUs"
-  "erInfoReq\022\022\n\nrequest_id\030\001 \001(\t\022\024\n\007user_id"
-  "\030\002 \001(\tH\000\210\001\001\022\027\n\nsession_id\030\003 \001(\tH\001\210\001\001B\n\n\010"
-  "_user_idB\r\n\013_session_id\"f\n\016GetUserInfoRs"
-  "p\022(\n\010response\030\001 \001(\0132\026.messageSystem.Comm"
-  "Rsp\022*\n\tuser_info\030\002 \001(\0132\027.messageSystem.U"
-  "serInfo\"\205\001\n\023GetMultiUserInfoReq\022\022\n\nreque"
-  "st_id\030\001 \001(\t\022\024\n\007user_id\030\002 \001(\tH\000\210\001\001\022\027\n\nses"
-  "sion_id\030\003 \001(\tH\001\210\001\001\022\020\n\010users_id\030\004 \003(\tB\n\n\010"
-  "_user_idB\r\n\013_session_id\"\321\001\n\023GetMultiUser"
-  "InfoRsp\022(\n\010response\030\001 \001(\0132\026.messageSyste"
-  "m.CommRsp\022E\n\nusers_info\030\002 \003(\01321.messageS"
-  "ystem.GetMultiUserInfoRsp.UsersInfoEntry"
-  "\032I\n\016UsersInfoEntry\022\013\n\003key\030\001 \001(\t\022&\n\005value"
-  "\030\002 \001(\0132\027.messageSystem.UserInfo:\0028\001\"\200\001\n\020"
-  "SetUserAvatarReq\022\022\n\nrequest_id\030\001 \001(\t\022\024\n\007"
-  "user_id\030\002 \001(\tH\000\210\001\001\022\027\n\nsession_id\030\003 \001(\tH\001"
-  "\210\001\001\022\016\n\006avatar\030\004 \001(\014B\n\n\010_user_idB\r\n\013_sess"
-  "ion_id\"\200\001\n\016SetUserNameReq\022\022\n\nrequest_id\030"
-  "\001 \001(\t\022\024\n\007user_id\030\002 \001(\tH\000\210\001\001\022\027\n\nsession_i"
-  "d\030\003 \001(\tH\001\210\001\001\022\020\n\010nickname\030\004 \001(\tB\n\n\010_user_"
-  "idB\r\n\013_session_id\"\203\001\n\025SetUserDescription"
-  "Req\022\022\n\nrequest_id\030\001 \001(\t\022\024\n\007user_id\030\002 \001(\t"
-  "H\000\210\001\001\022\027\n\nsession_id\030\003 \001(\tH\001\210\001\001\022\014\n\004desc\030\004"
-  " \001(\tB\n\n\010_user_idB\r\n\013_session_id\"\231\001\n\017SetU"
-  "serEmailReq\022\022\n\nrequest_id\030\001 \001(\t\022\024\n\007user_"
-  "id\030\002 \001(\tH\000\210\001\001\022\027\n\nsession_id\030\003 \001(\tH\001\210\001\001\022\r"
-  "\n\005email\030\004 \001(\t\022\031\n\021email_verify_code\030\005 \001(\t"
-  "B\n\n\010_user_idB\r\n\013_session_id2\222\006\n\013UserServ"
-  "ice\022E\n\tUserLogin\022\033.messageSystem.UserLog"
-  "inReq\032\033.messageSystem.UserLoginRsp\022O\n\022Ge"
-  "tEmailVerifyCode\022!.messageSystem.EmailVe"
-  "rifyCodeReq\032\026.messageSystem.CommRsp\022H\n\rE"
-  "mailRegister\022\037.messageSystem.EmailRegist"
-  "erReq\032\026.messageSystem.CommRsp\022H\n\nEmailLo"
-  "gin\022\034.messageSystem.EmailLoginReq\032\034.mess"
-  "ageSystem.EmailLoginRsp\022K\n\013GetUserInfo\022\035"
-  ".messageSystem.GetUserInfoReq\032\035.messageS"
-  "ystem.GetUserInfoRsp\022Z\n\020GetMultiUserInfo"
-  "\022\".messageSystem.GetMultiUserInfoReq\032\".m"
-  "essageSystem.GetMultiUserInfoRsp\022H\n\rSetU"
-  "serAvatar\022\037.messageSystem.SetUserAvatarR"
-  "eq\032\026.messageSystem.CommRsp\022H\n\017SetUserNic"
-  "kname\022\035.messageSystem.SetUserNameReq\032\026.m"
-  "essageSystem.CommRsp\022R\n\022SetUserDescripti"
-  "on\022$.messageSystem.SetUserDescriptionReq"
-  "\032\026.messageSystem.CommRsp\022F\n\014SetUserEmail"
-  "\022\036.messageSystem.SetUserEmailReq\032\026.messa"
-  "geSystem.CommRspB\003\200\001\001b\006proto3"
+  "\016\n\014_verify_code\"G\n\014UserLoginRsp\022(\n\010respo"
+  "nse\030\001 \001(\0132\026.messageSystem.CommRsp\022\r\n\005tok"
+  "en\030\002 \001(\t\">\n\023UserLoginByTokenReq\022\'\n\007reque"
+  "st\030\001 \001(\0132\026.messageSystem.CommReq\"7\n\022Emai"
+  "lVerifyCodeReq\022\022\n\nrequest_id\030\001 \001(\t\022\r\n\005em"
+  "ail\030\002 \001(\t\"J\n\020EmailRegisterReq\022\022\n\nrequest"
+  "_id\030\001 \001(\t\022\r\n\005email\030\002 \001(\t\022\023\n\013verify_code\030"
+  "\003 \001(\t\"T\n\rEmailLoginReq\022\022\n\nrequest_id\030\001 \001"
+  "(\t\022\013\n\003uid\030\002 \001(\t\022\r\n\005email\030\003 \001(\t\022\023\n\013verify"
+  "_code\030\004 \001(\t\"H\n\rEmailLoginRsp\022(\n\010response"
+  "\030\001 \001(\0132\026.messageSystem.CommRsp\022\r\n\005token\030"
+  "\002 \001(\t\"[\n\016GetUserInfoReq\022\'\n\007request\030\001 \001(\013"
+  "2\026.messageSystem.CommReq\022\024\n\007user_id\030\002 \001("
+  "\tH\000\210\001\001B\n\n\010_user_id\"f\n\016GetUserInfoRsp\022(\n\010"
+  "response\030\001 \001(\0132\026.messageSystem.CommRsp\022*"
+  "\n\tuser_info\030\002 \001(\0132\027.messageSystem.UserIn"
+  "fo\"P\n\023GetMultiUserInfoReq\022\'\n\007request\030\001 \001"
+  "(\0132\026.messageSystem.CommReq\022\020\n\010users_id\030\002"
+  " \003(\t\"\321\001\n\023GetMultiUserInfoRsp\022(\n\010response"
+  "\030\001 \001(\0132\026.messageSystem.CommRsp\022E\n\nusers_"
+  "info\030\002 \003(\01321.messageSystem.GetMultiUserI"
+  "nfoRsp.UsersInfoEntry\032I\n\016UsersInfoEntry\022"
+  "\013\n\003key\030\001 \001(\t\022&\n\005value\030\002 \001(\0132\027.messageSys"
+  "tem.UserInfo:\0028\001\"K\n\020SetUserAvatarReq\022\'\n\007"
+  "request\030\001 \001(\0132\026.messageSystem.CommReq\022\016\n"
+  "\006avatar\030\002 \001(\014\"K\n\016SetUserNameReq\022\'\n\007reque"
+  "st\030\001 \001(\0132\026.messageSystem.CommReq\022\020\n\010nick"
+  "name\030\002 \001(\t\"N\n\025SetUserDescriptionReq\022\'\n\007r"
+  "equest\030\001 \001(\0132\026.messageSystem.CommReq\022\014\n\004"
+  "desc\030\002 \001(\t\"d\n\017SetUserEmailReq\022\'\n\007request"
+  "\030\001 \001(\0132\026.messageSystem.CommReq\022\r\n\005email\030"
+  "\002 \001(\t\022\031\n\021email_verify_code\030\003 \001(\t2\342\006\n\013Use"
+  "rService\022E\n\tUserLogin\022\033.messageSystem.Us"
+  "erLoginReq\032\033.messageSystem.UserLoginRsp\022"
+  "N\n\020UserLoginByToken\022\".messageSystem.User"
+  "LoginByTokenReq\032\026.messageSystem.CommRsp\022"
+  "O\n\022GetEmailVerifyCode\022!.messageSystem.Em"
+  "ailVerifyCodeReq\032\026.messageSystem.CommRsp"
+  "\022H\n\rEmailRegister\022\037.messageSystem.EmailR"
+  "egisterReq\032\026.messageSystem.CommRsp\022H\n\nEm"
+  "ailLogin\022\034.messageSystem.EmailLoginReq\032\034"
+  ".messageSystem.EmailLoginRsp\022K\n\013GetUserI"
+  "nfo\022\035.messageSystem.GetUserInfoReq\032\035.mes"
+  "sageSystem.GetUserInfoRsp\022Z\n\020GetMultiUse"
+  "rInfo\022\".messageSystem.GetMultiUserInfoRe"
+  "q\032\".messageSystem.GetMultiUserInfoRsp\022H\n"
+  "\rSetUserAvatar\022\037.messageSystem.SetUserAv"
+  "atarReq\032\026.messageSystem.CommRsp\022H\n\017SetUs"
+  "erNickname\022\035.messageSystem.SetUserNameRe"
+  "q\032\026.messageSystem.CommRsp\022R\n\022SetUserDesc"
+  "ription\022$.messageSystem.SetUserDescripti"
+  "onReq\032\026.messageSystem.CommRsp\022F\n\014SetUser"
+  "Email\022\036.messageSystem.SetUserEmailReq\032\026."
+  "messageSystem.CommRspB\003\200\001\001b\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_user_2eproto_deps[1] = {
   &::descriptor_table_comm_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_user_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_user_2eproto = {
-    false, false, 2509, descriptor_table_protodef_user_2eproto,
+    false, false, 2354, descriptor_table_protodef_user_2eproto,
     "user.proto",
-    &descriptor_table_user_2eproto_once, descriptor_table_user_2eproto_deps, 1, 15,
+    &descriptor_table_user_2eproto_once, descriptor_table_user_2eproto_deps, 1, 16,
     schemas, file_default_instances, TableStruct_user_2eproto::offsets,
     file_level_metadata_user_2eproto, file_level_enum_descriptors_user_2eproto,
     file_level_service_descriptors_user_2eproto,
@@ -1059,17 +1028,17 @@ UserLoginRsp::UserLoginRsp(const UserLoginRsp& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   UserLoginRsp* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.session_id_){}
+      decltype(_impl_.token_){}
     , decltype(_impl_.response_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.session_id_.InitDefault();
+  _impl_.token_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
+    _impl_.token_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_session_id().empty()) {
-    _this->_impl_.session_id_.Set(from._internal_session_id(), 
+  if (!from._internal_token().empty()) {
+    _this->_impl_.token_.Set(from._internal_token(), 
       _this->GetArenaForAllocation());
   }
   if (from._internal_has_response()) {
@@ -1083,13 +1052,13 @@ inline void UserLoginRsp::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.session_id_){}
+      decltype(_impl_.token_){}
     , decltype(_impl_.response_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
   };
-  _impl_.session_id_.InitDefault();
+  _impl_.token_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
+    _impl_.token_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
@@ -1104,7 +1073,7 @@ UserLoginRsp::~UserLoginRsp() {
 
 inline void UserLoginRsp::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.session_id_.Destroy();
+  _impl_.token_.Destroy();
   if (this != internal_default_instance()) delete _impl_.response_;
 }
 
@@ -1118,7 +1087,7 @@ void UserLoginRsp::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.session_id_.ClearToEmpty();
+  _impl_.token_.ClearToEmpty();
   if (GetArenaForAllocation() == nullptr && _impl_.response_ != nullptr) {
     delete _impl_.response_;
   }
@@ -1140,13 +1109,13 @@ const char* UserLoginRsp::_InternalParse(const char* ptr, ::_pbi::ParseContext* 
         } else
           goto handle_unusual;
         continue;
-      // string session_id = 2;
+      // string token = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          auto str = _internal_mutable_session_id();
+          auto str = _internal_mutable_token();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.UserLoginRsp.session_id"));
+          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.UserLoginRsp.token"));
         } else
           goto handle_unusual;
         continue;
@@ -1186,14 +1155,14 @@ uint8_t* UserLoginRsp::_InternalSerialize(
         _Internal::response(this).GetCachedSize(), target, stream);
   }
 
-  // string session_id = 2;
-  if (!this->_internal_session_id().empty()) {
+  // string token = 2;
+  if (!this->_internal_token().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_session_id().data(), static_cast<int>(this->_internal_session_id().length()),
+      this->_internal_token().data(), static_cast<int>(this->_internal_token().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.UserLoginRsp.session_id");
+      "messageSystem.UserLoginRsp.token");
     target = stream->WriteStringMaybeAliased(
-        2, this->_internal_session_id(), target);
+        2, this->_internal_token(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1212,11 +1181,11 @@ size_t UserLoginRsp::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string session_id = 2;
-  if (!this->_internal_session_id().empty()) {
+  // string token = 2;
+  if (!this->_internal_token().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_session_id());
+        this->_internal_token());
   }
 
   // .messageSystem.CommRsp response = 1;
@@ -1244,8 +1213,8 @@ void UserLoginRsp::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::P
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from._internal_session_id().empty()) {
-    _this->_internal_set_session_id(from._internal_session_id());
+  if (!from._internal_token().empty()) {
+    _this->_internal_set_token(from._internal_token());
   }
   if (from._internal_has_response()) {
     _this->_internal_mutable_response()->::messageSystem::CommRsp::MergeFrom(
@@ -1271,8 +1240,8 @@ void UserLoginRsp::InternalSwap(UserLoginRsp* other) {
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.session_id_, lhs_arena,
-      &other->_impl_.session_id_, rhs_arena
+      &_impl_.token_, lhs_arena,
+      &other->_impl_.token_, rhs_arena
   );
   swap(_impl_.response_, other->_impl_.response_);
 }
@@ -1281,6 +1250,205 @@ void UserLoginRsp::InternalSwap(UserLoginRsp* other) {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_user_2eproto_getter, &descriptor_table_user_2eproto_once,
       file_level_metadata_user_2eproto[1]);
+}
+
+// ===================================================================
+
+class UserLoginByTokenReq::_Internal {
+ public:
+  static const ::messageSystem::CommReq& request(const UserLoginByTokenReq* msg);
+};
+
+const ::messageSystem::CommReq&
+UserLoginByTokenReq::_Internal::request(const UserLoginByTokenReq* msg) {
+  return *msg->_impl_.request_;
+}
+void UserLoginByTokenReq::clear_request() {
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
+  }
+  _impl_.request_ = nullptr;
+}
+UserLoginByTokenReq::UserLoginByTokenReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:messageSystem.UserLoginByTokenReq)
+}
+UserLoginByTokenReq::UserLoginByTokenReq(const UserLoginByTokenReq& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  UserLoginByTokenReq* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.request_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_request()) {
+    _this->_impl_.request_ = new ::messageSystem::CommReq(*from._impl_.request_);
+  }
+  // @@protoc_insertion_point(copy_constructor:messageSystem.UserLoginByTokenReq)
+}
+
+inline void UserLoginByTokenReq::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.request_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+UserLoginByTokenReq::~UserLoginByTokenReq() {
+  // @@protoc_insertion_point(destructor:messageSystem.UserLoginByTokenReq)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void UserLoginByTokenReq::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (this != internal_default_instance()) delete _impl_.request_;
+}
+
+void UserLoginByTokenReq::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void UserLoginByTokenReq::Clear() {
+// @@protoc_insertion_point(message_clear_start:messageSystem.UserLoginByTokenReq)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
+  }
+  _impl_.request_ = nullptr;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* UserLoginByTokenReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .messageSystem.CommReq request = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr = ctx->ParseMessage(_internal_mutable_request(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* UserLoginByTokenReq::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:messageSystem.UserLoginByTokenReq)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .messageSystem.CommReq request = 1;
+  if (this->_internal_has_request()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::request(this),
+        _Internal::request(this).GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:messageSystem.UserLoginByTokenReq)
+  return target;
+}
+
+size_t UserLoginByTokenReq::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:messageSystem.UserLoginByTokenReq)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // .messageSystem.CommReq request = 1;
+  if (this->_internal_has_request()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.request_);
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData UserLoginByTokenReq::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    UserLoginByTokenReq::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*UserLoginByTokenReq::GetClassData() const { return &_class_data_; }
+
+
+void UserLoginByTokenReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<UserLoginByTokenReq*>(&to_msg);
+  auto& from = static_cast<const UserLoginByTokenReq&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:messageSystem.UserLoginByTokenReq)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_has_request()) {
+    _this->_internal_mutable_request()->::messageSystem::CommReq::MergeFrom(
+        from._internal_request());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void UserLoginByTokenReq::CopyFrom(const UserLoginByTokenReq& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:messageSystem.UserLoginByTokenReq)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool UserLoginByTokenReq::IsInitialized() const {
+  return true;
+}
+
+void UserLoginByTokenReq::InternalSwap(UserLoginByTokenReq* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.request_, other->_impl_.request_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata UserLoginByTokenReq::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_user_2eproto_getter, &descriptor_table_user_2eproto_once,
+      file_level_metadata_user_2eproto[2]);
 }
 
 // ===================================================================
@@ -1533,7 +1701,7 @@ void EmailVerifyCodeReq::InternalSwap(EmailVerifyCodeReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata EmailVerifyCodeReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_user_2eproto_getter, &descriptor_table_user_2eproto_once,
-      file_level_metadata_user_2eproto[2]);
+      file_level_metadata_user_2eproto[3]);
 }
 
 // ===================================================================
@@ -1836,7 +2004,7 @@ void EmailRegisterReq::InternalSwap(EmailRegisterReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata EmailRegisterReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_user_2eproto_getter, &descriptor_table_user_2eproto_once,
-      file_level_metadata_user_2eproto[3]);
+      file_level_metadata_user_2eproto[4]);
 }
 
 // ===================================================================
@@ -2189,7 +2357,7 @@ void EmailLoginReq::InternalSwap(EmailLoginReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata EmailLoginReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_user_2eproto_getter, &descriptor_table_user_2eproto_once,
-      file_level_metadata_user_2eproto[4]);
+      file_level_metadata_user_2eproto[5]);
 }
 
 // ===================================================================
@@ -2219,17 +2387,17 @@ EmailLoginRsp::EmailLoginRsp(const EmailLoginRsp& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   EmailLoginRsp* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.session_id_){}
+      decltype(_impl_.token_){}
     , decltype(_impl_.response_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.session_id_.InitDefault();
+  _impl_.token_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
+    _impl_.token_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_session_id().empty()) {
-    _this->_impl_.session_id_.Set(from._internal_session_id(), 
+  if (!from._internal_token().empty()) {
+    _this->_impl_.token_.Set(from._internal_token(), 
       _this->GetArenaForAllocation());
   }
   if (from._internal_has_response()) {
@@ -2243,13 +2411,13 @@ inline void EmailLoginRsp::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.session_id_){}
+      decltype(_impl_.token_){}
     , decltype(_impl_.response_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
   };
-  _impl_.session_id_.InitDefault();
+  _impl_.token_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
+    _impl_.token_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
@@ -2264,7 +2432,7 @@ EmailLoginRsp::~EmailLoginRsp() {
 
 inline void EmailLoginRsp::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.session_id_.Destroy();
+  _impl_.token_.Destroy();
   if (this != internal_default_instance()) delete _impl_.response_;
 }
 
@@ -2278,7 +2446,7 @@ void EmailLoginRsp::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.session_id_.ClearToEmpty();
+  _impl_.token_.ClearToEmpty();
   if (GetArenaForAllocation() == nullptr && _impl_.response_ != nullptr) {
     delete _impl_.response_;
   }
@@ -2300,13 +2468,13 @@ const char* EmailLoginRsp::_InternalParse(const char* ptr, ::_pbi::ParseContext*
         } else
           goto handle_unusual;
         continue;
-      // string session_id = 2;
+      // string token = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          auto str = _internal_mutable_session_id();
+          auto str = _internal_mutable_token();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.EmailLoginRsp.session_id"));
+          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.EmailLoginRsp.token"));
         } else
           goto handle_unusual;
         continue;
@@ -2346,14 +2514,14 @@ uint8_t* EmailLoginRsp::_InternalSerialize(
         _Internal::response(this).GetCachedSize(), target, stream);
   }
 
-  // string session_id = 2;
-  if (!this->_internal_session_id().empty()) {
+  // string token = 2;
+  if (!this->_internal_token().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_session_id().data(), static_cast<int>(this->_internal_session_id().length()),
+      this->_internal_token().data(), static_cast<int>(this->_internal_token().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.EmailLoginRsp.session_id");
+      "messageSystem.EmailLoginRsp.token");
     target = stream->WriteStringMaybeAliased(
-        2, this->_internal_session_id(), target);
+        2, this->_internal_token(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2372,11 +2540,11 @@ size_t EmailLoginRsp::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string session_id = 2;
-  if (!this->_internal_session_id().empty()) {
+  // string token = 2;
+  if (!this->_internal_token().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_session_id());
+        this->_internal_token());
   }
 
   // .messageSystem.CommRsp response = 1;
@@ -2404,8 +2572,8 @@ void EmailLoginRsp::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from._internal_session_id().empty()) {
-    _this->_internal_set_session_id(from._internal_session_id());
+  if (!from._internal_token().empty()) {
+    _this->_internal_set_token(from._internal_token());
   }
   if (from._internal_has_response()) {
     _this->_internal_mutable_response()->::messageSystem::CommRsp::MergeFrom(
@@ -2431,8 +2599,8 @@ void EmailLoginRsp::InternalSwap(EmailLoginRsp* other) {
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.session_id_, lhs_arena,
-      &other->_impl_.session_id_, rhs_arena
+      &_impl_.token_, lhs_arena,
+      &other->_impl_.token_, rhs_arena
   );
   swap(_impl_.response_, other->_impl_.response_);
 }
@@ -2440,7 +2608,7 @@ void EmailLoginRsp::InternalSwap(EmailLoginRsp* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata EmailLoginRsp::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_user_2eproto_getter, &descriptor_table_user_2eproto_once,
-      file_level_metadata_user_2eproto[5]);
+      file_level_metadata_user_2eproto[6]);
 }
 
 // ===================================================================
@@ -2448,14 +2616,22 @@ void EmailLoginRsp::InternalSwap(EmailLoginRsp* other) {
 class GetUserInfoReq::_Internal {
  public:
   using HasBits = decltype(std::declval<GetUserInfoReq>()._impl_._has_bits_);
+  static const ::messageSystem::CommReq& request(const GetUserInfoReq* msg);
   static void set_has_user_id(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
-  static void set_has_session_id(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
-  }
 };
 
+const ::messageSystem::CommReq&
+GetUserInfoReq::_Internal::request(const GetUserInfoReq* msg) {
+  return *msg->_impl_.request_;
+}
+void GetUserInfoReq::clear_request() {
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
+  }
+  _impl_.request_ = nullptr;
+}
 GetUserInfoReq::GetUserInfoReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -2468,19 +2644,10 @@ GetUserInfoReq::GetUserInfoReq(const GetUserInfoReq& from)
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){from._impl_._has_bits_}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.request_id_){}
     , decltype(_impl_.user_id_){}
-    , decltype(_impl_.session_id_){}};
+    , decltype(_impl_.request_){nullptr}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.request_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.request_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_request_id().empty()) {
-    _this->_impl_.request_id_.Set(from._internal_request_id(), 
-      _this->GetArenaForAllocation());
-  }
   _impl_.user_id_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.user_id_.Set("", GetArenaForAllocation());
@@ -2489,13 +2656,8 @@ GetUserInfoReq::GetUserInfoReq(const GetUserInfoReq& from)
     _this->_impl_.user_id_.Set(from._internal_user_id(), 
       _this->GetArenaForAllocation());
   }
-  _impl_.session_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_session_id()) {
-    _this->_impl_.session_id_.Set(from._internal_session_id(), 
-      _this->GetArenaForAllocation());
+  if (from._internal_has_request()) {
+    _this->_impl_.request_ = new ::messageSystem::CommReq(*from._impl_.request_);
   }
   // @@protoc_insertion_point(copy_constructor:messageSystem.GetUserInfoReq)
 }
@@ -2507,21 +2669,12 @@ inline void GetUserInfoReq::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.request_id_){}
     , decltype(_impl_.user_id_){}
-    , decltype(_impl_.session_id_){}
+    , decltype(_impl_.request_){nullptr}
   };
-  _impl_.request_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.request_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   _impl_.user_id_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.user_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.session_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
@@ -2536,9 +2689,8 @@ GetUserInfoReq::~GetUserInfoReq() {
 
 inline void GetUserInfoReq::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.request_id_.Destroy();
   _impl_.user_id_.Destroy();
-  _impl_.session_id_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.request_;
 }
 
 void GetUserInfoReq::SetCachedSize(int size) const {
@@ -2551,16 +2703,14 @@ void GetUserInfoReq::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.request_id_.ClearToEmpty();
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _impl_.user_id_.ClearNonDefaultToEmpty();
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _impl_.session_id_.ClearNonDefaultToEmpty();
-    }
+  if (cached_has_bits & 0x00000001u) {
+    _impl_.user_id_.ClearNonDefaultToEmpty();
   }
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
+  }
+  _impl_.request_ = nullptr;
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -2572,13 +2722,11 @@ const char* GetUserInfoReq::_InternalParse(const char* ptr, ::_pbi::ParseContext
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string request_id = 1;
+      // .messageSystem.CommReq request = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_request_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          ptr = ctx->ParseMessage(_internal_mutable_request(), ptr);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.GetUserInfoReq.request_id"));
         } else
           goto handle_unusual;
         continue;
@@ -2589,16 +2737,6 @@ const char* GetUserInfoReq::_InternalParse(const char* ptr, ::_pbi::ParseContext
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
           CHK_(::_pbi::VerifyUTF8(str, "messageSystem.GetUserInfoReq.user_id"));
-        } else
-          goto handle_unusual;
-        continue;
-      // optional string session_id = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          auto str = _internal_mutable_session_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.GetUserInfoReq.session_id"));
         } else
           goto handle_unusual;
         continue;
@@ -2632,14 +2770,11 @@ uint8_t* GetUserInfoReq::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string request_id = 1;
-  if (!this->_internal_request_id().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_request_id().data(), static_cast<int>(this->_internal_request_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.GetUserInfoReq.request_id");
-    target = stream->WriteStringMaybeAliased(
-        1, this->_internal_request_id(), target);
+  // .messageSystem.CommReq request = 1;
+  if (this->_internal_has_request()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::request(this),
+        _Internal::request(this).GetCachedSize(), target, stream);
   }
 
   // optional string user_id = 2;
@@ -2650,16 +2785,6 @@ uint8_t* GetUserInfoReq::_InternalSerialize(
       "messageSystem.GetUserInfoReq.user_id");
     target = stream->WriteStringMaybeAliased(
         2, this->_internal_user_id(), target);
-  }
-
-  // optional string session_id = 3;
-  if (_internal_has_session_id()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_session_id().data(), static_cast<int>(this->_internal_session_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.GetUserInfoReq.session_id");
-    target = stream->WriteStringMaybeAliased(
-        3, this->_internal_session_id(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2678,30 +2803,21 @@ size_t GetUserInfoReq::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string request_id = 1;
-  if (!this->_internal_request_id().empty()) {
+  // optional string user_id = 2;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_request_id());
+        this->_internal_user_id());
   }
 
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    // optional string user_id = 2;
-    if (cached_has_bits & 0x00000001u) {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-          this->_internal_user_id());
-    }
-
-    // optional string session_id = 3;
-    if (cached_has_bits & 0x00000002u) {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-          this->_internal_session_id());
-    }
-
+  // .messageSystem.CommReq request = 1;
+  if (this->_internal_has_request()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.request_);
   }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -2720,17 +2836,12 @@ void GetUserInfoReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const :
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from._internal_request_id().empty()) {
-    _this->_internal_set_request_id(from._internal_request_id());
+  if (from._internal_has_user_id()) {
+    _this->_internal_set_user_id(from._internal_user_id());
   }
-  cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _this->_internal_set_user_id(from._internal_user_id());
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _this->_internal_set_session_id(from._internal_session_id());
-    }
+  if (from._internal_has_request()) {
+    _this->_internal_mutable_request()->::messageSystem::CommReq::MergeFrom(
+        from._internal_request());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -2753,23 +2864,16 @@ void GetUserInfoReq::InternalSwap(GetUserInfoReq* other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.request_id_, lhs_arena,
-      &other->_impl_.request_id_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.user_id_, lhs_arena,
       &other->_impl_.user_id_, rhs_arena
   );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.session_id_, lhs_arena,
-      &other->_impl_.session_id_, rhs_arena
-  );
+  swap(_impl_.request_, other->_impl_.request_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata GetUserInfoReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_user_2eproto_getter, &descriptor_table_user_2eproto_once,
-      file_level_metadata_user_2eproto[6]);
+      file_level_metadata_user_2eproto[7]);
 }
 
 // ===================================================================
@@ -3020,22 +3124,26 @@ void GetUserInfoRsp::InternalSwap(GetUserInfoRsp* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GetUserInfoRsp::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_user_2eproto_getter, &descriptor_table_user_2eproto_once,
-      file_level_metadata_user_2eproto[7]);
+      file_level_metadata_user_2eproto[8]);
 }
 
 // ===================================================================
 
 class GetMultiUserInfoReq::_Internal {
  public:
-  using HasBits = decltype(std::declval<GetMultiUserInfoReq>()._impl_._has_bits_);
-  static void set_has_user_id(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
-  }
-  static void set_has_session_id(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
-  }
+  static const ::messageSystem::CommReq& request(const GetMultiUserInfoReq* msg);
 };
 
+const ::messageSystem::CommReq&
+GetMultiUserInfoReq::_Internal::request(const GetMultiUserInfoReq* msg) {
+  return *msg->_impl_.request_;
+}
+void GetMultiUserInfoReq::clear_request() {
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
+  }
+  _impl_.request_ = nullptr;
+}
 GetMultiUserInfoReq::GetMultiUserInfoReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -3046,37 +3154,13 @@ GetMultiUserInfoReq::GetMultiUserInfoReq(const GetMultiUserInfoReq& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   GetMultiUserInfoReq* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_}
-    , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.users_id_){from._impl_.users_id_}
-    , decltype(_impl_.request_id_){}
-    , decltype(_impl_.user_id_){}
-    , decltype(_impl_.session_id_){}};
+      decltype(_impl_.users_id_){from._impl_.users_id_}
+    , decltype(_impl_.request_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.request_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.request_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_request_id().empty()) {
-    _this->_impl_.request_id_.Set(from._internal_request_id(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.user_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_user_id()) {
-    _this->_impl_.user_id_.Set(from._internal_user_id(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.session_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_session_id()) {
-    _this->_impl_.session_id_.Set(from._internal_session_id(), 
-      _this->GetArenaForAllocation());
+  if (from._internal_has_request()) {
+    _this->_impl_.request_ = new ::messageSystem::CommReq(*from._impl_.request_);
   }
   // @@protoc_insertion_point(copy_constructor:messageSystem.GetMultiUserInfoReq)
 }
@@ -3086,25 +3170,10 @@ inline void GetMultiUserInfoReq::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){}
+      decltype(_impl_.users_id_){arena}
+    , decltype(_impl_.request_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.users_id_){arena}
-    , decltype(_impl_.request_id_){}
-    , decltype(_impl_.user_id_){}
-    , decltype(_impl_.session_id_){}
   };
-  _impl_.request_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.request_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.user_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.session_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 GetMultiUserInfoReq::~GetMultiUserInfoReq() {
@@ -3119,9 +3188,7 @@ GetMultiUserInfoReq::~GetMultiUserInfoReq() {
 inline void GetMultiUserInfoReq::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.users_id_.~RepeatedPtrField();
-  _impl_.request_id_.Destroy();
-  _impl_.user_id_.Destroy();
-  _impl_.session_id_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.request_;
 }
 
 void GetMultiUserInfoReq::SetCachedSize(int size) const {
@@ -3135,60 +3202,30 @@ void GetMultiUserInfoReq::Clear() {
   (void) cached_has_bits;
 
   _impl_.users_id_.Clear();
-  _impl_.request_id_.ClearToEmpty();
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _impl_.user_id_.ClearNonDefaultToEmpty();
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _impl_.session_id_.ClearNonDefaultToEmpty();
-    }
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
   }
-  _impl_._has_bits_.Clear();
+  _impl_.request_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* GetMultiUserInfoReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string request_id = 1;
+      // .messageSystem.CommReq request = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_request_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          ptr = ctx->ParseMessage(_internal_mutable_request(), ptr);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.GetMultiUserInfoReq.request_id"));
         } else
           goto handle_unusual;
         continue;
-      // optional string user_id = 2;
+      // repeated string users_id = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          auto str = _internal_mutable_user_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.GetMultiUserInfoReq.user_id"));
-        } else
-          goto handle_unusual;
-        continue;
-      // optional string session_id = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          auto str = _internal_mutable_session_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.GetMultiUserInfoReq.session_id"));
-        } else
-          goto handle_unusual;
-        continue;
-      // repeated string users_id = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
           ptr -= 1;
           do {
             ptr += 1;
@@ -3197,7 +3234,7 @@ const char* GetMultiUserInfoReq::_InternalParse(const char* ptr, ::_pbi::ParseCo
             CHK_(ptr);
             CHK_(::_pbi::VerifyUTF8(str, "messageSystem.GetMultiUserInfoReq.users_id"));
             if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
         } else
           goto handle_unusual;
         continue;
@@ -3217,7 +3254,6 @@ const char* GetMultiUserInfoReq::_InternalParse(const char* ptr, ::_pbi::ParseCo
     CHK_(ptr != nullptr);
   }  // while
 message_done:
-  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -3231,44 +3267,21 @@ uint8_t* GetMultiUserInfoReq::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string request_id = 1;
-  if (!this->_internal_request_id().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_request_id().data(), static_cast<int>(this->_internal_request_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.GetMultiUserInfoReq.request_id");
-    target = stream->WriteStringMaybeAliased(
-        1, this->_internal_request_id(), target);
+  // .messageSystem.CommReq request = 1;
+  if (this->_internal_has_request()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::request(this),
+        _Internal::request(this).GetCachedSize(), target, stream);
   }
 
-  // optional string user_id = 2;
-  if (_internal_has_user_id()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_user_id().data(), static_cast<int>(this->_internal_user_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.GetMultiUserInfoReq.user_id");
-    target = stream->WriteStringMaybeAliased(
-        2, this->_internal_user_id(), target);
-  }
-
-  // optional string session_id = 3;
-  if (_internal_has_session_id()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_session_id().data(), static_cast<int>(this->_internal_session_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.GetMultiUserInfoReq.session_id");
-    target = stream->WriteStringMaybeAliased(
-        3, this->_internal_session_id(), target);
-  }
-
-  // repeated string users_id = 4;
+  // repeated string users_id = 2;
   for (int i = 0, n = this->_internal_users_id_size(); i < n; i++) {
     const auto& s = this->_internal_users_id(i);
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       s.data(), static_cast<int>(s.length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "messageSystem.GetMultiUserInfoReq.users_id");
-    target = stream->WriteString(4, s, target);
+    target = stream->WriteString(2, s, target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -3287,7 +3300,7 @@ size_t GetMultiUserInfoReq::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated string users_id = 4;
+  // repeated string users_id = 2;
   total_size += 1 *
       ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.users_id_.size());
   for (int i = 0, n = _impl_.users_id_.size(); i < n; i++) {
@@ -3295,30 +3308,13 @@ size_t GetMultiUserInfoReq::ByteSizeLong() const {
       _impl_.users_id_.Get(i));
   }
 
-  // string request_id = 1;
-  if (!this->_internal_request_id().empty()) {
+  // .messageSystem.CommReq request = 1;
+  if (this->_internal_has_request()) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_request_id());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.request_);
   }
 
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    // optional string user_id = 2;
-    if (cached_has_bits & 0x00000001u) {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-          this->_internal_user_id());
-    }
-
-    // optional string session_id = 3;
-    if (cached_has_bits & 0x00000002u) {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-          this->_internal_session_id());
-    }
-
-  }
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -3338,17 +3334,9 @@ void GetMultiUserInfoReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, co
   (void) cached_has_bits;
 
   _this->_impl_.users_id_.MergeFrom(from._impl_.users_id_);
-  if (!from._internal_request_id().empty()) {
-    _this->_internal_set_request_id(from._internal_request_id());
-  }
-  cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _this->_internal_set_user_id(from._internal_user_id());
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _this->_internal_set_session_id(from._internal_session_id());
-    }
+  if (from._internal_has_request()) {
+    _this->_internal_mutable_request()->::messageSystem::CommReq::MergeFrom(
+        from._internal_request());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -3366,29 +3354,15 @@ bool GetMultiUserInfoReq::IsInitialized() const {
 
 void GetMultiUserInfoReq::InternalSwap(GetMultiUserInfoReq* other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   _impl_.users_id_.InternalSwap(&other->_impl_.users_id_);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.request_id_, lhs_arena,
-      &other->_impl_.request_id_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.user_id_, lhs_arena,
-      &other->_impl_.user_id_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.session_id_, lhs_arena,
-      &other->_impl_.session_id_, rhs_arena
-  );
+  swap(_impl_.request_, other->_impl_.request_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata GetMultiUserInfoReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_user_2eproto_getter, &descriptor_table_user_2eproto_once,
-      file_level_metadata_user_2eproto[8]);
+      file_level_metadata_user_2eproto[9]);
 }
 
 // ===================================================================
@@ -3402,7 +3376,7 @@ void GetMultiUserInfoRsp_UsersInfoEntry_DoNotUse::MergeFrom(const GetMultiUserIn
 ::PROTOBUF_NAMESPACE_ID::Metadata GetMultiUserInfoRsp_UsersInfoEntry_DoNotUse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_user_2eproto_getter, &descriptor_table_user_2eproto_once,
-      file_level_metadata_user_2eproto[9]);
+      file_level_metadata_user_2eproto[10]);
 }
 
 // ===================================================================
@@ -3668,22 +3642,26 @@ void GetMultiUserInfoRsp::InternalSwap(GetMultiUserInfoRsp* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GetMultiUserInfoRsp::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_user_2eproto_getter, &descriptor_table_user_2eproto_once,
-      file_level_metadata_user_2eproto[10]);
+      file_level_metadata_user_2eproto[11]);
 }
 
 // ===================================================================
 
 class SetUserAvatarReq::_Internal {
  public:
-  using HasBits = decltype(std::declval<SetUserAvatarReq>()._impl_._has_bits_);
-  static void set_has_user_id(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
-  }
-  static void set_has_session_id(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
-  }
+  static const ::messageSystem::CommReq& request(const SetUserAvatarReq* msg);
 };
 
+const ::messageSystem::CommReq&
+SetUserAvatarReq::_Internal::request(const SetUserAvatarReq* msg) {
+  return *msg->_impl_.request_;
+}
+void SetUserAvatarReq::clear_request() {
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
+  }
+  _impl_.request_ = nullptr;
+}
 SetUserAvatarReq::SetUserAvatarReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -3694,38 +3672,11 @@ SetUserAvatarReq::SetUserAvatarReq(const SetUserAvatarReq& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   SetUserAvatarReq* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_}
-    , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.request_id_){}
-    , decltype(_impl_.user_id_){}
-    , decltype(_impl_.session_id_){}
-    , decltype(_impl_.avatar_){}};
+      decltype(_impl_.avatar_){}
+    , decltype(_impl_.request_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.request_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.request_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_request_id().empty()) {
-    _this->_impl_.request_id_.Set(from._internal_request_id(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.user_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_user_id()) {
-    _this->_impl_.user_id_.Set(from._internal_user_id(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.session_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_session_id()) {
-    _this->_impl_.session_id_.Set(from._internal_session_id(), 
-      _this->GetArenaForAllocation());
-  }
   _impl_.avatar_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.avatar_.Set("", GetArenaForAllocation());
@@ -3733,6 +3684,9 @@ SetUserAvatarReq::SetUserAvatarReq(const SetUserAvatarReq& from)
   if (!from._internal_avatar().empty()) {
     _this->_impl_.avatar_.Set(from._internal_avatar(), 
       _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_request()) {
+    _this->_impl_.request_ = new ::messageSystem::CommReq(*from._impl_.request_);
   }
   // @@protoc_insertion_point(copy_constructor:messageSystem.SetUserAvatarReq)
 }
@@ -3742,25 +3696,10 @@ inline void SetUserAvatarReq::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){}
+      decltype(_impl_.avatar_){}
+    , decltype(_impl_.request_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.request_id_){}
-    , decltype(_impl_.user_id_){}
-    , decltype(_impl_.session_id_){}
-    , decltype(_impl_.avatar_){}
   };
-  _impl_.request_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.request_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.user_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.session_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   _impl_.avatar_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.avatar_.Set("", GetArenaForAllocation());
@@ -3778,10 +3717,8 @@ SetUserAvatarReq::~SetUserAvatarReq() {
 
 inline void SetUserAvatarReq::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.request_id_.Destroy();
-  _impl_.user_id_.Destroy();
-  _impl_.session_id_.Destroy();
   _impl_.avatar_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.request_;
 }
 
 void SetUserAvatarReq::SetCachedSize(int size) const {
@@ -3794,61 +3731,31 @@ void SetUserAvatarReq::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.request_id_.ClearToEmpty();
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _impl_.user_id_.ClearNonDefaultToEmpty();
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _impl_.session_id_.ClearNonDefaultToEmpty();
-    }
-  }
   _impl_.avatar_.ClearToEmpty();
-  _impl_._has_bits_.Clear();
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
+  }
+  _impl_.request_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* SetUserAvatarReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string request_id = 1;
+      // .messageSystem.CommReq request = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_request_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          ptr = ctx->ParseMessage(_internal_mutable_request(), ptr);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.SetUserAvatarReq.request_id"));
         } else
           goto handle_unusual;
         continue;
-      // optional string user_id = 2;
+      // bytes avatar = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          auto str = _internal_mutable_user_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.SetUserAvatarReq.user_id"));
-        } else
-          goto handle_unusual;
-        continue;
-      // optional string session_id = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          auto str = _internal_mutable_session_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.SetUserAvatarReq.session_id"));
-        } else
-          goto handle_unusual;
-        continue;
-      // bytes avatar = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
           auto str = _internal_mutable_avatar();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
@@ -3871,7 +3778,6 @@ const char* SetUserAvatarReq::_InternalParse(const char* ptr, ::_pbi::ParseConte
     CHK_(ptr != nullptr);
   }  // while
 message_done:
-  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -3885,40 +3791,17 @@ uint8_t* SetUserAvatarReq::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string request_id = 1;
-  if (!this->_internal_request_id().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_request_id().data(), static_cast<int>(this->_internal_request_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.SetUserAvatarReq.request_id");
-    target = stream->WriteStringMaybeAliased(
-        1, this->_internal_request_id(), target);
+  // .messageSystem.CommReq request = 1;
+  if (this->_internal_has_request()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::request(this),
+        _Internal::request(this).GetCachedSize(), target, stream);
   }
 
-  // optional string user_id = 2;
-  if (_internal_has_user_id()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_user_id().data(), static_cast<int>(this->_internal_user_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.SetUserAvatarReq.user_id");
-    target = stream->WriteStringMaybeAliased(
-        2, this->_internal_user_id(), target);
-  }
-
-  // optional string session_id = 3;
-  if (_internal_has_session_id()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_session_id().data(), static_cast<int>(this->_internal_session_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.SetUserAvatarReq.session_id");
-    target = stream->WriteStringMaybeAliased(
-        3, this->_internal_session_id(), target);
-  }
-
-  // bytes avatar = 4;
+  // bytes avatar = 2;
   if (!this->_internal_avatar().empty()) {
     target = stream->WriteBytesMaybeAliased(
-        4, this->_internal_avatar(), target);
+        2, this->_internal_avatar(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -3937,35 +3820,18 @@ size_t SetUserAvatarReq::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string request_id = 1;
-  if (!this->_internal_request_id().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_request_id());
-  }
-
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    // optional string user_id = 2;
-    if (cached_has_bits & 0x00000001u) {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-          this->_internal_user_id());
-    }
-
-    // optional string session_id = 3;
-    if (cached_has_bits & 0x00000002u) {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-          this->_internal_session_id());
-    }
-
-  }
-  // bytes avatar = 4;
+  // bytes avatar = 2;
   if (!this->_internal_avatar().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
         this->_internal_avatar());
+  }
+
+  // .messageSystem.CommReq request = 1;
+  if (this->_internal_has_request()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.request_);
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -3986,20 +3852,12 @@ void SetUserAvatarReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from._internal_request_id().empty()) {
-    _this->_internal_set_request_id(from._internal_request_id());
-  }
-  cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _this->_internal_set_user_id(from._internal_user_id());
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _this->_internal_set_session_id(from._internal_session_id());
-    }
-  }
   if (!from._internal_avatar().empty()) {
     _this->_internal_set_avatar(from._internal_avatar());
+  }
+  if (from._internal_has_request()) {
+    _this->_internal_mutable_request()->::messageSystem::CommReq::MergeFrom(
+        from._internal_request());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -4020,44 +3878,36 @@ void SetUserAvatarReq::InternalSwap(SetUserAvatarReq* other) {
   auto* lhs_arena = GetArenaForAllocation();
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.request_id_, lhs_arena,
-      &other->_impl_.request_id_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.user_id_, lhs_arena,
-      &other->_impl_.user_id_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.session_id_, lhs_arena,
-      &other->_impl_.session_id_, rhs_arena
-  );
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.avatar_, lhs_arena,
       &other->_impl_.avatar_, rhs_arena
   );
+  swap(_impl_.request_, other->_impl_.request_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata SetUserAvatarReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_user_2eproto_getter, &descriptor_table_user_2eproto_once,
-      file_level_metadata_user_2eproto[11]);
+      file_level_metadata_user_2eproto[12]);
 }
 
 // ===================================================================
 
 class SetUserNameReq::_Internal {
  public:
-  using HasBits = decltype(std::declval<SetUserNameReq>()._impl_._has_bits_);
-  static void set_has_user_id(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
-  }
-  static void set_has_session_id(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
-  }
+  static const ::messageSystem::CommReq& request(const SetUserNameReq* msg);
 };
 
+const ::messageSystem::CommReq&
+SetUserNameReq::_Internal::request(const SetUserNameReq* msg) {
+  return *msg->_impl_.request_;
+}
+void SetUserNameReq::clear_request() {
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
+  }
+  _impl_.request_ = nullptr;
+}
 SetUserNameReq::SetUserNameReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -4068,38 +3918,11 @@ SetUserNameReq::SetUserNameReq(const SetUserNameReq& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   SetUserNameReq* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_}
-    , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.request_id_){}
-    , decltype(_impl_.user_id_){}
-    , decltype(_impl_.session_id_){}
-    , decltype(_impl_.nickname_){}};
+      decltype(_impl_.nickname_){}
+    , decltype(_impl_.request_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.request_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.request_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_request_id().empty()) {
-    _this->_impl_.request_id_.Set(from._internal_request_id(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.user_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_user_id()) {
-    _this->_impl_.user_id_.Set(from._internal_user_id(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.session_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_session_id()) {
-    _this->_impl_.session_id_.Set(from._internal_session_id(), 
-      _this->GetArenaForAllocation());
-  }
   _impl_.nickname_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.nickname_.Set("", GetArenaForAllocation());
@@ -4107,6 +3930,9 @@ SetUserNameReq::SetUserNameReq(const SetUserNameReq& from)
   if (!from._internal_nickname().empty()) {
     _this->_impl_.nickname_.Set(from._internal_nickname(), 
       _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_request()) {
+    _this->_impl_.request_ = new ::messageSystem::CommReq(*from._impl_.request_);
   }
   // @@protoc_insertion_point(copy_constructor:messageSystem.SetUserNameReq)
 }
@@ -4116,25 +3942,10 @@ inline void SetUserNameReq::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){}
+      decltype(_impl_.nickname_){}
+    , decltype(_impl_.request_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.request_id_){}
-    , decltype(_impl_.user_id_){}
-    , decltype(_impl_.session_id_){}
-    , decltype(_impl_.nickname_){}
   };
-  _impl_.request_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.request_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.user_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.session_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   _impl_.nickname_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.nickname_.Set("", GetArenaForAllocation());
@@ -4152,10 +3963,8 @@ SetUserNameReq::~SetUserNameReq() {
 
 inline void SetUserNameReq::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.request_id_.Destroy();
-  _impl_.user_id_.Destroy();
-  _impl_.session_id_.Destroy();
   _impl_.nickname_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.request_;
 }
 
 void SetUserNameReq::SetCachedSize(int size) const {
@@ -4168,61 +3977,31 @@ void SetUserNameReq::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.request_id_.ClearToEmpty();
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _impl_.user_id_.ClearNonDefaultToEmpty();
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _impl_.session_id_.ClearNonDefaultToEmpty();
-    }
-  }
   _impl_.nickname_.ClearToEmpty();
-  _impl_._has_bits_.Clear();
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
+  }
+  _impl_.request_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* SetUserNameReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string request_id = 1;
+      // .messageSystem.CommReq request = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_request_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          ptr = ctx->ParseMessage(_internal_mutable_request(), ptr);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.SetUserNameReq.request_id"));
         } else
           goto handle_unusual;
         continue;
-      // optional string user_id = 2;
+      // string nickname = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          auto str = _internal_mutable_user_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.SetUserNameReq.user_id"));
-        } else
-          goto handle_unusual;
-        continue;
-      // optional string session_id = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          auto str = _internal_mutable_session_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.SetUserNameReq.session_id"));
-        } else
-          goto handle_unusual;
-        continue;
-      // string nickname = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
           auto str = _internal_mutable_nickname();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
@@ -4246,7 +4025,6 @@ const char* SetUserNameReq::_InternalParse(const char* ptr, ::_pbi::ParseContext
     CHK_(ptr != nullptr);
   }  // while
 message_done:
-  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -4260,44 +4038,21 @@ uint8_t* SetUserNameReq::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string request_id = 1;
-  if (!this->_internal_request_id().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_request_id().data(), static_cast<int>(this->_internal_request_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.SetUserNameReq.request_id");
-    target = stream->WriteStringMaybeAliased(
-        1, this->_internal_request_id(), target);
+  // .messageSystem.CommReq request = 1;
+  if (this->_internal_has_request()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::request(this),
+        _Internal::request(this).GetCachedSize(), target, stream);
   }
 
-  // optional string user_id = 2;
-  if (_internal_has_user_id()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_user_id().data(), static_cast<int>(this->_internal_user_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.SetUserNameReq.user_id");
-    target = stream->WriteStringMaybeAliased(
-        2, this->_internal_user_id(), target);
-  }
-
-  // optional string session_id = 3;
-  if (_internal_has_session_id()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_session_id().data(), static_cast<int>(this->_internal_session_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.SetUserNameReq.session_id");
-    target = stream->WriteStringMaybeAliased(
-        3, this->_internal_session_id(), target);
-  }
-
-  // string nickname = 4;
+  // string nickname = 2;
   if (!this->_internal_nickname().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_nickname().data(), static_cast<int>(this->_internal_nickname().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "messageSystem.SetUserNameReq.nickname");
     target = stream->WriteStringMaybeAliased(
-        4, this->_internal_nickname(), target);
+        2, this->_internal_nickname(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4316,35 +4071,18 @@ size_t SetUserNameReq::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string request_id = 1;
-  if (!this->_internal_request_id().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_request_id());
-  }
-
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    // optional string user_id = 2;
-    if (cached_has_bits & 0x00000001u) {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-          this->_internal_user_id());
-    }
-
-    // optional string session_id = 3;
-    if (cached_has_bits & 0x00000002u) {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-          this->_internal_session_id());
-    }
-
-  }
-  // string nickname = 4;
+  // string nickname = 2;
   if (!this->_internal_nickname().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_nickname());
+  }
+
+  // .messageSystem.CommReq request = 1;
+  if (this->_internal_has_request()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.request_);
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -4365,20 +4103,12 @@ void SetUserNameReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const :
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from._internal_request_id().empty()) {
-    _this->_internal_set_request_id(from._internal_request_id());
-  }
-  cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _this->_internal_set_user_id(from._internal_user_id());
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _this->_internal_set_session_id(from._internal_session_id());
-    }
-  }
   if (!from._internal_nickname().empty()) {
     _this->_internal_set_nickname(from._internal_nickname());
+  }
+  if (from._internal_has_request()) {
+    _this->_internal_mutable_request()->::messageSystem::CommReq::MergeFrom(
+        from._internal_request());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -4399,44 +4129,36 @@ void SetUserNameReq::InternalSwap(SetUserNameReq* other) {
   auto* lhs_arena = GetArenaForAllocation();
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.request_id_, lhs_arena,
-      &other->_impl_.request_id_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.user_id_, lhs_arena,
-      &other->_impl_.user_id_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.session_id_, lhs_arena,
-      &other->_impl_.session_id_, rhs_arena
-  );
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.nickname_, lhs_arena,
       &other->_impl_.nickname_, rhs_arena
   );
+  swap(_impl_.request_, other->_impl_.request_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata SetUserNameReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_user_2eproto_getter, &descriptor_table_user_2eproto_once,
-      file_level_metadata_user_2eproto[12]);
+      file_level_metadata_user_2eproto[13]);
 }
 
 // ===================================================================
 
 class SetUserDescriptionReq::_Internal {
  public:
-  using HasBits = decltype(std::declval<SetUserDescriptionReq>()._impl_._has_bits_);
-  static void set_has_user_id(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
-  }
-  static void set_has_session_id(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
-  }
+  static const ::messageSystem::CommReq& request(const SetUserDescriptionReq* msg);
 };
 
+const ::messageSystem::CommReq&
+SetUserDescriptionReq::_Internal::request(const SetUserDescriptionReq* msg) {
+  return *msg->_impl_.request_;
+}
+void SetUserDescriptionReq::clear_request() {
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
+  }
+  _impl_.request_ = nullptr;
+}
 SetUserDescriptionReq::SetUserDescriptionReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -4447,38 +4169,11 @@ SetUserDescriptionReq::SetUserDescriptionReq(const SetUserDescriptionReq& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   SetUserDescriptionReq* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_}
-    , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.request_id_){}
-    , decltype(_impl_.user_id_){}
-    , decltype(_impl_.session_id_){}
-    , decltype(_impl_.desc_){}};
+      decltype(_impl_.desc_){}
+    , decltype(_impl_.request_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.request_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.request_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_request_id().empty()) {
-    _this->_impl_.request_id_.Set(from._internal_request_id(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.user_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_user_id()) {
-    _this->_impl_.user_id_.Set(from._internal_user_id(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.session_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_session_id()) {
-    _this->_impl_.session_id_.Set(from._internal_session_id(), 
-      _this->GetArenaForAllocation());
-  }
   _impl_.desc_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.desc_.Set("", GetArenaForAllocation());
@@ -4486,6 +4181,9 @@ SetUserDescriptionReq::SetUserDescriptionReq(const SetUserDescriptionReq& from)
   if (!from._internal_desc().empty()) {
     _this->_impl_.desc_.Set(from._internal_desc(), 
       _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_request()) {
+    _this->_impl_.request_ = new ::messageSystem::CommReq(*from._impl_.request_);
   }
   // @@protoc_insertion_point(copy_constructor:messageSystem.SetUserDescriptionReq)
 }
@@ -4495,25 +4193,10 @@ inline void SetUserDescriptionReq::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){}
+      decltype(_impl_.desc_){}
+    , decltype(_impl_.request_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.request_id_){}
-    , decltype(_impl_.user_id_){}
-    , decltype(_impl_.session_id_){}
-    , decltype(_impl_.desc_){}
   };
-  _impl_.request_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.request_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.user_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.session_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   _impl_.desc_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.desc_.Set("", GetArenaForAllocation());
@@ -4531,10 +4214,8 @@ SetUserDescriptionReq::~SetUserDescriptionReq() {
 
 inline void SetUserDescriptionReq::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.request_id_.Destroy();
-  _impl_.user_id_.Destroy();
-  _impl_.session_id_.Destroy();
   _impl_.desc_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.request_;
 }
 
 void SetUserDescriptionReq::SetCachedSize(int size) const {
@@ -4547,61 +4228,31 @@ void SetUserDescriptionReq::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.request_id_.ClearToEmpty();
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _impl_.user_id_.ClearNonDefaultToEmpty();
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _impl_.session_id_.ClearNonDefaultToEmpty();
-    }
-  }
   _impl_.desc_.ClearToEmpty();
-  _impl_._has_bits_.Clear();
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
+  }
+  _impl_.request_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* SetUserDescriptionReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string request_id = 1;
+      // .messageSystem.CommReq request = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_request_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          ptr = ctx->ParseMessage(_internal_mutable_request(), ptr);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.SetUserDescriptionReq.request_id"));
         } else
           goto handle_unusual;
         continue;
-      // optional string user_id = 2;
+      // string desc = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          auto str = _internal_mutable_user_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.SetUserDescriptionReq.user_id"));
-        } else
-          goto handle_unusual;
-        continue;
-      // optional string session_id = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          auto str = _internal_mutable_session_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.SetUserDescriptionReq.session_id"));
-        } else
-          goto handle_unusual;
-        continue;
-      // string desc = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
           auto str = _internal_mutable_desc();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
@@ -4625,7 +4276,6 @@ const char* SetUserDescriptionReq::_InternalParse(const char* ptr, ::_pbi::Parse
     CHK_(ptr != nullptr);
   }  // while
 message_done:
-  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -4639,44 +4289,21 @@ uint8_t* SetUserDescriptionReq::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string request_id = 1;
-  if (!this->_internal_request_id().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_request_id().data(), static_cast<int>(this->_internal_request_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.SetUserDescriptionReq.request_id");
-    target = stream->WriteStringMaybeAliased(
-        1, this->_internal_request_id(), target);
+  // .messageSystem.CommReq request = 1;
+  if (this->_internal_has_request()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::request(this),
+        _Internal::request(this).GetCachedSize(), target, stream);
   }
 
-  // optional string user_id = 2;
-  if (_internal_has_user_id()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_user_id().data(), static_cast<int>(this->_internal_user_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.SetUserDescriptionReq.user_id");
-    target = stream->WriteStringMaybeAliased(
-        2, this->_internal_user_id(), target);
-  }
-
-  // optional string session_id = 3;
-  if (_internal_has_session_id()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_session_id().data(), static_cast<int>(this->_internal_session_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.SetUserDescriptionReq.session_id");
-    target = stream->WriteStringMaybeAliased(
-        3, this->_internal_session_id(), target);
-  }
-
-  // string desc = 4;
+  // string desc = 2;
   if (!this->_internal_desc().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_desc().data(), static_cast<int>(this->_internal_desc().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "messageSystem.SetUserDescriptionReq.desc");
     target = stream->WriteStringMaybeAliased(
-        4, this->_internal_desc(), target);
+        2, this->_internal_desc(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4695,35 +4322,18 @@ size_t SetUserDescriptionReq::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string request_id = 1;
-  if (!this->_internal_request_id().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_request_id());
-  }
-
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    // optional string user_id = 2;
-    if (cached_has_bits & 0x00000001u) {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-          this->_internal_user_id());
-    }
-
-    // optional string session_id = 3;
-    if (cached_has_bits & 0x00000002u) {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-          this->_internal_session_id());
-    }
-
-  }
-  // string desc = 4;
+  // string desc = 2;
   if (!this->_internal_desc().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_desc());
+  }
+
+  // .messageSystem.CommReq request = 1;
+  if (this->_internal_has_request()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.request_);
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -4744,20 +4354,12 @@ void SetUserDescriptionReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, 
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from._internal_request_id().empty()) {
-    _this->_internal_set_request_id(from._internal_request_id());
-  }
-  cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _this->_internal_set_user_id(from._internal_user_id());
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _this->_internal_set_session_id(from._internal_session_id());
-    }
-  }
   if (!from._internal_desc().empty()) {
     _this->_internal_set_desc(from._internal_desc());
+  }
+  if (from._internal_has_request()) {
+    _this->_internal_mutable_request()->::messageSystem::CommReq::MergeFrom(
+        from._internal_request());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -4778,44 +4380,36 @@ void SetUserDescriptionReq::InternalSwap(SetUserDescriptionReq* other) {
   auto* lhs_arena = GetArenaForAllocation();
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.request_id_, lhs_arena,
-      &other->_impl_.request_id_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.user_id_, lhs_arena,
-      &other->_impl_.user_id_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.session_id_, lhs_arena,
-      &other->_impl_.session_id_, rhs_arena
-  );
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.desc_, lhs_arena,
       &other->_impl_.desc_, rhs_arena
   );
+  swap(_impl_.request_, other->_impl_.request_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata SetUserDescriptionReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_user_2eproto_getter, &descriptor_table_user_2eproto_once,
-      file_level_metadata_user_2eproto[13]);
+      file_level_metadata_user_2eproto[14]);
 }
 
 // ===================================================================
 
 class SetUserEmailReq::_Internal {
  public:
-  using HasBits = decltype(std::declval<SetUserEmailReq>()._impl_._has_bits_);
-  static void set_has_user_id(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
-  }
-  static void set_has_session_id(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
-  }
+  static const ::messageSystem::CommReq& request(const SetUserEmailReq* msg);
 };
 
+const ::messageSystem::CommReq&
+SetUserEmailReq::_Internal::request(const SetUserEmailReq* msg) {
+  return *msg->_impl_.request_;
+}
+void SetUserEmailReq::clear_request() {
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
+  }
+  _impl_.request_ = nullptr;
+}
 SetUserEmailReq::SetUserEmailReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -4826,39 +4420,12 @@ SetUserEmailReq::SetUserEmailReq(const SetUserEmailReq& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   SetUserEmailReq* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_}
-    , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.request_id_){}
-    , decltype(_impl_.user_id_){}
-    , decltype(_impl_.session_id_){}
-    , decltype(_impl_.email_){}
-    , decltype(_impl_.email_verify_code_){}};
+      decltype(_impl_.email_){}
+    , decltype(_impl_.email_verify_code_){}
+    , decltype(_impl_.request_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.request_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.request_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_request_id().empty()) {
-    _this->_impl_.request_id_.Set(from._internal_request_id(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.user_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_user_id()) {
-    _this->_impl_.user_id_.Set(from._internal_user_id(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.session_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (from._internal_has_session_id()) {
-    _this->_impl_.session_id_.Set(from._internal_session_id(), 
-      _this->GetArenaForAllocation());
-  }
   _impl_.email_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.email_.Set("", GetArenaForAllocation());
@@ -4875,6 +4442,9 @@ SetUserEmailReq::SetUserEmailReq(const SetUserEmailReq& from)
     _this->_impl_.email_verify_code_.Set(from._internal_email_verify_code(), 
       _this->GetArenaForAllocation());
   }
+  if (from._internal_has_request()) {
+    _this->_impl_.request_ = new ::messageSystem::CommReq(*from._impl_.request_);
+  }
   // @@protoc_insertion_point(copy_constructor:messageSystem.SetUserEmailReq)
 }
 
@@ -4883,26 +4453,11 @@ inline void SetUserEmailReq::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){}
-    , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.request_id_){}
-    , decltype(_impl_.user_id_){}
-    , decltype(_impl_.session_id_){}
-    , decltype(_impl_.email_){}
+      decltype(_impl_.email_){}
     , decltype(_impl_.email_verify_code_){}
+    , decltype(_impl_.request_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}
   };
-  _impl_.request_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.request_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.user_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.user_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.session_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.session_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   _impl_.email_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.email_.Set("", GetArenaForAllocation());
@@ -4924,11 +4479,9 @@ SetUserEmailReq::~SetUserEmailReq() {
 
 inline void SetUserEmailReq::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.request_id_.Destroy();
-  _impl_.user_id_.Destroy();
-  _impl_.session_id_.Destroy();
   _impl_.email_.Destroy();
   _impl_.email_verify_code_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.request_;
 }
 
 void SetUserEmailReq::SetCachedSize(int size) const {
@@ -4941,62 +4494,32 @@ void SetUserEmailReq::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.request_id_.ClearToEmpty();
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _impl_.user_id_.ClearNonDefaultToEmpty();
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _impl_.session_id_.ClearNonDefaultToEmpty();
-    }
-  }
   _impl_.email_.ClearToEmpty();
   _impl_.email_verify_code_.ClearToEmpty();
-  _impl_._has_bits_.Clear();
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
+  }
+  _impl_.request_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* SetUserEmailReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string request_id = 1;
+      // .messageSystem.CommReq request = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_request_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          ptr = ctx->ParseMessage(_internal_mutable_request(), ptr);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.SetUserEmailReq.request_id"));
         } else
           goto handle_unusual;
         continue;
-      // optional string user_id = 2;
+      // string email = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          auto str = _internal_mutable_user_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.SetUserEmailReq.user_id"));
-        } else
-          goto handle_unusual;
-        continue;
-      // optional string session_id = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          auto str = _internal_mutable_session_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.SetUserEmailReq.session_id"));
-        } else
-          goto handle_unusual;
-        continue;
-      // string email = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
           auto str = _internal_mutable_email();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
@@ -5004,9 +4527,9 @@ const char* SetUserEmailReq::_InternalParse(const char* ptr, ::_pbi::ParseContex
         } else
           goto handle_unusual;
         continue;
-      // string email_verify_code = 5;
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+      // string email_verify_code = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
           auto str = _internal_mutable_email_verify_code();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
@@ -5030,7 +4553,6 @@ const char* SetUserEmailReq::_InternalParse(const char* ptr, ::_pbi::ParseContex
     CHK_(ptr != nullptr);
   }  // while
 message_done:
-  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -5044,54 +4566,31 @@ uint8_t* SetUserEmailReq::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string request_id = 1;
-  if (!this->_internal_request_id().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_request_id().data(), static_cast<int>(this->_internal_request_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.SetUserEmailReq.request_id");
-    target = stream->WriteStringMaybeAliased(
-        1, this->_internal_request_id(), target);
+  // .messageSystem.CommReq request = 1;
+  if (this->_internal_has_request()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::request(this),
+        _Internal::request(this).GetCachedSize(), target, stream);
   }
 
-  // optional string user_id = 2;
-  if (_internal_has_user_id()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_user_id().data(), static_cast<int>(this->_internal_user_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.SetUserEmailReq.user_id");
-    target = stream->WriteStringMaybeAliased(
-        2, this->_internal_user_id(), target);
-  }
-
-  // optional string session_id = 3;
-  if (_internal_has_session_id()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_session_id().data(), static_cast<int>(this->_internal_session_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "messageSystem.SetUserEmailReq.session_id");
-    target = stream->WriteStringMaybeAliased(
-        3, this->_internal_session_id(), target);
-  }
-
-  // string email = 4;
+  // string email = 2;
   if (!this->_internal_email().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_email().data(), static_cast<int>(this->_internal_email().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "messageSystem.SetUserEmailReq.email");
     target = stream->WriteStringMaybeAliased(
-        4, this->_internal_email(), target);
+        2, this->_internal_email(), target);
   }
 
-  // string email_verify_code = 5;
+  // string email_verify_code = 3;
   if (!this->_internal_email_verify_code().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_email_verify_code().data(), static_cast<int>(this->_internal_email_verify_code().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "messageSystem.SetUserEmailReq.email_verify_code");
     target = stream->WriteStringMaybeAliased(
-        5, this->_internal_email_verify_code(), target);
+        3, this->_internal_email_verify_code(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -5110,42 +4609,25 @@ size_t SetUserEmailReq::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string request_id = 1;
-  if (!this->_internal_request_id().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_request_id());
-  }
-
-  cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    // optional string user_id = 2;
-    if (cached_has_bits & 0x00000001u) {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-          this->_internal_user_id());
-    }
-
-    // optional string session_id = 3;
-    if (cached_has_bits & 0x00000002u) {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-          this->_internal_session_id());
-    }
-
-  }
-  // string email = 4;
+  // string email = 2;
   if (!this->_internal_email().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_email());
   }
 
-  // string email_verify_code = 5;
+  // string email_verify_code = 3;
   if (!this->_internal_email_verify_code().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_email_verify_code());
+  }
+
+  // .messageSystem.CommReq request = 1;
+  if (this->_internal_has_request()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.request_);
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -5166,23 +4648,15 @@ void SetUserEmailReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const 
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from._internal_request_id().empty()) {
-    _this->_internal_set_request_id(from._internal_request_id());
-  }
-  cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _this->_internal_set_user_id(from._internal_user_id());
-    }
-    if (cached_has_bits & 0x00000002u) {
-      _this->_internal_set_session_id(from._internal_session_id());
-    }
-  }
   if (!from._internal_email().empty()) {
     _this->_internal_set_email(from._internal_email());
   }
   if (!from._internal_email_verify_code().empty()) {
     _this->_internal_set_email_verify_code(from._internal_email_verify_code());
+  }
+  if (from._internal_has_request()) {
+    _this->_internal_mutable_request()->::messageSystem::CommReq::MergeFrom(
+        from._internal_request());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -5203,19 +4677,6 @@ void SetUserEmailReq::InternalSwap(SetUserEmailReq* other) {
   auto* lhs_arena = GetArenaForAllocation();
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.request_id_, lhs_arena,
-      &other->_impl_.request_id_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.user_id_, lhs_arena,
-      &other->_impl_.user_id_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.session_id_, lhs_arena,
-      &other->_impl_.session_id_, rhs_arena
-  );
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.email_, lhs_arena,
       &other->_impl_.email_, rhs_arena
@@ -5224,12 +4685,13 @@ void SetUserEmailReq::InternalSwap(SetUserEmailReq* other) {
       &_impl_.email_verify_code_, lhs_arena,
       &other->_impl_.email_verify_code_, rhs_arena
   );
+  swap(_impl_.request_, other->_impl_.request_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata SetUserEmailReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_user_2eproto_getter, &descriptor_table_user_2eproto_once,
-      file_level_metadata_user_2eproto[14]);
+      file_level_metadata_user_2eproto[15]);
 }
 
 // ===================================================================
@@ -5250,6 +4712,14 @@ void UserService::UserLogin(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                          ::messageSystem::UserLoginRsp*,
                          ::google::protobuf::Closure* done) {
   controller->SetFailed("Method UserLogin() not implemented.");
+  done->Run();
+}
+
+void UserService::UserLoginByToken(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                         const ::messageSystem::UserLoginByTokenReq*,
+                         ::messageSystem::CommRsp*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method UserLoginByToken() not implemented.");
   done->Run();
 }
 
@@ -5341,6 +4811,14 @@ void UserService::CallMethod(const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor* me
              done);
       break;
     case 1:
+      UserLoginByToken(controller,
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::UserLoginByTokenReq*>(
+                 request),
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<::messageSystem::CommRsp*>(
+                 response),
+             done);
+      break;
+    case 2:
       GetEmailVerifyCode(controller,
              ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::EmailVerifyCodeReq*>(
                  request),
@@ -5348,7 +4826,7 @@ void UserService::CallMethod(const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor* me
                  response),
              done);
       break;
-    case 2:
+    case 3:
       EmailRegister(controller,
              ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::EmailRegisterReq*>(
                  request),
@@ -5356,7 +4834,7 @@ void UserService::CallMethod(const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor* me
                  response),
              done);
       break;
-    case 3:
+    case 4:
       EmailLogin(controller,
              ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::EmailLoginReq*>(
                  request),
@@ -5364,7 +4842,7 @@ void UserService::CallMethod(const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor* me
                  response),
              done);
       break;
-    case 4:
+    case 5:
       GetUserInfo(controller,
              ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::GetUserInfoReq*>(
                  request),
@@ -5372,7 +4850,7 @@ void UserService::CallMethod(const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor* me
                  response),
              done);
       break;
-    case 5:
+    case 6:
       GetMultiUserInfo(controller,
              ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::GetMultiUserInfoReq*>(
                  request),
@@ -5380,7 +4858,7 @@ void UserService::CallMethod(const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor* me
                  response),
              done);
       break;
-    case 6:
+    case 7:
       SetUserAvatar(controller,
              ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::SetUserAvatarReq*>(
                  request),
@@ -5388,7 +4866,7 @@ void UserService::CallMethod(const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor* me
                  response),
              done);
       break;
-    case 7:
+    case 8:
       SetUserNickname(controller,
              ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::SetUserNameReq*>(
                  request),
@@ -5396,7 +4874,7 @@ void UserService::CallMethod(const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor* me
                  response),
              done);
       break;
-    case 8:
+    case 9:
       SetUserDescription(controller,
              ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::SetUserDescriptionReq*>(
                  request),
@@ -5404,7 +4882,7 @@ void UserService::CallMethod(const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor* me
                  response),
              done);
       break;
-    case 9:
+    case 10:
       SetUserEmail(controller,
              ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::messageSystem::SetUserEmailReq*>(
                  request),
@@ -5425,22 +4903,24 @@ const ::PROTOBUF_NAMESPACE_ID::Message& UserService::GetRequestPrototype(
     case 0:
       return ::messageSystem::UserLoginReq::default_instance();
     case 1:
-      return ::messageSystem::EmailVerifyCodeReq::default_instance();
+      return ::messageSystem::UserLoginByTokenReq::default_instance();
     case 2:
-      return ::messageSystem::EmailRegisterReq::default_instance();
+      return ::messageSystem::EmailVerifyCodeReq::default_instance();
     case 3:
-      return ::messageSystem::EmailLoginReq::default_instance();
+      return ::messageSystem::EmailRegisterReq::default_instance();
     case 4:
-      return ::messageSystem::GetUserInfoReq::default_instance();
+      return ::messageSystem::EmailLoginReq::default_instance();
     case 5:
-      return ::messageSystem::GetMultiUserInfoReq::default_instance();
+      return ::messageSystem::GetUserInfoReq::default_instance();
     case 6:
-      return ::messageSystem::SetUserAvatarReq::default_instance();
+      return ::messageSystem::GetMultiUserInfoReq::default_instance();
     case 7:
-      return ::messageSystem::SetUserNameReq::default_instance();
+      return ::messageSystem::SetUserAvatarReq::default_instance();
     case 8:
-      return ::messageSystem::SetUserDescriptionReq::default_instance();
+      return ::messageSystem::SetUserNameReq::default_instance();
     case 9:
+      return ::messageSystem::SetUserDescriptionReq::default_instance();
+    case 10:
       return ::messageSystem::SetUserEmailReq::default_instance();
     default:
       GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
@@ -5460,18 +4940,20 @@ const ::PROTOBUF_NAMESPACE_ID::Message& UserService::GetResponsePrototype(
     case 2:
       return ::messageSystem::CommRsp::default_instance();
     case 3:
-      return ::messageSystem::EmailLoginRsp::default_instance();
-    case 4:
-      return ::messageSystem::GetUserInfoRsp::default_instance();
-    case 5:
-      return ::messageSystem::GetMultiUserInfoRsp::default_instance();
-    case 6:
       return ::messageSystem::CommRsp::default_instance();
+    case 4:
+      return ::messageSystem::EmailLoginRsp::default_instance();
+    case 5:
+      return ::messageSystem::GetUserInfoRsp::default_instance();
+    case 6:
+      return ::messageSystem::GetMultiUserInfoRsp::default_instance();
     case 7:
       return ::messageSystem::CommRsp::default_instance();
     case 8:
       return ::messageSystem::CommRsp::default_instance();
     case 9:
+      return ::messageSystem::CommRsp::default_instance();
+    case 10:
       return ::messageSystem::CommRsp::default_instance();
     default:
       GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
@@ -5498,67 +4980,74 @@ void UserService_Stub::UserLogin(::PROTOBUF_NAMESPACE_ID::RpcController* control
   channel_->CallMethod(descriptor()->method(0),
                        controller, request, response, done);
 }
+void UserService_Stub::UserLoginByToken(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                              const ::messageSystem::UserLoginByTokenReq* request,
+                              ::messageSystem::CommRsp* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(1),
+                       controller, request, response, done);
+}
 void UserService_Stub::GetEmailVerifyCode(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                               const ::messageSystem::EmailVerifyCodeReq* request,
                               ::messageSystem::CommRsp* response,
                               ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(1),
+  channel_->CallMethod(descriptor()->method(2),
                        controller, request, response, done);
 }
 void UserService_Stub::EmailRegister(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                               const ::messageSystem::EmailRegisterReq* request,
                               ::messageSystem::CommRsp* response,
                               ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(2),
+  channel_->CallMethod(descriptor()->method(3),
                        controller, request, response, done);
 }
 void UserService_Stub::EmailLogin(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                               const ::messageSystem::EmailLoginReq* request,
                               ::messageSystem::EmailLoginRsp* response,
                               ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(3),
+  channel_->CallMethod(descriptor()->method(4),
                        controller, request, response, done);
 }
 void UserService_Stub::GetUserInfo(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                               const ::messageSystem::GetUserInfoReq* request,
                               ::messageSystem::GetUserInfoRsp* response,
                               ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(4),
+  channel_->CallMethod(descriptor()->method(5),
                        controller, request, response, done);
 }
 void UserService_Stub::GetMultiUserInfo(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                               const ::messageSystem::GetMultiUserInfoReq* request,
                               ::messageSystem::GetMultiUserInfoRsp* response,
                               ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(5),
+  channel_->CallMethod(descriptor()->method(6),
                        controller, request, response, done);
 }
 void UserService_Stub::SetUserAvatar(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                               const ::messageSystem::SetUserAvatarReq* request,
                               ::messageSystem::CommRsp* response,
                               ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(6),
+  channel_->CallMethod(descriptor()->method(7),
                        controller, request, response, done);
 }
 void UserService_Stub::SetUserNickname(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                               const ::messageSystem::SetUserNameReq* request,
                               ::messageSystem::CommRsp* response,
                               ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(7),
+  channel_->CallMethod(descriptor()->method(8),
                        controller, request, response, done);
 }
 void UserService_Stub::SetUserDescription(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                               const ::messageSystem::SetUserDescriptionReq* request,
                               ::messageSystem::CommRsp* response,
                               ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(8),
+  channel_->CallMethod(descriptor()->method(9),
                        controller, request, response, done);
 }
 void UserService_Stub::SetUserEmail(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                               const ::messageSystem::SetUserEmailReq* request,
                               ::messageSystem::CommRsp* response,
                               ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(9),
+  channel_->CallMethod(descriptor()->method(10),
                        controller, request, response, done);
 }
 
@@ -5572,6 +5061,10 @@ Arena::CreateMaybeMessage< ::messageSystem::UserLoginReq >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::messageSystem::UserLoginRsp*
 Arena::CreateMaybeMessage< ::messageSystem::UserLoginRsp >(Arena* arena) {
   return Arena::CreateMessageInternal< ::messageSystem::UserLoginRsp >(arena);
+}
+template<> PROTOBUF_NOINLINE ::messageSystem::UserLoginByTokenReq*
+Arena::CreateMaybeMessage< ::messageSystem::UserLoginByTokenReq >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::messageSystem::UserLoginByTokenReq >(arena);
 }
 template<> PROTOBUF_NOINLINE ::messageSystem::EmailVerifyCodeReq*
 Arena::CreateMaybeMessage< ::messageSystem::EmailVerifyCodeReq >(Arena* arena) {

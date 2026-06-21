@@ -13,10 +13,15 @@ message UserLoginReq {
     optional string verify_code = 5;
 }
 
-message UserLoginRsp {
+message UserLoginRsp{
     CommRsp response = 1;
-    string session_id = 2;
+    string token = 2;
 }
+
+message UserLoginByTokenReq{
+    CommReq request = 1;
+}
+
 //----------------------------
 //手机号验证码获取
 message EmailVerifyCodeReq {
@@ -40,15 +45,15 @@ message EmailLoginReq {
 
 message EmailLoginRsp{
     CommRsp response = 1;
-    string session_id = 2;
+    string token = 2;
 }
+
 //个人信息获取-这个只用于获取当前登录用户的信息
 //  客户端传递的时候只需要填充session_id即可
 //其他个人/好友信息的获取在好友操作中完成
 message GetUserInfoReq {
-    string request_id = 1;
-    optional string user_id = 2;    // 这个字段是网关进行身份鉴权之后填入的字段
-    optional string session_id = 3; // 进行客户端身份识别的关键字段
+    CommReq request = 1;
+    optional string user_id = 2;    // 这个字段是网关进行身份鉴权之后填入的字段段
 }
 message GetUserInfoRsp {
     CommRsp response = 1;
@@ -56,10 +61,8 @@ message GetUserInfoRsp {
 }
 //内部接口
 message GetMultiUserInfoReq {
-    string request_id = 1;
-    optional string user_id = 2;
-    optional string session_id = 3;
-    repeated string users_id = 4;
+    CommReq request = 1;
+    repeated string users_id = 2;
 }
 message GetMultiUserInfoRsp {
     CommRsp response = 1;
@@ -68,42 +71,35 @@ message GetMultiUserInfoRsp {
 //----------------------------
 //用户头像修改 
 message SetUserAvatarReq {
-    string request_id = 1;
-    optional string user_id = 2;
-    optional string session_id = 3;
-    bytes avatar = 4;
+    CommReq request = 1;
+    bytes avatar = 2;
 }
 
 //----------------------------
 //用户昵称修改 
 message SetUserNameReq {
-    string request_id = 1;
-    optional string user_id = 2;
-    optional string session_id = 3;
-    string nickname = 4;
+    CommReq request = 1;
+    string nickname = 2;
 }
 //----------------------------
 //用户签名修改 
 message SetUserDescriptionReq {
-    string request_id = 1;
-    optional string user_id = 2;
-    optional string session_id = 3;
-    string desc = 4;
+    CommReq request = 1;
+    string desc = 2;
 }
 
 //----------------------------
 //用户邮箱修改 
 message SetUserEmailReq {
-    string request_id = 1;
-    optional string user_id = 2;
-    optional string session_id = 3;
-    string email = 4;
-    string email_verify_code = 5;
+    CommReq request = 1;
+    string email = 2;
+    string email_verify_code = 3;
 }
 
 
 service UserService {
     rpc UserLogin(UserLoginReq) returns (UserLoginRsp);
+    rpc UserLoginByToken(UserLoginByTokenReq) returns (CommRsp);
     rpc GetEmailVerifyCode(EmailVerifyCodeReq) returns (CommRsp);
     rpc EmailRegister(EmailRegisterReq) returns (CommRsp);
     rpc EmailLogin(EmailLoginReq) returns (EmailLoginRsp);

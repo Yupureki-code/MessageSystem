@@ -26,9 +26,9 @@ namespace messageSystem
     inline void initLogger(const std::string& logger_name,const std::string& logger_file,int logger_level)
     {
     }
-    #define LOG_DEBUG(format, ...) g_logger->debug(std::string("[{:>10s}:{:<4d}] ")+format, __FILE__, __LINE__, ##__VA_ARGS__);
-    #define LOG_INFO(format, ...) g_logger->info(std::string("[{:>10s}:{:<4d}] ")+format, __FILE__, __LINE__, ##__VA_ARGS__);
-    #define LOG_WARNING(format, ...) g_logger->warn(std::string("[{:>10s}:{:<4d}] ")+format, __FILE__, __LINE__, ##__VA_ARGS__);
-    #define LOG_ERROR(format, ...) g_logger->error(std::string("[{:>10s}:{:<4d}] ")+format, __FILE__, __LINE__, ##__VA_ARGS__);
-    #define LOG_CRITICAL(format, ...) g_logger->critical(std::string("[{:>10s}:{:<4d}] ")+format, __FILE__, __LINE__, ##__VA_ARGS__);
+    #define LOG_DEBUG(format, ...) g_logger->debug("[{:>10s}:{:<4d}] " format, __FILE__, __LINE__, ##__VA_ARGS__);
+    #define LOG_INFO(format, ...) g_logger->info("[{:>10s}:{:<4d}] " format, __FILE__, __LINE__, ##__VA_ARGS__);
+    #define LOG_WARNING(format, ...) g_logger->warn("[{:>10s}:{:<4d}] " format, __FILE__, __LINE__, ##__VA_ARGS__);
+    #define LOG_ERROR(format, ...) g_logger->error("[{:>10s}:{:<4d}] " format, __FILE__, __LINE__, ##__VA_ARGS__);
+    #define LOG_CRITICAL(format, ...) g_logger->critical("[{:>10s}:{:<4d}] " format, __FILE__, __LINE__, ##__VA_ARGS__);
 }

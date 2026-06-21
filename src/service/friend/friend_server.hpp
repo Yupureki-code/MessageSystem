@@ -49,9 +49,9 @@ namespace messageSystem
         {
             LOG_DEBUG("收到好友请求！");
             brpc::ClosureGuard rpc_guard(done);
-            std::string rid = request->request_id();
+            std::string rid = request->request().request_id();
             CommRsp* rep = response;
-            std::string uid = request->uid();
+            std::string uid = request->request().uid();
             std::string friend_uid = request->friend_uid();
             std::string remark = request->remark();
 
@@ -128,9 +128,9 @@ namespace messageSystem
         {
             LOG_DEBUG("收到好友请求状态更新！");
             brpc::ClosureGuard rpc_guard(done);
-            std::string rid = request->request_id();
+            std::string rid = request->request().request_id();
             CommRsp* rep = response;
-            std::string uid = request->uid();
+            std::string uid = request->request().uid();
             std::string friend_uid = request->friend_uid();
             bool is_accepted = request->is_accepcted();
 
@@ -174,9 +174,9 @@ namespace messageSystem
         {
             LOG_DEBUG("收到修改好友备注请求！");
             brpc::ClosureGuard rpc_guard(done);
-            std::string rid = request->request_id();
+            std::string rid = request->request().request_id();
             CommRsp* rep = response;
-            std::string uid = request->uid();
+            std::string uid = request->request().uid();
             std::string friend_uid = request->friend_uid();
             std::string remark = request->remark();
 
@@ -209,9 +209,9 @@ namespace messageSystem
         {
             LOG_DEBUG("收到通过UID查找好友请求！");
             brpc::ClosureGuard rpc_guard(done);
-            std::string rid = request->request_id();
+            std::string rid = request->request().request_id();
             CommRsp* rep = response->mutable_response();
-            std::string uid = request->uid();
+            std::string uid = request->request().uid();
             std::string friend_uid = request->friend_uid();
 
             // 1. 检查好友关系是否存在
@@ -278,9 +278,9 @@ namespace messageSystem
         {
             LOG_DEBUG("收到通过名称搜索好友请求！");
             brpc::ClosureGuard rpc_guard(done);
-            std::string rid = request->request_id();
+            std::string rid = request->request().request_id();
             CommRsp* rep = response->mutable_response();
-            std::string uid = request->uid();
+            std::string uid = request->request().uid();
             std::string name = request->name();
 
             // 1. 通过FindFriend视图直接查询好友

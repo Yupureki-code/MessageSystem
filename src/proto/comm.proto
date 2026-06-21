@@ -2,6 +2,13 @@ syntax = "proto3";
 package messageSystem;
 option cc_generic_services = true;
 
+message CommReq
+{
+    string request_id = 1;
+    string uid = 2;
+    string token = 3; 
+}
+
 message CommRsp
 {
     string request_id = 1;

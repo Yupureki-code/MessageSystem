@@ -6,15 +6,16 @@ option cc_generic_services = true;
 
 message MessageQuery
 {
-    string conversation_id = 1;
-    optional string sender_id = 2;
-    optional string text = 3;
-    optional int64 start_time = 4;
-    optional int64 end_time = 5;
+    CommReq request = 1;
+    string conversation_id = 2;
+    optional string sender_id = 3;
+    optional string text = 4;
+    optional int64 start_time = 5;
+    optional int64 end_time = 6;
 }
 
 message GetHistoryMsgReq {
-    string request_id = 1;
+    CommReq request = 1;
     string conversation_id = 2;
     int64 start_time = 3;
     int64 over_time = 4;
@@ -27,7 +28,7 @@ message GetHistoryMsgRsp {
 }
 
 message GetRecentMsgReq {
-    string request_id = 1;
+    CommReq request = 1;
     string conversation_id = 2;
     int64 msg_count = 3;
     optional int64 cur_time = 4;//用于扩展获取指定时间前的n条消息
@@ -40,7 +41,7 @@ message GetRecentMsgRsp {
 }
 
 message MsgSearchReq {
-    string request_id = 1;
+    CommReq request = 1;
     optional string user_id = 2;
     optional string session_id = 3;
     MessageQuery query = 4;
@@ -53,13 +54,13 @@ message MsgSearchRsp {
 
 message PostMessagesReq
 {
-    string request_id = 1;
+    CommReq request = 1;
     repeated MessageInfo msg_list = 2;
 }
 
 message DeleteMessagesReq
 {
-    string request_id = 1;
+    CommReq request = 1;
     repeated MessageInfo msg_list = 2;
 }
 

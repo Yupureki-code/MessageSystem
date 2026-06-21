@@ -21,6 +21,21 @@ namespace _pb = ::PROTOBUF_NAMESPACE_ID;
 namespace _pbi = _pb::internal;
 
 namespace messageSystem {
+PROTOBUF_CONSTEXPR CommReq::CommReq(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.request_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.uid_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.token_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct CommReqDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CommReqDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CommReqDefaultTypeInternal() {}
+  union {
+    CommReq _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CommReqDefaultTypeInternal _CommReq_default_instance_;
 PROTOBUF_CONSTEXPR CommRsp::CommRsp(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.request_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
@@ -198,11 +213,20 @@ struct FileUploadDataDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 FileUploadDataDefaultTypeInternal _FileUploadData_default_instance_;
 }  // namespace messageSystem
-static ::_pb::Metadata file_level_metadata_comm_2eproto[11];
+static ::_pb::Metadata file_level_metadata_comm_2eproto[12];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_comm_2eproto[1];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_comm_2eproto = nullptr;
 
 const uint32_t TableStruct_comm_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::messageSystem::CommReq, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::messageSystem::CommReq, _impl_.request_id_),
+  PROTOBUF_FIELD_OFFSET(::messageSystem::CommReq, _impl_.uid_),
+  PROTOBUF_FIELD_OFFSET(::messageSystem::CommReq, _impl_.token_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::messageSystem::CommRsp, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -330,20 +354,22 @@ const uint32_t TableStruct_comm_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   PROTOBUF_FIELD_OFFSET(::messageSystem::FileUploadData, _impl_.file_content_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, -1, sizeof(::messageSystem::CommRsp)},
-  { 9, -1, -1, sizeof(::messageSystem::UserInfo)},
-  { 22, 36, -1, sizeof(::messageSystem::ConversationInfo)},
-  { 44, -1, -1, sizeof(::messageSystem::StringMessageInfo)},
-  { 51, 59, -1, sizeof(::messageSystem::ImageMessageInfo)},
-  { 61, 71, -1, sizeof(::messageSystem::FileMessageInfo)},
-  { 75, 83, -1, sizeof(::messageSystem::SpeechMessageInfo)},
-  { 85, -1, -1, sizeof(::messageSystem::MessageContent)},
-  { 97, -1, -1, sizeof(::messageSystem::MessageInfo)},
-  { 108, -1, -1, sizeof(::messageSystem::FileDownloadData)},
-  { 116, -1, -1, sizeof(::messageSystem::FileUploadData)},
+  { 0, -1, -1, sizeof(::messageSystem::CommReq)},
+  { 9, -1, -1, sizeof(::messageSystem::CommRsp)},
+  { 18, -1, -1, sizeof(::messageSystem::UserInfo)},
+  { 31, 45, -1, sizeof(::messageSystem::ConversationInfo)},
+  { 53, -1, -1, sizeof(::messageSystem::StringMessageInfo)},
+  { 60, 68, -1, sizeof(::messageSystem::ImageMessageInfo)},
+  { 70, 80, -1, sizeof(::messageSystem::FileMessageInfo)},
+  { 84, 92, -1, sizeof(::messageSystem::SpeechMessageInfo)},
+  { 94, -1, -1, sizeof(::messageSystem::MessageContent)},
+  { 106, -1, -1, sizeof(::messageSystem::MessageInfo)},
+  { 117, -1, -1, sizeof(::messageSystem::FileDownloadData)},
+  { 125, -1, -1, sizeof(::messageSystem::FileUploadData)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
+  &::messageSystem::_CommReq_default_instance_._instance,
   &::messageSystem::_CommRsp_default_instance_._instance,
   &::messageSystem::_UserInfo_default_instance_._instance,
   &::messageSystem::_ConversationInfo_default_instance_._instance,
@@ -358,54 +384,55 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 
 const char descriptor_table_protodef_comm_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\ncomm.proto\022\rmessageSystem\"=\n\007CommRsp\022\022"
-  "\n\nrequest_id\030\001 \001(\t\022\016\n\006status\030\002 \001(\010\022\016\n\006er"
-  "rmsg\030\003 \001(\t\"{\n\010UserInfo\022\017\n\007user_id\030\001 \001(\t\022"
-  "\020\n\010nickname\030\002 \001(\t\022\023\n\013description\030\003 \001(\t\022\r"
-  "\n\005Email\030\004 \001(\t\022\016\n\006avatar\030\005 \001(\t\022\013\n\003sex\030\006 \001"
-  "(\005\022\013\n\003age\030\007 \001(\005\"\322\002\n\020ConversationInfo\022\027\n\017"
-  "conversation_id\030\001 \001(\t\022\031\n\021conversation_na"
-  "me\030\002 \001(\t\022\016\n\006avatar\030\003 \001(\014\0225\n\014prev_message"
-  "\030\004 \001(\0132\032.messageSystem.MessageInfoH\000\210\001\001\022"
-  "!\n\024last_message_content\030\005 \001(\tH\001\210\001\001\022#\n\026la"
-  "st_message_timestamp\030\006 \001(\004H\002\210\001\001\022\024\n\007membe"
-  "rs\030\007 \001(\rH\003\210\001\001\022\024\n\014created_time\030\010 \001(\004B\017\n\r_"
-  "prev_messageB\027\n\025_last_message_contentB\031\n"
-  "\027_last_message_timestampB\n\n\010_members\"$\n\021"
-  "StringMessageInfo\022\017\n\007content\030\001 \001(\t\"b\n\020Im"
-  "ageMessageInfo\022\024\n\007file_id\030\001 \001(\tH\000\210\001\001\022\032\n\r"
-  "image_content\030\002 \001(\014H\001\210\001\001B\n\n\010_file_idB\020\n\016"
-  "_image_content\"\255\001\n\017FileMessageInfo\022\024\n\007fi"
-  "le_id\030\001 \001(\tH\000\210\001\001\022\026\n\tfile_size\030\002 \001(\003H\001\210\001\001"
-  "\022\026\n\tfile_name\030\003 \001(\tH\002\210\001\001\022\032\n\rfile_content"
-  "s\030\004 \001(\014H\003\210\001\001B\n\n\010_file_idB\014\n\n_file_sizeB\014"
-  "\n\n_file_nameB\020\n\016_file_contents\"c\n\021Speech"
-  "MessageInfo\022\024\n\007file_id\030\001 \001(\tH\000\210\001\001\022\032\n\rfil"
-  "e_contents\030\002 \001(\014H\001\210\001\001B\n\n\010_file_idB\020\n\016_fi"
-  "le_contents\"\273\002\n\016MessageContent\0220\n\014messag"
-  "e_type\030\001 \001(\0162\032.messageSystem.MessageType"
-  "\022:\n\016string_message\030\002 \001(\0132 .messageSystem"
-  ".StringMessageInfoH\000\0226\n\014file_message\030\003 \001"
-  "(\0132\036.messageSystem.FileMessageInfoH\000\022:\n\016"
-  "speech_message\030\004 \001(\0132 .messageSystem.Spe"
-  "echMessageInfoH\000\0228\n\rimage_message\030\005 \001(\0132"
-  "\037.messageSystem.ImageMessageInfoH\000B\r\n\013ms"
-  "g_content\"\220\001\n\013MessageInfo\022\022\n\nmessage_id\030"
-  "\001 \001(\t\022\027\n\017conversation_id\030\002 \001(\t\022\021\n\ttimest"
-  "amp\030\003 \001(\003\022\021\n\tsender_id\030\004 \001(\t\022.\n\007message\030"
-  "\005 \001(\0132\035.messageSystem.MessageContent\"9\n\020"
-  "FileDownloadData\022\017\n\007file_id\030\001 \001(\t\022\024\n\014fil"
-  "e_content\030\002 \001(\014\"L\n\016FileUploadData\022\021\n\tfil"
-  "e_name\030\001 \001(\t\022\021\n\tfile_size\030\002 \001(\003\022\024\n\014file_"
-  "content\030\003 \001(\014*:\n\013MessageType\022\n\n\006STRING\020\000"
-  "\022\t\n\005IMAGE\020\001\022\010\n\004FILE\020\002\022\n\n\006SPEECH\020\003B\003\200\001\001b\006"
-  "proto3"
+  "\n\ncomm.proto\022\rmessageSystem\"9\n\007CommReq\022\022"
+  "\n\nrequest_id\030\001 \001(\t\022\013\n\003uid\030\002 \001(\t\022\r\n\005token"
+  "\030\003 \001(\t\"=\n\007CommRsp\022\022\n\nrequest_id\030\001 \001(\t\022\016\n"
+  "\006status\030\002 \001(\010\022\016\n\006errmsg\030\003 \001(\t\"{\n\010UserInf"
+  "o\022\017\n\007user_id\030\001 \001(\t\022\020\n\010nickname\030\002 \001(\t\022\023\n\013"
+  "description\030\003 \001(\t\022\r\n\005Email\030\004 \001(\t\022\016\n\006avat"
+  "ar\030\005 \001(\t\022\013\n\003sex\030\006 \001(\005\022\013\n\003age\030\007 \001(\005\"\322\002\n\020C"
+  "onversationInfo\022\027\n\017conversation_id\030\001 \001(\t"
+  "\022\031\n\021conversation_name\030\002 \001(\t\022\016\n\006avatar\030\003 "
+  "\001(\014\0225\n\014prev_message\030\004 \001(\0132\032.messageSyste"
+  "m.MessageInfoH\000\210\001\001\022!\n\024last_message_conte"
+  "nt\030\005 \001(\tH\001\210\001\001\022#\n\026last_message_timestamp\030"
+  "\006 \001(\004H\002\210\001\001\022\024\n\007members\030\007 \001(\rH\003\210\001\001\022\024\n\014crea"
+  "ted_time\030\010 \001(\004B\017\n\r_prev_messageB\027\n\025_last"
+  "_message_contentB\031\n\027_last_message_timest"
+  "ampB\n\n\010_members\"$\n\021StringMessageInfo\022\017\n\007"
+  "content\030\001 \001(\t\"b\n\020ImageMessageInfo\022\024\n\007fil"
+  "e_id\030\001 \001(\tH\000\210\001\001\022\032\n\rimage_content\030\002 \001(\014H\001"
+  "\210\001\001B\n\n\010_file_idB\020\n\016_image_content\"\255\001\n\017Fi"
+  "leMessageInfo\022\024\n\007file_id\030\001 \001(\tH\000\210\001\001\022\026\n\tf"
+  "ile_size\030\002 \001(\003H\001\210\001\001\022\026\n\tfile_name\030\003 \001(\tH\002"
+  "\210\001\001\022\032\n\rfile_contents\030\004 \001(\014H\003\210\001\001B\n\n\010_file"
+  "_idB\014\n\n_file_sizeB\014\n\n_file_nameB\020\n\016_file"
+  "_contents\"c\n\021SpeechMessageInfo\022\024\n\007file_i"
+  "d\030\001 \001(\tH\000\210\001\001\022\032\n\rfile_contents\030\002 \001(\014H\001\210\001\001"
+  "B\n\n\010_file_idB\020\n\016_file_contents\"\273\002\n\016Messa"
+  "geContent\0220\n\014message_type\030\001 \001(\0162\032.messag"
+  "eSystem.MessageType\022:\n\016string_message\030\002 "
+  "\001(\0132 .messageSystem.StringMessageInfoH\000\022"
+  "6\n\014file_message\030\003 \001(\0132\036.messageSystem.Fi"
+  "leMessageInfoH\000\022:\n\016speech_message\030\004 \001(\0132"
+  " .messageSystem.SpeechMessageInfoH\000\0228\n\ri"
+  "mage_message\030\005 \001(\0132\037.messageSystem.Image"
+  "MessageInfoH\000B\r\n\013msg_content\"\220\001\n\013Message"
+  "Info\022\022\n\nmessage_id\030\001 \001(\t\022\027\n\017conversation"
+  "_id\030\002 \001(\t\022\021\n\ttimestamp\030\003 \001(\003\022\021\n\tsender_i"
+  "d\030\004 \001(\t\022.\n\007message\030\005 \001(\0132\035.messageSystem"
+  ".MessageContent\"9\n\020FileDownloadData\022\017\n\007f"
+  "ile_id\030\001 \001(\t\022\024\n\014file_content\030\002 \001(\014\"L\n\016Fi"
+  "leUploadData\022\021\n\tfile_name\030\001 \001(\t\022\021\n\tfile_"
+  "size\030\002 \001(\003\022\024\n\014file_content\030\003 \001(\014*:\n\013Mess"
+  "ageType\022\n\n\006STRING\020\000\022\t\n\005IMAGE\020\001\022\010\n\004FILE\020\002"
+  "\022\n\n\006SPEECH\020\003B\003\200\001\001b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_comm_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_comm_2eproto = {
-    false, false, 1646, descriptor_table_protodef_comm_2eproto,
+    false, false, 1705, descriptor_table_protodef_comm_2eproto,
     "comm.proto",
-    &descriptor_table_comm_2eproto_once, nullptr, 0, 11,
+    &descriptor_table_comm_2eproto_once, nullptr, 0, 12,
     schemas, file_default_instances, TableStruct_comm_2eproto::offsets,
     file_level_metadata_comm_2eproto, file_level_enum_descriptors_comm_2eproto,
     file_level_service_descriptors_comm_2eproto,
@@ -433,6 +460,309 @@ bool MessageType_IsValid(int value) {
   }
 }
 
+
+// ===================================================================
+
+class CommReq::_Internal {
+ public:
+};
+
+CommReq::CommReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:messageSystem.CommReq)
+}
+CommReq::CommReq(const CommReq& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  CommReq* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.request_id_){}
+    , decltype(_impl_.uid_){}
+    , decltype(_impl_.token_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.request_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.request_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_request_id().empty()) {
+    _this->_impl_.request_id_.Set(from._internal_request_id(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.uid_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.uid_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_uid().empty()) {
+    _this->_impl_.uid_.Set(from._internal_uid(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.token_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.token_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_token().empty()) {
+    _this->_impl_.token_.Set(from._internal_token(), 
+      _this->GetArenaForAllocation());
+  }
+  // @@protoc_insertion_point(copy_constructor:messageSystem.CommReq)
+}
+
+inline void CommReq::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.request_id_){}
+    , decltype(_impl_.uid_){}
+    , decltype(_impl_.token_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.request_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.request_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.uid_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.uid_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.token_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.token_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+CommReq::~CommReq() {
+  // @@protoc_insertion_point(destructor:messageSystem.CommReq)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void CommReq::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.request_id_.Destroy();
+  _impl_.uid_.Destroy();
+  _impl_.token_.Destroy();
+}
+
+void CommReq::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void CommReq::Clear() {
+// @@protoc_insertion_point(message_clear_start:messageSystem.CommReq)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.request_id_.ClearToEmpty();
+  _impl_.uid_.ClearToEmpty();
+  _impl_.token_.ClearToEmpty();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* CommReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string request_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_request_id();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.CommReq.request_id"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string uid = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_uid();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.CommReq.uid"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string token = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_token();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "messageSystem.CommReq.token"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* CommReq::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:messageSystem.CommReq)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string request_id = 1;
+  if (!this->_internal_request_id().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_request_id().data(), static_cast<int>(this->_internal_request_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "messageSystem.CommReq.request_id");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_request_id(), target);
+  }
+
+  // string uid = 2;
+  if (!this->_internal_uid().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_uid().data(), static_cast<int>(this->_internal_uid().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "messageSystem.CommReq.uid");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_uid(), target);
+  }
+
+  // string token = 3;
+  if (!this->_internal_token().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_token().data(), static_cast<int>(this->_internal_token().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "messageSystem.CommReq.token");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_token(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:messageSystem.CommReq)
+  return target;
+}
+
+size_t CommReq::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:messageSystem.CommReq)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string request_id = 1;
+  if (!this->_internal_request_id().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_request_id());
+  }
+
+  // string uid = 2;
+  if (!this->_internal_uid().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_uid());
+  }
+
+  // string token = 3;
+  if (!this->_internal_token().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_token());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData CommReq::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    CommReq::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*CommReq::GetClassData() const { return &_class_data_; }
+
+
+void CommReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<CommReq*>(&to_msg);
+  auto& from = static_cast<const CommReq&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:messageSystem.CommReq)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_request_id().empty()) {
+    _this->_internal_set_request_id(from._internal_request_id());
+  }
+  if (!from._internal_uid().empty()) {
+    _this->_internal_set_uid(from._internal_uid());
+  }
+  if (!from._internal_token().empty()) {
+    _this->_internal_set_token(from._internal_token());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void CommReq::CopyFrom(const CommReq& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:messageSystem.CommReq)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CommReq::IsInitialized() const {
+  return true;
+}
+
+void CommReq::InternalSwap(CommReq* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.request_id_, lhs_arena,
+      &other->_impl_.request_id_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.uid_, lhs_arena,
+      &other->_impl_.uid_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.token_, lhs_arena,
+      &other->_impl_.token_, rhs_arena
+  );
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata CommReq::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_comm_2eproto_getter, &descriptor_table_comm_2eproto_once,
+      file_level_metadata_comm_2eproto[0]);
+}
 
 // ===================================================================
 
@@ -711,7 +1041,7 @@ void CommRsp::InternalSwap(CommRsp* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CommRsp::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_comm_2eproto_getter, &descriptor_table_comm_2eproto_once,
-      file_level_metadata_comm_2eproto[0]);
+      file_level_metadata_comm_2eproto[1]);
 }
 
 // ===================================================================
@@ -1174,7 +1504,7 @@ void UserInfo::InternalSwap(UserInfo* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UserInfo::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_comm_2eproto_getter, &descriptor_table_comm_2eproto_once,
-      file_level_metadata_comm_2eproto[1]);
+      file_level_metadata_comm_2eproto[2]);
 }
 
 // ===================================================================
@@ -1680,7 +2010,7 @@ void ConversationInfo::InternalSwap(ConversationInfo* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ConversationInfo::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_comm_2eproto_getter, &descriptor_table_comm_2eproto_once,
-      file_level_metadata_comm_2eproto[2]);
+      file_level_metadata_comm_2eproto[3]);
 }
 
 // ===================================================================
@@ -1883,7 +2213,7 @@ void StringMessageInfo::InternalSwap(StringMessageInfo* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata StringMessageInfo::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_comm_2eproto_getter, &descriptor_table_comm_2eproto_once,
-      file_level_metadata_comm_2eproto[3]);
+      file_level_metadata_comm_2eproto[4]);
 }
 
 // ===================================================================
@@ -2157,7 +2487,7 @@ void ImageMessageInfo::InternalSwap(ImageMessageInfo* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ImageMessageInfo::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_comm_2eproto_getter, &descriptor_table_comm_2eproto_once,
-      file_level_metadata_comm_2eproto[4]);
+      file_level_metadata_comm_2eproto[5]);
 }
 
 // ===================================================================
@@ -2518,7 +2848,7 @@ void FileMessageInfo::InternalSwap(FileMessageInfo* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata FileMessageInfo::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_comm_2eproto_getter, &descriptor_table_comm_2eproto_once,
-      file_level_metadata_comm_2eproto[5]);
+      file_level_metadata_comm_2eproto[6]);
 }
 
 // ===================================================================
@@ -2792,7 +3122,7 @@ void SpeechMessageInfo::InternalSwap(SpeechMessageInfo* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SpeechMessageInfo::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_comm_2eproto_getter, &descriptor_table_comm_2eproto_once,
-      file_level_metadata_comm_2eproto[6]);
+      file_level_metadata_comm_2eproto[7]);
 }
 
 // ===================================================================
@@ -3243,7 +3573,7 @@ void MessageContent::InternalSwap(MessageContent* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata MessageContent::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_comm_2eproto_getter, &descriptor_table_comm_2eproto_once,
-      file_level_metadata_comm_2eproto[7]);
+      file_level_metadata_comm_2eproto[8]);
 }
 
 // ===================================================================
@@ -3619,7 +3949,7 @@ void MessageInfo::InternalSwap(MessageInfo* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata MessageInfo::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_comm_2eproto_getter, &descriptor_table_comm_2eproto_once,
-      file_level_metadata_comm_2eproto[8]);
+      file_level_metadata_comm_2eproto[9]);
 }
 
 // ===================================================================
@@ -3867,7 +4197,7 @@ void FileDownloadData::InternalSwap(FileDownloadData* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata FileDownloadData::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_comm_2eproto_getter, &descriptor_table_comm_2eproto_once,
-      file_level_metadata_comm_2eproto[9]);
+      file_level_metadata_comm_2eproto[10]);
 }
 
 // ===================================================================
@@ -4142,12 +4472,16 @@ void FileUploadData::InternalSwap(FileUploadData* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata FileUploadData::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_comm_2eproto_getter, &descriptor_table_comm_2eproto_once,
-      file_level_metadata_comm_2eproto[10]);
+      file_level_metadata_comm_2eproto[11]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace messageSystem
 PROTOBUF_NAMESPACE_OPEN
+template<> PROTOBUF_NOINLINE ::messageSystem::CommReq*
+Arena::CreateMaybeMessage< ::messageSystem::CommReq >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::messageSystem::CommReq >(arena);
+}
 template<> PROTOBUF_NOINLINE ::messageSystem::CommRsp*
 Arena::CreateMaybeMessage< ::messageSystem::CommRsp >(Arena* arena) {
   return Arena::CreateMessageInternal< ::messageSystem::CommRsp >(arena);
