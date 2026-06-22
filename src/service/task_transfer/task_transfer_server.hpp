@@ -164,14 +164,14 @@ namespace messageSystem
             if(routing == AMQP_MESSAGE_POST_ROUTING_KEY)
             {
                 auto req = std::any_cast<std::shared_ptr<PostMessagesReq>>(routing_info.payload);
-                req->set_request_id(util::StringUtil::generateUniqueName());
+                req->mutable_request()->set_request_id(util::StringUtil::generateUniqueName());
                 messageSystem::MsgStorageService_Stub stub(channel.get());
                 stub.PostMessages(cntl, req.get(), rsp, done);
             }
             else if(routing == AMQP_MESSAGE_DELETE_ROUTING_KEY)
             {
                 auto req = std::any_cast<std::shared_ptr<DeleteMessagesReq>>(routing_info.payload);
-                req->set_request_id(util::StringUtil::generateUniqueName());
+                req->mutable_request()->set_request_id(util::StringUtil::generateUniqueName());
                 messageSystem::MsgStorageService_Stub stub(channel.get());
                 stub.DeleteMessages(cntl, req.get(), rsp, done);
             }

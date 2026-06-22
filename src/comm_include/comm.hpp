@@ -7,33 +7,48 @@
 
 namespace messageSystem
 {
-/*********************************************AMQP*****************************************************/
+/*********************************************CONFIG*****************************************************/
+    const std::string SERVICE_BASE_URL = "service/";    
+    const std::string GATEWAY = "gateway";
     const std::string FILE_SERVICE = "file_service";
     const std::string USER_SERVICE = "user_service";
     const std::string CONVERSATION_SERVICE = "conversation_service";
     const std::string FRIEND_SERVICE = "friend_service";
+    const std::string MESSAGE_SERVICE = "message_service";
+    const std::string MESSAGE_STORE_SERVICE = "message_store_service";
+    const std::string REGISTRY_HOST = "http://127.0.0.1:2379";
+/*********************************************AMQP*****************************************************/
     const std::string AMQP_MESSAGE_EXCHANGE = "amqp_message_exchange";
     const std::string AMQP_MESSAGE_POST_QUEUE = "amqp_messages_post_queue";
     const std::string AMQP_MESSAGE_DELETE_QUEUE = "amqp_messages_delete_queue";
     const std::string AMQP_MESSAGE_POST_ROUTING_KEY = "amqp_messages_post_routing_key";
     const std::string AMQP_MESSAGE_DELETE_ROUTING_KEY = "amqp_messages_delete_routing_key";
-/**********************************************WebSocket***********************************************************/
-    const std::string AUTH = "Auth";
+/**********************************************WEBSOCKET***********************************************************/
+    const std::string WS_AUTH = "Auth";
     const std::string WS_SEND_MESSAGE = "SendMessage";
-    const std::string WS_NEW_MESSAGE = "NewMessage";
+    const std::string WS_SEND_MESSAGE_NOTIFY = "SendMessageNotify";
     const std::string WS_RECALL_MESSAGE = "RecallMessage";
     const std::string WS_RECALL_MESSAGE_NOTIFY = "RecallMessageNotify";
     const std::string WS_USER_ONLINE = "UserOnline";
     const std::string WS_USER_ONLINE_NOTIFY = "UserOnlineNotify";
-    const std::string WS_USER_OFFONLINE = "UserOffOnline";
-    const std::string WS_USER_OFFONLINE_NOTIFY = "UserOffOnlineNotify";
+    const std::string WS_USER_OFFLINE = "UserOffline";
+    const std::string WS_USER_OFFLINE_NOTIFY = "UserOfflineNotify";
     const std::string WS_TYPING = "Typing";
     const std::string WS_TYPING_NOTIFY = "TypingNotify";
     const std::string WS_FRIEND_REQUEST = "FriendRequest";
     const std::string WS_FRIEND_REQUEST_NOTIFY = "FriendRequestNotify";
     const std::string WS_FRIEND_REQUEST_STATUS = "FriendRequestStatus";
     const std::string WS_FRIEND_REQUEST_STATUS_NOTIFY = "FriendRequestStatusNotify";
-
+    const std::string WS_CREATE_CONVERSATION = "CreateConversation";
+    const std::string WS_CREATE_CONVERSATION_NOTIFY = "CreateConversationNotify";
+    const std::string WS_REMOVE_CONVERSATION = "RemoveConversation";
+    const std::string WS_REMOVE_CONVERSATION_NOTIFY = "RemoveConversationNotify";
+    const std::string WS_ADD_MEMBER = "AddMember";
+    const std::string WS_ADD_MEMBER_NOTIFY = "AddMemberNotify";
+    const std::string WS_EXIT_CONVERSATION = "ExitConversation";
+    const std::string WS_EXIT_CONVERSATION_NOTIFY = "ExitConversationNotify";
+    const std::string WS_CHANGE_POWER = "ChangePower";
+    const std::string WS_CHANGE_POWER_NOTIFY = "ChangePowerNotify";
 /************************************************************************************************************/
 
     struct Response 

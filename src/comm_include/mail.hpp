@@ -37,11 +37,11 @@ namespace messageSystem
         std::string BuildMailUrl()
         {
             std::ostringstream oss;
-            if (smtp_port == 587)
+            if (SMTP_PORT == 587)
             {
                 oss << "smtp://";
             }
-            else if (smtp_ssl)
+            else if (SMTP_SSL)
             {
                 oss << "smtps://";
             }
@@ -49,21 +49,21 @@ namespace messageSystem
             {
                 oss << "smtp://";
             }
-            oss << smtp_host << ":" << smtp_port;
+            oss << SMTP_HOST << ":" << SMTP_PORT;
             return oss.str();
         }
 
         std::string BuildFromAddress()
         {
-            std::string user_email = NormalizeMailAddress(smtp_user);
-            std::string from_email = NormalizeMailAddress(smtp_from);
+            std::string user_email = NormalizeMailAddress(SMTP_USER);
+            std::string from_email = NormalizeMailAddress(SMTP_FROM);
             if (from_email.empty() || from_email == "null")
             {
                 return user_email;
             }
             if (from_email != user_email)
             {
-                LOG_WARNING("smtp_from differs from smtp_user, fallback to smtp_user")
+                LOG_WARNING("SMTP_FROM differs from SMTP_USER, fallback to SMTP_USER")
                 return user_email;
             }
             return from_email;
@@ -159,10 +159,10 @@ namespace messageSystem
         MailSendResult SendAuthCodeMail(const std::string& to, const std::string& code)
         {
             MailSendResult result;
-            std::string username = StringUtil::Trim(smtp_user);
-            std::string password = StringUtil::Trim(smtp_passwd);
+            std::string username = StringUtil::Trim(SMTP_USER);
+            std::string password = StringUtil::Trim(SMTP_PASSWD);
 
-            if (smtp_host.empty() || smtp_host == "null" ||
+            if (SMTP_HOST.empty() || SMTP_HOST == "null" ||
                 username.empty() || username == "null" ||
                 password.empty() || password == "null")
             {
@@ -200,7 +200,7 @@ namespace messageSystem
             std::string url = BuildMailUrl();
             std::string from_mail = "<" + from + ">";
             std::string to_mail = "<" + to + ">";
-            long use_ssl_mode = (smtp_port == 587 || smtp_ssl)
+            long use_ssl_mode = (SMTP_PORT == 587 || SMTP_SSL)
                 ? static_cast<long>(CURLUSESSL_ALL)
                 : static_cast<long>(CURLUSESSL_NONE);
             char error_buffer[CURL_ERROR_SIZE] = {0};

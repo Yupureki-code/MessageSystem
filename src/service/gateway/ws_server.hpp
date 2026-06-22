@@ -41,24 +41,25 @@ namespace messageSystem
                     // 解析消息
                     std::string raw = beast::buffers_to_string(buffer.data());
                     buffer.consume(buffer.size());  // 清空 buffer
-                    WsProtocol msg;
+                    WsProtocolReq req;
+                    WsProtocolRsp rep;
                     try 
                     {
-                        msg.deserialize(raw);
+                        req.deserialize(raw);
                     } 
                     catch (const std::exception& e) 
                     {
-                        msg.error = "请求解析错误!";
+                        rep.error = "请求解析错误!";
                         break;
                     }
-                    if (msg.type.empty()) 
+                    if (req.type.empty()) 
                     {
-                        msg.error = "缺少 type 字段";
-                        co_await conn->ws->async_write(net::buffer(msg.serialize()), net::use_awaitable);
+                        rep.error = "缺少 type 字段";
+                        co_await conn->ws->async_write(net::buffer(rep.serialize()), net::use_awaitable);
                         continue;
                     }
                     // ③ 路由到 Handler (co_await 等待 Handler 执行完毕)
-                    co_await _router.dispatch(conn_id, msg, conn);
+                    co_await _router.dispatch(conn_id, req, conn);
                 }
             } 
             catch (const beast::system_error& e) 
@@ -124,7 +125,7 @@ namespace messageSystem
         }
         void registerHandler(const std::string& type,CoroutineHandler handler)
         {
-            _router.registerHandler(type, handler);
+            _router.Register(type, handler);
         }
         void run() 
         {

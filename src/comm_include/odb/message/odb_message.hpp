@@ -37,7 +37,7 @@ namespace odbMessage
         Response insertMessage(Message& message)
         {
             Response rep;
-            Timer t(_monitor,"insert message(id):" + std::to_string(message.id));
+            Timer t(_monitor,"insert message(id):" + std::to_string(message.message_id));
             try
             {
                 odb::transaction t(_db->begin());
@@ -47,7 +47,7 @@ namespace odbMessage
             }
             catch(const odb::exception& e)
             {
-                LOG_ERROR("插入消息{}失败:{}!",message.id,e.what());
+                LOG_ERROR("插入消息{}失败:{}!",message.message_id,e.what());
                 rep.status = false;
                 rep.errmsg = e.what();
             }
@@ -123,10 +123,10 @@ namespace odbMessage
         }
         
         /// @brief 删除消息
-        Response deleteMessage(const std::string& message_id)
+        Response deleteMessage(unsigned long long message_id)
         {
             Response rep;
-            Timer t(_monitor,"delete message(mid):" + message_id);
+            Timer t(_monitor,"delete message(mid):" + std::to_string(message_id));
             try
             {
                 odb::transaction t(_db->begin());

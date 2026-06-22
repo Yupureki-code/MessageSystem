@@ -56,7 +56,7 @@ public:
         if (done) {
             done->Run();
         }
-        response->mutable_response()->set_request_id(request->request_id());
+        response->mutable_response()->set_request_id(request->request().request_id());
         response->mutable_response()->set_status(true);
         for (const auto& uid : members) {
             auto* user = response->add_user_infos();
@@ -185,7 +185,7 @@ protected:
 
 TEST_F(MessageServerIntegrationTest, SendMessageReturnsOnlineUsersAndPublishesPostTask) {
     SendMessageReq req;
-    req.set_request_id("rid_send");
+    req.mutable_request()->set_request_id("rid_send");
     *req.mutable_message() = MakeTextMessage("m1");
 
     SendMessageRsq rsp;
@@ -217,7 +217,7 @@ TEST_F(MessageServerIntegrationTest, SendMessageReturnsOnlineUsersAndPublishesPo
 
 TEST_F(MessageServerIntegrationTest, RecallMessageReturnsOnlineUsersIncrementsSeqAndPublishesDeleteTask) {
     RecallMessageReq req;
-    req.set_request_id("rid_recall");
+    req.mutable_request()->set_request_id("rid_recall");
     *req.mutable_message() = MakeTextMessage("m2");
 
     RecallMessageRsp rsp;
@@ -249,9 +249,9 @@ TEST_F(MessageServerIntegrationTest, MarkAsReadClearsUnreadCounter) {
     redis.HSet("user:u1", "unread:conv_1", "9");
 
     MarkAsReadReq req;
-    req.set_request_id("rid_read");
+    req.mutable_request()->set_request_id("rid_read");
     req.set_coversation_id("conv_1");
-    req.set_user_id("u1");
+    req.mutable_request()->set_uid("u1");
 
     CommRsp rsp;
     message_server.MarkAsRead(nullptr, &req, &rsp, nullptr);

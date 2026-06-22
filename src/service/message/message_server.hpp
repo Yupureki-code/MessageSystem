@@ -1,3 +1,4 @@
+#pragma once
 #include "../../comm_include/proto_include/message_store.pb.h"
 #include "../../comm_include/proto_include/conversation.pb.h"
 #include "../../comm_include/proto_include/message.pb.h"
@@ -6,8 +7,10 @@
 #include <brpc/server.h>
 #include <functional>
 #include <memory>
+#include <sw/redis++/utils.h>
 #include "../../comm_include/redis.hpp"
 #include "../../comm_include/channel.hpp"
+#include "../../comm_include/etcd.hpp"
 #include "../../comm_include/rabbitmq.hpp"
 
 namespace messageSystem
@@ -15,11 +18,11 @@ namespace messageSystem
     class MessageServerImpl : public MessageServer
     {
     private:
-        Response RedisHGet(const std::string& hash, const std::string& key, std::string* value)
+        Response RedisHGet(const std::string& hash, const std::string& key, sw::redis::OptionalString* value)
         {
             if(_redis_hget_fn)
             {
-                return _redis_hget_fn(hash, key, value);
+                return _redis_hget_fn(hash, key, &value->value());
             }
             return _redis->hget(hash, key, value);
         }
@@ -72,7 +75,7 @@ namespace messageSystem
             messageSystem::ConversationServer_Stub stub(channel.get());
             messageSystem::GetConversationMemberListReq req;
             messageSystem::GetConversationMemberListRsp rsp;
-            req.set_request_id(rid);
+            req.mutable_request()->set_request_id(rid);
             req.set_conversaion_id(conversation_id);
 
             brpc::Controller cntl;
@@ -93,7 +96,7 @@ namespace messageSystem
         bool PublishDeleteTask(const std::string& rid, const MessageInfo& message)
         {
             messageSystem::DeleteMessagesReq delete_req;
-            delete_req.set_request_id(rid);
+            delete_req.mutable_request()->set_request_id(rid);
             *delete_req.add_msg_list() = message;
 
             messageSystem::TaskPayload task;
@@ -147,7 +150,7 @@ namespace messageSystem
         {
             LOG_DEBUG("收到消息发送请求！");
             brpc::ClosureGuard rpc_guard(done);
-            std::string rid = request->request_id();
+            std::string rid = request->request().request_id();
             MessageInfo message = request->message();
             CommRsp* rep = response->mutable_response();
             std::vector<UserInfo> user_infos;
@@ -159,7 +162,7 @@ namespace messageSystem
             for(auto & it : user_infos)
             {
                 std::string str = "user:" + it.user_id();
-                std::string value;
+                sw::redis::OptionalString value;
                 Response return_rep = RedisHGet(str, "online", &value);
                 if(!return_rep.status)
                 {
@@ -179,7 +182,7 @@ namespace messageSystem
                 }
             }
             messageSystem::PostMessagesReq message_store_req;
-            message_store_req.set_request_id(rid);
+            message_store_req.mutable_request()->set_request_id(rid);
             *message_store_req.add_msg_list() = message;
 
             messageSystem::TaskPayload task;
@@ -206,7 +209,7 @@ namespace messageSystem
         {
             LOG_DEBUG("收到消息撤回请求！");
             brpc::ClosureGuard rpc_guard(done);
-            std::string rid = request->request_id();
+            std::string rid = request->request().request_id();
             MessageInfo message = request->message();
             CommRsp* rep = response->mutable_response();
 
@@ -220,7 +223,7 @@ namespace messageSystem
             for(const auto& user_info : user_infos)
             {
                 std::string redis_key = "user:" + user_info.user_id();
-                std::string online_value;
+                sw::redis::OptionalString online_value;
                 Response redis_rep = RedisHGet(redis_key, "online", &online_value);
                 if(!redis_rep.status)
                 {
@@ -259,9 +262,9 @@ namespace messageSystem
         {
             LOG_DEBUG("收到消息已读请求！");
             brpc::ClosureGuard rpc_guard(done);
-            std::string rid = request->request_id();
+            std::string rid = request->request().request_id();
             std::string conversation_id = request->coversation_id();
-            std::string user_id = request->user_id();
+            std::string user_id = request->request().uid();
             CommRsp* rep = response;
 
             Response redis_rep = RedisHSet("user:" + user_id, "unread:" + conversation_id, "0");
@@ -284,5 +287,75 @@ namespace messageSystem
         std::function<Response(const std::string&, const std::string&, int)> _redis_hincrby_fn;
         std::function<bool(const std::string&, const std::string&, const std::string&)> _publish_task_fn;
         std::function<bool(const std::string&, const std::string&, std::vector<UserInfo>*)> _fetch_members_fn;
+    };
+    class MessageServerWrapper
+    {
+    private:
+        void Put(const std::string& key, const std::string& value)
+        {
+            if(key == _conversation_service_base_url)
+            {
+                _services->addService(CONVERSATION_SERVICE, value);
+                _services->activeService(key);
+            }
+        }
+        void Del(const std::string& key, const std::string& value)
+        {
+            if(key == _conversation_service_base_url)
+            {
+                _services->inactiveService(key);
+            }
+        }
+    public:
+        MessageServerWrapper(const std::string& registry_host, const std::string& access_dir,
+            const std::string& conversation_service_base_url = SERVICE_BASE_URL + CONVERSATION_SERVICE)
+        :_conversation_service_base_url(conversation_service_base_url)
+        ,_discover(registry_host, access_dir,
+            std::bind(&MessageServerWrapper::Put, this, std::placeholders::_1, std::placeholders::_2),
+            std::bind(&MessageServerWrapper::Del, this, std::placeholders::_1, std::placeholders::_2))
+        {
+            _services = std::make_shared<ServiceManager>();
+            _server.InitService(_services);
+        }
+        void InitRedis(const std::string& ip, int port, int thread_size, int late_time)
+        {
+            std::shared_ptr<redis::RedisClient> redis = std::make_shared<redis::RedisClient>(ip, port, thread_size, late_time);
+            _server.InitRedis(redis);
+        }
+        void InitRabbitMQ(const std::string& user, const std::string& password, const std::string& host)
+        {
+            std::shared_ptr<RabbitMQ> mq = std::make_shared<RabbitMQ>(user, password, host, false);
+            _server.InitRabbitMQ(mq);
+            mq->addExchange(AMQP_MESSAGE_EXCHANGE, AMQP::direct, AMQP::durable);
+            mq->addQueue(AMQP_MESSAGE_POST_QUEUE, AMQP::durable);
+            mq->addQueue(AMQP_MESSAGE_DELETE_QUEUE, AMQP::durable);
+            mq->bind(AMQP_MESSAGE_EXCHANGE, AMQP_MESSAGE_POST_QUEUE, AMQP_MESSAGE_POST_ROUTING_KEY);
+            mq->bind(AMQP_MESSAGE_EXCHANGE, AMQP_MESSAGE_DELETE_QUEUE, AMQP_MESSAGE_DELETE_ROUTING_KEY);
+        }
+        void Start(uint16_t port, int32_t timeout, uint8_t num_threads)
+        {
+            _rpc_server = std::make_unique<brpc::Server>();
+            int ret = _rpc_server->AddService(&_server, brpc::ServiceOwnership::SERVER_OWNS_SERVICE);
+            if(ret == -1)
+            {
+                LOG_ERROR("添加RPC服务失败!");
+                return;
+            }
+            brpc::ServerOptions options;
+            options.idle_timeout_sec = timeout;
+            options.num_threads = num_threads;
+            ret = _rpc_server->Start(port, &options);
+            if(ret == -1)
+            {
+                LOG_ERROR("服务启动失败!");
+                return;
+            }
+        }
+    private:
+        std::unique_ptr<brpc::Server> _rpc_server;
+        std::string _conversation_service_base_url;
+        Discovery _discover;
+        MessageServerImpl _server;
+        std::shared_ptr<ServiceManager> _services;
     };
 }

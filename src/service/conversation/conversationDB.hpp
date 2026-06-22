@@ -2,9 +2,7 @@
 #include "../../comm_include/odb/conversation/odb_conversation.hpp"
 #include "../../comm_include/odb/conversation/conversation.hxx"
 #include "../../comm_include/es.hpp"
-#include <future>
 #include <json/value.h>
-#include <ratio>
 #include <vector>
 
 
@@ -37,7 +35,7 @@ namespace messageSystem
             ,int port)
         :_odb(user,password,db,host,port)
         {}
-        Response insertConversation(const Conversation& table,size_t * id,std::vector<ConversationMember>& members)
+        Response insertConversation(Conversation& table,size_t * id,std::vector<ConversationMember>& members)
         {
             Response rep = _odb.insertConversation(table,id);
             if(!rep.status)
@@ -87,7 +85,7 @@ namespace messageSystem
             .add("uid", member.uid)
             .add("conversation_member_name", member.conversation_member_name)
             .add("conversation_remark_name",member.conversation_remark_name)
-            .add("power",member.power);
+            .add("power",static_cast<int>(member.power));
             rep = es.insert("conversation", "_doc", std::to_string(member.conversation_id) + std::to_string(member.uid));
             return rep;
         }

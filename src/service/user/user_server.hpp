@@ -114,8 +114,8 @@ namespace messageSystem
         {
             LOG_DEBUG("收到用户登录请求！");
             brpc::ClosureGuard rpc_guard(done);
-            std::string token = request->token();
-            std::string rid = request->request_id();
+            std::string token = request->request().token();
+            std::string rid = request->request().request_id();
             response->set_request_id(rid);
         }
         virtual void GetEmailVerifyCode(::google::protobuf::RpcController* controller,
@@ -304,7 +304,7 @@ namespace messageSystem
             messageSystem::FileService_Stub stub(channel.get());
             messageSystem::GetFileReq req;
             messageSystem::GetFileRsp rsp;
-            req.set_request_id(rid);
+            req.mutable_request()->set_request_id(rid);
             for (auto &user : users)
             {
                 req.add_file_id_list(user.avatar);
@@ -361,7 +361,7 @@ namespace messageSystem
             messageSystem::FileService_Stub stub(channel.get());
             messageSystem::PutFileReq req;
             messageSystem::CommRsp rsp;
-            req.set_request_id(request->request_id());
+            req.mutable_request()->set_request_id(rid);
             auto data = req.add_file_data();
             data->set_file_name(avatar_id);
             data->set_file_size(request->avatar().size());
@@ -370,7 +370,7 @@ namespace messageSystem
             stub.PutSingleFile(&cntl, &req, &rsp, nullptr);
             if (cntl.Failed() || !rsp.status())
             {
-                LOG_INFO("{} - 文件管理服务异常！", request->request_id());
+                LOG_INFO("{} - 文件管理服务异常！", rid);
                 HandlerError(rep, rid, false, "服务器繁忙，请稍后重试!");
                 return;
             }
@@ -568,7 +568,7 @@ namespace messageSystem
             }
         }
     public:
-        UserServer(const std::string& file_service_base_url,const std::string& host,const std::string& basedir)
+        UserServer(const std::string& host,const std::string& basedir,const std::string& file_service_base_url = SERVICE_BASE_URL + USER_SERVICE)
         :_file_service_base_url(file_service_base_url)
         ,_discover(host,basedir,std::bind(&UserServer::Put,this,std::placeholders::_1,std::placeholders::_2)
                                ,std::bind(&UserServer::Del,this,std::placeholders::_1,std::placeholders::_2))

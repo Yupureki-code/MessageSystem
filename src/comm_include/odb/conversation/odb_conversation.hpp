@@ -12,10 +12,8 @@
 #include <odb/result.hxx>        // 查询结果集
 // MySQL 数据库驱动
 #include <odb/mysql/database.hxx>
-#include <sstream>
 #include "../../latecymonitor.hpp"
 #include "../../comm.hpp"
-#include "../../es.hpp"
 
 namespace odbConversation
 {
@@ -35,7 +33,7 @@ namespace odbConversation
             _monitor.setOutputFile(LOG_PATH, "odb_user.log");
             _monitor.start();
         }
-        Response insertConversation(const Conversation& table,size_t* id)
+        Response insertConversation(Conversation& table,size_t* id)
         {
             Response rep;
             Timer t(_monitor,"insert conversaion(id):" + std::to_string(table.conversation_id));

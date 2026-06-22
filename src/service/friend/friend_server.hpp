@@ -244,7 +244,7 @@ namespace messageSystem
             messageSystem::FileService_Stub stub(channel.get());
             messageSystem::GetFileReq file_req;
             messageSystem::GetFileRsp file_rsp;
-            file_req.set_request_id(rid);
+            file_req.mutable_request()->set_request_id(rid);
             file_req.add_file_id_list(friend_user->avatar);
             brpc::Controller cntl;
             stub.GetMultiFile(&cntl, &file_req, &file_rsp, nullptr);
@@ -308,7 +308,7 @@ namespace messageSystem
                     messageSystem::FileService_Stub stub(channel.get());
                     messageSystem::GetFileReq file_req;
                     messageSystem::GetFileRsp file_rsp;
-                    file_req.set_request_id(rid);
+                    file_req.mutable_request()->set_request_id(rid);
                     for (const auto& a : avatars)
                     {
                         file_req.add_file_id_list(a);
@@ -361,7 +361,7 @@ namespace messageSystem
             }
         }
     public:
-        FriendServerWrapper(const std::string& file_service_base_url, const std::string& host, const std::string& basedir)
+        FriendServerWrapper(const std::string& host, const std::string& basedir,const std::string& file_service_base_url = SERVICE_BASE_URL + FRIEND_SERVICE)
             : _file_service_base_url(file_service_base_url)
             , _discover(host, basedir, std::bind(&FriendServerWrapper::Put, this, std::placeholders::_1, std::placeholders::_2)
                                    , std::bind(&FriendServerWrapper::Del, this, std::placeholders::_1, std::placeholders::_2))

@@ -63,7 +63,7 @@ protected:
     Message CreateTextMessage(const std::string& content) 
     {
         Message msg;
-        msg.message_id = GenerateMessageId();
+        msg.message_id = stoull(GenerateMessageId().substr(7));
         msg.conversation_id = _test_conversation_id;
         msg.sender_id = "user_db_test_001";
         msg.message_type = 0; //TEXT
@@ -151,7 +151,7 @@ TEST_F(DatabaseTest, RemoveConversation)
             std::chrono::system_clock::now().time_since_epoch()).count());
     
     Message msg;
-    msg.message_id = GenerateMessageId();
+    msg.message_id = stoull(GenerateMessageId().substr(7));
     msg.conversation_id = conv_id;
     msg.sender_id = "user_test";
     msg.message_type = 0;

@@ -31,7 +31,7 @@ namespace redis
                 pool_opts.wait_timeout = std::chrono::minutes(late_time);
                 _redis = std::make_unique<Redis>(opts,pool_opts);
                 std::string ping_result = _redis->ping();
-                LOG_DEBUG("Redis Ping:",ping_result);
+                LOG_DEBUG("Redis Ping:{}",ping_result);
             }
             catch (const Error &e) 
             {

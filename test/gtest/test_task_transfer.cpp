@@ -36,7 +36,7 @@ static std::string MakeTaskPayload(const std::string& routing_key, const std::st
 static std::string MakePostMessagesReq(int count, const std::string& prefix = "msg")
 {
     PostMessagesReq req;
-    req.set_request_id("test_req");
+    req.mutable_request()->set_request_id("test_req");
     for(int i = 0; i < count; i++)
     {
         auto* msg = req.add_msg_list();
@@ -88,7 +88,7 @@ TEST_F(ParseLogicTest, MergeMultipleBatches)
 {
     // 模拟两次PostMessagesReq合并，使用不同前缀确保ID唯一
     PostMessagesReq merged;
-    merged.set_request_id("merged");
+    merged.mutable_request()->set_request_id("merged");
 
     for(int batch = 0; batch < 2; batch++)
     {

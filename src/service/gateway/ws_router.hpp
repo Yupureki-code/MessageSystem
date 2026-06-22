@@ -11,30 +11,31 @@ namespace messageSystem
     using CoroutineHandler = std::function<
         boost::asio::awaitable<void>(
             const std::string& conn_id,
-            const WsProtocol& msg,
+            const WsProtocolReq& msg,
             std::shared_ptr<Connection> conn
         )
     >;
     class WsRouter
     {
     public:
-        void registerHandler(const std::string& type,CoroutineHandler handler)
+        void Register(const std::string& type,CoroutineHandler handler)
         {
             _handlers[type] = std::move(handler);
         }
         boost::asio::awaitable<void> dispatch(
         const std::string& conn_id,
-        WsProtocol& msg,
+        WsProtocolReq& req,
         std::shared_ptr<Connection> conn)
         {
-            auto it = _handlers.find(msg.type);
+            auto it = _handlers.find(req.type);
             if (it == _handlers.end()) 
             {
-                msg.error = "未知消息类型: " + msg.type;
-                conn->ws->write(boost::asio::buffer(msg.serialize()));
+                WsProtocolRsp rep;
+                rep.error = "未知消息类型: " + req.type;
+                conn->ws->write(boost::asio::buffer(req.serialize()));
                 co_return;
             }
-            co_await it->second(conn_id, msg, conn);
+            co_await it->second(conn_id, req, conn);
         }
     private:
         std::unordered_map<std::string, CoroutineHandler> _handlers;

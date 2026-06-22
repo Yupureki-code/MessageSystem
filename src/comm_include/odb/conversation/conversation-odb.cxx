@@ -1822,7 +1822,7 @@ namespace odb
 
     r += " LEFT JOIN `Conversation_member` ON";
     // From conversation.hxx:47:17
-    r += ConversationMember::Conversation_id == query_columns::Conversation::conversation_id;
+    r += query_columns::ConversationMember::conversation_id == query_columns::Conversation::conversation_id;
 
     r += " LEFT JOIN `user` ON";
     // From conversation.hxx:48:17
@@ -1830,7 +1830,7 @@ namespace odb
 
     query_base_type c (
       // From conversation.hxx:49:17
-      ? == query_columns::ConversationMember::uid);
+      (q.empty () ? query_base_type::true_expr : q));
 
     c += q;
 
@@ -2061,7 +2061,7 @@ namespace odb
 
     query_base_type c (
       // From conversation.hxx:63:17
-      ? == query_columns::ConversationMember::uid);
+      (q.empty () ? query_base_type::true_expr : q));
 
     c += q;
 

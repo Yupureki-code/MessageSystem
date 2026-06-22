@@ -33,7 +33,7 @@ namespace messageSystem
             messageSystem::UserService_Stub stub(channel.get());
             messageSystem::GetMultiUserInfoReq req;
             messageSystem::GetMultiUserInfoRsp rsp;
-            req.set_request_id(rid);
+            req.mutable_request()->set_request_id(rid);
             for (const auto& uid : uids)
             {
                 req.add_users_id(uid);
@@ -260,7 +260,7 @@ namespace messageSystem
             }
             GetFileReq req;
             GetFileRsp rsp;
-            req.set_request_id(rid);
+            req.mutable_request()->set_request_id(rid);
             for(const auto & it : find_conversations)
             {
                 req.add_file_id_list(it.avatar);
@@ -308,9 +308,9 @@ namespace messageSystem
             }
         }
     public:
-        ConversationServerWrapper(const std::string& user_service_base_url, const std::string& host, const std::string& basedir)
+        ConversationServerWrapper( const std::string& registry_host, const std::string& access_dir,const std::string& user_service_base_url = SERVICE_BASE_URL + USER_SERVICE)
             : _user_service_base_url(user_service_base_url)
-            , _discover(host, basedir, std::bind(&ConversationServerWrapper::Put, this, std::placeholders::_1, std::placeholders::_2)
+            , _discover(registry_host, access_dir, std::bind(&ConversationServerWrapper::Put, this, std::placeholders::_1, std::placeholders::_2)
                                    , std::bind(&ConversationServerWrapper::Del, this, std::placeholders::_1, std::placeholders::_2))
         {
             _services = std::make_shared<ServiceManager>();

@@ -1,6 +1,7 @@
 #include <httplib.h>
 #include <memory>
 #include <string>
+#include "../../comm_include/channel.hpp"
 #include "../../comm_include/proto_include/gateway.pb.h"
 #include "../../comm_include/comm.hpp"
 #include <brpc/callback.h>
@@ -10,12 +11,11 @@
 #include <unordered_map>
 #include "../../comm_include/etcd.hpp"
 #include "../../comm_include/redis.hpp"
-#include "../../comm_include/channel.hpp"
 #include "ws_server.hpp"
 
 namespace messageSystem
 {
-    class GateWayServerImpl : GateWayServer
+    class GateWayServerImpl : public GateWayServer
     {
     private:
         template<class T>
@@ -51,6 +51,12 @@ namespace messageSystem
             return true;
         }
     public:
+        GateWayServerImpl(std::shared_ptr<ServiceManager> services,
+        std::shared_ptr<redis::RedisClient> redis,int port)
+        :_services(services),_redis(redis)
+        {
+            _ws_server = std::make_shared<WsServer>(port);
+        }
         virtual void GetEmailVerifyCode(::google::protobuf::RpcController* controller,
             ::messageSystem::EmailVerifyCodeReq* request,
             ::messageSystem::CommRsp* response,
@@ -59,7 +65,7 @@ namespace messageSystem
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
             request->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(USER_SERVICE, &channel);
+            _services->chooseService(USER_SERVICE, &channel);
             UserService_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -77,7 +83,7 @@ namespace messageSystem
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
             request->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(USER_SERVICE, &channel);
+            _services->chooseService(USER_SERVICE, &channel);
             UserService_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -96,14 +102,13 @@ namespace messageSystem
             std::string uid = request->uid();
             request->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(USER_SERVICE, &channel);
+            _services->chooseService(USER_SERVICE, &channel);
             UserService_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<EmailLoginRsp> cb = [this,uid](bool status,EmailLoginRsp* response){
                 if(status)
                 {
                     response->mutable_response()->set_status(true);
-                    _sessions[uid] = response->session_id();
                 }
                 else HandlerError(response->mutable_response(), false);
             };
@@ -119,14 +124,13 @@ namespace messageSystem
             std::string uid = request->uid();
             request->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(USER_SERVICE, &channel);
+            _services->chooseService(USER_SERVICE, &channel);
             UserService_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<UserLoginRsp> cb = [this,uid](bool status,UserLoginRsp* response){
                 if(status)
                 {
                     response->mutable_response()->set_status(true);
-                    _sessions[uid] = response->session_id();
                 }
                 else HandlerError(response->mutable_response(), false);
             };
@@ -150,7 +154,7 @@ namespace messageSystem
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(USER_SERVICE, &channel);
+            _services->chooseService(USER_SERVICE, &channel);
             UserService_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<GetUserInfoRsp> cb = [this](bool status,GetUserInfoRsp* response){
@@ -177,7 +181,7 @@ namespace messageSystem
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(USER_SERVICE, &channel);
+            _services->chooseService(USER_SERVICE, &channel);
             UserService_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<GetMultiUserInfoRsp> cb = [this](bool status,GetMultiUserInfoRsp* response){
@@ -203,7 +207,7 @@ namespace messageSystem
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(USER_SERVICE, &channel);
+            _services->chooseService(USER_SERVICE, &channel);
             UserService_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -229,7 +233,7 @@ namespace messageSystem
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(USER_SERVICE, &channel);
+            _services->chooseService(USER_SERVICE, &channel);
             UserService_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -255,7 +259,7 @@ namespace messageSystem
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(USER_SERVICE, &channel);
+            _services->chooseService(USER_SERVICE, &channel);
             UserService_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -281,7 +285,7 @@ namespace messageSystem
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(USER_SERVICE, &channel);
+            _services->chooseService(USER_SERVICE, &channel);
             UserService_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -308,7 +312,7 @@ namespace messageSystem
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(CONVERSATION_SERVICE, &channel);
+            _services->chooseService(CONVERSATION_SERVICE, &channel);
             ConversationServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CreateConversationRsp> cb = [this](bool status,CreateConversationRsp* response){
@@ -334,7 +338,7 @@ namespace messageSystem
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(CONVERSATION_SERVICE, &channel);
+            _services->chooseService(CONVERSATION_SERVICE, &channel);
             ConversationServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -360,7 +364,7 @@ namespace messageSystem
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(CONVERSATION_SERVICE, &channel);
+            _services->chooseService(CONVERSATION_SERVICE, &channel);
             ConversationServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -386,7 +390,7 @@ namespace messageSystem
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(CONVERSATION_SERVICE, &channel);
+            _services->chooseService(CONVERSATION_SERVICE, &channel);
             ConversationServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -412,7 +416,7 @@ namespace messageSystem
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(CONVERSATION_SERVICE, &channel);
+            _services->chooseService(CONVERSATION_SERVICE, &channel);
             ConversationServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -439,7 +443,7 @@ namespace messageSystem
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(CONVERSATION_SERVICE, &channel);
+            _services->chooseService(CONVERSATION_SERVICE, &channel);
             ConversationServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<GetConversationMemberListRsp> cb = [this](bool status,GetConversationMemberListRsp* response){
@@ -466,7 +470,7 @@ namespace messageSystem
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(CONVERSATION_SERVICE, &channel);
+            _services->chooseService(CONVERSATION_SERVICE, &channel);
             ConversationServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<SearchConversationRsp> cb = [this](bool status,SearchConversationRsp* response){
@@ -492,7 +496,7 @@ namespace messageSystem
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(FRIEND_SERVICE, &channel);
+            _services->chooseService(FRIEND_SERVICE, &channel);
             FriendServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -518,7 +522,7 @@ namespace messageSystem
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(FRIEND_SERVICE, &channel);
+            _services->chooseService(FRIEND_SERVICE, &channel);
             FriendServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -544,7 +548,7 @@ namespace messageSystem
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(FRIEND_SERVICE, &channel);
+            _services->chooseService(FRIEND_SERVICE, &channel);
             FriendServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -571,7 +575,7 @@ namespace messageSystem
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(FRIEND_SERVICE, &channel);
+            _services->chooseService(FRIEND_SERVICE, &channel);
             FriendServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<FindFriendByUIDRsp> cb = [this](bool status,FindFriendByUIDRsp* response){
@@ -598,7 +602,7 @@ namespace messageSystem
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            services->chooseService(FRIEND_SERVICE, &channel);
+            _services->chooseService(FRIEND_SERVICE, &channel);
             FriendServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<FindFriendByNameRsp> cb = [this](bool status,FindFriendByNameRsp* response){
@@ -610,9 +614,69 @@ namespace messageSystem
         }
         
     private:
-        std::shared_ptr<Discovery> discover;
-        std::shared_ptr<ServiceManager> services;
+        std::shared_ptr<ServiceManager> _services;
         std::shared_ptr<WsServer> _ws_server;
         std::shared_ptr<redis::RedisClient> _redis;
+    };
+    class GatwayServer
+    {
+    private:
+        void Put(const std::string& key, const std::string& value)
+        {
+            auto it = _service_keys.find(key);
+            if(it == _service_keys.end())
+                return;
+            _services->addService(it->second, value);
+            _services->activeService(it->second);
+        }
+        void Del(const std::string& key, const std::string& value)
+        {
+            auto it = _service_keys.find(key);
+            if(it == _service_keys.end())
+                return;
+            _services->inactiveService(it->second);
+        }
+    public:
+        GatwayServer(const std::string& host, const std::string& basedir)
+        :_discover(host, basedir, std::bind(&GatwayServer::Put, this, std::placeholders::_1, std::placeholders::_2)
+                                   , std::bind(&GatwayServer::Del, this, std::placeholders::_1, std::placeholders::_2))
+        {
+            _services = std::make_shared<ServiceManager>();
+            _service_keys[SERVICE_BASE_URL + FILE_SERVICE] = FILE_SERVICE;
+            _service_keys[SERVICE_BASE_URL + USER_SERVICE] = USER_SERVICE;
+            _service_keys[SERVICE_BASE_URL + CONVERSATION_SERVICE] = CONVERSATION_SERVICE;
+            _service_keys[SERVICE_BASE_URL + FRIEND_SERVICE] = FRIEND_SERVICE;
+            _service_keys[SERVICE_BASE_URL + MESSAGE_SERVICE] = MESSAGE_SERVICE;
+            _service_keys[SERVICE_BASE_URL + MESSAGE_STORE_SERVICE] = MESSAGE_STORE_SERVICE;
+        }
+        void InitRedis(const std::string& ip,int port,int thread_size,int late_time)
+        {
+            _redis = std::make_shared<redis::RedisClient>(ip,port,thread_size,late_time);
+        }
+        void Start(int port, int32_t timeout, uint8_t num_threads)
+        {
+            GateWayServerImpl server(_services,_redis,port);
+            brpc::Server _rpc_server;
+            int ret = _rpc_server.AddService(&server,brpc::ServiceOwnership::SERVER_OWNS_SERVICE);
+            if(ret == -1)
+            {
+                LOG_ERROR("添加RPC服务失败!");
+                return;
+            }
+            brpc::ServerOptions options;
+            options.idle_timeout_sec = timeout;
+            options.num_threads = num_threads;
+            ret = _rpc_server.Start(port,&options);
+            if(ret == -1)
+            {
+                LOG_ERROR("服务启动失败!");
+                return;
+            }
+        }
+    private:
+        Discovery _discover;
+        std::shared_ptr<ServiceManager> _services;
+        std::shared_ptr<redis::RedisClient> _redis;
+        std::unordered_map<std::string, std::string> _service_keys;
     };
 }

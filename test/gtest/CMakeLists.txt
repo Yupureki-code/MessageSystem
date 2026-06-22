@@ -27,6 +27,10 @@ set(PROTO_SOURCES
     ${PROTO_INCLUDE_DIR}/task_transfer.pb.cc
     ${PROTO_INCLUDE_DIR}/friend.pb.cc
     ${PROTO_INCLUDE_DIR}/comm.pb.cc
+    ${PROTO_INCLUDE_DIR}/gateway.pb.cc
+)
+set(CONVERSATION_ODB_SOURCES
+    ${COMM_INCLUDE_DIR}/odb/conversation/conversation-odb.cxx
 )
 set(MESSAGE_ODB_SOURCES 
     ${COMM_INCLUDE_DIR}/odb/message/message-odb.cxx
@@ -59,6 +63,8 @@ set(COMMON_LIBS
     redis++
     amqpcpp
     ev
+    etcd-cpp-api
+    cpprest
 )
 
 # 创建消息存储服务测试
@@ -100,7 +106,33 @@ add_executable(test_friend
 )
 target_link_libraries(test_friend ${GTEST_BOTH_LIBRARIES} ${COMMON_LIBS})
 
+# 创建文件服务测试
+add_executable(test_file
+    test_file.cpp
+    ${PROTO_SOURCES}
+)
+target_link_libraries(test_file ${GTEST_BOTH_LIBRARIES} ${COMMON_LIBS})
+
+# 创建用户服务测试
+add_executable(test_user
+    test_user.cpp
+    ${PROTO_SOURCES}
+)
+target_link_libraries(test_user ${GTEST_BOTH_LIBRARIES} ${COMMON_LIBS})
+
+# 创建会话服务测试
+add_executable(test_conversation
+    test_conversation.cpp
+    ${PROTO_SOURCES}
+    ${CONVERSATION_ODB_SOURCES}
+    ${USER_ODB_SOURCES}
+)
+target_link_libraries(test_conversation ${GTEST_BOTH_LIBRARIES} ${COMMON_LIBS})
+
 # 添加测试
+add_test(NAME FileTest COMMAND test_file)
+add_test(NAME UserTest COMMAND test_user)
+add_test(NAME ConversationTest COMMAND test_conversation)
 add_test(NAME MessageStoreTest COMMAND test_message_store)
 add_test(NAME DatabaseTest COMMAND test_database)
 add_test(NAME TaskTransferTest COMMAND test_task_transfer)

@@ -61,8 +61,8 @@ protected:
     std::string GenerateMessageId() 
     {
         static int counter = 0;
-        return "msg_" + std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::system_clock::now().time_since_epoch()).count()) + "_" + std::to_string(counter++);
+        return std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count()) + std::to_string(counter++);
     }
     
     /// @brief 创建文本消息
@@ -117,7 +117,7 @@ TEST_F(MessageStoreTest, PostSingleTextMessage)
     CommRsp rsp;
     brpc::Controller cntl;
     
-    req.set_request_id("test_post_single_text");
+    req.mutable_request()->set_request_id("test_post_single_text");
     *req.add_msg_list() = CreateTextMessage("Hello, World!");
     
     stub.PostMessages(&cntl, &req, &rsp, nullptr);
@@ -134,7 +134,7 @@ TEST_F(MessageStoreTest, PostBatchTextMessages)
     CommRsp rsp;
     brpc::Controller cntl;
     
-    req.set_request_id("test_post_batch_text");
+    req.mutable_request()->set_request_id("test_post_batch_text");
     
     //添加5条文本消息
     for (int i = 0; i < 5; i++) 
@@ -158,7 +158,7 @@ TEST_F(MessageStoreTest, GetRecentMessages)
         CommRsp rsp;
         brpc::Controller cntl;
         
-        req.set_request_id("test_get_recent_prepare");
+        req.mutable_request()->set_request_id("test_get_recent_prepare");
         *req.add_msg_list() = CreateTextMessage("测试获取最近消息");
         
         stub.PostMessages(&cntl, &req, &rsp, nullptr);
@@ -175,7 +175,7 @@ TEST_F(MessageStoreTest, GetRecentMessages)
         GetRecentMsgRsp rsp;
         brpc::Controller cntl;
         
-        req.set_request_id("test_get_recent");
+        req.mutable_request()->set_request_id("test_get_recent");
         req.set_conversation_id(_test_conversation_id);
         req.set_msg_count(10);
         
@@ -200,7 +200,7 @@ TEST_F(MessageStoreTest, GetHistoryMessages)
     GetHistoryMsgRsp rsp;
     brpc::Controller cntl;
     
-    req.set_request_id("test_get_history");
+    req.mutable_request()->set_request_id("test_get_history");
     req.set_conversation_id(_test_conversation_id);
     req.set_start_time(0);
     req.set_over_time(std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -222,7 +222,7 @@ TEST_F(MessageStoreTest, SearchMessages)
         CommRsp rsp;
         brpc::Controller cntl;
         
-        req.set_request_id("test_search_prepare");
+        req.mutable_request()->set_request_id("test_search_prepare");
         *req.add_msg_list() = CreateTextMessage("搜索测试_KEYWORD_12345");
         
         stub.PostMessages(&cntl, &req, &rsp, nullptr);
@@ -239,7 +239,7 @@ TEST_F(MessageStoreTest, SearchMessages)
         MsgSearchRsp rsp;
         brpc::Controller cntl;
         
-        req.set_request_id("test_search");
+        req.mutable_request()->set_request_id("test_search");
         auto* query = req.mutable_query();
         query->set_conversation_id(_test_conversation_id);
         query->set_text("KEYWORD_12345");
@@ -262,7 +262,7 @@ TEST_F(MessageStoreTest, DeleteTextMessage)
         CommRsp rsp;
         brpc::Controller cntl;
         
-        req.set_request_id("test_delete_prepare");
+        req.mutable_request()->set_request_id("test_delete_prepare");
         test_msg = CreateTextMessage("待删除消息");
         *req.add_msg_list() = test_msg;
         
@@ -277,7 +277,7 @@ TEST_F(MessageStoreTest, DeleteTextMessage)
         CommRsp rsp;
         brpc::Controller cntl;
         
-        req.set_request_id("test_delete");
+        req.mutable_request()->set_request_id("test_delete");
         *req.add_msg_list() = test_msg;
         
         stub.DeleteMessages(&cntl, &req, &rsp, nullptr);
@@ -298,7 +298,7 @@ TEST_F(MessageStoreTest, BatchDeleteMessages)
         CommRsp rsp;
         brpc::Controller cntl;
         
-        req.set_request_id("test_batch_delete_prepare");
+        req.mutable_request()->set_request_id("test_batch_delete_prepare");
         for (int i = 0; i < 3; i++) 
         {
             auto msg = CreateTextMessage("批量删除测试_" + std::to_string(i));
@@ -317,7 +317,7 @@ TEST_F(MessageStoreTest, BatchDeleteMessages)
         CommRsp rsp;
         brpc::Controller cntl;
         
-        req.set_request_id("test_batch_delete");
+        req.mutable_request()->set_request_id("test_batch_delete");
         for (const auto& msg : test_messages) 
         {
             *req.add_msg_list() = msg;
@@ -338,7 +338,7 @@ TEST_F(MessageStoreTest, DeleteNonexistentMessage)
     CommRsp rsp;
     brpc::Controller cntl;
     
-    req.set_request_id("test_delete_nonexistent");
+    req.mutable_request()->set_request_id("test_delete_nonexistent");
     auto* msg = req.add_msg_list();
     msg->set_message_id("nonexistent_msg_id_12345");
     msg->set_conversation_id(_test_conversation_id);
@@ -360,7 +360,7 @@ TEST_F(MessageStoreTest, EmptyMessageList)
     CommRsp rsp;
     brpc::Controller cntl;
     
-    req.set_request_id("test_empty_list");
+    req.mutable_request()->set_request_id("test_empty_list");
     //不添加任何消息
     
     stub.PostMessages(&cntl, &req, &rsp, nullptr);
@@ -382,7 +382,7 @@ TEST_F(MessageStoreTest, MessageIdUniqueness)
         CommRsp rsp;
         brpc::Controller cntl;
         
-        req.set_request_id("test_unique_id_1");
+        req.mutable_request()->set_request_id("test_unique_id_1");
         auto msg = CreateTextMessage("第一条消息");
         msg.set_message_id(same_id);
         *req.add_msg_list() = msg;
@@ -398,7 +398,7 @@ TEST_F(MessageStoreTest, MessageIdUniqueness)
         CommRsp rsp;
         brpc::Controller cntl;
         
-        req.set_request_id("test_unique_id_2");
+        req.mutable_request()->set_request_id("test_unique_id_2");
         auto msg = CreateTextMessage("第二条消息");
         msg.set_message_id(same_id);
         *req.add_msg_list() = msg;

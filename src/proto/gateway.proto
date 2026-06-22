@@ -6,7 +6,134 @@ import "user.proto";
 import "conversation.proto";
 import "friend.proto";
 
+message Auth
+{
+    string token = 1;
+}
 
+message SendMessage
+{
+    MessageInfo message = 1;
+}
+
+message SendMessageNotify
+{
+    MessageInfo message = 1;
+}
+
+message RecallMessageNotify
+{
+    MessageInfo message = 1;
+}
+
+message UserOnlineNotify
+{
+    string uid = 1;
+}
+
+message UserOfflineNotify
+{
+    string uid = 1;
+}
+
+message Typing
+{
+    bool is_typing = 1;
+}
+
+message TypingNotify
+{
+    string uid = 1;
+    bool is_typing = 2;
+}
+
+message FriendRequest
+{
+    string friend_uid = 1;
+    string remark = 2;
+}
+
+message FriendRequestNotify
+{
+    string friend_uid = 1;
+    string remark = 2;
+}
+
+message FriendRequestStatus
+{
+    string friend_uid = 3;
+    bool is_accepted = 4;
+}
+
+message FriendRequestStatusNotify
+{
+    string friend_uid = 1;
+    bool is_accepted = 2;
+}
+
+
+message CreateConversation
+{
+    string uid = 1;
+    string session_id = 2;
+    bool is_group = 3;
+    repeated string comm_uid = 4;
+    optional string group_conversation_name = 5;
+}
+
+message CreateConversationNotify
+{
+    string conversation_id = 1;
+}
+
+message RemoveConversation
+{
+    string conversation_id = 1;
+}
+
+message RemoveConversationNotify
+{
+    string conversation_id = 1;
+}
+
+message AddMember
+{
+    string conversation_id = 1;
+    string new_member_uid = 2;
+}
+
+message AddMemberNotify
+{
+    string conversation_id = 1;
+    string new_member_uid = 2;
+}
+
+message ExitConversation
+{
+    string conversation_id = 1;
+    bool is_kicked = 2;
+    optional string the_chosen_one = 3;
+}
+
+message ExitConversationNotify
+{
+    string uid = 1;
+    string conversation_id = 2;
+}
+
+message ChangePower
+{
+    string conversation_id = 1;
+    string the_chosen_one = 2;
+    int32 power = 3;
+}
+
+message ChangePowerNotify
+{
+    string uid = 1;
+    string conversation_id = 2;
+    int32 power = 3;
+}
 
 service GateWayServer
 {
@@ -20,15 +147,8 @@ service GateWayServer
     rpc SetUserNickname(SetUserNameReq) returns (CommRsp);
     rpc SetUserDescription(SetUserDescriptionReq) returns (CommRsp);
     rpc SetUserEmail(SetUserEmailReq) returns (CommRsp);
-    rpc CreateConversation(CreateConversationReq) returns (CreateConversationRsp);
-    rpc RemoveConversation(RemoveConversationReq) returns (CommRsp);
-    rpc AddMember(AddMemberReq) returns (CommRsp);
-    rpc ExitConversation(ExitConversationReq) returns (CommRsp);
-    rpc ChangeMemberPower(ChangeMemberPowerReq) returns (CommRsp);
     rpc GetConversationMemberList(GetConversationMemberListReq) returns (GetConversationMemberListRsp);
     rpc SearchConversation(SearchConversationReq) returns (SearchConversationRsp);
-    rpc FriendRequest(FriendRequestReq) returns (CommRsp);
-    rpc FriendRequestStatus(FriendRequestStatusReq) returns (CommRsp);
     rpc FriendRemark(FriendRemarkReq) returns (CommRsp);
     rpc FindFriendByUID(FindFriendByUIDReq) returns (FindFriendByUIDRsp);
     rpc FindFriendByName(FindFriendByNameReq) returns (FindFriendByNameRsp);

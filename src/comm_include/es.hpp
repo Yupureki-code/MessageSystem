@@ -44,7 +44,7 @@ namespace messageSystem
     }
 
     inline std::shared_ptr<elasticlient::Client> es_client;
-    inline bool InitESClient(const std::string& host)
+    inline bool InitESClient(const std::string& host = ES_HOST)
     {
         es_client = std::make_shared<elasticlient::Client>(std::vector<std::string>{host});
         return true;

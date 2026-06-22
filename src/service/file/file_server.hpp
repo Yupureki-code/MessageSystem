@@ -16,7 +16,7 @@ namespace messageSystem
         {
             response->set_success(false);
             response->set_errmsg(rep.errmsg);
-            LOG_ERROR("{} {}!", request->request_id(),rep.errmsg);
+            LOG_ERROR("{} {}!", request->request().request_id(),rep.errmsg);
         }
         void HandlerError(CommRsp* response, const std::string& request_id, const std::string& errmsg)
         {
@@ -40,7 +40,7 @@ namespace messageSystem
                     ::google::protobuf::Closure* done) 
         {
             brpc::ClosureGuard rpc_guard(done);
-            response->set_request_id(request->request_id());
+            response->set_request_id(request->request().request_id());
             //1. 取出请求中的文件ID（起始就是文件名）
             std::string fid = request->file_id_list(0);
             std::string filename = _storage_path + fid;
@@ -64,7 +64,7 @@ namespace messageSystem
                     ::google::protobuf::Closure* done) 
         {
             brpc::ClosureGuard rpc_guard(done);
-            response->set_request_id(request->request_id());
+            response->set_request_id(request->request().request_id());
             // 循环取出请求中的文件ID，读取文件数据进行填充
             for (int i = 0; i < request->file_id_list_size(); i++) 
             {
@@ -88,7 +88,7 @@ namespace messageSystem
                     ::google::protobuf::Closure* done) 
         {
             brpc::ClosureGuard rpc_guard(done);
-            response->set_request_id(request->request_id());
+            response->set_request_id(request->request().request_id());
             //1. 为文件生成一个唯一uudi作为文件名 以及 文件ID
             std::string fid = fileUtil::FileSystem::generateUniqueFileName();
             std::string filename = _storage_path + fid;
@@ -96,7 +96,7 @@ namespace messageSystem
             auto ret = _file.write(_storage_path, fid,request->file_data(0).file_content());
             if (ret.status == false) 
             {
-                HandlerError(response, request->request_id(), ret.errmsg);
+                HandlerError(response, request->request().request_id(), ret.errmsg);
                 return;
             }
             //3. 组织响应
@@ -108,7 +108,7 @@ namespace messageSystem
                     ::google::protobuf::Closure* done) 
         {
             brpc::ClosureGuard rpc_guard(done);
-            response->set_request_id(request->request_id());
+            response->set_request_id(request->request().request_id());
             for (int i = 0; i < request->file_data_size(); i++) 
             {
                 std::string fid = fileUtil::FileSystem::generateUniqueFileName();
@@ -116,7 +116,7 @@ namespace messageSystem
                 auto ret = _file.write(_storage_path, fid, request->file_data(i).file_content());
                 if (ret.status == false) 
                 {
-                    HandlerError(response, request->request_id(), ret.errmsg);
+                    HandlerError(response, request->request().request_id(), ret.errmsg);
                     return;
                 }
             }
@@ -128,7 +128,7 @@ namespace messageSystem
                     ::google::protobuf::Closure* done) 
         {
             brpc::ClosureGuard rpc_guard(done);
-            response->set_request_id(request->request_id());
+            response->set_request_id(request->request().request_id());
             //延迟删除：将文件移动到延迟删除目录，24小时后由定时任务清理
             std::string delay_path = _storage_path + "delay_delete/";
             umask(0);
@@ -145,7 +145,7 @@ namespace messageSystem
                     if (errno != ENOENT) 
                     {
                         LOG_ERROR("移动文件到延迟删除目录失败:{}!", fid);
-                        HandlerError(response, request->request_id(), "删除文件失败");
+                        HandlerError(response, request->request().request_id(), "删除文件失败");
                         return;
                     }
                 }

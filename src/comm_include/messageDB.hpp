@@ -40,9 +40,23 @@ namespace messageSystem
             _redis = std::make_unique<redis::RedisClient>(ip,port,thread_size,late_time);
         }
         /// @brief 初始化ES连接
-        void InitES(const std::string& host = "127.0.0.1:9200")
+        void InitES(const std::string& host = "https://127.0.0.1:9200")
         {
-            _client = std::make_shared<elasticlient::Client>(std::vector<std::string>{host});
+            std::string es_url = host;
+            const char* es_user = std::getenv("IM_ES_USER");
+            const char* es_pass = std::getenv("IM_ES_PASS");
+            if (es_user && es_pass && es_user[0] && es_pass[0])
+            {
+                // 插入认证信息: https://user:pass@host:port
+                auto pos = es_url.find("://");
+                if (pos != std::string::npos)
+                {
+                    es_url.insert(pos + 3, std::string(es_user) + ":" + es_pass + "@");
+                }
+            }
+            // elasticlient要求URL以"/"结尾
+            if (es_url.back() != '/') es_url += '/';
+            _client = std::make_shared<elasticlient::Client>(std::vector<std::string>{es_url});
         }
         
         /// @brief 获取最近消息
@@ -70,8 +84,8 @@ namespace messageSystem
             messageSystem::FileService_Stub stub(channel.get());
             messageSystem::GetFileReq req;
             messageSystem::GetFileRsp file_rep;
+            req.mutable_request()->set_request_id(rid);
             req.mutable_file_id_list()->Add(file_ids.begin(), file_ids.end());
-            req.set_request_id(rid);
             brpc::Controller cntl;
             stub.GetMultiFile(&cntl, &req, &file_rep, nullptr);
             if(cntl.Failed() || !file_rep.success())
@@ -128,7 +142,7 @@ namespace messageSystem
                 //回滚MySQL
                 for(const auto& msg : messages)
                 {
-                    _odb->deleteMessage(std::to_string(msg.message_id));
+                    _odb->deleteMessage(msg.message_id);
                 }
                 return outbox_rep;
             }
@@ -190,7 +204,7 @@ namespace messageSystem
                 //回滚MySQL
                 for(const auto& msg : messages)
                 {
-                    _odb->deleteMessage(std::to_string(msg.message_id));
+                    _odb->deleteMessage(msg.message_id);
                 }
                 return outbox_rep;
             }
@@ -220,7 +234,7 @@ namespace messageSystem
             //1. 从MySQL删除
             for(const auto& msg : messages)
             {
-                auto odb_rep = _odb->deleteMessage(std::to_string(msg.message_id));
+                auto odb_rep = _odb->deleteMessage(msg.message_id);
                 if(!odb_rep.status)
                 {
                     LOG_ERROR("从MySQL删除文本消息失败:{}!", odb_rep.errmsg);
@@ -251,7 +265,7 @@ namespace messageSystem
             //1. 从MySQL删除
             for(const auto& msg : messages)
             {
-                auto odb_rep = _odb->deleteMessage(std::to_string(msg.message_id));
+                auto odb_rep = _odb->deleteMessage(msg.message_id);
                 if(!odb_rep.status)
                 {
                     LOG_ERROR("从MySQL删除文件消息失败:{}!", odb_rep.errmsg);
@@ -381,13 +395,14 @@ namespace messageSystem
             return value.toStyledString();
         }
         
-        /// @brief 插入ES文档
+        /// @brief 插入ES文档(ES不可用时跳过)
         Response insertESDoc(const std::string& doc)
         {
             Response rep;
+            if (!_client) { rep.status = false; rep.errmsg = "ES client not initialized"; return rep; }
             try
             {
-                ESInsert es;
+                ESInsert es(_client);
                 Json::Value prefix;
                 prefix["index"]["_index"] = "message";
                 std::string prefix_str = prefix.toStyledString();
@@ -403,13 +418,14 @@ namespace messageSystem
             return rep;
         }
         
-        /// @brief 删除ES文档
+        /// @brief 删除ES文档(ES不可用时跳过)
         Response deleteESDoc(const std::string& message_id)
         {
             Response rep;
+            if (!_client) { rep.status = false; rep.errmsg = "ES client not initialized"; return rep; }
             try
             {
-                ESInsert es;
+                ESInsert es(_client);
                 Json::Value prefix;
                 prefix["delete"]["_index"] = "message";
                 prefix["delete"]["_id"] = message_id;
@@ -439,8 +455,8 @@ namespace messageSystem
             messageSystem::FileService_Stub stub(channel.get());
             messageSystem::DeleteFileReq req;
             messageSystem::CommRsp file_rep;
+            req.mutable_request()->set_request_id(rid);
             req.mutable_file_id_list()->Add(file_ids.begin(), file_ids.end());
-            req.set_request_id(rid);
             brpc::Controller cntl;
             stub.DeleteMultiFile(&cntl, &req, &file_rep, nullptr);
             if(cntl.Failed() || !file_rep.status())

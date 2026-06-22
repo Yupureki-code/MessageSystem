@@ -44,7 +44,7 @@ struct ConversationMember
 };
 
 #pragma db view object(Conversation) \
-                object(ConversationMember: ConversationMember::Conversation_id == Conversation::conversation_id) \
+                object(ConversationMember: ConversationMember::conversation_id == Conversation::conversation_id) \
                 object(User: User::uid != ConversationMember::uid)\
                 query(? == ConversationMember::uid)
 struct PrivateConversation

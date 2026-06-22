@@ -1,6 +1,8 @@
 #include "../../comm_include/proto_include/message_store.pb.h"
 #include "../../comm_include/messageDB.hpp"
 #include "../../comm_include/es.hpp"
+#include "../../comm_include/etcd.hpp"
+#include "../../comm_include/channel.hpp"
 #include <brpc/server.h>
 #include <json/value.h>
 #include <memory>
@@ -56,6 +58,14 @@ namespace messageSystem
             return message;
         }
     public:
+        void InitDB(std::shared_ptr<MessageDB> db)
+        {
+            _db = db;
+        }
+        void InitService(std::shared_ptr<ServiceManager> services)
+        {
+            _db = std::make_shared<MessageDB>(services);
+        }
         virtual void GetHistoryMsg(::google::protobuf::RpcController* controller,
             const ::messageSystem::GetHistoryMsgReq* request,
             ::messageSystem::GetHistoryMsgRsp* response,
@@ -64,7 +74,7 @@ namespace messageSystem
             brpc::ClosureGuard rpc_guard(done);
             //1. 提取关键要素：会话ID，起始时间，结束时间
             CommRsp* rep = response->mutable_response();
-            std::string rid = request->request_id();
+            std::string rid = request->request().request_id();
             std::string cid = request->conversation_id();
             unsigned long long stime = request->start_time();
             unsigned long long etime = request->over_time();
@@ -121,7 +131,7 @@ namespace messageSystem
             brpc::ClosureGuard rpc_guard(done);
             //1. 提取请求中的关键要素：请求ID，会话ID，要获取的消息数量
             CommRsp* rep = response->mutable_response();
-            std::string rid = request->request_id();
+            std::string rid = request->request().request_id();
             int count = request->msg_count();
             std::string cid = request->conversation_id();
             //2. 从数据库，获取最近的消息元信息
@@ -178,7 +188,7 @@ namespace messageSystem
             //关键字的消息搜索--只针对文本消息
             //1. 从请求中提取关键要素：请求ID，会话ID, 关键字
             CommRsp* rep = response->mutable_response();
-            std::string rid = request->request_id();
+            std::string rid = request->request().request_id();
             MessageQuery conds = request->query();
             std::string cid = conds.conversation_id();
             //2. 从ES搜索引擎中进行关键字消息搜索，得到消息列表
@@ -234,7 +244,7 @@ namespace messageSystem
         {
             brpc::ClosureGuard rpc_guard(done);
             CommRsp* rep = response;
-            std::string rid = request->request_id();
+            std::string rid = request->request().request_id();
             
             //1. 分离文本消息和文件消息
             std::vector<Message> text_messages;
@@ -244,7 +254,8 @@ namespace messageSystem
             {
                 const auto& msg_info = request->msg_list(i);
                 Message msg;
-                msg.message_id = stoi(msg_info.message_id());
+                try { msg.message_id = stoull(msg_info.message_id()); }
+                catch(...) { msg.message_id = 0; }
                 msg.conversation_id = msg_info.conversation_id();
                 msg.sender_id = msg_info.sender_id();
                 msg.message_type = msg_info.message().message_type();
@@ -309,7 +320,7 @@ namespace messageSystem
         {
             brpc::ClosureGuard rpc_guard(done);
             CommRsp* rep = response;
-            std::string rid = request->request_id();
+            std::string rid = request->request().request_id();
             
             //1. 分离文本消息和文件消息
             std::vector<Message> text_messages;
@@ -319,7 +330,8 @@ namespace messageSystem
             {
                 const auto& msg_info = request->msg_list(i);
                 Message msg;
-                msg.message_id = stoi(msg_info.message_id());
+                try { msg.message_id = stoull(msg_info.message_id()); }
+                catch(...) { msg.message_id = 0; }
                 msg.conversation_id = msg_info.conversation_id();
                 msg.sender_id = msg_info.sender_id();
                 msg.message_type = msg_info.message().message_type();
@@ -379,5 +391,68 @@ namespace messageSystem
         }
     private:
         std::shared_ptr<MessageDB> _db;
+    };
+    class MessageStoreServerWrapper
+    {
+    private:
+        void Put(const std::string& key, const std::string& value)
+        {
+            if(key == _file_service_base_url)
+            {
+                _services->addService(FILE_SERVICE, value);
+                _services->activeService(key);
+            }
+        }
+        void Del(const std::string& key, const std::string& value)
+        {
+            if(key == _file_service_base_url)
+            {
+                _services->inactiveService(key);
+            }
+        }
+    public:
+        MessageStoreServerWrapper(const std::string& registry_host, const std::string& access_dir,
+            const std::string& file_service_base_url = SERVICE_BASE_URL + FILE_SERVICE)
+        :_file_service_base_url(file_service_base_url)
+        ,_discover(registry_host, access_dir,
+            std::bind(&MessageStoreServerWrapper::Put, this, std::placeholders::_1, std::placeholders::_2),
+            std::bind(&MessageStoreServerWrapper::Del, this, std::placeholders::_1, std::placeholders::_2))
+        {
+            _services = std::make_shared<ServiceManager>();
+            _server.InitService(_services);
+        }
+        void InitODB(const std::string& user, const std::string& password,
+            const std::string& db_name, const std::string& host, int port)
+        {
+            auto db = std::make_shared<MessageDB>(_services);
+            db->InitODB(user, password, db_name, host, port);
+            db->InitES(GetEnvOrDefault("IM_ES_HOST", "https://127.0.0.1:9200"));
+            _server.InitDB(db);
+        }
+        void Start(uint16_t port, int32_t timeout, uint8_t num_threads)
+        {
+            _rpc_server = std::make_unique<brpc::Server>();
+            int ret = _rpc_server->AddService(&_server, brpc::ServiceOwnership::SERVER_OWNS_SERVICE);
+            if(ret == -1)
+            {
+                LOG_ERROR("添加RPC服务失败!");
+                return;
+            }
+            brpc::ServerOptions options;
+            options.idle_timeout_sec = timeout;
+            options.num_threads = num_threads;
+            ret = _rpc_server->Start(port, &options);
+            if(ret == -1)
+            {
+                LOG_ERROR("服务启动失败!");
+                return;
+            }
+        }
+    private:
+        std::unique_ptr<brpc::Server> _rpc_server;
+        std::string _file_service_base_url;
+        Discovery _discover;
+        MessageServiceImpl _server;
+        std::shared_ptr<ServiceManager> _services;
     };
 }
