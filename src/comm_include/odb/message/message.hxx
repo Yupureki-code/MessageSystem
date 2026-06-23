@@ -14,7 +14,7 @@ enum class MessageType : int {
 #pragma db object table("message")
 struct Message 
 {
-    #pragma db id auto
+    #pragma db id
     unsigned long long message_id;
     unsigned long seq;
     #pragma db type("varchar(64)") index

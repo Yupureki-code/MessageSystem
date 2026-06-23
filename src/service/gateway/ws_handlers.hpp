@@ -47,9 +47,19 @@ namespace messageSystem
     private:
         bool CheckSessionID(const WsProtocolReq& msg)
         {
-            if(_sessions[msg.user_id] != msg.session_id)
+            std::lock_guard<std::mutex> lock(_session_mutex);
+            auto it = _sessions.find(msg.user_id);
+            if(it == _sessions.end() || it->second != msg.session_id)
                 return false;
             return true;
+        }
+        std::string GetSessionToken(const std::string& user_id)
+        {
+            std::lock_guard<std::mutex> lock(_session_mutex);
+            auto it = _sessions.find(user_id);
+            if(it == _sessions.end())
+                return "";
+            return it->second;
         }
         void HandlerError(WsProtocolRsp& msg,WsCloseCode status_code)
         {
@@ -109,7 +119,10 @@ namespace messageSystem
                 co_return;
             }
             std::string session_id = util::StringUtil::generateUniqueName();
-            _sessions[uid] = session_id;
+            {
+                std::lock_guard<std::mutex> lock(_session_mutex);
+                _sessions[uid] = session_id;
+            }
             _manager.authenticate(conn_id, uid);
             response.code = 1000;
             response.payload = session_id;
@@ -239,7 +252,7 @@ namespace messageSystem
             messageSystem::CommRsp rpc_rsp;
             rpc_req.mutable_request()->set_request_id(util::StringUtil::generateUniqueName());
             rpc_req.mutable_request()->set_uid(req.user_id);
-            rpc_req.mutable_request()->set_token(_sessions[req.user_id]);
+            rpc_req.mutable_request()->set_token(GetSessionToken(req.user_id));
             rpc_req.set_friend_uid(friend_req.friend_uid());
             rpc_req.set_remark(friend_req.remark());
             FriendServer_Stub stub(channel.get());
@@ -298,7 +311,7 @@ namespace messageSystem
             messageSystem::CommRsp rpc_rsp;
             rpc_req.mutable_request()->set_request_id(util::StringUtil::generateUniqueName());
             rpc_req.mutable_request()->set_uid(req.user_id);
-            rpc_req.mutable_request()->set_token(_sessions[req.user_id]);
+            rpc_req.mutable_request()->set_token(GetSessionToken(req.user_id));
             rpc_req.set_friend_uid(status_req.friend_uid());
             rpc_req.set_is_accepcted(status_req.is_accepted());
             FriendServer_Stub stub(channel.get());
@@ -357,7 +370,7 @@ namespace messageSystem
             messageSystem::CreateConversationRsp rpc_rsp;
             rpc_req.mutable_request()->set_request_id(util::StringUtil::generateUniqueName());
             rpc_req.mutable_request()->set_uid(req.user_id);
-            rpc_req.mutable_request()->set_token(_sessions[req.user_id]);
+            rpc_req.mutable_request()->set_token(GetSessionToken(req.user_id));
             rpc_req.set_is_group(conv_req.is_group());
             for(const auto& uid : conv_req.comm_uid())
                 rpc_req.add_comm_uid(uid);
@@ -421,7 +434,7 @@ namespace messageSystem
             messageSystem::CommRsp rpc_rsp;
             rpc_req.mutable_request()->set_request_id(util::StringUtil::generateUniqueName());
             rpc_req.mutable_request()->set_uid(req.user_id);
-            rpc_req.mutable_request()->set_token(_sessions[req.user_id]);
+            rpc_req.mutable_request()->set_token(GetSessionToken(req.user_id));
             rpc_req.set_conversaion_id(conv_req.conversation_id());
             ConversationServer_Stub stub(channel.get());
             co_await runInLoop(nullptr, _ioc, [&stub, &rpc_req, &rpc_rsp](::google::protobuf::Closure *done){
@@ -478,7 +491,7 @@ namespace messageSystem
             messageSystem::CommRsp rpc_rsp;
             rpc_req.mutable_request()->set_request_id(util::StringUtil::generateUniqueName());
             rpc_req.mutable_request()->set_uid(req.user_id);
-            rpc_req.mutable_request()->set_token(_sessions[req.user_id]);
+            rpc_req.mutable_request()->set_token(GetSessionToken(req.user_id));
             rpc_req.set_conversaion_id(member_req.conversation_id());
             ConversationServer_Stub stub(channel.get());
             co_await runInLoop(nullptr, _ioc, [&stub, &rpc_req, &rpc_rsp](::google::protobuf::Closure *done){
@@ -535,7 +548,7 @@ namespace messageSystem
             messageSystem::CommRsp rpc_rsp;
             rpc_req.mutable_request()->set_request_id(util::StringUtil::generateUniqueName());
             rpc_req.mutable_request()->set_uid(req.user_id);
-            rpc_req.mutable_request()->set_token(_sessions[req.user_id]);
+            rpc_req.mutable_request()->set_token(GetSessionToken(req.user_id));
             rpc_req.set_conversaion_id(exit_req.conversation_id());
             ConversationServer_Stub stub(channel.get());
             co_await runInLoop(nullptr, _ioc, [&stub, &rpc_req, &rpc_rsp](::google::protobuf::Closure *done){
@@ -596,7 +609,7 @@ namespace messageSystem
             messageSystem::CommRsp rpc_rsp;
             rpc_req.mutable_request()->set_request_id(util::StringUtil::generateUniqueName());
             rpc_req.mutable_request()->set_uid(req.user_id);
-            rpc_req.mutable_request()->set_token(_sessions[req.user_id]);
+            rpc_req.mutable_request()->set_token(GetSessionToken(req.user_id));
             rpc_req.set_conversaion_id(power_req.conversation_id());
             rpc_req.set_uid(power_req.the_chosen_one());
             rpc_req.set_power(power_req.power());
@@ -649,5 +662,6 @@ namespace messageSystem
         std::shared_ptr<ServiceManager> _services;
         std::shared_ptr<redis::RedisClient> _redis;
         std::unordered_map<std::string, std::string> _sessions;
+        std::mutex _session_mutex;
     };
 }

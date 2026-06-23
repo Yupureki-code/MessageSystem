@@ -71,9 +71,12 @@ namespace messageSystem
             std::vector<ConversationMember> members;
             Conversation c;
             int size = request->comm_uid_size();
+            unsigned long long now = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count();
             if (request->is_group())
             {
                 members.resize(size + 1);
+                members[size].id = now * 1000 + size;
                 members[size].power = ConversationMemberPower::OWNER;
                 members[size].uid = stoi(request->request().uid());
                 c.name = request->group_conversation_name();
@@ -86,20 +89,21 @@ namespace messageSystem
             }
             for (int i = 0; i < size; i++)
             {
+                members[i].id = now * 1000 + i;
                 members[i].power = ConversationMemberPower::COMMON;
                 members[i].uid = stoi(request->comm_uid(i));
             }
-            size_t id;
-            Response rep = _db->insertConversation(c, &id, members);
+            size_t conv_id;
+            Response rep = _db->insertConversation(c, &conv_id, members);
             if (!rep.status)
             {
                 HandlerError(comm_rep, rid, "服务器繁忙,请稍后重试!");
-                LOG_ERROR("{} - {}(id):{}", rid, rep.errmsg, id);
+                LOG_ERROR("{} - {}(id):{}", rid, rep.errmsg, conv_id);
                 return;
             }
             comm_rep->set_status(true);
             comm_rep->set_request_id(rid);
-            response->set_conversation_id(std::to_string(id));
+            response->set_conversation_id(std::to_string(conv_id));
         }
         void RemoveConversation(google::protobuf::RpcController* controller,
                     const ::messageSystem::RemoveConversationReq* request,
@@ -131,6 +135,8 @@ namespace messageSystem
             std::string uid = request->request().uid();
 
             ConversationMember member;
+            member.id = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count() * 1000;
             member.conversation_id = std::stoi(cid);
             member.uid = std::stoi(uid);
             member.power = ConversationMemberPower::COMMON;

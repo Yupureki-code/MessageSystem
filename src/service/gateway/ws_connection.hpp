@@ -56,6 +56,7 @@ namespace messageSystem
         }
         ConnectionPtr get(const std::string& session_id)
         {
+            std::lock_guard<std::mutex> lock(_mutex);
             auto it = _connections.find(session_id);
             if(it == _connections.end())
                 return nullptr;
@@ -63,13 +64,18 @@ namespace messageSystem
         }
         ConnectionPtr getByUid(const std::string& user_id)
         {
+            std::lock_guard<std::mutex> lock(_mutex);
             auto it = _authenticated_users.find(user_id);
             if(it == _authenticated_users.end())
                 return nullptr;
-            return get(it->second);
+            auto conn_it = _connections.find(it->second);
+            if(conn_it == _connections.end())
+                return nullptr;
+            return conn_it->second;
         }
         int onlineCount()
         {
+            std::lock_guard<std::mutex> lock(_mutex);
             return _connections.size();
         }
     private:

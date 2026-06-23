@@ -62,19 +62,10 @@ namespace odbMessage
             try
             {
                 odb::transaction t(_db->begin());
-                std::stringstream ss;
-                ss<<"INSERT INTO message(message_id,conversation_id,sender_id,message_type,create_time,text) VALUES ";
-                for(size_t i = 0; i < messages.size(); i++)
+                for(const auto& msg : messages)
                 {
-                    if(i > 0) ss << ",";
-                    ss << "('" << messages[i].message_id << "','" 
-                       << messages[i].conversation_id << "','" 
-                       << messages[i].sender_id << "'," 
-                       << messages[i].message_type << "," 
-                       << messages[i].create_time << ",'" 
-                       << messages[i].text.get() << "')";
+                    _db->persist(msg);
                 }
-                _db->execute(ss.str());
                 t.commit();
                 rep.status = true;
             }
@@ -95,21 +86,10 @@ namespace odbMessage
             try
             {
                 odb::transaction t(_db->begin());
-                std::stringstream ss;
-                ss<<"INSERT INTO message(message_id,conversation_id,sender_id,message_type,create_time,file_id,file_name,file_size) VALUES ";
-                for(size_t i = 0; i < messages.size(); i++)
+                for(const auto& msg : messages)
                 {
-                    if(i > 0) ss << ",";
-                    ss << "('" << messages[i].message_id << "','" 
-                       << messages[i].conversation_id << "','" 
-                       << messages[i].sender_id << "'," 
-                       << messages[i].message_type << "," 
-                       << messages[i].create_time << ",'" 
-                       << messages[i].file_id.get() << "','" 
-                       << messages[i].file_name.get() << "'," 
-                       << messages[i].file_size.get() << ")";
+                    _db->persist(msg);
                 }
-                _db->execute(ss.str());
                 t.commit();
                 rep.status = true;
             }

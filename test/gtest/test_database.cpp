@@ -55,15 +55,15 @@ protected:
     std::string GenerateMessageId() 
     {
         static int counter = 0;
-        return "db_msg_" + std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::system_clock::now().time_since_epoch()).count()) + "_" + std::to_string(counter++);
+        return std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count()) + std::to_string(counter++);
     }
     
     /// @brief 创建测试文本消息
     Message CreateTextMessage(const std::string& content) 
     {
         Message msg;
-        msg.message_id = stoull(GenerateMessageId().substr(7));
+        msg.message_id = stoull(GenerateMessageId());
         msg.conversation_id = _test_conversation_id;
         msg.sender_id = "user_db_test_001";
         msg.message_type = 0; //TEXT

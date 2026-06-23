@@ -117,7 +117,8 @@ namespace util
             auto us = std::chrono::duration_cast<std::chrono::microseconds>(
                 now.time_since_epoch()) % 1000000;
             
-            std::tm tm = *std::localtime(&time_t);
+            std::tm tm{};
+            localtime_r(&time_t, &tm);
             std::ostringstream oss;
             oss << std::put_time(&tm, "%Y%m%d%H%M%S") 
                 << "-" << std::setfill('0') << std::setw(6) << us.count()

@@ -145,7 +145,7 @@ namespace messageSystem
             // 启动 I/O 线程池
             for (int i = 0; i < _io_threads; ++i) 
             {
-                std::thread([this](){_ioc.run();});
+                std::thread([this](){_ioc.run();}).detach();
             }
         }
         void addSession()

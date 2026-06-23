@@ -24,8 +24,8 @@ namespace messageSystem
             auto channel = std::make_shared<brpc::Channel>();
             brpc::ChannelOptions options;
             options.protocol = "baidu_std";
-            options.timeout_ms = -1;
-            options.connect_timeout_ms = -1;
+            options.timeout_ms = 3000;
+            options.connect_timeout_ms = 1000;
             options.max_retry = 3;
             if(channel->Init(host.c_str(),&options) != 0)
             {

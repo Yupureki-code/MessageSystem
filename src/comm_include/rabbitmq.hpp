@@ -108,11 +108,13 @@ namespace messageSystem
         }
         bool publish(const std::string &exchange, const std::string &msg, const std::string &routing_key) 
         {
-            std::lock_guard<std::mutex> lock(_mutex);
-            if(_exchanges.find(exchange) == _exchanges.end())
             {
-                LOG_ERROR("未找到该交换机:{}!",exchange);
-                return false;
+                std::lock_guard<std::mutex> lock(_mutex);
+                if(_exchanges.find(exchange) == _exchanges.end())
+                {
+                    LOG_ERROR("未找到该交换机:{}!",exchange);
+                    return false;
+                }
             }
             LOG_DEBUG("向交换机 {}-{} 发布消息！", exchange, routing_key);
             bool ret = _channel->publish(exchange, routing_key, msg);

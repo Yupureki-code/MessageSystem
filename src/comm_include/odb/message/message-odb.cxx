@@ -43,26 +43,6 @@ namespace odb
 
   access::object_traits_impl< ::Message, id_mysql >::id_type
   access::object_traits_impl< ::Message, id_mysql >::
-  id (const id_image_type& i)
-  {
-    mysql::database* db (0);
-    ODB_POTENTIALLY_UNUSED (db);
-
-    id_type id;
-    {
-      mysql::value_traits<
-          long long unsigned int,
-          mysql::id_ulonglong >::set_value (
-        id,
-        i.id_value,
-        i.id_null);
-    }
-
-    return id;
-  }
-
-  access::object_traits_impl< ::Message, id_mysql >::id_type
-  access::object_traits_impl< ::Message, id_mysql >::
   id (const image_type& i)
   {
     mysql::database* db (0);
@@ -697,7 +677,7 @@ namespace odb
   "`message`";
 
   void access::object_traits_impl< ::Message, id_mysql >::
-  persist (database& db, object_type& obj)
+  persist (database& db, const object_type& obj)
   {
     using namespace mysql;
 
@@ -707,7 +687,7 @@ namespace odb
       conn.statement_cache ().find_object<object_type> ());
 
     callback (db,
-              static_cast<const object_type&> (obj),
+              obj,
               callback_event::pre_persist);
 
     image_type& im (sts.image ());
@@ -715,8 +695,6 @@ namespace odb
 
     if (init (im, obj, statement_insert))
       im.version++;
-
-    im.message_id_value = 0;
 
     if (im.version != sts.insert_image_version () ||
         imb.version == 0)
@@ -726,25 +704,12 @@ namespace odb
       imb.version++;
     }
 
-    {
-      id_image_type& i (sts.id_image ());
-      binding& b (sts.id_image_binding ());
-      if (i.version != sts.id_image_version () || b.version == 0)
-      {
-        bind (b.bind, i);
-        sts.id_image_version (i.version);
-        b.version++;
-      }
-    }
-
     insert_statement& st (sts.persist_statement ());
     if (!st.execute ())
       throw object_already_persistent ();
 
-    obj.message_id = id (sts.id_image ());
-
     callback (db,
-              static_cast<const object_type&> (obj),
+              obj,
               callback_event::post_persist);
   }
 

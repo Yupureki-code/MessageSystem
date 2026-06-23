@@ -39,6 +39,17 @@ namespace messageSystem
             delete rid;
             done->Run();
         }
+        /// @brief 选择服务管道并检查结果，失败时设置错误响应
+        bool tryChooseService(const std::string& service, ServiceChannel::ChannelPtr* channel, CommRsp* rep)
+        {
+            auto choose_rep = _services->chooseService(service, channel);
+            if (!choose_rep.status)
+            {
+                HandlerError(rep, false, choose_rep.errmsg);
+                return false;
+            }
+            return true;
+        }
         bool CheckToken(const std::string& uid,const std::string token,CommRsp* rsp)
         {
             sw::redis::OptionalString value;
@@ -56,16 +67,17 @@ namespace messageSystem
         :_services(services),_redis(redis)
         {
             _ws_server = std::make_shared<WsServer>(port);
+            _ws_server->run();  // 启动WebSocket服务
         }
         virtual void GetEmailVerifyCode(::google::protobuf::RpcController* controller,
-            ::messageSystem::EmailVerifyCodeReq* request,
+            const ::messageSystem::EmailVerifyCodeReq* request,
             ::messageSystem::CommRsp* response,
             ::google::protobuf::Closure* done)
         {
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
             request->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(USER_SERVICE, &channel);
+            if(!tryChooseService(USER_SERVICE, &channel, response)) { done->Run(); delete rid; return; }
             UserService_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -76,14 +88,14 @@ namespace messageSystem
             stub.GetEmailVerifyCode(cntl, request, response, async_done);
         }
         virtual void EmailRegister(::google::protobuf::RpcController* controller,
-            ::messageSystem::EmailRegisterReq* request,
+            const ::messageSystem::EmailRegisterReq* request,
             ::messageSystem::CommRsp* response,
             ::google::protobuf::Closure* done)
         {
             std::string* rid = new std::string(util::StringUtil::generateUniqueName());
             request->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(USER_SERVICE, &channel);
+            if(!tryChooseService(USER_SERVICE, &channel, response)) { done->Run(); delete rid; return; }
             UserService_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -94,7 +106,7 @@ namespace messageSystem
             stub.EmailRegister(cntl,request,response,async_done);
         }
         virtual void EmailLogin(::google::protobuf::RpcController* controller,
-            ::messageSystem::EmailLoginReq* request,
+            const ::messageSystem::EmailLoginReq* request,
             ::messageSystem::EmailLoginRsp* response,
             ::google::protobuf::Closure* done)
         {
@@ -102,7 +114,7 @@ namespace messageSystem
             std::string uid = request->uid();
             request->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(USER_SERVICE, &channel);
+            if(!tryChooseService(USER_SERVICE, &channel, response->mutable_response())) { done->Run(); delete rid; return; }
             UserService_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<EmailLoginRsp> cb = [this,uid](bool status,EmailLoginRsp* response){
@@ -116,7 +128,7 @@ namespace messageSystem
             stub.EmailLogin(cntl,request,response,async_done);
         }
         virtual void UserLogin(::google::protobuf::RpcController* controller,
-            ::messageSystem::UserLoginReq* request,
+            const ::messageSystem::UserLoginReq* request,
             ::messageSystem::UserLoginRsp* response,
             ::google::protobuf::Closure* done)
         {
@@ -124,7 +136,7 @@ namespace messageSystem
             std::string uid = request->uid();
             request->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(USER_SERVICE, &channel);
+            if(!tryChooseService(USER_SERVICE, &channel, response->mutable_response())) { done->Run(); delete rid; return; }
             UserService_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<UserLoginRsp> cb = [this,uid](bool status,UserLoginRsp* response){
@@ -138,7 +150,7 @@ namespace messageSystem
             stub.UserLogin(cntl,request,response,async_done);
         }
         virtual void GetUserInfo(::google::protobuf::RpcController* controller,
-            ::messageSystem::GetUserInfoReq* request,
+            const ::messageSystem::GetUserInfoReq* request,
             ::messageSystem::GetUserInfoRsp* response,
             ::google::protobuf::Closure* done)
         {
@@ -149,12 +161,13 @@ namespace messageSystem
             std::string token = request->request().token();
             if(!CheckToken(uid, token, rep))
             {
+                done->Run();
                 delete rid;
                 return;
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(USER_SERVICE, &channel);
+            if(!tryChooseService(USER_SERVICE, &channel, rep)) { done->Run(); delete rid; return; }
             UserService_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<GetUserInfoRsp> cb = [this](bool status,GetUserInfoRsp* response){
@@ -165,7 +178,7 @@ namespace messageSystem
             stub.GetUserInfo(cntl,request,response,async_done);
         }
         virtual void GetMultiUserInfo(::google::protobuf::RpcController* controller,
-            ::messageSystem::GetMultiUserInfoReq* request,
+            const ::messageSystem::GetMultiUserInfoReq* request,
             ::messageSystem::GetMultiUserInfoRsp* response,
             ::google::protobuf::Closure* done)
         {
@@ -176,12 +189,13 @@ namespace messageSystem
             std::string token = request->request().token();
             if(!CheckToken(uid, token, rep))
             {
+                done->Run();
                 delete rid;
                 return;
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(USER_SERVICE, &channel);
+            if(!tryChooseService(USER_SERVICE, &channel, rep)) { done->Run(); delete rid; return; }
             UserService_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<GetMultiUserInfoRsp> cb = [this](bool status,GetMultiUserInfoRsp* response){
@@ -192,7 +206,7 @@ namespace messageSystem
             stub.GetMultiUserInfo(cntl,request,response,async_done);
         }
         virtual void SetUserAvatar(::google::protobuf::RpcController* controller,
-            ::messageSystem::SetUserAvatarReq* request,
+            const ::messageSystem::SetUserAvatarReq* request,
             ::messageSystem::CommRsp* response,
             ::google::protobuf::Closure* done)
         {
@@ -202,12 +216,13 @@ namespace messageSystem
             std::string token = request->request().token();
             if(!CheckToken(uid, token, response))
             {
+                done->Run();
                 delete rid;
                 return;
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(USER_SERVICE, &channel);
+            if(!tryChooseService(USER_SERVICE, &channel, response)) { done->Run(); delete rid; return; }
             UserService_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -218,7 +233,7 @@ namespace messageSystem
             stub.SetUserAvatar(cntl,request,response,async_done);
         }
         virtual void SetUserNickname(::google::protobuf::RpcController* controller,
-            ::messageSystem::SetUserNameReq* request,
+            const ::messageSystem::SetUserNameReq* request,
             ::messageSystem::CommRsp* response,
             ::google::protobuf::Closure* done)
         {
@@ -228,12 +243,13 @@ namespace messageSystem
             std::string token = request->request().token();
             if(!CheckToken(uid, token, response))
             {
+                done->Run();
                 delete rid;
                 return;
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(USER_SERVICE, &channel);
+            if(!tryChooseService(USER_SERVICE, &channel, response)) { done->Run(); delete rid; return; }
             UserService_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -244,7 +260,7 @@ namespace messageSystem
             stub.SetUserNickname(cntl,request,response,async_done);
         }
         virtual void SetUserDescription(::google::protobuf::RpcController* controller,
-            ::messageSystem::SetUserDescriptionReq* request,
+            const ::messageSystem::SetUserDescriptionReq* request,
             ::messageSystem::CommRsp* response,
             ::google::protobuf::Closure* done)
         {
@@ -254,12 +270,13 @@ namespace messageSystem
             std::string token = request->request().token();
             if(!CheckToken(uid, token, response))
             {
+                done->Run();
                 delete rid;
                 return;
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(USER_SERVICE, &channel);
+            if(!tryChooseService(USER_SERVICE, &channel, response)) { done->Run(); delete rid; return; }
             UserService_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -270,7 +287,7 @@ namespace messageSystem
             stub.SetUserDescription(cntl,request,response,async_done);
         }
         virtual void SetUserEmail(::google::protobuf::RpcController* controller,
-            ::messageSystem::SetUserEmailReq* request,
+            const ::messageSystem::SetUserEmailReq* request,
             ::messageSystem::CommRsp* response,
             ::google::protobuf::Closure* done)
         {
@@ -280,12 +297,13 @@ namespace messageSystem
             std::string token = request->request().token();
             if(!CheckToken(uid, token, response))
             {
+                done->Run();
                 delete rid;
                 return;
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(USER_SERVICE, &channel);
+            if(!tryChooseService(USER_SERVICE, &channel, response)) { done->Run(); delete rid; return; }
             UserService_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -296,7 +314,7 @@ namespace messageSystem
             stub.SetUserEmail(cntl,request,response,async_done);
         }
         virtual void CreateConversation(::google::protobuf::RpcController* controller,
-            ::messageSystem::CreateConversationReq* request,
+            const ::messageSystem::CreateConversationReq* request,
             ::messageSystem::CreateConversationRsp* response,
             ::google::protobuf::Closure* done)
         {
@@ -307,12 +325,13 @@ namespace messageSystem
             std::string token = request->request().token();
             if(!CheckToken(uid, token, rep))
             {
+                done->Run();
                 delete rid;
                 return;
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(CONVERSATION_SERVICE, &channel);
+            if(!tryChooseService(CONVERSATION_SERVICE, &channel, rep)) { done->Run(); delete rid; return; }
             ConversationServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CreateConversationRsp> cb = [this](bool status,CreateConversationRsp* response){
@@ -323,7 +342,7 @@ namespace messageSystem
             stub.CreateConversation(cntl,request,response,async_done);
         }
         virtual void RemoveConversation(::google::protobuf::RpcController* controller,
-            ::messageSystem::RemoveConversationReq* request,
+            const ::messageSystem::RemoveConversationReq* request,
             ::messageSystem::CommRsp* response,
             ::google::protobuf::Closure* done)
         {
@@ -333,12 +352,13 @@ namespace messageSystem
             std::string token = request->request().token();
             if(!CheckToken(uid, token, response))
             {
+                done->Run();
                 delete rid;
                 return;
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(CONVERSATION_SERVICE, &channel);
+            if(!tryChooseService(CONVERSATION_SERVICE, &channel, response)) { done->Run(); delete rid; return; }
             ConversationServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -349,7 +369,7 @@ namespace messageSystem
             stub.RemoveConversation(cntl,request,response,async_done);
         }
         virtual void AddMember(::google::protobuf::RpcController* controller,
-            ::messageSystem::AddMemberReq* request,
+            const ::messageSystem::AddMemberReq* request,
             ::messageSystem::CommRsp* response,
             ::google::protobuf::Closure* done)
         {
@@ -359,12 +379,13 @@ namespace messageSystem
             std::string token = request->request().token();
             if(!CheckToken(uid, token, response))
             {
+                done->Run();
                 delete rid;
                 return;
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(CONVERSATION_SERVICE, &channel);
+            if(!tryChooseService(CONVERSATION_SERVICE, &channel, response)) { done->Run(); delete rid; return; }
             ConversationServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -375,7 +396,7 @@ namespace messageSystem
             stub.AddMember(cntl,request,response,async_done);
         }
         virtual void ExitConversation(::google::protobuf::RpcController* controller,
-            ::messageSystem::ExitConversationReq* request,
+            const ::messageSystem::ExitConversationReq* request,
             ::messageSystem::CommRsp* response,
             ::google::protobuf::Closure* done)
         {
@@ -385,12 +406,13 @@ namespace messageSystem
             std::string token = request->request().token();
             if(!CheckToken(uid, token, response))
             {
+                done->Run();
                 delete rid;
                 return;
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(CONVERSATION_SERVICE, &channel);
+            if(!tryChooseService(CONVERSATION_SERVICE, &channel, response)) { done->Run(); delete rid; return; }
             ConversationServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -401,7 +423,7 @@ namespace messageSystem
             stub.ExitConversation(cntl,request,response,async_done);
         }
         virtual void ChangeMemberPower(::google::protobuf::RpcController* controller,
-            ::messageSystem::ChangeMemberPowerReq* request,
+            const ::messageSystem::ChangeMemberPowerReq* request,
             ::messageSystem::CommRsp* response,
             ::google::protobuf::Closure* done)
         {
@@ -411,12 +433,13 @@ namespace messageSystem
             std::string token = request->request().token();
             if(!CheckToken(uid, token, response))
             {
+                done->Run();
                 delete rid;
                 return;
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(CONVERSATION_SERVICE, &channel);
+            if(!tryChooseService(CONVERSATION_SERVICE, &channel, response)) { done->Run(); delete rid; return; }
             ConversationServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -427,7 +450,7 @@ namespace messageSystem
             stub.ChangeMemberPower(cntl,request,response,async_done);
         }
         virtual void GetConversationMemberList(::google::protobuf::RpcController* controller,
-            ::messageSystem::GetConversationMemberListReq* request,
+            const ::messageSystem::GetConversationMemberListReq* request,
             ::messageSystem::GetConversationMemberListRsp* response,
             ::google::protobuf::Closure* done)
         {
@@ -438,12 +461,13 @@ namespace messageSystem
             std::string token = request->request().token();
             if(!CheckToken(uid, token, rep))
             {
+                done->Run();
                 delete rid;
                 return;
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(CONVERSATION_SERVICE, &channel);
+            if(!tryChooseService(CONVERSATION_SERVICE, &channel, rep)) { done->Run(); delete rid; return; }
             ConversationServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<GetConversationMemberListRsp> cb = [this](bool status,GetConversationMemberListRsp* response){
@@ -454,7 +478,7 @@ namespace messageSystem
             stub.GetConversationMemberList(cntl,request,response,async_done);
         }
         virtual void SearchConversation(::google::protobuf::RpcController* controller,
-            ::messageSystem::SearchConversationReq* request,
+            const ::messageSystem::SearchConversationReq* request,
             ::messageSystem::SearchConversationRsp* response,
             ::google::protobuf::Closure* done)
         {
@@ -465,12 +489,13 @@ namespace messageSystem
             std::string token = request->request().token();
             if(!CheckToken(uid, token, rep))
             {
+                done->Run();
                 delete rid;
                 return;
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(CONVERSATION_SERVICE, &channel);
+            if(!tryChooseService(CONVERSATION_SERVICE, &channel, rep)) { done->Run(); delete rid; return; }
             ConversationServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<SearchConversationRsp> cb = [this](bool status,SearchConversationRsp* response){
@@ -481,7 +506,7 @@ namespace messageSystem
             stub.SearchConversation(cntl,request,response,async_done);
         }
         virtual void FriendRequest(::google::protobuf::RpcController* controller,
-            ::messageSystem::FriendRequestReq* request,
+            const ::messageSystem::FriendRequestReq* request,
             ::messageSystem::CommRsp* response,
             ::google::protobuf::Closure* done)
         {
@@ -491,12 +516,13 @@ namespace messageSystem
             std::string token = request->request().token();
             if(!CheckToken(uid, token, response))
             {
+                done->Run();
                 delete rid;
                 return;
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(FRIEND_SERVICE, &channel);
+            if(!tryChooseService(FRIEND_SERVICE, &channel, response)) { done->Run(); delete rid; return; }
             FriendServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -507,7 +533,7 @@ namespace messageSystem
             stub.FriendRequest(cntl,request,response,async_done);
         }
         virtual void FriendRequestStatus(::google::protobuf::RpcController* controller,
-            ::messageSystem::FriendRequestStatusReq* request,
+            const ::messageSystem::FriendRequestStatusReq* request,
             ::messageSystem::CommRsp* response,
             ::google::protobuf::Closure* done)
         {
@@ -517,12 +543,13 @@ namespace messageSystem
             std::string token = request->request().token();
             if(!CheckToken(uid, token, response))
             {
+                done->Run();
                 delete rid;
                 return;
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(FRIEND_SERVICE, &channel);
+            if(!tryChooseService(FRIEND_SERVICE, &channel, response)) { done->Run(); delete rid; return; }
             FriendServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -533,7 +560,7 @@ namespace messageSystem
             stub.FriendRequestStatus(cntl,request,response,async_done);
         }
         virtual void FriendRemark(::google::protobuf::RpcController* controller,
-            ::messageSystem::FriendRemarkReq* request,
+            const ::messageSystem::FriendRemarkReq* request,
             ::messageSystem::CommRsp* response,
             ::google::protobuf::Closure* done)
         {
@@ -543,12 +570,13 @@ namespace messageSystem
             std::string token = request->request().token();
             if(!CheckToken(uid, token, response))
             {
+                done->Run();
                 delete rid;
                 return;
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(FRIEND_SERVICE, &channel);
+            if(!tryChooseService(FRIEND_SERVICE, &channel, response)) { done->Run(); delete rid; return; }
             FriendServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<CommRsp> cb = [this](bool status,CommRsp* response){
@@ -559,7 +587,7 @@ namespace messageSystem
             stub.FriendRemark(cntl,request,response,async_done);
         }
         virtual void FindFriendByUID(::google::protobuf::RpcController* controller,
-            ::messageSystem::FindFriendByUIDReq* request,
+            const ::messageSystem::FindFriendByUIDReq* request,
             ::messageSystem::FindFriendByUIDRsp* response,
             ::google::protobuf::Closure* done)
         {
@@ -570,12 +598,13 @@ namespace messageSystem
             std::string token = request->request().token();
             if(!CheckToken(uid, token, rep))
             {
+                done->Run();
                 delete rid;
                 return;
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(FRIEND_SERVICE, &channel);
+            if(!tryChooseService(FRIEND_SERVICE, &channel, rep)) { done->Run(); delete rid; return; }
             FriendServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<FindFriendByUIDRsp> cb = [this](bool status,FindFriendByUIDRsp* response){
@@ -586,7 +615,7 @@ namespace messageSystem
             stub.FindFriendByUID(cntl,request,response,async_done);
         }
         virtual void FindFriendByName(::google::protobuf::RpcController* controller,
-            ::messageSystem::FindFriendByNameReq* request,
+            const ::messageSystem::FindFriendByNameReq* request,
             ::messageSystem::FindFriendByNameRsp* response,
             ::google::protobuf::Closure* done)
         {
@@ -597,12 +626,13 @@ namespace messageSystem
             std::string token = request->request().token();
             if(!CheckToken(uid, token, rep))
             {
+                done->Run();
                 delete rid;
                 return;
             }
             request->mutable_request()->set_request_id(*rid);
             ServiceChannel::ChannelPtr channel;
-            _services->chooseService(FRIEND_SERVICE, &channel);
+            if(!tryChooseService(FRIEND_SERVICE, &channel, rep)) { done->Run(); delete rid; return; }
             FriendServer_Stub stub(channel.get());
             brpc::Controller* cntl = new brpc::Controller();
             AsyncCallBack<FindFriendByNameRsp> cb = [this](bool status,FindFriendByNameRsp* response){
@@ -653,11 +683,11 @@ namespace messageSystem
         {
             _redis = std::make_shared<redis::RedisClient>(ip,port,thread_size,late_time);
         }
-        void Start(int port, int32_t timeout, uint8_t num_threads)
+        void Start(int rpc_port, int ws_port, int32_t timeout, uint8_t num_threads)
         {
-            GateWayServerImpl server(_services,_redis,port);
-            brpc::Server _rpc_server;
-            int ret = _rpc_server.AddService(&server,brpc::ServiceOwnership::SERVER_OWNS_SERVICE);
+            _server = std::make_unique<GateWayServerImpl>(_services, _redis, ws_port);
+            _rpc_server = std::make_unique<brpc::Server>();
+            int ret = _rpc_server->AddService(_server.get(), brpc::ServiceOwnership::SERVER_OWNS_SERVICE);
             if(ret == -1)
             {
                 LOG_ERROR("添加RPC服务失败!");
@@ -666,7 +696,7 @@ namespace messageSystem
             brpc::ServerOptions options;
             options.idle_timeout_sec = timeout;
             options.num_threads = num_threads;
-            ret = _rpc_server.Start(port,&options);
+            ret = _rpc_server->Start(rpc_port, &options);
             if(ret == -1)
             {
                 LOG_ERROR("服务启动失败!");
@@ -674,9 +704,11 @@ namespace messageSystem
             }
         }
     private:
-        Discovery _discover;
+        std::unique_ptr<brpc::Server> _rpc_server;
+        std::unique_ptr<GateWayServerImpl> _server;
         std::shared_ptr<ServiceManager> _services;
-        std::shared_ptr<redis::RedisClient> _redis;
         std::unordered_map<std::string, std::string> _service_keys;
+        Discovery _discover;
+        std::shared_ptr<redis::RedisClient> _redis;
     };
 }

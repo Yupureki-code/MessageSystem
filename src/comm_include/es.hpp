@@ -94,6 +94,7 @@ namespace messageSystem
             }
             try 
             {
+                if (!_client) { rep.status = false; rep.errmsg = "ES client未初始化"; return rep; }
                 auto rsp = _client->index(name, "", "", out);
                 if (rsp.status_code < 200 || rsp.status_code >= 300) 
                 {
@@ -140,6 +141,7 @@ namespace messageSystem
         Response insert(const std::string& name,const std::string& type,const std::string& id)
         {
             Response rep;
+            if (!_client) { rep.status = false; rep.errmsg = "ES client未初始化"; return rep; }
             std::string out;
             if(!Serialize(_insert,&out))
             {
@@ -170,6 +172,7 @@ namespace messageSystem
         Response batchInsert(const std::string& str)
         {
             Response rep;
+            if (!_client) { rep.status = false; rep.errmsg = "ES client未初始化"; return rep; }
             try 
             {
                 auto rsp = _client->performRequest(elasticlient::Client::HTTPMethod::POST,"_bulk", str);
@@ -204,6 +207,7 @@ namespace messageSystem
         Response remove(const std::string& name,const std::string& type,const std::string& id)
         {
             Response rep;
+            if (!_client) { rep.status = false; rep.errmsg = "ES client未初始化"; return rep; }
             try 
             {
                 auto rsp = _client->remove(name, type, id);
@@ -273,6 +277,7 @@ namespace messageSystem
         Response query(const std::string& name,const std::string& type,Json::Value* value)
         {
             Response rep;
+            if (!_client) { rep.status = false; rep.errmsg = "ES client未初始化"; return rep; }
             Json::Value body;
             if(!_must.empty()) body["must"] = _must;
             if(!_must_not.empty()) body["must_not"] = _must_not;

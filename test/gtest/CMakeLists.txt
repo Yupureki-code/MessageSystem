@@ -129,6 +129,20 @@ add_executable(test_conversation
 )
 target_link_libraries(test_conversation ${GTEST_BOTH_LIBRARIES} ${COMMON_LIBS})
 
+# 创建 Gateway BRPC 测试
+add_executable(test_gateway_brpc
+    test_gateway_brpc.cpp
+    ${PROTO_SOURCES}
+)
+target_link_libraries(test_gateway_brpc ${GTEST_BOTH_LIBRARIES} ${COMMON_LIBS})
+
+# 创建 Gateway WS 测试
+add_executable(test_gateway_ws
+    test_gateway_ws.cpp
+    ${PROTO_SOURCES}
+)
+target_link_libraries(test_gateway_ws ${GTEST_BOTH_LIBRARIES} ${COMMON_LIBS} boost_system)
+
 # 添加测试
 add_test(NAME FileTest COMMAND test_file)
 add_test(NAME UserTest COMMAND test_user)
@@ -138,3 +152,5 @@ add_test(NAME DatabaseTest COMMAND test_database)
 add_test(NAME TaskTransferTest COMMAND test_task_transfer)
 add_test(NAME MessageServerTest COMMAND test_message_server)
 add_test(NAME FriendTest COMMAND test_friend)
+add_test(NAME GatewayBRPCTest COMMAND test_gateway_brpc)
+add_test(NAME GatewayWSTest COMMAND test_gateway_ws)

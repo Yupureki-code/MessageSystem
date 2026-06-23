@@ -5,7 +5,7 @@
 DROP TABLE IF EXISTS `message`;
 
 CREATE TABLE `message` (
-  `message_id` BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `message_id` BIGINT UNSIGNED NOT NULL PRIMARY KEY,
   `seq` BIGINT UNSIGNED NOT NULL,
   `conversation_id` varchar(64) NOT NULL,
   `sender_id` varchar(64) NOT NULL,

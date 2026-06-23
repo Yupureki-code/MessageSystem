@@ -192,7 +192,7 @@ namespace messageSystem
             MessageQuery conds = request->query();
             std::string cid = conds.conversation_id();
             //2. 从ES搜索引擎中进行关键字消息搜索，得到消息列表
-            ESQuery query;
+            ESQuery query(_db->getESClient());
             if(conds.has_text())
             {
                 query.addMust("text", conds.text());
@@ -206,7 +206,7 @@ namespace messageSystem
                 query.addFilterTimeRange("timestamp", conds.start_time(), conds.end_time());
             }
             Json::Value value;
-            auto ret = query.query("messageSystem", "_doc", &value);
+            auto ret = query.query("message", "_doc", &value);
             if (!ret.status) 
             {
                 LOG_ERROR("{} - {}:{}!", rid, ret.errmsg,cid);
@@ -255,7 +255,10 @@ namespace messageSystem
                 const auto& msg_info = request->msg_list(i);
                 Message msg;
                 try { msg.message_id = stoull(msg_info.message_id()); }
-                catch(...) { msg.message_id = 0; }
+                catch(...) { 
+                    LOG_ERROR("无效的message_id: {}", msg_info.message_id());
+                    continue;
+                }
                 msg.conversation_id = msg_info.conversation_id();
                 msg.sender_id = msg_info.sender_id();
                 msg.message_type = msg_info.message().message_type();
@@ -331,7 +334,10 @@ namespace messageSystem
                 const auto& msg_info = request->msg_list(i);
                 Message msg;
                 try { msg.message_id = stoull(msg_info.message_id()); }
-                catch(...) { msg.message_id = 0; }
+                catch(...) { 
+                    LOG_ERROR("无效的message_id: {}", msg_info.message_id());
+                    continue;
+                }
                 msg.conversation_id = msg_info.conversation_id();
                 msg.sender_id = msg_info.sender_id();
                 msg.message_type = msg_info.message().message_type();

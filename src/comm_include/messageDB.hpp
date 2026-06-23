@@ -365,6 +365,8 @@ namespace messageSystem
                 }
             }
         }
+        /// @brief 获取ES客户端
+        std::shared_ptr<elasticlient::Client> getESClient() const { return _client; }
 
     private:
         /// @brief 构建文本消息ES文档

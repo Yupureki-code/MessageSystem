@@ -152,6 +152,14 @@ namespace messageSystem
         {
             routing_info.updateRetryTime();
             std::string routing = routing_info.routing;
+
+            // 防护: 检查 payload 是否已被 clear() 清空
+            if(!routing_info.payload.has_value())
+            {
+                LOG_ERROR("路由 {} 的payload已清空,跳过!", routing);
+                return;
+            }
+
             ServiceChannel::ChannelPtr channel;
             if(_services->chooseService(routing, &channel).status == false)
             {

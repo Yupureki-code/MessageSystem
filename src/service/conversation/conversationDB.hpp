@@ -43,7 +43,14 @@ namespace messageSystem
             for(int i = 0;i<members.size();i++)
             {
                 members[i].conversation_id = *id;
-                _odb.addConversationMember(members[i]);
+                auto member_rep = _odb.addConversationMember(members[i]);
+                if(!member_rep.status)
+                {
+                    LOG_ERROR("添加会话成员失败(cid,uid,id):{},{},{}:{}", *id, members[i].uid, members[i].id, member_rep.errmsg);
+                    rep.status = false;
+                    rep.errmsg = member_rep.errmsg;
+                    return rep;
+                }
             }
             if(table.type == ConversationType::GROUP)
             {
@@ -52,11 +59,11 @@ namespace messageSystem
                 .add("conversaion_id", table.conversation_id)
                 .add("name",table.name)
                 .add("avatar",table.avatar);
-                rep = es.insert("conversation", "_doc", std::to_string(table.conversation_id));
-                if(!rep.status)
+                auto es_rep = es.insert("conversation", "_doc", std::to_string(table.conversation_id));
+                if(!es_rep.status)
                 {
-                    rep.status = false;
-                    rep.errmsg = "插入ES失败!";
+                    LOG_ERROR("插入ES失败(id):{}:{}", table.conversation_id, es_rep.errmsg);
+                    // ES写入失败不阻塞会话创建
                 }
             }
             return rep;
@@ -86,7 +93,12 @@ namespace messageSystem
             .add("conversation_member_name", member.conversation_member_name)
             .add("conversation_remark_name",member.conversation_remark_name)
             .add("power",static_cast<int>(member.power));
-            rep = es.insert("conversation", "_doc", std::to_string(member.conversation_id) + std::to_string(member.uid));
+            auto es_rep = es.insert("conversation", "_doc", std::to_string(member.conversation_id) + std::to_string(member.uid));
+            if(!es_rep.status)
+            {
+                LOG_ERROR("插入ES失败(id):{}:{}", member.conversation_id, es_rep.errmsg);
+                // ES失败不影响MySQL已提交的操作(最终一致性)
+            }
             return rep;
         }
         Response getPrivateConversations(const std::string& uid,std::vector<PrivateConversation>* conversations)
@@ -125,7 +137,7 @@ namespace messageSystem
                 ESQuery es;
                 es.addMust("conversation_id", cid);
                 Json::Value value;
-                rep = es.query("conversation", "_search", &value);
+                rep = es.query("conversation", "_doc", &value);
                 if(!rep.status)return rep;
                 praseFromSerachForConversationByES(value, *conversations);
             }
@@ -133,7 +145,7 @@ namespace messageSystem
                 ESQuery es;
                 es.addShould("name", name);
                 Json::Value value;
-                rep = es.query("conversation", "_search", &value);
+                rep = es.query("conversation", "_doc", &value);
                 if(!rep.status)return rep;
                 praseFromSerachForConversationByES(value, *conversations);
             }
@@ -145,7 +157,7 @@ namespace messageSystem
             ESQuery es;
             es.addMust("conversation_id", cid);
             Json::Value value;
-            rep = es.query("conversation", "_search", &value);
+            rep = es.query("conversation", "_doc", &value);
             if(value.isMember("hits") && value["hits"].isMember("hits") && value["hits"]["hits"].isArray())
             {
                 auto array = value["hits"]["hits"];

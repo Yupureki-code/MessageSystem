@@ -23,9 +23,14 @@ include_directories(${SERVICE_DIR})
 
 # ---- 公共编译选项 ----
 add_compile_options(-g -O2)
+set(CMAKE_BUILD_RPATH "/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu")
+set(CMAKE_INSTALL_RPATH "/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu")
 
 # ---- 额外的链接路径 ----
 link_directories(/usr/local/lib)
+
+# 强制使用系统libcurl(支持SMTP)
+find_library(SYSTEM_CURL NAMES curl PATHS /usr/lib/x86_64-linux-gnu NO_DEFAULT_PATH)
 
 # ---- 公共 Protobuf 源文件 ----
 set(PROTO_COMMON_SOURCES
@@ -69,7 +74,7 @@ set(COMMON_LIBS
     fmt
     etcd-cpp-api
     cpprest
-    curl
+    ${SYSTEM_CURL}
 )
 
 set(DB_LIBS

@@ -37,19 +37,7 @@ namespace messageSystem
         std::string BuildMailUrl()
         {
             std::ostringstream oss;
-            if (SMTP_PORT == 587)
-            {
-                oss << "smtp://";
-            }
-            else if (SMTP_SSL)
-            {
-                oss << "smtps://";
-            }
-            else
-            {
-                oss << "smtp://";
-            }
-            oss << SMTP_HOST << ":" << SMTP_PORT;
+            oss << "smtp://" << SMTP_HOST << ":" << SMTP_PORT;
             return oss.str();
         }
 

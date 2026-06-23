@@ -6,6 +6,7 @@
 #include "../../comm_include/channel.hpp"
 #include <brpc/server.h>
 #include <cerrno>
+#include <nlohmann/json.hpp>
 
 namespace messageSystem
 {
@@ -99,7 +100,11 @@ namespace messageSystem
                 HandlerError(response, request->request().request_id(), ret.errmsg);
                 return;
             }
-            //3. 组织响应
+            //3. 组织响应 — 将 file_id 编码到 errmsg 中(临时方案)
+            //    TODO: 定义 PutFileRsp proto，包含 file_id 字段，然后重新生成 proto
+            nlohmann::json j;
+            j["file_id"] = fid;
+            response->set_errmsg(j.dump());
             response->set_status(true);
         }
         void PutMultiFile(google::protobuf::RpcController* controller,

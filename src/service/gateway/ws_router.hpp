@@ -32,7 +32,7 @@ namespace messageSystem
             {
                 WsProtocolRsp rep;
                 rep.error = "未知消息类型: " + req.type;
-                conn->ws->write(boost::asio::buffer(req.serialize()));
+                conn->ws->write(boost::asio::buffer(rep.serialize()));
                 co_return;
             }
             co_await it->second(conn_id, req, conn);
